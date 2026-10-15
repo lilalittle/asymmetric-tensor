@@ -194,12 +194,18 @@ spinor-field, or gravitational dynamics automatically.
 ## B. Simplified structures and conditional models
 
 ### B1. Coordinate fields, conservation and covariant geometry
-<!-- declarations: partial_deriv metric_divergence covariant_conservation divergence_expansion bernoulli_energy_conservation navier_stokes_momentum_conservation -->
+<!-- declarations: partial_deriv metric_divergence CoordinateConserved constant_coordinate_conserved exists_coordinate_conserved coordinate_field_not_conserved divergence_expansion bernoulli_energy_conservation navier_stokes_momentum_conservation -->
 Current divergence is a sum of coordinate derivatives with no connection terms;
 the baseline axiom asserts it vanishes for every field. That universal assertion
 is inconsistent (issue #9), not an admissibility condition. The finite repair is
-a predicate on selected fields and explicit conservation hypotheses. A stronger
-geometric target needs a symmetric nondegenerate metric, observer and index
+a predicate on selected fields and explicit conservation hypotheses.
+
+**Merged-source update:** the [conservation repair](conservation.md) removes that
+axiom. `CoordinateConserved` now restricts selected fields; constant fields provide
+a nonempty solution class, and `coordinate_field_not_conserved` proves the
+counterexample. The declaration marker above tracks this current API, while the
+baseline explanation retains the history of the finding. A stronger geometric
+target still needs a symmetric nondegenerate metric, observer and index
 conventions, admissible tensor fields, connection and torsion, and differentiability.
 For contravariant rank-two components, specify and derive
 `∇_μ T^{μν} = ∂_μ T^{μν} + Γ^μ_{μλ} T^{λν} + Γ^ν_{μλ} T^{μλ}`;
