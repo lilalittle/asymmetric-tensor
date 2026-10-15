@@ -3,7 +3,7 @@
 Lean 4 formalization of the **asymmetric metric-tensor and the thermodynamic
 equation of state**, by Binyamin Tsadik Bair-Mosheh.
 
-`AsymmetricTensor.lean` (2,203 lines) formalizes sections 1–16 of the work:
+`AsymmetricTensor.lean` formalizes sections 1–16 of the work:
 kinematic parametrization, the thermodynamic budget, metric-tensor assembly
 (`U_hat`/`U_sym`/`U_anti`), the field equation, the equation of motion,
 the unified action, conformal symmetry, the mass mechanism (VEV → Planck
@@ -15,14 +15,14 @@ document, in order.
 
 ## Building the committed version
 
-Requires Git and [elan](https://lean-lang.org/install/), with `lake` on your
-`PATH`. Run the following from a new project directory:
+Requires Git, Bash, Python 3, and [elan](https://lean-lang.org/install/), with
+`lake` on your `PATH`. Run the following from a new project directory:
 
 ```sh
 git clone https://github.com/lilalittle/asymmetric-tensor.git
 cd asymmetric-tensor
 lake exe cache get       # fetch the prebuilt Mathlib dependencies
-lake build AsymmetricTensor
+./scripts/verify.sh      # build, audit, and run regression checks
 git diff --exit-code -- lean-toolchain lakefile.toml lake-manifest.json
 ```
 
@@ -31,7 +31,7 @@ Elan selects Lean 4.35.0 from `lean-toolchain`, installing it if needed.
 also pins Mathlib to `aa35a481e5f0cdb3b04a899ead15d6ca7305a624`.
 Lake fetches missing dependencies at those recorded revisions. The cache
 command avoids compiling Mathlib from source; let it finish successfully
-before building the `AsymmetricTensor` library. The final command should
+before running the verification script. The final command should
 produce no diff and exit successfully: normal setup must not change the
 committed toolchain or dependency selection.
 
@@ -64,13 +64,25 @@ manuscript baseline, its domain, and the separately named algebraic rescaling.
 
 ## Verification status
 
-Verified 2026-10-15: Lean 4.35.0 + Mathlib `aa35a481e5f0` —
-full kernel elaboration, **0 errors, 0 `sorry`**.
+The checked-in [Lean proof-audit workflow](.github/workflows/lean_action_ci.yml)
+runs on pushes and pull requests. It preserves the dependency pins, obtains the
+Mathlib cache, builds the advertised target, rejects incomplete first-party
+proofs, checks eleven general and seventeen action-specific theorem axiom sets,
+and exercises the checked-in regressions and failure mutations.
+Existing module-system/style warnings remain visible and nonfatal; proof errors
+and detected `sorryAx` dependencies fail verification independently.
 
-One mechanical note: the source document placed the `/-!` module docstring
-*before* the `import` lines, which Lean ≥ 4.35 rejects
-(`invalid 'import' command, it must be used in the beginning of the file`).
-The docstring has been moved below the imports; nothing else was changed.
+The repaired candidate passed local checks on 2026-10-15. The exact published
+head `6b667bbc6e3657cc8727bd7565fd3aa0509299b6` also passed its
+[hosted proof-audit run](https://github.com/subtleGradient/asymmetric-tensor/actions/runs/38788710791).
+That is evidence for this identified revision, not for a later merged combination;
+check the revision-specific workflow result after subsequent changes.
+
+The [verification contract](docs/verification.md) lists every selectively audited
+theorem, its exact allowed custom axioms, and the separate production-module
+completeness coverage. This is not a whole-library custom-axiom audit.
+`FutureWork` statements that simply return `h_target` are explicitly classified
+there as target specifications, not completed physical derivations.
 
 ## What "compiles" does and doesn't mean
 
