@@ -26,6 +26,11 @@ lake build           # elaborates AsymmetricTensor.lean
 CI (`.github/workflows/lean_action_ci.yml`) does the same via
 `leanprover/lean-action`, which fetches the Mathlib cache automatically.
 
+The electromagnetic force-hierarchy regression checks run with
+`lake env lean tests/ForceHierarchy.lean` after `lake build`. See
+[the force-hierarchy correspondence](docs/force-hierarchy.md) for the exact
+manuscript baseline, its domain, and the separately named algebraic rescaling.
+
 ## Verification status
 
 Verified 2026-10-15: Lean 4.35.0 + Mathlib `aa35a481e5f0` —

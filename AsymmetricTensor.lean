@@ -1934,9 +1934,13 @@ theorem interaction_hierarchy_strong (L_crit : ℝ) (_hm_e : m_e ≠ 0) (_h_alph
   rw [h_final, div_self hbar_ne, mul_one]
 
 -- IV. Electromagnetism (The Transverse Leakage)
+-- Manuscript v9, p. 48, Eq. (224): this is the unscaled electromagnetic
+-- baseline F_EMbase = F_fund(a_0), with no extra factor of alpha_em.
+-- Nonzero mass and coupling specify the domain of the radius substitution;
+-- Lean's totalized division at zero is not a physical boundary condition.
 theorem interaction_hierarchy_em (a_0_val : ℝ) (_hm_e : m_e ≠ 0) (_h_alpha : alpha_em ≠ 0)
     (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c)) :
-    alpha_em * F_fund a_0_val = (alpha_em^3 * m_e^2 * c^3) / hbar := by
+    F_fund a_0_val = (alpha_em^2 * m_e^2 * c^3) / hbar := by
   have hbar_ne : hbar ≠ 0 := ne_of_gt hbar_pos
   dsimp [F_fund]
   rw [h_a_0]
@@ -1944,14 +1948,49 @@ theorem interaction_hierarchy_em (a_0_val : ℝ) (_hm_e : m_e ≠ 0) (_h_alpha :
   rw [h_pow]
   have h_pull : (hbar * c) / (hbar^2 / (alpha_em * m_e * c)^2) = (hbar * c * (alpha_em * m_e * c)^2) / hbar^2 := div_div_eq_mul_div _ _ _
   rw [h_pull]
-  have h_num : alpha_em * ((hbar * c * (alpha_em * m_e * c)^2) / hbar^2) = (hbar * (alpha_em^3 * m_e^2 * c^3)) / (hbar * hbar) := by
-    have step1 : hbar * c * (alpha_em * m_e * c)^2 = hbar * (alpha_em^2 * m_e^2 * c^3) := by ring
-    have step2 : hbar^2 = hbar * hbar := by ring
-    rw [step1, step2]
-    ring
-  rw [h_num]
-  have h_final : (hbar * (alpha_em^3 * m_e^2 * c^3)) / (hbar * hbar) = ((alpha_em^3 * m_e^2 * c^3) / hbar) * (hbar / hbar) := by ring
+  have h_num : hbar * c * (alpha_em * m_e * c)^2 = hbar * (alpha_em^2 * m_e^2 * c^3) := by ring
+  have h_den : hbar^2 = hbar * hbar := by ring
+  rw [h_num, h_den]
+  have h_final : (hbar * (alpha_em^2 * m_e^2 * c^3)) / (hbar * hbar) = ((alpha_em^2 * m_e^2 * c^3) / hbar) * (hbar / hbar) := by ring
   rw [h_final, div_self hbar_ne, mul_one]
+
+-- The baseline/strong ratio stated immediately after Eq. (224).
+-- Both radii and the strong-force denominator are nonzero on this domain.
+theorem interaction_hierarchy_em_strong_ratio (a_0_val L_crit : ℝ)
+    (hm_e : m_e ≠ 0) (h_alpha : alpha_em ≠ 0)
+    (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c))
+    (h_L_crit : L_crit = (alpha_em * hbar) / (m_e * c)) :
+    F_fund a_0_val / F_fund L_crit = alpha_em^4 := by
+  rw [interaction_hierarchy_em m_e alpha_em a_0_val hm_e h_alpha h_a_0,
+    interaction_hierarchy_strong m_e alpha_em L_crit hm_e h_alpha h_L_crit]
+  have hc_ne : c ≠ 0 := ne_of_gt c_pos
+  have hbar_ne : hbar ≠ 0 := ne_of_gt hbar_pos
+  field_simp [hm_e, h_alpha, hc_ne, hbar_ne]
+
+-- Optional algebraic rescaling of Eq. (224), retained from the former
+-- interaction_hierarchy_em statement. Multiplication by alpha_em is an
+-- additional operation, not the manuscript's baseline or a derived physical
+-- coupling law. See docs/force-hierarchy.md for the manuscript correspondence.
+theorem interaction_hierarchy_em_scaled_algebra (a_0_val : ℝ)
+    (hm_e : m_e ≠ 0) (h_alpha : alpha_em ≠ 0)
+    (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c)) :
+    alpha_em * F_fund a_0_val = (alpha_em^3 * m_e^2 * c^3) / hbar := by
+  rw [interaction_hierarchy_em m_e alpha_em a_0_val hm_e h_alpha h_a_0]
+  ring
+
+-- The optional rescaling changes the ratio to alpha_em^5, not alpha_em^4.
+theorem interaction_hierarchy_em_scaled_strong_ratio (a_0_val L_crit : ℝ)
+    (hm_e : m_e ≠ 0) (h_alpha : alpha_em ≠ 0)
+    (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c))
+    (h_L_crit : L_crit = (alpha_em * hbar) / (m_e * c)) :
+    (alpha_em * F_fund a_0_val) / F_fund L_crit = alpha_em^5 := by
+  calc
+    (alpha_em * F_fund a_0_val) / F_fund L_crit =
+        alpha_em * (F_fund a_0_val / F_fund L_crit) := by ring
+    _ = alpha_em * alpha_em^4 := by
+      rw [interaction_hierarchy_em_strong_ratio m_e alpha_em a_0_val L_crit
+        hm_e h_alpha h_a_0 h_L_crit]
+    _ = alpha_em^5 := by ring
 
 -- 14.5 The Macroscopic Baseline (The Horizon Floor)
 variable (a_0 F_R_h m_h h_val R_h_0 : ℝ)
