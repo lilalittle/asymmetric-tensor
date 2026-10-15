@@ -1,0 +1,11 @@
+name = "asymmetric_tensor"
+version = "0.1.0"
+defaultTargets = ["AsymmetricTensor"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+git = "https://github.com/leanprover-community/mathlib4.git"
+
+[[lean_lib]]
+name = "AsymmetricTensor"
