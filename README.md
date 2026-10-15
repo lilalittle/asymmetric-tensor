@@ -39,8 +39,12 @@ The docstring has been moved below the imports; nothing else was changed.
 ## What "compiles" does and doesn't mean
 
 A successful build means every definition and proof term checks against
-Lean's kernel, Mathlib, and the file's 7 stated axioms
-(`c`, `l_p`, `hbar`, their positivity, `covariant_conservation`).
+Lean's kernel, Mathlib, and the file's 6 stated axioms
+(`c`, `l_p`, `hbar`, and their positivity). Coordinate conservation is an
+explicit `CoordinateConserved U` hypothesis, not a universal axiom. The
+component-projection theorems do not derive Bernoulli or Navier–Stokes PDEs.
+See [the conservation repair](docs/conservation.md) for the counterexample,
+nonempty solution class, API change, and focused axiom-audit commands.
 It does not prove the physics from first principles — the physical content
 lives in those axioms and in the theorems' hypotheses.
 
