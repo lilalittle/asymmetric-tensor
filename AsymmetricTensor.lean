@@ -437,32 +437,64 @@ abbrev ScalarField := SpaceTime → ℝ
 abbrev VectorField := SpaceTime → SpaceTime
 abbrev MetricField := SpaceTime → T2
 
--- 5.2 Partial Derivatives & Covariant Divergence
--- We define a strict Partial Derivative operator (∂_μ).
+-- 5.2 Coordinate Partial Derivatives and Divergence
+/-- Coordinate derivative in the direction of the μ-th standard basis vector.
+For a classical derivative interpretation, the scalar field must be differentiable
+at `x`. No connection or covariant derivative is encoded here. -/
 noncomputable def partial_deriv (f : ScalarField) (μ : Fin 4) (x : SpaceTime) : ℝ :=
   (fderiv ℝ f x) (fun i => if i = μ then 1 else 0)
 
--- Computes ∂_μ U^μν natively by summing the partial derivatives of the matrix components.
+/-- Partial divergence of a component matrix in the fixed chart on ℝ⁴.
+This is not a general covariant divergence: there are no connection terms. -/
 noncomputable def metric_divergence (U : MetricField) (x : SpaceTime) : V4 :=
   fun ν => ∑ μ : Fin 4, partial_deriv (fun y => U y μ ν) μ x
 
--- 5.3 Geometric Conservation (The Fundamental Equation of Motion)
--- We postulate that the continuum metric is entirely divergence-free.
-axiom covariant_conservation (U : MetricField) (x : SpaceTime) :
-  metric_divergence U x = 0
+-- 5.3 Conditional Coordinate Conservation
+/-- The explicitly assumed coordinate-divergence constraint on an admissible field.
+It is not asserted for every `MetricField`, nor derived from equations of motion. -/
+def CoordinateConserved (U : MetricField) : Prop :=
+  ∀ x : SpaceTime, metric_divergence U x = 0
 
--- Projection into Fluid Dynamics (Bernoulli & Navier-Stokes)
-theorem bernoulli_energy_conservation (U : MetricField) (x : SpaceTime) :
+/-- Constant component fields satisfy the coordinate conservation constraint. -/
+theorem constant_coordinate_conserved (A : T2) :
+    CoordinateConserved (fun _ => A) := by
+  intro x
+  ext ν
+  simp [metric_divergence, partial_deriv]
+
+/-- The constraint has a nonempty class of solutions, independently of physical axioms. -/
+theorem exists_coordinate_conserved : ∃ U : MetricField, CoordinateConserved U :=
+  ⟨fun _ => 0, constant_coordinate_conserved 0⟩
+
+/-- The linear coordinate field is a counterexample to universal conservation. -/
+theorem coordinate_field_not_conserved :
+    ¬ CoordinateConserved (fun x _ _ => x 0) := by
+  intro h
+  have hd (μ : Fin 4) (x : SpaceTime) :
+      partial_deriv (fun y : SpaceTime => y 0) μ x =
+        if (0 : Fin 4) = μ then 1 else 0 := by
+    simp [partial_deriv, fderiv_apply]
+  have h1 : metric_divergence (fun x _ _ => x 0) 0 0 = 1 := by
+    simp [metric_divergence, hd]
+  have h0 := congrFun (h 0) 0
+  simp only [Pi.zero_apply] at h0
+  linarith
+
+/-- Time-component projection of an assumed coordinate-conservation law.
+This alone is not a derivation of Bernoulli's equation. -/
+theorem bernoulli_energy_conservation (U : MetricField)
+    (hU : CoordinateConserved U) (x : SpaceTime) :
     (metric_divergence U x) 0 = 0 := by
-  have h := covariant_conservation U x
-  rw [h]
+  rw [hU x]
   rfl
 
-theorem navier_stokes_momentum_conservation (U : MetricField) (x : SpaceTime) (i : Fin 4)
+/-- Spatial-component projection of an assumed coordinate-conservation law.
+This alone is not a derivation of the Navier–Stokes momentum PDE. -/
+theorem navier_stokes_momentum_conservation (U : MetricField)
+    (hU : CoordinateConserved U) (x : SpaceTime) (i : Fin 4)
     (_h_spatial : i ≠ 0) :
     (metric_divergence U x) i = 0 := by
-  have h := covariant_conservation U x
-  rw [h]
+  rw [hU x]
   rfl
 
 -- 5.4 The Dynamic Kinematic Fields
