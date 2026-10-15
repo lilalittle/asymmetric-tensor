@@ -1926,30 +1926,43 @@ theorem refractive_index_substitution (r_val ct_val : ℝ) (hPc : P_c > 0) :
 -- ==========================================
 variable (mu_obs mu_lin r_opt r_true z_val : ℝ)
 
-lemma logarithmic_magnitude_anomaly (mu_o mu_l r_o r_t z : ℝ) (hr_o : r_o > 0) (hr_t : r_t > 0) (hz : (1 + z) > 0) :
-  mu_o = 5 * Real.log (r_o * (1 + z)) + 25 →
-  mu_l = 5 * Real.log (r_t * (1 + z)) + 25 →
-  mu_o - mu_l = 5 * Real.log (r_o / r_t) := by
-  intro h_o h_l
-  have h1 : mu_o - mu_l = 5 * (Real.log (r_o * (1 + z)) - Real.log (r_t * (1 + z))) := by
-    calc
-      mu_o - mu_l = (5 * Real.log (r_o * (1 + z)) + 25) - (5 * Real.log (r_t * (1 + z)) + 25) := by rw [h_o, h_l]
-      _ = 5 * (Real.log (r_o * (1 + z)) - Real.log (r_t * (1 + z))) := by ring
-  have h_log_sub : Real.log (r_o * (1 + z)) - Real.log (r_t * (1 + z)) = Real.log ((r_o * (1 + z)) / (r_t * (1 + z))) := by
-    exact (Real.log_div (mul_ne_zero (ne_of_gt hr_o) (ne_of_gt hz)) (mul_ne_zero (ne_of_gt hr_t) (ne_of_gt hz))).symm
-  rw [h_log_sub] at h1
-  have h_cancel : (r_o * (1 + z)) / (r_t * (1 + z)) = r_o / r_t := by
-    have hz_ne : (1 + z) ≠ 0 := ne_of_gt hz
-    exact mul_div_mul_right r_o r_t hz_ne
-  rw [h_cancel] at h1
-  exact h1
+/-- Base-10 logarithm, written by change of base to make the normalization explicit. -/
+noncomputable def decimalLog (x : ℝ) : ℝ := Real.log x / Real.log 10
 
--- Theorem 59: The Optical Expansion Anomaly (Dark Energy) (Equation 198 / 15.5)
-theorem magnitude_anomaly_divergence (hr_o : r_opt > 0) (hr_t : r_true > 0) (hz : (1 + z_val) > 0)
-    (h_mu_obs : mu_obs = 5 * Real.log (r_opt * (1 + z_val)) + 25)
-    (h_mu_lin : mu_lin = 5 * Real.log (r_true * (1 + z_val)) + 25) :
-    mu_obs - mu_lin = 5 * Real.log (r_opt / r_true) := by
-  exact logarithmic_magnitude_anomaly mu_obs mu_lin r_opt r_true z_val hr_o hr_t hz h_mu_obs h_mu_lin
+/-- Difference of distance moduli for positive distances measured in megaparsecs.
+The logarithm arguments represent dimensionless numerical ratios to 1 Mpc;
+the offset 25 converts to the conventional 10 pc reference distance.
+The common redshift factor cancels; this is conditional algebra, not a proof
+that an optical path exceeds the true distance. The final ratio is dimensionless. -/
+lemma logarithmic_magnitude_anomaly (mu_o mu_l r_o r_t z : ℝ)
+    (hr_o : r_o > 0) (hr_t : r_t > 0) (hz : (1 + z) > 0) :
+    mu_o = 5 * decimalLog (r_o * (1 + z)) + 25 →
+    mu_l = 5 * decimalLog (r_t * (1 + z)) + 25 →
+    mu_o - mu_l = 5 * decimalLog (r_o / r_t) := by
+  intro h_o h_l
+  rw [h_o, h_l]
+  unfold decimalLog
+  rw [Real.log_mul (ne_of_gt hr_o) (ne_of_gt hz),
+    Real.log_mul (ne_of_gt hr_t) (ne_of_gt hz),
+    Real.log_div (ne_of_gt hr_o) (ne_of_gt hr_t)]
+  ring
+
+/-- A tenfold distance ratio produces exactly five magnitudes. -/
+theorem tenfold_distance_magnitude_anomaly :
+    5 * decimalLog 10 = 5 := by
+  have h : Real.log (10 : ℝ) ≠ 0 := ne_of_gt (Real.log_pos (by norm_num))
+  simp [decimalLog, h]
+
+/-- Conditional base-10 distance-modulus identity matching manuscript v9 Eq. (239).
+Distances are positive numerical values in Mpc. This statement does not assert
+an optical-distance inequality or divergence as a limit. -/
+theorem magnitude_anomaly_divergence
+    (hr_o : r_opt > 0) (hr_t : r_true > 0) (hz : (1 + z_val) > 0)
+    (h_mu_obs : mu_obs = 5 * decimalLog (r_opt * (1 + z_val)) + 25)
+    (h_mu_lin : mu_lin = 5 * decimalLog (r_true * (1 + z_val)) + 25) :
+    mu_obs - mu_lin = 5 * decimalLog (r_opt / r_true) := by
+  exact logarithmic_magnitude_anomaly mu_obs mu_lin r_opt r_true z_val
+    hr_o hr_t hz h_mu_obs h_mu_lin
 
 -- ==========================================
 -- SECTION 16: Discussion: Predictive Corollaries & Future Work
