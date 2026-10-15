@@ -84,6 +84,12 @@ nonempty solution class, API change, and focused axiom-audit commands.
 It does not prove the physics from first principles — the physical content
 lives in those axioms and in the theorems' hypotheses.
 
+## Next mathematical contribution
+
+The [formalization roadmap](docs/formalization-roadmap.md) inventories target
+specifications and simplified models, records open modeling decisions, and selects
+a [bounded finite-determinant task](docs/finite-determinant-task.md).
+
 ## License
 
 The Lean software is licensed under **Apache-2.0** — see [`LICENSE`](LICENSE).
