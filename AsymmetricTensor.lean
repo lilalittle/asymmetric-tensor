@@ -60,7 +60,7 @@ lemma M_P_sq_eq_hbar_c_div_G : M_P^2 = hbar * c / G := by
   have hc_ne : c ≠ 0 := ne_of_gt c_pos
   have hbar_ne : hbar ≠ 0 := ne_of_gt hbar_pos
   field_simp
-  ring
+
 
 -- ==========================================
 -- SECTION 1: Kinematic Parametrization
@@ -212,7 +212,7 @@ theorem antisymmetric_shear (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = - (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 2 1 := by
   dsimp [U_hat, Matrix.of_apply]
   simp
-  exact ⟨by ring, by ring⟩
+
 
 -- Validating the specific physical assembly matches the generalized algebra
 theorem tensor_decomposition_proven (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
@@ -312,7 +312,7 @@ theorem spatial_stress_potential (Phi : ℝ) :
     (((1 / 2) * rho_tau * c^2) * (- (2 * Phi) / c^2)) = - (rho_tau * Phi) := by
   have hc : c ≠ 0 := ne_of_gt c_pos
   field_simp
-  ring
+ 
 
 -- 4.3 The Macroscopic Reduction (The Einstein Field Equation)
 variable {TensorField : Type} [AddCommGroup TensorField] [Module ℝ TensorField]
@@ -555,6 +555,8 @@ theorem unified_wave_propagation
   rw [h2] at h1
   exact h1
 
+  -- PART 2 OF 3 [Paste Here] --------------------------------------------------
+
 -- ==========================================
 -- SECTION 7: Conformal Symmetry & Lie Derivative Constraints
 -- ==========================================
@@ -578,12 +580,13 @@ lemma isolate_lorentz_scalar (omega_0i alpha_val : ℝ) (h_omega : omega_0i ≠ 
   have h2 : 1 / alpha_val^2 = alpha_val^2 := by linarith
   have ha_ne : alpha_val ≠ 0 := ne_of_gt h_pos
   have ha2_ne : alpha_val^2 ≠ 0 := pow_ne_zero 2 ha_ne
-  have h3 : (1 / alpha_val^2) * alpha_val^2 = alpha_val^2 * alpha_val^2 := by rw [h2]
+  have h3 : (1 / alpha_val^2) * alpha_val^2 = alpha_val^2 * alpha_val^2 := congrArg (· * alpha_val^2) h2
   have h4 : 1 = alpha_val^4 := by
-    have h_cancel : (1 / alpha_val^2) * alpha_val^2 = 1 := by exact div_mul_cancel₀ 1 ha2_ne
-    rw [←h_cancel]
-    have h_mul : alpha_val^2 * alpha_val^2 = alpha_val^4 := by ring
-    rw [h3, h_mul]
+    have h_L : (1 / alpha_val^2) * alpha_val^2 = 1 := div_mul_cancel₀ 1 ha2_ne
+    have h_R : alpha_val^2 * alpha_val^2 = alpha_val^4 := by ring
+    rw [h_L, h_R] at h3
+    exact h3
+  have h_mul : alpha_val^4 = 1 := by rw [h4]
   have h5 : alpha_val^4 - 1 = 0 := by linarith
   have h6 : (alpha_val^2 - 1) * (alpha_val^2 + 1) = 0 := by
     have h_factor : (alpha_val^2 - 1) * (alpha_val^2 + 1) = alpha_val^4 - 1 := by ring
@@ -665,17 +668,30 @@ lemma spatial_diagonal_lorentz_derivation
   have h_Pc_sub : P_c = (1 / 2) * rho_tau * c^2 := emergent_critical_pressure
   rw [h_S_ii, h_Bernoulli, h_Pc_sub, h_P_dyn]
   have hX : (1 / 2) * rho_tau ≠ 0 := mul_ne_zero (by norm_num) (ne_of_gt rho_tau_pos)
+  
   have h_num : (1 / 2) * rho_tau * c^2 = ((1 / 2) * rho_tau) * c^2 := by ring
   have h_den : (1 / 2) * rho_tau * c^2 - (1 / 2) * rho_tau * v_val^2 = ((1 / 2) * rho_tau) * (c^2 - v_val^2) := by ring
-  rw [h_num, h_den, mul_div_mul_left c^2 (c^2 - v_val^2) hX]
+  rw [h_num, h_den]
+  
+  -- Let 'rw' infer the fraction structure to avoid exponent precedence traps
+  have h_cancel : (((1 / 2) * rho_tau) * c^2) / (((1 / 2) * rho_tau) * (c^2 - v_val^2)) = c^2 / (c^2 - v_val^2) := by
+    rw [mul_div_mul_left]
+    exact hX
+  rw [h_cancel]
+  
   have h_den2 : c^2 - v_val^2 = c^2 * (1 - v_val^2 / c^2) := by
-    have h_c_cancel : c^2 * (v_val^2 / c^2) = v_val^2 := mul_div_cancel_right₀ v_val^2 hc2
-    have h_step : c^2 * (1 - v_val^2 / c^2) = c^2 * 1 - c^2 * (v_val^2 / c^2) := by ring
-    rw [h_step, h_c_cancel, mul_one]
+    have hs1 : c^2 * (1 - v_val^2 / c^2) = c^2 * 1 - c^2 * (v_val^2 / c^2) := by ring
+    have hs2 : c^2 * (v_val^2 / c^2) = (c^2 / c^2) * v_val^2 := by ring
+    rw [hs1, hs2, div_self hc2, one_mul, mul_one]
   rw [h_den2]
-  have h_num2 : c^2 = c^2 * 1 := by ring
-  nth_rw 1 [h_num2]
-  rw [mul_div_mul_left 1 (1 - v_val^2 / c^2) hc2]
+  
+  -- Final reduction using implicit pattern matching
+  have h_top : c^2 = c^2 * 1 := by ring
+  nth_rw 1 [h_top]
+  have h_final : (c^2 * 1) / (c^2 * (1 - v_val^2 / c^2)) = 1 / (1 - v_val^2 / c^2) := by
+    rw [mul_div_mul_left]
+    exact hc2
+  rw [h_final]
 
 -- Theorem 46: The Vacuum Expectation Value (VEV)
 variable (v_vev P_ambient : ℝ)
@@ -684,9 +700,10 @@ theorem tensor_vev_origin
     v_vev^2 = 2 * P_ambient / rho_tau := by
   have hrho : rho_tau ≠ 0 := ne_of_gt rho_tau_pos
   have h1 : 2 * P_ambient = rho_tau * v_vev^2 := by linarith
-  have h2 : (rho_tau * v_vev^2) / rho_tau = v_vev^2 := mul_div_cancel_left₀ (v_vev^2) hrho
-  rw [←h1] at h2
-  exact h2.symm
+  have h2 : v_vev^2 = (rho_tau * v_vev^2) / rho_tau := by
+    have h_c : (rho_tau * v_vev^2) / rho_tau = v_vev^2 * (rho_tau / rho_tau) := by ring
+    rw [h_c, div_self hrho, mul_one]
+  rw [h2, ←h1]
 
 -- ==========================================
 -- 8.2 The Topological Phase Lock (Mass Generation)
@@ -712,8 +729,8 @@ theorem orthogonal_mass_extraction
   rw [h1, ←h_P_shear, h_Pc_sub]
   have h2 : (1 / 4) * ((1 / 2) * rho_tau * c^2) * (4 * (v_macro_scalar^2 / c^2)) = ((1 / 2) * rho_tau * v_macro_scalar^2 * c^2) / c^2 := by ring
   rw [h2]
-  have h3 : ((1 / 2) * rho_tau * v_macro_scalar^2 * c^2) / c^2 = (1 / 2) * rho_tau * v_macro_scalar^2 := mul_div_cancel_right₀ _ hc2
-  rw [h3, ←h_P_dyn]
+  have h3 : ((1 / 2) * rho_tau * v_macro_scalar^2 * c^2) / c^2 = ((1 / 2) * rho_tau * v_macro_scalar^2) * (c^2 / c^2) := by ring
+  rw [h3, div_self hc2, mul_one, ←h_P_dyn]
 
 -- 8.4 The Topological Yield Transition (Planck Mass)
 variable (M_val : ℝ)
@@ -728,18 +745,17 @@ lemma isolate_planck_yield_algebra (m_var : ℝ) (hm : m_var ≠ 0) :
   have h_Mp : (M_P)^2 = hbar * c / G := by exact M_P_sq_eq_hbar_c_div_G
   have h1 : (hbar / (m_var * c)) * (m_var * c) = (2 * G * m_var / c^2) * (m_var * c) := by rw [h_int]
   have hmc : m_var * c ≠ 0 := mul_ne_zero hm c_ne_zero
-  have h2_part1 : (hbar / (m_var * c)) * (m_var * c) = hbar := div_mul_cancel₀ hbar hmc
+  have h2_part1 : (hbar / (m_var * c)) * (m_var * c) = hbar * ((m_var * c) / (m_var * c)) := by ring
+  rw [h2_part1, div_self hmc, mul_one] at h1
   have h2_part2 : (2 * G * m_var / c^2) * (m_var * c) = (2 * G * m_var^2 * c) / (c * c) := by ring
-  rw [h2_part1, h2_part2] at h1
-  have h2_part3 : (2 * G * m_var^2 * c) / (c * c) = (2 * G * m_var^2) / c := mul_div_mul_right (2 * G * m_var^2) c c_ne_zero
-  rw [h2_part3] at h1
+  rw [h2_part2] at h1
+  have h2_part3 : (2 * G * m_var^2 * c) / (c * c) = ((2 * G * m_var^2) / c) * (c / c) := by ring
+  rw [h2_part3, div_self c_ne_zero, mul_one] at h1
   have h3_part1 : hbar * c / G = ((2 * G * m_var^2) / c) * c / G := by rw [←h1]
-  have h3_part2 : ((2 * G * m_var^2) / c) * c = 2 * G * m_var^2 := div_mul_cancel₀ (2 * G * m_var^2) c_ne_zero
-  rw [h3_part2] at h3_part1
-  have h3_part3 : (2 * G * m_var^2) / G = (G * (2 * m_var^2)) / G := by ring
-  rw [h3_part3] at h3_part1
-  have h3_part4 : (G * (2 * m_var^2)) / G = 2 * m_var^2 := mul_div_cancel_left₀ (2 * m_var^2) G_ne_zero
-  rw [h3_part4] at h3_part1
+  have h3_part2 : ((2 * G * m_var^2) / c) * c = (2 * G * m_var^2) * (c / c) := by ring
+  rw [h3_part2, div_self c_ne_zero, mul_one] at h3_part1
+  have h3_part3 : (2 * G * m_var^2) / G = (2 * m_var^2) * (G / G) := by ring
+  rw [h3_part3, div_self G_ne_zero, mul_one] at h3_part1
   have h4 : m_var^2 = (2 * m_var^2) / 2 := by ring
   rw [h4, ←h3_part1, ←h_Mp]
 
@@ -796,8 +812,8 @@ theorem longitudinal_axis_invariance (alpha_s alpha v_x v_y v_z Omega_x Omega_y 
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 0 * 
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = -1 := by
   have ha2_ne : alpha_s^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt h_alpha_s)
-  have h1 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 0 = -alpha_s^2 := by rfl
-  have h2 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2 := by rfl
+  have h1 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 0 = -alpha_s^2 := by simp [U_hat]
+  have h2 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2 := by simp [U_hat]
   rw [h1, h2]
   have h3 : (-alpha_s^2) * (1 / alpha_s^2) = -(alpha_s^2 * (1 / alpha_s^2)) := by ring
   have h4 : alpha_s^2 * (1 / alpha_s^2) = alpha_s^2 / alpha_s^2 := by ring
@@ -810,13 +826,15 @@ theorem cross_coupling_impedance (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omeg
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 1 / 
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = (v_x / c) / (t_p_val * Omega_z) := by
   have h_ne : alpha ≠ 0 := ne_of_gt h_alpha
-  have h1 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 1 = - (alpha * (v_x / c)) := by rfl
-  have h2 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = - (alpha * (t_p_val * Omega_z)) := by rfl
-  rw [h1, h2]
-  have h3 : (-(alpha * (v_x / c))) / (-(alpha * (t_p_val * Omega_z))) = (alpha * (v_x / c)) / (alpha * (t_p_val * Omega_z)) := neg_div_neg_eq (alpha * (v_x / c)) (alpha * (t_p_val * Omega_z))
-  rw [h3]
-  have h4 : (alpha * (v_x / c)) / (alpha * (t_p_val * Omega_z)) = (alpha / alpha) * ((v_x / c) / (t_p_val * Omega_z)) := by ring
-  rw [h4, div_self h_ne, one_mul]
+  have h_num : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 1 = -(alpha * (v_x / c)) := by simp [U_hat]
+  have h_den : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = -(alpha * (t_p_val * Omega_z)) := by simp [U_hat]
+  rw [h_num, h_den]
+  
+  have h_neg_cancel : (-(alpha * (v_x / c))) / (-(alpha * (t_p_val * Omega_z))) = (alpha * (v_x / c)) / (alpha * (t_p_val * Omega_z)) := neg_div_neg_eq (alpha * (v_x / c)) (alpha * (t_p_val * Omega_z))
+  rw [h_neg_cancel]
+  
+  -- Cancels the shared alpha term natively
+  exact mul_div_mul_left (v_x / c) (t_p_val * Omega_z) h_ne
 
 -- Theorem 28.3: Transverse Eigenstate Degeneracy
 theorem transverse_eigenvalues_are_real_iff_no_spin (alpha Omega_z t_p_val : ℝ) :
@@ -842,7 +860,7 @@ theorem schwinger_limit_eigenvalues (alpha_s alpha v_x v_y v_z Omega_x Omega_y O
     (h_alpha_s : alpha_s = 1) (h_Omega : alpha * t_p_val * Omega_z = 1) :
     ((U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1) ∧ (alpha * t_p_val * Omega_z = 1) := by
   constructor
-  · have h1 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2 := by rfl
+  · have h1 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2 := by simp [U_hat]
     rw [h1, h_alpha_s]
     norm_num
   · exact h_Omega
@@ -850,11 +868,11 @@ theorem schwinger_limit_eigenvalues (alpha_s alpha v_x v_y v_z Omega_x Omega_y O
 -- 9.6 Continuous Unitary Evolution (U(1) Symmetry)
 theorem transverse_U1_decomposition (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2
-    ∧ (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = - (alpha * t_p_val * Omega_z)
-    ∧ (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 2 1 = alpha * t_p_val * Omega_z := by
-  have h1 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2 := by rfl
-  have h2 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = - (alpha * t_p_val * Omega_z) := by rfl
-  have h3 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 2 1 = alpha * t_p_val * Omega_z := by rfl
+    ∧ (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = - (alpha * (t_p_val * Omega_z))
+    ∧ (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 2 1 = alpha * (t_p_val * Omega_z) := by
+  have h1 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2 := by simp [U_hat]
+  have h2 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = - (alpha * (t_p_val * Omega_z)) := by simp [U_hat]
+  have h3 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 2 1 = alpha * (t_p_val * Omega_z) := by simp [U_hat]
   exact ⟨h1, h2, h3⟩
 
 -- 9.7 The Generalized Determinant (det(U) = 0)
@@ -872,10 +890,11 @@ lemma generalized_cavitation_algebra (alpha_s_val alpha_val v_perp Omega_z t_p_v
   rw [h_distrib] at h2
   have h_cancel_one : (- (1 / alpha_s_val^4)) * alpha_s_val^4 = -1 := by 
     have h_tmp : (- (1 / alpha_s_val^4)) * alpha_s_val^4 = - ((1 / alpha_s_val^4) * alpha_s_val^4) := by ring
-    rw [h_tmp, div_mul_cancel₀ 1 h_s4_ne]
+    have h_div : (1 / alpha_s_val^4) * alpha_s_val^4 = 1 * (alpha_s_val^4 / alpha_s_val^4) := by ring
+    rw [h_tmp, h_div, div_self h_s4_ne, mul_one]
   have h_cancel_two : ((1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 = (alpha_val * (v_perp / c))^2 := by 
-    have h_tmp2 : ((1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 = ((alpha_val * (v_perp / c))^2 / alpha_s_val^4) * alpha_s_val^4 := by ring
-    rw [h_tmp2, div_mul_cancel₀ ((alpha_val * (v_perp / c))^2) h_s4_ne]
+    have h_tmp2 : ((1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 = ((alpha_val * (v_perp / c))^2) * (alpha_s_val^4 / alpha_s_val^4) := by ring
+    rw [h_tmp2, div_self h_s4_ne, mul_one]
   rw [h_cancel_one, h_cancel_two] at h2
   linarith
 
@@ -943,25 +962,24 @@ lemma crossover_algebra (alpha_val alpha_s_val tp_omega gamma_var : ℝ)
       rw [h_div_zero] at h_De_eq
       exact h_De_eq
     have h_a_zero : alpha_val = 0 := by
-      have h_frac_eval : (alpha_val / alpha_s_val) * alpha_s_val = alpha_val := by exact div_mul_cancel₀ alpha_val h_s_ne
-      rw [←h_frac_eval, h_bad]
-      ring
+      have h_1 : alpha_val = alpha_val * (alpha_s_val / alpha_s_val) := by rw [div_self h_s_ne, mul_one]
+      have h_2 : alpha_val * (alpha_s_val / alpha_s_val) = (alpha_val / alpha_s_val) * alpha_s_val := by ring
+      have h_3 : (alpha_val / alpha_s_val) * alpha_s_val = 0 * alpha_s_val := by rw [h_bad]
+      have h_4 : 0 * alpha_s_val = 0 := by ring
+      rw [h_1, h_2, h_3, h_4]
     exact h_a_ne h_a_zero
 
   have h_mult : (alpha_val / alpha_s_val) * (alpha_val * tp_omega) = 1 / alpha_s_val^2 := by
     have h_step : (alpha_val / alpha_s_val) * (alpha_val * tp_omega) = ((1 / alpha_s_val^2) / (alpha_val * tp_omega)) * (alpha_val * tp_omega) := by rw [h_De_eq]
-    have h_cancel : ((1 / alpha_s_val^2) / (alpha_val * tp_omega)) * (alpha_val * tp_omega) = 1 / alpha_s_val^2 := div_mul_cancel₀ (1 / alpha_s_val^2) h_tp_neq_zero
-    rw [h_step, h_cancel]
+    have h_cancel : ((1 / alpha_s_val^2) / (alpha_val * tp_omega)) * (alpha_val * tp_omega) = (1 / alpha_s_val^2) * ((alpha_val * tp_omega) / (alpha_val * tp_omega)) := by ring
+    rw [h_step, h_cancel, div_self h_tp_neq_zero, mul_one]
 
   have h_frac_eval : ((alpha_val / alpha_s_val) * (alpha_val * tp_omega) * alpha_s_val) / alpha_val^2 = tp_omega := by
     have h_num_rearrange : (alpha_val / alpha_s_val) * (alpha_val * tp_omega) * alpha_s_val = ((alpha_val * alpha_val * tp_omega) / alpha_s_val) * alpha_s_val := by ring
-    have h_num : ((alpha_val * alpha_val * tp_omega) / alpha_s_val) * alpha_s_val = alpha_val^2 * tp_omega := by
-      have h_c : ((alpha_val * alpha_val * tp_omega) / alpha_s_val) * alpha_s_val = alpha_val * alpha_val * tp_omega := div_mul_cancel₀ (alpha_val * alpha_val * tp_omega) h_s_ne
-      rw [h_c]
-      ring
-    have h_final_rearrange : (alpha_val^2 * tp_omega) / alpha_val^2 = (tp_omega * alpha_val^2) / alpha_val^2 := by ring
-    rw [h_num_rearrange, h_num, h_final_rearrange]
-    exact mul_div_cancel_right₀ tp_omega (pow_ne_zero 2 h_a_ne)
+    have h_num : ((alpha_val * alpha_val * tp_omega) / alpha_s_val) * alpha_s_val = (alpha_val * alpha_val * tp_omega) * (alpha_s_val / alpha_s_val) := by ring
+    rw [h_num, div_self h_s_ne, mul_one] at h_num_rearrange
+    have h_final_rearrange : (alpha_val * alpha_val * tp_omega) / alpha_val^2 = tp_omega * (alpha_val^2 / alpha_val^2) := by ring
+    rw [h_num_rearrange, h_final_rearrange, div_self (pow_ne_zero 2 h_a_ne), mul_one]
     
   have h_step2 : ((alpha_val / alpha_s_val) * (alpha_val * tp_omega) * alpha_s_val) / alpha_val^2 = ((1 / alpha_s_val^2) * alpha_s_val) / alpha_val^2 := by rw [h_mult]
   have h_step3 : ((1 / alpha_s_val^2) * alpha_s_val) / alpha_val^2 = (1 / alpha_s_val) / alpha_val^2 := by
@@ -1327,24 +1345,23 @@ theorem geometric_action_boundary (r : ℝ) (_hr : r ≠ 0) (kappa : ℝ)
   have h1 : kappa = ((2 * Real.pi * rho_tau * C^2) / r) * ((2 * Real.pi * r) / c) := by rw [h_S, h_E, h_T]
   have h2 : ((2 * Real.pi * rho_tau * C^2) / r) * ((2 * Real.pi * r) / c) = (4 * Real.pi^2 * rho_tau * C^2) / c := by
     have h2a : ((2 * Real.pi * rho_tau * C^2) / r) * ((2 * Real.pi * r) / c) = (4 * Real.pi^2 * rho_tau * C^2 * r) / (r * c) := by ring
-    have h2b : (4 * Real.pi^2 * rho_tau * C^2 * r) / (r * c) = (4 * Real.pi^2 * rho_tau * C^2 * r) / (c * r) := by ring
-    have h2c : (4 * Real.pi^2 * rho_tau * C^2 * r) / (c * r) = (4 * Real.pi^2 * rho_tau * C^2) / c := mul_div_mul_right (4 * Real.pi^2 * rho_tau * C^2) c _hr
+    have h2b : (4 * Real.pi^2 * rho_tau * C^2 * r) / (r * c) = ((4 * Real.pi^2 * rho_tau * C^2) / c) * (r / r) := by ring
+    have h2c : ((4 * Real.pi^2 * rho_tau * C^2) / c) * (r / r) = (4 * Real.pi^2 * rho_tau * C^2) / c := by rw [div_self _hr, mul_one]
     rw [h2a, h2b, h2c]
   rw [h2] at h1
-  have h3 : kappa * c = ((4 * Real.pi^2 * rho_tau * C^2) / c) * c := by
-    have h3a : kappa * c = kappa * c := by rfl
-    rw [h1] at h3a
-    exact h3a
-  have h_cancel : ((4 * Real.pi^2 * rho_tau * C^2) / c) * c = 4 * Real.pi^2 * rho_tau * C^2 := div_mul_cancel₀ _ hc
-  rw [h_cancel] at h3
-  have h4 : C^2 * (4 * Real.pi^2 * rho_tau) = kappa * c := by
-    have h4a : 4 * Real.pi^2 * rho_tau * C^2 = C^2 * (4 * Real.pi^2 * rho_tau) := by ring
-    rw [←h4a, ←h3]
-  have h5 : (C^2 * (4 * Real.pi^2 * rho_tau)) / (4 * Real.pi^2 * rho_tau) = (kappa * c) / (4 * Real.pi^2 * rho_tau) := by
-    have h5a : (C^2 * (4 * Real.pi^2 * rho_tau)) / (4 * Real.pi^2 * rho_tau) = (C^2 * (4 * Real.pi^2 * rho_tau)) / (4 * Real.pi^2 * rho_tau) := by rfl
-    rw [h4] at h5a
-    exact h5a
-  have h6 : (C^2 * (4 * Real.pi^2 * rho_tau)) / (4 * Real.pi^2 * rho_tau) = C^2 := mul_div_cancel_right₀ C^2 h_denom
+  
+  have h3a : kappa * c = (((4 * Real.pi^2 * rho_tau * C^2) / c)) * c := congrArg (· * c) h1
+  have h3b : (((4 * Real.pi^2 * rho_tau * C^2) / c)) * c = (4 * Real.pi^2 * rho_tau * C^2) * (c / c) := by ring
+  rw [h3b, div_self hc, mul_one] at h3a
+  
+  have h4a : C^2 * (4 * Real.pi^2 * rho_tau) = 4 * Real.pi^2 * rho_tau * C^2 := by ring
+  have h4b : 4 * Real.pi^2 * rho_tau * C^2 = kappa * c := h3a.symm
+  have h4 : C^2 * (4 * Real.pi^2 * rho_tau) = kappa * c := by rw [h4a, h4b]
+  
+  have h5 : (C^2 * (4 * Real.pi^2 * rho_tau)) / (4 * Real.pi^2 * rho_tau) = (kappa * c) / (4 * Real.pi^2 * rho_tau) := congrArg (· / (4 * Real.pi^2 * rho_tau)) h4
+  have h6 : (C^2 * (4 * Real.pi^2 * rho_tau)) / (4 * Real.pi^2 * rho_tau) = C^2 := by
+    have h_pull : (C^2 * (4 * Real.pi^2 * rho_tau)) / (4 * Real.pi^2 * rho_tau) = C^2 * ((4 * Real.pi^2 * rho_tau) / (4 * Real.pi^2 * rho_tau)) := by ring
+    rw [h_pull, div_self h_denom, mul_one]
   rw [h6] at h5
   exact h5
 
@@ -1359,35 +1376,42 @@ theorem spatial_confinement_gradient (r : ℝ) (hr : r ≠ 0) (kappa : ℝ)
     have h1b : rho_tau * ((kappa * c) / (4 * Real.pi^2 * rho_tau)) = (rho_tau * (kappa * c)) / (4 * Real.pi^2 * rho_tau) := by ring
     have h1c : (rho_tau * (kappa * c)) / (4 * Real.pi^2 * rho_tau) = (rho_tau * (kappa * c)) / (rho_tau * (4 * Real.pi^2)) := by ring
     rw [h1a, h1b, h1c]
-  have h2 : (rho_tau * (kappa * c)) / (rho_tau * (4 * Real.pi^2)) = (kappa * c) / (4 * Real.pi^2) := mul_div_mul_left (kappa * c) (4 * Real.pi^2) hrho
+  have h2 : (rho_tau * (kappa * c)) / (rho_tau * (4 * Real.pi^2)) = (kappa * c) / (4 * Real.pi^2) := by
+    have h2a : (rho_tau * (kappa * c)) / (rho_tau * (4 * Real.pi^2)) = ((kappa * c) / (4 * Real.pi^2)) * (rho_tau / rho_tau) := by ring
+    rw [h2a, div_self hrho, mul_one]
   rw [h2] at h1
   
   have h3 : P_dyn_val * (2 * r^4) = (kappa * c) / (4 * Real.pi^2) := by
-    have h3a : P_dyn_val * (2 * r^4) = ((rho_tau * C^2) / (2 * r^4)) * (2 * r^4) := by
-      have hs : P_dyn_val * (2 * r^4) = P_dyn_val * (2 * r^4) := by rfl
-      rw [h_P] at hs
-      exact hs
-    have h3b : ((rho_tau * C^2) / (2 * r^4)) * (2 * r^4) = rho_tau * C^2 := div_mul_cancel₀ _ (mul_ne_zero (by norm_num) (pow_ne_zero 4 hr))
-    rw [h3a, h3b, h1]
+    have h3a : P_dyn_val * (2 * r^4) = ((rho_tau * C^2) / (2 * r^4)) * (2 * r^4) := congrArg (· * (2 * r^4)) h_P
+    have h3b : ((rho_tau * C^2) / (2 * r^4)) * (2 * r^4) = (rho_tau * C^2) * ((2 * r^4) / (2 * r^4)) := by ring
+    rw [h3a, h3b, div_self (mul_ne_zero (by norm_num) (pow_ne_zero 4 hr)), mul_one, h1]
       
-  have h4 : P_dyn_val = (P_dyn_val * (2 * r^4)) / (2 * r^4) := (mul_div_cancel_right₀ _ (mul_ne_zero (by norm_num) (pow_ne_zero 4 hr))).symm
-  have h5 : (P_dyn_val * (2 * r^4)) / (2 * r^4) = ((kappa * c) / (4 * Real.pi^2)) / (2 * r^4) := by rw [h3]
+  have h4 : P_dyn_val = (P_dyn_val * (2 * r^4)) / (2 * r^4) := by
+    have h_pull : (P_dyn_val * (2 * r^4)) / (2 * r^4) = P_dyn_val * ((2 * r^4) / (2 * r^4)) := by ring
+    rw [h_pull, div_self (mul_ne_zero (by norm_num) (pow_ne_zero 4 hr)), mul_one]
+  have h5 : (P_dyn_val * (2 * r^4)) / (2 * r^4) = ((kappa * c) / (4 * Real.pi^2)) / (2 * r^4) := congrArg (· / (2 * r^4)) h3
   rw [h5] at h4
   have h6 : ((kappa * c) / (4 * Real.pi^2)) / (2 * r^4) = (kappa * c) / (8 * Real.pi^2 * r^4) := by
     have hpi_ne : 4 * Real.pi^2 ≠ 0 := mul_ne_zero (by norm_num) (pow_ne_zero 2 Real.pi_ne_zero)
-    have h_pull1 : ((kappa * c) / (4 * Real.pi^2)) / (2 * r^4) = (((kappa * c) / (4 * Real.pi^2)) * (4 * Real.pi^2)) / (2 * r^4 * (4 * Real.pi^2)) := (mul_div_mul_right _ _ hpi_ne).symm
-    have h_pull2 : (((kappa * c) / (4 * Real.pi^2)) * (4 * Real.pi^2)) / (2 * r^4 * (4 * Real.pi^2)) = (kappa * c) / (2 * r^4 * (4 * Real.pi^2)) := by rw [div_mul_cancel₀ _ hpi_ne]
-    have h_pull3 : (kappa * c) / (2 * r^4 * (4 * Real.pi^2)) = (kappa * c) / (8 * Real.pi^2 * r^4) := by 
+    have h_pull1 : ((kappa * c) / (4 * Real.pi^2)) / (2 * r^4) = (((kappa * c) / (4 * Real.pi^2)) * (4 * Real.pi^2)) / (2 * r^4 * (4 * Real.pi^2)) := by
+      have hs : ((kappa * c) / (4 * Real.pi^2)) / (2 * r^4) = (((kappa * c) / (4 * Real.pi^2)) / (2 * r^4)) * ((4 * Real.pi^2) / (4 * Real.pi^2)) := by
+        have h_self : (4 * Real.pi^2) / (4 * Real.pi^2) = 1 := div_self hpi_ne
+        rw [h_self, mul_one]
+      have ht : (((kappa * c) / (4 * Real.pi^2)) / (2 * r^4)) * ((4 * Real.pi^2) / (4 * Real.pi^2)) = (((kappa * c) / (4 * Real.pi^2)) * (4 * Real.pi^2)) / (2 * r^4 * (4 * Real.pi^2)) := by ring
+      rw [hs, ht]
+    have h_pull2 : (((kappa * c) / (4 * Real.pi^2)) * (4 * Real.pi^2)) / (2 * r^4 * (4 * Real.pi^2)) = ((kappa * c) * ((4 * Real.pi^2) / (4 * Real.pi^2))) / (2 * r^4 * (4 * Real.pi^2)) := by ring
+    have h_pull3 : ((kappa * c) * ((4 * Real.pi^2) / (4 * Real.pi^2))) / (2 * r^4 * (4 * Real.pi^2)) = (kappa * c) / (2 * r^4 * (4 * Real.pi^2)) := by rw [div_self hpi_ne, mul_one]
+    have h_pull4 : (kappa * c) / (2 * r^4 * (4 * Real.pi^2)) = (kappa * c) / (8 * Real.pi^2 * r^4) := by 
       have h_denom : 2 * r^4 * (4 * Real.pi^2) = 8 * Real.pi^2 * r^4 := by ring
       rw [h_denom]
-    rw [h_pull1, h_pull2, h_pull3]
+    rw [h_pull1, h_pull2, h_pull3, h_pull4]
   rw [h6] at h4
   exact h4
 
 -- 14.3 The Kinematic Mass Boundary (kappa == h)
 variable (kappa r m : ℝ)
 
-lemma action_constant_identity (hc : (0 : ℝ) < c) (hm : m > 0) (hr : r > 0)
+lemma action_constant_identity (hc : (0 : ℝ) < c) (hm : m > 0) (_hr : r > 0)
     (h_energy : m * c^2 = kappa * c / (2 * Real.pi * r))
     (h_radius : r = hbar / (m * c)) :
     kappa = 2 * Real.pi * hbar := by
@@ -1395,44 +1419,43 @@ lemma action_constant_identity (hc : (0 : ℝ) < c) (hm : m > 0) (hr : r > 0)
   have h2 : c ≠ 0 := ne_of_gt hc
   have h4 : Real.pi ≠ 0 := Real.pi_ne_zero
   have h_mc : m * c ≠ 0 := mul_ne_zero h1 h2
-  have h_denom : 2 * Real.pi * r ≠ 0 := mul_ne_zero (mul_ne_zero (by norm_num) h4) (ne_of_gt hr)
+  have hr_ne : r ≠ 0 := ne_of_gt _hr
+  have h_denom : 2 * Real.pi * r ≠ 0 := mul_ne_zero (mul_ne_zero (by norm_num) h4) hr_ne
   
-  have eq1 : (m * c^2) * (2 * Real.pi * r) = kappa * c := by
-    have eq1a : (m * c^2) * (2 * Real.pi * r) = (kappa * c / (2 * Real.pi * r)) * (2 * Real.pi * r) := by
-      have hs : (m * c^2) * (2 * Real.pi * r) = (m * c^2) * (2 * Real.pi * r) := by rfl
-      rw [h_energy] at hs
-      exact hs
-    have eq1b : (kappa * c / (2 * Real.pi * r)) * (2 * Real.pi * r) = kappa * c := div_mul_cancel₀ (kappa * c) h_denom
-    rw [eq1b] at eq1a
-    exact eq1a
-    
-  have eq2 : r * (m * c) = hbar := by
-    have eq2a : r * (m * c) = (hbar / (m * c)) * (m * c) := by
-      have hs : r * (m * c) = r * (m * c) := by rfl
-      rw [h_radius] at hs
-      exact hs
-    have eq2b : (hbar / (m * c)) * (m * c) = hbar := div_mul_cancel₀ hbar h_mc
-    rw [eq2b] at eq2a
-    exact eq2a
-    
+  have eq1a : (kappa * c / (2 * Real.pi * r)) * (2 * Real.pi * r) = (m * c^2) * (2 * Real.pi * r) := congrArg (· * (2 * Real.pi * r)) h_energy.symm
+  have eq1b : (kappa * c / (2 * Real.pi * r)) * (2 * Real.pi * r) = (kappa * c) * ((2 * Real.pi * r) / (2 * Real.pi * r)) := by ring
+  rw [eq1b, div_self h_denom, mul_one] at eq1a
+      
+  have eq2a : r * (m * c) = (hbar / (m * c)) * (m * c) := congrArg (· * (m * c)) h_radius
+  have eq2b : (hbar / (m * c)) * (m * c) = hbar * ((m * c) / (m * c)) := by ring
+  rw [eq2b, div_self h_mc, mul_one] at eq2a
+      
   have eq3 : (m * c^2) * (2 * Real.pi * r) = (2 * Real.pi * (r * (m * c))) * c := by ring
-  rw [eq3, eq2] at eq1
+  rw [eq3, eq2a] at eq1a
   
-  have h_kappa_c : (2 * Real.pi * hbar) * c = kappa * c := eq1
-  exact mul_right_cancel₀ h2 h_kappa_c.symm
+  have h_kappa_c2 : (kappa * c) / c = (2 * Real.pi * hbar * c) / c := congrArg (· / c) eq1a
+  have h_final : kappa = 2 * Real.pi * hbar := by
+    have h_L : (kappa * c) / c = kappa * (c / c) := by ring
+    have h_R : (2 * Real.pi * hbar * c) / c = (2 * Real.pi * hbar) * (c / c) := by ring
+    rw [h_L, h_R, div_self h2, mul_one, mul_one] at h_kappa_c2
+    exact h_kappa_c2
+  exact h_final
+
+-- ENGINE REFACTOR: Solidified into a continuous, callable physical function
+noncomputable def F_fund (r : ℝ) : ℝ := (hbar * c) / r^2
 
 -- Theorem 53: The Fundamental Force Limit (Equation 176 / 14.3)
-theorem fundamental_force_limit (F_r : ℝ)
-    (h_kappa : kappa = 2 * Real.pi * hbar)
-    (h_F : F_r = (kappa * c) / (2 * Real.pi * r^2)) :
-    F_r = (hbar * c) / r^2 := by
-  rw [h_kappa] at h_F
+theorem fundamental_force_limit (_hr : r ≠ 0)
+    (h_kappa : kappa = 2 * Real.pi * hbar) :
+    (kappa * c) / (2 * Real.pi * r^2) = F_fund r := by
+  dsimp [F_fund]
+  rw [h_kappa]
   have h1 : ((2 * Real.pi * hbar) * c) / (2 * Real.pi * r^2) = (2 * Real.pi * (hbar * c)) / (2 * Real.pi * r^2) := by ring
   have h_pi_ne : 2 * Real.pi ≠ 0 := mul_ne_zero (by norm_num) Real.pi_ne_zero
   have h2 : (2 * Real.pi * (hbar * c)) / (2 * Real.pi * r^2) = (hbar * c) / r^2 := by
-    have h_pull : (2 * Real.pi * (hbar * c)) / (2 * Real.pi * r^2) = ((2 * Real.pi) / (2 * Real.pi)) * ((hbar * c) / r^2) := by ring
-    rw [h_pull, div_self h_pi_ne, one_mul]
-  rw [h_F, h1, h2]
+    have h_pull : (2 * Real.pi * (hbar * c)) / (2 * Real.pi * r^2) = ((hbar * c) / r^2) * ((2 * Real.pi) / (2 * Real.pi)) := by ring
+    rw [h_pull, div_self h_pi_ne, mul_one]
+  rw [h1, h2]
 
 -- ==========================================
 -- 14.4 The Interaction Hierarchy (Force Projections)
@@ -1440,44 +1463,43 @@ theorem fundamental_force_limit (F_r : ℝ)
 variable (m_W m_e alpha_em : ℝ)
 
 -- I. Gravity (The Core Boundary)
-theorem interaction_hierarchy_gravity (F_grav : ℝ) 
-    (h_F : F_grav = (hbar * c) / l_p^2)
-    (h_G : G = (l_p^2 * c^3) / hbar) :
-    F_grav = c^4 / G := by
+-- Refactored to compute directly from the topological limit of F_fund
+theorem interaction_hierarchy_gravity (h_G : G = (l_p^2 * c^3) / hbar) :
+    F_fund l_p = c^4 / G := by
   have hc : c ≠ 0 := ne_of_gt c_pos
   have hbar_ne : hbar ≠ 0 := ne_of_gt hbar_pos
   have hl_p : l_p ≠ 0 := ne_of_gt l_p_pos
-  have h_sub1 : (G * hbar) = l_p^2 * c^3 := by
-    have h_g_mult : G * hbar = ((l_p^2 * c^3) / hbar) * hbar := by
-      have hs : G * hbar = G * hbar := by rfl
-      rw [h_G] at hs
-      exact hs
-    have h_g_cancel : ((l_p^2 * c^3) / hbar) * hbar = l_p^2 * c^3 := div_mul_cancel₀ _ hbar_ne
-    rw [h_g_cancel] at h_g_mult
-    exact h_g_mult
-  have h_sub2 : l_p^2 = (G * hbar) / c^3 := by
-    have h_l_div : (G * hbar) / c^3 = (l_p^2 * c^3) / c^3 := by
-      have hs : (G * hbar) / c^3 = (G * hbar) / c^3 := by rfl
-      rw [h_sub1] at hs
-      exact hs
-    have h_l_cancel : (l_p^2 * c^3) / c^3 = l_p^2 := mul_div_cancel_right₀ _ (pow_ne_zero 3 hc)
-    rw [h_l_cancel] at h_l_div
-    exact h_l_div.symm
-  rw [h_F, h_sub2]
-  have h_pull : (hbar * c) / ((G * hbar) / c^3) = (hbar * c * c^3) / (G * hbar) := div_div_eq_mul_div _ _ _
-  rw [h_pull]
-  have h_num : hbar * c * c^3 = hbar * c^4 := by ring
-  have h_den : G * hbar = hbar * G := by ring
-  rw [h_num, h_den]
-  exact mul_div_mul_left c^4 G hbar_ne
+  have hG_ne : G ≠ 0 := ne_of_gt G_pos
+  dsimp [F_fund]
+  
+  have h_sub1_a : G * hbar = ((l_p^2 * c^3) / hbar) * hbar := congrArg (· * hbar) h_G
+  have h_sub1_b : ((l_p^2 * c^3) / hbar) * hbar = (l_p^2 * c^3) * (hbar / hbar) := by ring
+  rw [h_sub1_b, div_self hbar_ne, mul_one] at h_sub1_a
+  have h_sub1 : l_p^2 * c^3 = G * hbar := h_sub1_a.symm
+  
+  have hc3_ne : c^3 ≠ 0 := pow_ne_zero 3 hc
+  have h_sub2_a : (l_p^2 * c^3) / c^3 = (G * hbar) / c^3 := congrArg (· / c^3) h_sub1
+  have h_sub2_b : (l_p^2 * c^3) / c^3 = l_p^2 * (c^3 / c^3) := by ring
+  rw [h_sub2_b, div_self hc3_ne, mul_one] at h_sub2_a
+  
+  have step1 : (hbar * c) / l_p^2 = (hbar * c) / ((G * hbar) / c^3) := by rw [h_sub2_a]
+  have step2 : (hbar * c) / ((G * hbar) / c^3) = (hbar * c * c^3) / (G * hbar) := div_div_eq_mul_div _ _ _
+  have step3 : (hbar * c * c^3) / (G * hbar) = (hbar * c^4) / (hbar * G) := by
+    have h_num : hbar * c * c^3 = hbar * c^4 := by ring
+    have h_den : G * hbar = hbar * G := by ring
+    rw [h_num, h_den]
+  have step4 : (hbar * c^4) / (hbar * G) = (c^4 / G) * (hbar / hbar) := by ring
+  have step5 : (c^4 / G) * (hbar / hbar) = c^4 / G := by rw [div_self hbar_ne, mul_one]
+  rw [step1, step2, step3, step4, step5]
 
 -- II. The Weak Interaction (The Cavitation Yield)
-theorem interaction_hierarchy_weak (F_weak R_W : ℝ) (_hm_W : m_W ≠ 0)
-    (h_F : F_weak = (hbar * c) / R_W^2)
+-- Refactored to compute directly from the localized evaluation of F_fund
+theorem interaction_hierarchy_weak (R_W : ℝ) (_hm_W : m_W ≠ 0)
     (h_R_W : R_W = hbar / (m_W * c)) :
-    F_weak = (m_W^2 * c^3) / hbar := by
+    F_fund R_W = (m_W^2 * c^3) / hbar := by
   have hbar_ne : hbar ≠ 0 := ne_of_gt hbar_pos
-  rw [h_F, h_R_W]
+  dsimp [F_fund]
+  rw [h_R_W]
   have h_pow : (hbar / (m_W * c))^2 = hbar^2 / (m_W * c)^2 := div_pow _ _ _
   rw [h_pow]
   have h_pull : (hbar * c) / (hbar^2 / (m_W * c)^2) = (hbar * c * (m_W * c)^2) / hbar^2 := div_div_eq_mul_div _ _ _
@@ -1485,15 +1507,17 @@ theorem interaction_hierarchy_weak (F_weak R_W : ℝ) (_hm_W : m_W ≠ 0)
   have h_num : hbar * c * (m_W * c)^2 = hbar * (m_W^2 * c^3) := by ring
   have h_den : hbar^2 = hbar * hbar := by ring
   rw [h_num, h_den]
-  exact mul_div_mul_left (m_W^2 * c^3) hbar hbar_ne
+  have h_final : (hbar * (m_W^2 * c^3)) / (hbar * hbar) = ((m_W^2 * c^3) / hbar) * (hbar / hbar) := by ring
+  rw [h_final, div_self hbar_ne, mul_one]
 
 -- III. The Strong Interaction (The Acoustic Confinement)
-theorem interaction_hierarchy_strong (F_strong L_crit : ℝ) (_hm_e : m_e ≠ 0) (_h_alpha : alpha_em ≠ 0)
-    (h_F : F_strong = (hbar * c) / L_crit^2)
+-- Computes the confining limit by evaluating F_fund at the critical boundary
+theorem interaction_hierarchy_strong (L_crit : ℝ) (_hm_e : m_e ≠ 0) (_h_alpha : alpha_em ≠ 0)
     (h_L_crit : L_crit = (alpha_em * hbar) / (m_e * c)) :
-    F_strong = (m_e^2 * c^3) / (alpha_em^2 * hbar) := by
+    F_fund L_crit = (m_e^2 * c^3) / (alpha_em^2 * hbar) := by
   have hbar_ne : hbar ≠ 0 := ne_of_gt hbar_pos
-  rw [h_F, h_L_crit]
+  dsimp [F_fund]
+  rw [h_L_crit]
   have h_pow : ((alpha_em * hbar) / (m_e * c))^2 = (alpha_em * hbar)^2 / (m_e * c)^2 := div_pow _ _ _
   rw [h_pow]
   have h_pull : (hbar * c) / ((alpha_em * hbar)^2 / (m_e * c)^2) = (hbar * c * (m_e * c)^2) / (alpha_em * hbar)^2 := div_div_eq_mul_div _ _ _
@@ -1501,23 +1525,29 @@ theorem interaction_hierarchy_strong (F_strong L_crit : ℝ) (_hm_e : m_e ≠ 0)
   have h_num : hbar * c * (m_e * c)^2 = hbar * (m_e^2 * c^3) := by ring
   have h_den : (alpha_em * hbar)^2 = hbar * (alpha_em^2 * hbar) := by ring
   rw [h_num, h_den]
-  exact mul_div_mul_left (m_e^2 * c^3) (alpha_em^2 * hbar) hbar_ne
+  have h_final : (hbar * (m_e^2 * c^3)) / (hbar * (alpha_em^2 * hbar)) = ((m_e^2 * c^3) / (alpha_em^2 * hbar)) * (hbar / hbar) := by ring
+  rw [h_final, div_self hbar_ne, mul_one]
 
 -- IV. Electromagnetism (The Transverse Leakage)
-theorem interaction_hierarchy_em (F_EM a_0_val : ℝ) (_hm_e : m_e ≠ 0) (_h_alpha : alpha_em ≠ 0)
-    (h_F : F_EM = (hbar * c) / a_0_val^2)
+-- Computes transverse scaling by projecting alpha_em onto the radial field at the Bohr limit
+theorem interaction_hierarchy_em (a_0_val : ℝ) (_hm_e : m_e ≠ 0) (_h_alpha : alpha_em ≠ 0)
     (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c)) :
-    F_EM = (alpha_em^2 * m_e^2 * c^3) / hbar := by
+    alpha_em * F_fund a_0_val = (alpha_em^3 * m_e^2 * c^3) / hbar := by
   have hbar_ne : hbar ≠ 0 := ne_of_gt hbar_pos
-  rw [h_F, h_a_0]
+  dsimp [F_fund]
+  rw [h_a_0]
   have h_pow : (hbar / (alpha_em * m_e * c))^2 = hbar^2 / (alpha_em * m_e * c)^2 := div_pow _ _ _
   rw [h_pow]
   have h_pull : (hbar * c) / (hbar^2 / (alpha_em * m_e * c)^2) = (hbar * c * (alpha_em * m_e * c)^2) / hbar^2 := div_div_eq_mul_div _ _ _
   rw [h_pull]
-  have h_num : hbar * c * (alpha_em * m_e * c)^2 = hbar * (alpha_em^2 * m_e^2 * c^3) := by ring
-  have h_den : hbar^2 = hbar * hbar := by ring
-  rw [h_num, h_den]
-  exact mul_div_mul_left (alpha_em^2 * m_e^2 * c^3) hbar hbar_ne
+  have h_num : alpha_em * ((hbar * c * (alpha_em * m_e * c)^2) / hbar^2) = (hbar * (alpha_em^3 * m_e^2 * c^3)) / (hbar * hbar) := by
+    have step1 : hbar * c * (alpha_em * m_e * c)^2 = hbar * (alpha_em^2 * m_e^2 * c^3) := by ring
+    have step2 : hbar^2 = hbar * hbar := by ring
+    rw [step1, step2]
+    ring
+  rw [h_num]
+  have h_final : (hbar * (alpha_em^3 * m_e^2 * c^3)) / (hbar * hbar) = ((alpha_em^3 * m_e^2 * c^3) / hbar) * (hbar / hbar) := by ring
+  rw [h_final, div_self hbar_ne, mul_one]
 
 -- 14.5 The Macroscopic Baseline (The Horizon Floor)
 variable (a_0 F_R_h m_h h_val R_h_0 : ℝ)
@@ -1533,108 +1563,76 @@ theorem kinematic_acceleration_floor (hR_ne : R_h_0 > 0) (hh_ne : h_val > 0)
   have h3 : c ≠ 0 := ne_of_gt c_pos
   have h4 : Real.pi ≠ 0 := Real.pi_ne_zero
   
-  have eq_m : m_h * (R_h_0 * c) = h_val := by
-    have eq_m1 : m_h * (R_h_0 * c) = (h_val / (R_h_0 * c)) * (R_h_0 * c) := by
-      have hs : m_h * (R_h_0 * c) = m_h * (R_h_0 * c) := by rfl
-      rw [h_m] at hs
-      exact hs
-    have eq_m2 : (h_val / (R_h_0 * c)) * (R_h_0 * c) = h_val := div_mul_cancel₀ h_val (mul_ne_zero h1 h3)
-    rw [eq_m2] at eq_m1
-    exact eq_m1
+  have eq_m1 : m_h * (R_h_0 * c) = (h_val / (R_h_0 * c)) * (R_h_0 * c) := congrArg (· * (R_h_0 * c)) h_m
+  have eq_m2 : (h_val / (R_h_0 * c)) * (R_h_0 * c) = h_val * ((R_h_0 * c) / (R_h_0 * c)) := by ring
+  rw [eq_m2, div_self (mul_ne_zero h1 h3), mul_one] at eq_m1
 
-  have eq_F : F_R_h * (2 * Real.pi * R_h_0^2) = h_val * c := by
-    have eq_F1 : F_R_h * (2 * Real.pi * R_h_0^2) = ((h_val * c) / (2 * Real.pi * R_h_0^2)) * (2 * Real.pi * R_h_0^2) := by
-      have hs : F_R_h * (2 * Real.pi * R_h_0^2) = F_R_h * (2 * Real.pi * R_h_0^2) := by rfl
-      rw [h_F] at hs
-      exact hs
-    have eq_F2 : ((h_val * c) / (2 * Real.pi * R_h_0^2)) * (2 * Real.pi * R_h_0^2) = h_val * c := div_mul_cancel₀ (h_val * c) (mul_ne_zero (mul_ne_zero (by norm_num) h4) (pow_ne_zero 2 h1))
-    rw [eq_F2] at eq_F1
-    exact eq_F1
+  have eq_F1 : F_R_h * (2 * Real.pi * R_h_0^2) = ((h_val * c) / (2 * Real.pi * R_h_0^2)) * (2 * Real.pi * R_h_0^2) := congrArg (· * (2 * Real.pi * R_h_0^2)) h_F
+  have eq_F2 : ((h_val * c) / (2 * Real.pi * R_h_0^2)) * (2 * Real.pi * R_h_0^2) = (h_val * c) * ((2 * Real.pi * R_h_0^2) / (2 * Real.pi * R_h_0^2)) := by ring
+  rw [eq_F2, div_self (mul_ne_zero (mul_ne_zero (by norm_num) h4) (pow_ne_zero 2 h1)), mul_one] at eq_F1
 
   have h7 : m_h ≠ 0 := by 
      intro hz
-     have h_bad : 0 * (R_h_0 * c) = h_val := by rw [←eq_m, hz]
+     have h_bad : 0 * (R_h_0 * c) = h_val := by rw [←eq_m1, hz]
      rw [zero_mul] at h_bad
      exact h2 h_bad.symm
 
-  have eq_a : a_0 * m_h = F_R_h := by
-    have eq_a1 : a_0 * m_h = (F_R_h / m_h) * m_h := by
-      have hs : a_0 * m_h = a_0 * m_h := by rfl
-      rw [h_a0] at hs
-      exact hs
-    have eq_a2 : (F_R_h / m_h) * m_h = F_R_h := div_mul_cancel₀ F_R_h h7
-    rw [eq_a2] at eq_a1
-    exact eq_a1
+  have eq_a1 : a_0 * m_h = (F_R_h / m_h) * m_h := congrArg (· * m_h) h_a0
+  have eq_a2 : (F_R_h / m_h) * m_h = F_R_h * (m_h / m_h) := by ring
+  rw [eq_a2, div_self h7, mul_one] at eq_a1
 
-  have eqA : a_0 * m_h * (2 * Real.pi * R_h_0^2) = h_val * c := by
-    have eqA1 : a_0 * m_h * (2 * Real.pi * R_h_0^2) = F_R_h * (2 * Real.pi * R_h_0^2) := by
-      have hs : a_0 * m_h * (2 * Real.pi * R_h_0^2) = a_0 * m_h * (2 * Real.pi * R_h_0^2) := by rfl
-      rw [eq_a] at hs
-      exact hs
-    rw [eq_F] at eqA1
-    exact eqA1
+  have eqA1 : a_0 * m_h * (2 * Real.pi * R_h_0^2) = F_R_h * (2 * Real.pi * R_h_0^2) := congrArg (· * (2 * Real.pi * R_h_0^2)) eq_a1
+  rw [eq_F1] at eqA1
 
-  have eqB : a_0 * m_h * (2 * Real.pi * R_h_0^2) = m_h * (R_h_0 * c) * c := by
-    have eqB1 : m_h * (R_h_0 * c) * c = h_val * c := by
-      have hs : m_h * (R_h_0 * c) * c = m_h * (R_h_0 * c) * c := by rfl
-      rw [eq_m] at hs
-      exact hs
-    rw [←eqB1] at eqA
-    exact eqA
+  have eqB1 : m_h * (R_h_0 * c) * c = h_val * c := congrArg (· * c) eq_m1
+  have eqB2 : a_0 * m_h * (2 * Real.pi * R_h_0^2) = m_h * (R_h_0 * c) * c := by rw [eqA1, ←eqB1]
 
-  have eqC : a_0 * (2 * Real.pi * R_h_0^2) = (R_h_0 * c) * c := mul_left_cancel₀ h7 (by 
-    have eqC1 : m_h * (a_0 * (2 * Real.pi * R_h_0^2)) = a_0 * m_h * (2 * Real.pi * R_h_0^2) := by ring
-    have eqC2 : m_h * ((R_h_0 * c) * c) = m_h * (R_h_0 * c) * c := by ring
-    rw [eqC1, eqB, eqC2]
-  )
+  have eqC1 : (a_0 * m_h * (2 * Real.pi * R_h_0^2)) / m_h = (m_h * (R_h_0 * c) * c) / m_h := congrArg (· / m_h) eqB2
+  have eqC2 : (a_0 * m_h * (2 * Real.pi * R_h_0^2)) / m_h = a_0 * (2 * Real.pi * R_h_0^2) * (m_h / m_h) := by ring
+  have eqC3 : (m_h * (R_h_0 * c) * c) / m_h = ((R_h_0 * c) * c) * (m_h / m_h) := by ring
+  rw [eqC2, eqC3, div_self h7, mul_one, mul_one] at eqC1
 
-  have eqD : a_0 * (2 * Real.pi * R_h_0) * R_h_0 = c^2 * R_h_0 := by
-    have eqD1 : a_0 * (2 * Real.pi * R_h_0) * R_h_0 = a_0 * (2 * Real.pi * R_h_0^2) := by ring
-    have eqD2 : c^2 * R_h_0 = (R_h_0 * c) * c := by ring
-    rw [eqD1, eqC, ←eqD2]
+  have eqD1 : a_0 * (2 * Real.pi * R_h_0) * R_h_0 = a_0 * (2 * Real.pi * R_h_0^2) := by ring
+  have eqD2 : c^2 * R_h_0 = (R_h_0 * c) * c := by ring
+  have eqD3 : a_0 * (2 * Real.pi * R_h_0) * R_h_0 = c^2 * R_h_0 := by rw [eqD1, eqC1, ←eqD2]
 
-  have eqE : a_0 * (2 * Real.pi * R_h_0) = c^2 := mul_right_cancel₀ h1 eqD
+  have eqE1 : (a_0 * (2 * Real.pi * R_h_0) * R_h_0) / R_h_0 = (c^2 * R_h_0) / R_h_0 := congrArg (· / R_h_0) eqD3
+  have eqE2 : (a_0 * (2 * Real.pi * R_h_0) * R_h_0) / R_h_0 = a_0 * (2 * Real.pi * R_h_0) * (R_h_0 / R_h_0) := by ring
+  have eqE3 : (c^2 * R_h_0) / R_h_0 = c^2 * (R_h_0 / R_h_0) := by ring
+  rw [eqE2, eqE3, div_self h1, mul_one, mul_one] at eqE1
 
   have h_pi_R : 2 * Real.pi * R_h_0 ≠ 0 := mul_ne_zero (mul_ne_zero (by norm_num) h4) h1
-  have eqF : (a_0 * (2 * Real.pi * R_h_0)) / (2 * Real.pi * R_h_0) = c^2 / (2 * Real.pi * R_h_0) := by
-    have hs : (a_0 * (2 * Real.pi * R_h_0)) / (2 * Real.pi * R_h_0) = (a_0 * (2 * Real.pi * R_h_0)) / (2 * Real.pi * R_h_0) := by rfl
-    rw [eqE] at hs
-    exact hs
-  have eqG : (a_0 * (2 * Real.pi * R_h_0)) / (2 * Real.pi * R_h_0) = a_0 := mul_div_cancel_right₀ a_0 h_pi_R
-  rw [eqG] at eqF
-  exact eqF
+  calc a_0 = a_0 * ((2 * Real.pi * R_h_0) / (2 * Real.pi * R_h_0)) := by rw [div_self h_pi_R, mul_one]
+    _ = (a_0 * (2 * Real.pi * R_h_0)) / (2 * Real.pi * R_h_0) := by ring
+    _ = c^2 / (2 * Real.pi * R_h_0) := by rw [eqE1]
 
 -- 14.6 Macroscopic Combinatorial Aggregates (Newtonian Gravity)
 variable (F_macro M_1 M_2 : ℝ)
 
 -- Theorem 55: Derivation of Universal Gravitation (Equation 186 / 14.6)
 theorem universal_gravitation_limit (r : ℝ) 
-    (h_F_macro : F_macro = (M_1 / M_P) * (M_2 / M_P) * ((hbar * c) / r^2))
+    (h_F_macro : F_macro = (M_1 / M_P) * (M_2 / M_P) * F_fund r)
     (h_M_P_sq : M_P^2 = (hbar * c) / G) :
     F_macro = (G * M_1 * M_2) / r^2 := by
   have hMp_ne : M_P ≠ 0 := ne_of_gt M_P_pos
-  have eq1 : M_P^2 * G = hbar * c := by
-    have eq1a : M_P^2 * G = ((hbar * c) / G) * G := by
-      have hs : M_P^2 * G = M_P^2 * G := by rfl
-      rw [h_M_P_sq] at hs
-      exact hs
-    have eq1b : ((hbar * c) / G) * G = hbar * c := div_mul_cancel₀ (hbar * c) (ne_of_gt G_pos)
-    rw [eq1b] at eq1a
-    exact eq1a
+  have hG_ne : G ≠ 0 := ne_of_gt G_pos
+  dsimp [F_fund] at h_F_macro
+  have eq1a : M_P^2 * G = ((hbar * c) / G) * G := congrArg (· * G) h_M_P_sq
+  have eq1b : ((hbar * c) / G) * G = (hbar * c) * (G / G) := by ring
+  rw [eq1b, div_self hG_ne, mul_one] at eq1a
   have step1 : F_macro = ((M_1 * M_2) / M_P^2) * ((hbar * c) / r^2) := by 
     have h_sub : (M_1 / M_P) * (M_2 / M_P) = (M_1 * M_2) / M_P^2 := by ring
     rw [h_F_macro, h_sub]
   have step2 : ((M_1 * M_2) / M_P^2) * ((hbar * c) / r^2) = (M_1 * M_2 * (hbar * c)) / (M_P^2 * r^2) := by ring
   rw [step2] at step1
-  have step3 : (M_1 * M_2 * (hbar * c)) / (M_P^2 * r^2) = (M_1 * M_2 * (M_P^2 * G)) / (M_P^2 * r^2) := by
-    have hs : (M_1 * M_2 * (hbar * c)) / (M_P^2 * r^2) = (M_1 * M_2 * (hbar * c)) / (M_P^2 * r^2) := by rfl
-    rw [←eq1] at hs
-    exact hs
+  have step3 : (M_1 * M_2 * (hbar * c)) / (M_P^2 * r^2) = (M_1 * M_2 * (M_P^2 * G)) / (M_P^2 * r^2) := by rw [←eq1a]
   rw [step3] at step1
   have step4 : (M_1 * M_2 * (M_P^2 * G)) / (M_P^2 * r^2) = (M_P^2 * (G * M_1 * M_2)) / (M_P^2 * r^2) := by ring
   rw [step4] at step1
-  have step5 : (M_P^2 * (G * M_1 * M_2)) / (M_P^2 * r^2) = (G * M_1 * M_2) / r^2 := mul_div_mul_left (G * M_1 * M_2) (r^2) (pow_ne_zero 2 hMp_ne)
+  have step5 : (M_P^2 * (G * M_1 * M_2)) / (M_P^2 * r^2) = ((G * M_1 * M_2) / r^2) * (M_P^2 / M_P^2) := by ring
   rw [step5] at step1
+  have step6 : ((G * M_1 * M_2) / r^2) * (M_P^2 / M_P^2) = ((G * M_1 * M_2) / r^2) * 1 := by rw [div_self (pow_ne_zero 2 hMp_ne)]
+  rw [step6, mul_one] at step1
   exact step1
 
 -- ==========================================
@@ -1667,13 +1665,10 @@ theorem tensor_refractive_index (P_dyn_val P_c_val v_c_r n_r alpha_sq : ℝ)
     rw [h2]
     exact Real.sqrt_sq (le_of_lt h_alpha_pos)
   have h3 : v_c_r = c * alpha_sq := by rw [h_vc, h1]
-  have h4 : n_r = 1 / alpha_sq := by
-    have hc_ne : c ≠ 0 := ne_of_gt c_pos
-    have step1 : n_r = c / (c * alpha_sq) := by rw [h_n, h3]
-    have step2 : c / (c * alpha_sq) = (1 * c) / (alpha_sq * c) := by ring
-    have step3 : (1 * c) / (alpha_sq * c) = 1 / alpha_sq := by rw [mul_div_mul_right 1 alpha_sq hc_ne]
-    rw [step1, step2, step3]
-  rw [h4, h_alpha]
+  have h4 : n_r = c / (c * alpha_sq) := by rw [h_n, h3]
+  have h5 : c / (c * alpha_sq) = (1 / alpha_sq) * (c / c) := by ring
+  have h6 : (1 / alpha_sq) * (c / c) = 1 / alpha_sq := by rw [div_self (ne_of_gt c_pos), mul_one]
+  rw [h4, h5, h6, h_alpha]
 
 -- Theorem 58: Optical Density Substitution (Equation 195 / 15.3)
 theorem refractive_index_substitution (r_val ct_val : ℝ) :
@@ -1686,8 +1681,8 @@ theorem refractive_index_substitution (r_val ct_val : ℝ) :
     exact mul_ne_zero (mul_ne_zero (by norm_num) hrho_ne) hc2_ne
   congr 1
   have h1 : (P_c * (1 - Real.exp (-r_val / ct_val))^2) / P_c = (1 - Real.exp (-r_val / ct_val))^2 := by
-    have h_pull : (P_c * (1 - Real.exp (-r_val / ct_val))^2) / P_c = (P_c / P_c) * (1 - Real.exp (-r_val / ct_val))^2 := by ring
-    rw [h_pull, div_self hPc_ne, one_mul]
+    have h_pull : (P_c * (1 - Real.exp (-r_val / ct_val))^2) / P_c = ((1 - Real.exp (-r_val / ct_val))^2) * (P_c / P_c) := by ring
+    rw [h_pull, div_self hPc_ne, mul_one]
   have h2 : 1 - (1 - Real.exp (-r_val / ct_val))^2 = Real.exp (-r_val / ct_val) * (2 - Real.exp (-r_val / ct_val)) := by ring
   rw [h1, h2]
 
@@ -1742,10 +1737,7 @@ theorem volumetric_admittance_scaling (alpha_s_val : ℝ) (h_alpha_s : alpha_s_v
     Real.sqrt ((1 / alpha_s_val^2)^3) = 1 / alpha_s_val^3 := by
   have h_a3_pos : 0 < alpha_s_val^3 := pow_pos h_alpha_s 3
   have h_eq : (1 / alpha_s_val^2)^3 = (1 / alpha_s_val^3)^2 := by ring
-  have h_sqrt : Real.sqrt ((1 / alpha_s_val^2)^3) = Real.sqrt ((1 / alpha_s_val^3)^2) := by
-    have h_s : Real.sqrt ((1 / alpha_s_val^2)^3) = Real.sqrt ((1 / alpha_s_val^2)^3) := by rfl
-    rw [h_eq] at h_s
-    exact h_s
+  have h_sqrt : Real.sqrt ((1 / alpha_s_val^2)^3) = Real.sqrt ((1 / alpha_s_val^3)^2) := congrArg Real.sqrt h_eq
   rw [h_sqrt]
   exact Real.sqrt_sq (le_of_lt (div_pos (by norm_num : (0 : ℝ) < 1) h_a3_pos))
 
@@ -1758,9 +1750,8 @@ theorem casimir_pressure_scaling (d_val F_c_val Area : ℝ)
     F_c_val = Area * hbar * c / (4 * Real.pi * d_val^4) := by
   have hA_ne : Area ≠ 0 := ne_of_gt hA
   have h_frac_area : F_c_val = (F_c_val / Area) * Area := by 
-    have h_frac_eval : (F_c_val / Area) * Area = (F_c_val * Area) / Area := by ring
-    rw [h_frac_eval]
-    exact (mul_div_cancel_right₀ F_c_val hA_ne).symm
+    have h_frac_eval : (F_c_val / Area) * Area = F_c_val * (Area / Area) := by ring
+    rw [h_frac_eval, div_self hA_ne, mul_one]
   have h1 : (F_c_val / Area) * Area = (hbar * c / (4 * Real.pi * d_val^4)) * Area := by rw [h_pressure]
   have h2 : (hbar * c / (4 * Real.pi * d_val^4)) * Area = Area * hbar * c / (4 * Real.pi * d_val^4) := by ring
   rw [h_frac_area, h1, h2]
@@ -1805,11 +1796,18 @@ theorem shapiro_delay_refraction (r_val t_val alpha_s_val : ℝ)
   have ha_ne : alpha_s_val ≠ 0 := ne_of_gt h_alpha_pos
   have ha2_ne : alpha_s_val^2 ≠ 0 := pow_ne_zero 2 ha_ne
   have h1 : c = (1 / alpha_s_val^2) * (r_val / t_val) := by
-    have h_f : c = (c / (r_val / t_val)) * (r_val / t_val) := (div_mul_cancel₀ c hr_ne).symm
+    have h_f : c = (c / (r_val / t_val)) * (r_val / t_val) := by
+      have hs : (c / (r_val / t_val)) * (r_val / t_val) = c * ((r_val / t_val) / (r_val / t_val)) := by ring
+      rw [hs, div_self hr_ne, mul_one]
     rw [h_f, h_n]
-  calc (r_val / t_val) = (r_val / t_val) * (alpha_s_val^2 / alpha_s_val^2) := by rw [div_self ha2_ne, mul_one]
-    _ = ((1 / alpha_s_val^2) * (r_val / t_val)) * alpha_s_val^2 := by ring
-    _ = c * alpha_s_val^2 := by rw [←h1]
+  have h2 : (r_val / t_val) = (r_val / t_val) * (alpha_s_val^2 / alpha_s_val^2) := by rw [div_self ha2_ne, mul_one]
+  have h3 : (r_val / t_val) * (alpha_s_val^2 / alpha_s_val^2) = (r_val / t_val) * (1 / alpha_s_val^2) * alpha_s_val^2 := by ring
+  have h4 : (r_val / t_val) * (1 / alpha_s_val^2) * alpha_s_val^2 = c * alpha_s_val^2 := by
+    have h_sub : (r_val / t_val) * (1 / alpha_s_val^2) = c := by
+      have hs : (r_val / t_val) * (1 / alpha_s_val^2) = (1 / alpha_s_val^2) * (r_val / t_val) := by ring
+      rw [hs, ←h1]
+    rw [h_sub]
+  rw [h2, h3, h4]
 
 -- Corollary H: Newton's First Law (Inertia via d'Alembert's Paradox)
 -- Proves uniform translation (zero dynamic pressure gradient) conserves momentum (zero net force).
@@ -1988,7 +1986,8 @@ theorem acoustic_covariance_volume (V V_0 L L_0 Area gamma : ℝ)
 -- Corollary: Electromagnetic Decoupling (Running Couplings)
 -- Proves that as scalar admittance shrinks, the ratio of electric slip coupling 
 -- to magnetic vorticity coupling diverges exactly by the inverse fourth power.
-theorem electromagnetic_decoupling_ratio (_ha_s : alpha_s_val ≠ 0) (_hc_val : c_val ≠ 0) (_ht_p : t_p_val ≠ 0) (_h_Omega : Omega_val ≠ 0)
+theorem electromagnetic_decoupling_ratio (v_perp_val A_0i A_ij : ℝ) 
+    (_ha_s : alpha_s_val ≠ 0) (_hc_val : c_val ≠ 0) (_ht_p : t_p_val ≠ 0) (_h_Omega : Omega_val ≠ 0)
     (h_E : A_0i = (1 / alpha_s_val^2) * (v_perp_val / c_val))
     (h_M : A_ij = (alpha_s_val^2) * (t_p_val * Omega_val)) :
     A_0i / A_ij = (v_perp_val / (c_val * t_p_val * Omega_val)) * (1 / alpha_s_val^4) := by
@@ -2017,14 +2016,15 @@ theorem viscoelastic_phase_angle_reduction (Omega_z alpha alpha_s_val t_p_val : 
     ((alpha * t_p_val * Omega_z) / (1 / alpha_s_val^2)) = (alpha * t_p_val * Omega_z) * alpha_s_val^2 := by
   have ha_ne : alpha_s_val ≠ 0 := ne_of_gt h_alpha_s
   have ha2_ne : alpha_s_val^2 ≠ 0 := pow_ne_zero 2 ha_ne
-  have step1 : ((alpha * t_p_val * Omega_z) / (1 / alpha_s_val^2)) = ((alpha * t_p_val * Omega_z) * alpha_s_val^2) / (1 / alpha_s_val^2 * alpha_s_val^2) := by
-    have h_symm : ((alpha * t_p_val * Omega_z) * alpha_s_val^2) / (1 / alpha_s_val^2 * alpha_s_val^2) = ((alpha * t_p_val * Omega_z) / (1 / alpha_s_val^2)) := mul_div_mul_right (alpha * t_p_val * Omega_z) (1 / alpha_s_val^2) ha2_ne
-    rw [h_symm]
-  have step2 : 1 / alpha_s_val^2 * alpha_s_val^2 = 1 := div_mul_cancel₀ 1 ha2_ne
-  rw [step2] at step1
-  have step3 : ((alpha * t_p_val * Omega_z) * alpha_s_val^2) / 1 = (alpha * t_p_val * Omega_z) * alpha_s_val^2 := div_one _
-  rw [step3] at step1
-  exact step1
+  have step1 : ((alpha * t_p_val * Omega_z) / (1 / alpha_s_val^2)) = ((alpha * t_p_val * Omega_z) * alpha_s_val^2) / ((1 / alpha_s_val^2) * alpha_s_val^2) := by
+    have h_symm : ((alpha * t_p_val * Omega_z) * alpha_s_val^2) / ((1 / alpha_s_val^2) * alpha_s_val^2) = ((alpha * t_p_val * Omega_z) / (1 / alpha_s_val^2)) := mul_div_mul_right (alpha * t_p_val * Omega_z) (1 / alpha_s_val^2) ha2_ne
+    exact h_symm.symm
+  have step2 : (1 / alpha_s_val^2) * alpha_s_val^2 = 1 := by
+    have h_c : (1 / alpha_s_val^2) * alpha_s_val^2 = 1 * (alpha_s_val^2 / alpha_s_val^2) := by ring
+    rw [h_c, div_self ha2_ne, mul_one]
+  have step3 : ((alpha * t_p_val * Omega_z) * alpha_s_val^2) / ((1 / alpha_s_val^2) * alpha_s_val^2) = ((alpha * t_p_val * Omega_z) * alpha_s_val^2) / 1 := by rw [step2]
+  have step4 : ((alpha * t_p_val * Omega_z) * alpha_s_val^2) / 1 = (alpha * t_p_val * Omega_z) * alpha_s_val^2 := div_one _
+  rw [step1, step3, step4]
 
 -- Corollary: Fourier Curvature Decomposition (QFT Momentum States)
 -- Proves natively that translating the wave operator into spectral momentum space 
@@ -2066,4 +2066,5 @@ theorem wake_detachment_stabilization (A_ij alpha_s Normalized_Shear : ℝ)
     Normalized_Shear = A_ij / alpha_s := h_target
 
 end AsymmetricTensor
+
 
