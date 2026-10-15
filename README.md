@@ -13,18 +13,49 @@ dynamics, lensing, and future-work corollaries. The 8-commit history on the
 `binyamin/formalization` branch records one version per draft of the working
 document, in order.
 
-## Building
+## Building the committed version
 
-Requires [elan](https://lean-lang.org/install/):
+Requires Git and [elan](https://lean-lang.org/install/), with `lake` on your
+`PATH`. Run the following from a new project directory:
 
+```sh
+git clone https://github.com/lilalittle/asymmetric-tensor.git
+cd asymmetric-tensor
+lake exe cache get       # fetch the prebuilt Mathlib dependencies
+lake build AsymmetricTensor
+git diff --exit-code -- lean-toolchain lakefile.toml lake-manifest.json
 ```
-lake update          # pins Lean + Mathlib (see lean-toolchain, lake-manifest.json)
-lake exe cache get   # fetch prebuilt Mathlib oleans (~6 GB); do NOT build Mathlib from source
-lake build           # elaborates AsymmetricTensor.lean
+
+Elan selects Lean 4.35.0 from `lean-toolchain`, installing it if needed.
+`lake-manifest.json` records the exact dependency commits; `lakefile.toml`
+also pins Mathlib to `aa35a481e5f0cdb3b04a899ead15d6ca7305a624`.
+Lake fetches missing dependencies at those recorded revisions. The cache
+command avoids compiling Mathlib from source; let it finish successfully
+before building the `AsymmetricTensor` library. The final command should
+produce no diff and exit successfully: normal setup must not change the
+committed toolchain or dependency selection.
+
+Do not run `lake update` for normal reproduction. It is an upgrade operation
+that can rewrite the manifest and toolchain. Keep the committed manifest
+rather than deleting or regenerating it to troubleshoot a cache download.
+
+### Intentional dependency upgrades
+
+In a separate branch, choose the desired Mathlib commit and change its `rev`
+in `lakefile.toml`. Then run:
+
+```sh
+lake update mathlib
+lake exe cache get
+lake build AsymmetricTensor
+git diff -- lean-toolchain lakefile.toml lake-manifest.json
 ```
 
-CI (`.github/workflows/lean_action_ci.yml`) does the same via
-`leanprover/lean-action`, which fetches the Mathlib cache automatically.
+`lake update mathlib` resolves the selected revision and its dependencies,
+and may update `lean-toolchain` to match. Review every dependency/toolchain
+change and resolve any build failures before committing the new selection.
+For the update behavior, see the
+[Lake manual](https://lean-lang.org/doc/reference/latest/Build-Tools-and-Distribution/Lake/).
 
 The electromagnetic force-hierarchy regression checks run with
 `lake env lean tests/ForceHierarchy.lean` after `lake build`. See

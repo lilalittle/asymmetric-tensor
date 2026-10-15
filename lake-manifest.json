@@ -8,7 +8,7 @@
    "rev": "aa35a481e5f0cdb3b04a899ead15d6ca7305a624",
    "name": "mathlib",
    "manifestFile": "lake-manifest.json",
-   "inputRev": null,
+   "inputRev": "aa35a481e5f0cdb3b04a899ead15d6ca7305a624",
    "inherited": false,
    "configFile": "lakefile.lean"},
   {"url": "https://github.com/leanprover-community/plausible",
@@ -91,6 +91,6 @@
    "inputRev": "v4.35.0",
    "inherited": true,
    "configFile": "lakefile.toml"}],
- "name": "rccmverify",
+ "name": "asymmetric_tensor",
  "lakeDir": ".lake",
  "fixedToolchain": false}
