@@ -46,7 +46,42 @@ lives in those axioms and in the theorems' hypotheses.
 
 ## License
 
-Apache-2.0 — see `LICENSE`. Copyright 2026 Binyamin Tsadik Bair-Mosheh.
+The Lean software is licensed under **Apache-2.0** — see [`LICENSE`](LICENSE).
+The published manuscripts in `papers/` are licensed under **CC-BY-4.0** — see
+[`papers/LICENSE`](papers/LICENSE). Copyright 2026 Binyamin Tsadik Bair-Mosheh.
+These are separate licenses for separate artifacts; the manuscript's license
+does not replace the software license.
+
+## Citation
+
+`CITATION.cff` describes the **Lean software** at the top level, with its repository
+URL and Apache-2.0 license. Its `preferred-citation` describes the **manuscript**:
+the DOI, v9 version, September 25, 2026 date, and CC-BY-4.0 license in that section
+belong to the paper. The manuscript metadata and abstract retain the provenance
+of the original Zenodo citation export, available in this repository's git history.
+
+To cite the manuscript currently included in this checkout:
+
+> Binyamin Tsadik Bair-Mosheh (2026). *Formalization of the Asymmetric Metric-Tensor
+> and the Thermodynamic Equation of State* (v9). Zenodo.
+> https://doi.org/10.5281/zenodo.22953897
+
+If you use or discuss the Lean implementation, also cite the software revision:
+
+> Binyamin Tsadik Bair-Mosheh. *asymmetric-tensor: Lean 4 companion to the Asymmetric
+> Metric-Tensor manuscript* [Software]. https://github.com/lilalittle/asymmetric-tensor,
+> commit FULL_COMMIT_SHA.
+
+Replace `FULL_COMMIT_SHA` with the full output of `git rev-parse HEAD` in the
+checkout you used, and link to
+`https://github.com/lilalittle/asymmetric-tensor/tree/FULL_COMMIT_SHA` with that same
+SHA. Describe any uncommitted changes separately. If you use a different paper
+version, cite its version-specific DOI from the table below. A paper version and a
+software revision need not match.
+
+No software DOI or archived software release is claimed here. The manuscript DOI
+identifies the paper; it is not evidence that a particular software revision was
+archived.
 
 ## Published versions
 
