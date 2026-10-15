@@ -11,7 +11,11 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-source = (ROOT / "AsymmetricTensor.lean").read_text()
+# Preserve the declaration inventory after organizational module splits.
+# Scan each production source, never generated build files or test declarations.
+production = [ROOT / "AsymmetricTensor.lean",
+              *sorted((ROOT / "AsymmetricTensor").rglob("*.lean"))]
+source = "\n".join(path.read_text() for path in production)
 roadmap = (ROOT / "docs/formalization-roadmap.md").read_text()
 spec = (ROOT / "tests/RoadmapTargets.lean").read_text()
 

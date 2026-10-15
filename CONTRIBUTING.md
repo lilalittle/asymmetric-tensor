@@ -7,10 +7,13 @@ Keep the committed Lean toolchain and dependency manifest; do not update them as
 part of an unrelated proof change. Read the issue and existing PRs before
 starting, so an already-covered repair is not duplicated.
 
-The public library is currently the umbrella file `AsymmetricTensor.lean`.
-Declarations live in namespace `AsymmetricTensor`. Section comments follow the
+`import AsymmetricTensor` remains the public compatibility entry point. The
+implementation is organized into nine topic modules under `AsymmetricTensor/`;
+see the [module map and naming/style policy](docs/modules.md). Every declaration
+still lives in namespace `AsymmetricTensor`. Section comments follow the
 manuscript's topic order, not a claim that each physical theory is formalized.
-No module split or generated API site is assumed by these instructions.
+Declaration docstrings are in the implementation modules; no generated API site
+is required.
 
 ## A checked path through the reusable API
 
@@ -37,7 +40,7 @@ git diff --check
 ```
 
 The aggregate script builds the library and whole-library `ProofAudit`, then runs
-every `tests/*.lean` regression and the Python roadmap/audit checks. See
+every `tests/*.lean` regression and the Python roadmap/audit/style checks. See
 [verification](docs/verification.md) for the enforced declaration and transitive
 axiom policy. `lake build` alone does not execute files under `tests/`.
 For a quick local iteration after building the library, run
