@@ -1,0 +1,86 @@
+{
+  "concept_recid": "21321264",
+  "concept_doi": "10.5281/zenodo.21321264",
+  "imported": [
+    {
+      "index": 0,
+      "recid": "21321265",
+      "doi": "10.5281/zenodo.21321265",
+      "published": "2026-07-12",
+      "file": "papers/v0/GfX.pdf",
+      "note": null
+    },
+    {
+      "index": 1,
+      "recid": "21339079",
+      "doi": "10.5281/zenodo.21339079",
+      "published": "2026-07-13",
+      "file": "papers/v1/GfX.pdf",
+      "note": null
+    },
+    {
+      "index": 2,
+      "recid": "21455277",
+      "doi": "10.5281/zenodo.21455277",
+      "published": "2026-07-20",
+      "file": "papers/v2/GfX.pdf",
+      "note": null
+    },
+    {
+      "index": 3,
+      "recid": "21505034",
+      "doi": "10.5281/zenodo.21505034",
+      "published": "2026-07-23",
+      "file": "papers/v3/GfX.pdf",
+      "note": null
+    },
+    {
+      "index": 4,
+      "recid": "21780517",
+      "doi": "10.5281/zenodo.21780517",
+      "published": "2026-08-03",
+      "file": "papers/v4/unified tensor.pdf",
+      "note": "Entanglement trap disarmed."
+    },
+    {
+      "index": 5,
+      "recid": "22212278",
+      "doi": "10.5281/zenodo.22212278",
+      "published": "2026-08-31",
+      "file": "papers/v5/Unified Tensor.pdf",
+      "note": "Entanglement trap disarmed."
+    },
+    {
+      "index": 6,
+      "recid": "22675546",
+      "doi": "10.5281/zenodo.22675546",
+      "published": "2026-09-09",
+      "file": "papers/v6/Asymmetric Metric Tensor.pdf",
+      "note": "Entanglement trap disarmed."
+    },
+    {
+      "index": 7,
+      "recid": "22813082",
+      "doi": "10.5281/zenodo.22813082",
+      "published": "2026-09-17",
+      "file": "papers/v7/Asymmetric Metric Tensor.pdf",
+      "note": "Entanglement trap disarmed."
+    },
+    {
+      "index": 8,
+      "recid": "22847830",
+      "doi": "10.5281/zenodo.22847830",
+      "published": "2026-09-19",
+      "file": "papers/v8/A Tensor.pdf",
+      "note": "Fixed the sign mismatch; full mathematical patch; cross products changed to wedge products."
+    },
+    {
+      "index": 9,
+      "recid": "22953897",
+      "doi": "10.5281/zenodo.22953897",
+      "published": "2026-09-25",
+      "file": "papers/v9/A Tensor.pdf",
+      "note": "Added a Navier-Stokes section on particle motion and a dwarf-galaxy section to the dark-energy hypothesis."
+    }
+  ]
+}

@@ -15,7 +15,7 @@ document, in order.
 
 ## Building
 
-Requires [elan](https://elan.lean-lang.org):
+Requires [elan](https://lean-lang.org/install/):
 
 ```
 lake update          # pins Lean + Mathlib (see lean-toolchain, lake-manifest.json)
@@ -47,3 +47,24 @@ lives in those axioms and in the theorems' hypotheses.
 ## License
 
 Apache-2.0 — see `LICENSE`. Copyright 2026 Binyamin Tsadik Bair-Mosheh.
+
+## Published versions
+
+The author's published manuscripts, mirrored here one version per commit under `papers/`:
+
+| Version | Published | Zenodo record | Paper |
+|---|---|---|---|
+| v0 | 2026-07-12 | [zenodo.21321265](https://doi.org/10.5281/zenodo.21321265) | `papers/v0/GfX.pdf` |
+| v1 | 2026-07-13 | [zenodo.21339079](https://doi.org/10.5281/zenodo.21339079) | `papers/v1/GfX.pdf` |
+| v2 | 2026-07-20 | [zenodo.21455277](https://doi.org/10.5281/zenodo.21455277) | `papers/v2/GfX.pdf` |
+| v3 | 2026-07-23 | [zenodo.21505034](https://doi.org/10.5281/zenodo.21505034) | `papers/v3/GfX.pdf` |
+| v4 | 2026-08-03 | [zenodo.21780517](https://doi.org/10.5281/zenodo.21780517) | `papers/v4/unified tensor.pdf` |
+| v5 | 2026-08-31 | [zenodo.22212278](https://doi.org/10.5281/zenodo.22212278) | `papers/v5/Unified Tensor.pdf` |
+| v6 | 2026-09-09 | [zenodo.22675546](https://doi.org/10.5281/zenodo.22675546) | `papers/v6/Asymmetric Metric Tensor.pdf` |
+| v7 | 2026-09-17 | [zenodo.22813082](https://doi.org/10.5281/zenodo.22813082) | `papers/v7/Asymmetric Metric Tensor.pdf` |
+| v8 | 2026-09-19 | [zenodo.22847830](https://doi.org/10.5281/zenodo.22847830) | `papers/v8/A Tensor.pdf` |
+| v9 | 2026-09-25 | [zenodo.22953897](https://doi.org/10.5281/zenodo.22953897) | `papers/v9/A Tensor.pdf` |
+
+All versions live at the concept DOI: https://doi.org/10.5281/zenodo.21321264
+
+Copyright Binyamin Tsadik Bair-Mosheh — [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
