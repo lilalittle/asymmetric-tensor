@@ -200,3 +200,17 @@ names and their full types/universes are unchanged. All 78 API declaration
 docstrings and the scope text are retained. See [module evidence](modules.md).
 This local result uses the existing shared Mathlib cache; it does not certify
 hosted CI or a fresh checkout of the final published revision.
+
+The later historical-ledger integration was validated separately on 2026-10-15:
+`./scripts/verify.sh` passed all twelve Lean regression files, including
+`tests/EquationAxioms.lean`. That added current-source audit enumerates all 364
+production declarations and permits only the six named custom axioms plus
+`propext`, `Classical.choice` and `Quot.sound` transitively. It does not establish
+a current equation-to-declaration map or replace the archived 240-declaration
+#9/#33 audit. The [historical ledger](equation-coverage.md) also passed its
+explicit `--check --historical` validation and all 22 Python regression/mutation
+tests; the default live check rejected the changed current source as intended.
+The historical source, mapping, coverage JSON, audit JSON and accepted hashes
+were preserved. These separate Python ledger checks require Poppler `pdftotext`
+and are not part of the hosted workflow; the Lean declaration check is part
+of its normal `tests/*.lean` gate.
