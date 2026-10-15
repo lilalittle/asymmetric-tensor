@@ -178,12 +178,14 @@ revisions require their own successful run; this pinned result does not certify
 them. Neither a green local run nor a green hosted run validates empirical physics
 or manuscript coverage.
 
-The rebased candidate on main `94c49e59d796fdbec846d59c6cbfa45f0304d598` has a
+The CI-only rebased candidate on main `94c49e59d796fdbec846d59c6cbfa45f0304d598` had a
 separate local validation on 2026-10-15: production/support builds, all eight
 inherited Lean regression files plus `tests/ProofAudit.lean`, the current
 360-declaration completeness/inventory check, eleven general and seventeen
 action-specific exact theorem axiom checks, the roadmap inventory and
-finite-contract checks, and the mutation suite. Its production source is
-byte-identical to that main revision. The historical hosted run above does not
+finite-contract checks, and the mutation suite. Its production source was
+byte-identical to that main revision. Later scope/API documentation stacks and
+their additional examples are recorded in the
+[scope validation snapshot](formalization-status.md#reviewed-snapshot-and-validation). The historical hosted run above does not
 cover this combined source or the expanded regression gate; the new published
 revision requires its own hosted result.
