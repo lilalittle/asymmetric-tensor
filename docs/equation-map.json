@@ -1,0 +1,3051 @@
+{
+  "schema_version": 1,
+  "snapshot": {
+    "baseline_commit": "9f69988d17c9fb86f35a563eb6466be9dbf4e524",
+    "included_repairs": [
+      9,
+      33
+    ],
+    "not_included_repairs": [
+      10,
+      11,
+      25,
+      26,
+      27
+    ],
+    "reviewed_date": "2026-10-15",
+    "pdf_version": "v9, September 25, 2026",
+    "pdf_url": "https://github.com/lilalittle/asymmetric-tensor/blob/9f69988d17c9fb86f35a563eb6466be9dbf4e524/papers/asymmetric-metric-tensor.pdf",
+    "files": {
+      "AsymmetricTensor.lean": "99534c73b6c5f5784785a26f181882e43abd8edfc367323d1ea66a9cc8aed000",
+      "papers/asymmetric-metric-tensor.pdf": "0d97cbca284e68aeed75c98b830ce16ab0453fa54f7333ce50eb90e1f4f4e7a7",
+      "lean-toolchain": "ca5f1f601d34c49079e38d7e7041eb0f2a9c227fbc1df0f404820069a052330c",
+      "lake-manifest.json": "03f477185bc2d92b77707b6c6c85fe2221059a214fdc53c79d990f0404f0ccac",
+      "tests/EquationAxioms.lean": "4c36bf4efaf6e16d4e675e1b8436b1549ec2d004ae793ed8d048cf9f0b952311"
+    }
+  },
+  "meaning": "Statuses describe only the exact source/PDF snapshot. Related declarations are navigation evidence, not proof of the manuscript equation; notes and complete elaborated types define the retained claim. A named physical theorem may prove scalar algebra only. Physical premises also occur in definitions, opaque fields and hypotheses, not just custom axioms.",
+  "additional_sections": [
+    {
+      "id": "12.1",
+      "page": 41,
+      "title": "Connection decomposition"
+    },
+    {
+      "id": "12.2",
+      "page": 41,
+      "title": "Symmetric connection and gravitational acceleration"
+    },
+    {
+      "id": "12.3",
+      "page": 41,
+      "title": "Spacetime torsion"
+    },
+    {
+      "id": "12.4",
+      "page": 41,
+      "title": "Clebsch vorticity to torsion"
+    },
+    {
+      "id": "12.5",
+      "page": 42,
+      "title": "Affine geodesic motion"
+    },
+    {
+      "id": "12.6",
+      "page": 42,
+      "title": "Einstein–Cartan Lagrangian"
+    },
+    {
+      "id": "14.1",
+      "page": 45,
+      "title": "Continuous pressure gradient"
+    },
+    {
+      "id": "14.2",
+      "page": 46,
+      "title": "Geometric action boundary"
+    },
+    {
+      "id": "14.3",
+      "page": 47,
+      "title": "Kinematic mass boundary"
+    },
+    {
+      "id": "14.4",
+      "page": 47,
+      "title": "Interaction hierarchy"
+    },
+    {
+      "id": "14.5",
+      "page": 48,
+      "title": "Macroscopic horizon floor"
+    },
+    {
+      "id": "14.6",
+      "page": 48,
+      "title": "Macroscopic combinatorial aggregates"
+    },
+    {
+      "id": "15.1",
+      "page": 49,
+      "title": "Cosmological redshift as capacity ratio"
+    },
+    {
+      "id": "15.2",
+      "page": 49,
+      "title": "Tensor refractive index"
+    },
+    {
+      "id": "15.3",
+      "page": 49,
+      "title": "Macroscopic pressure substitution"
+    },
+    {
+      "id": "15.4",
+      "page": 50,
+      "title": "Longitudinal path integral"
+    },
+    {
+      "id": "15.5",
+      "page": 50,
+      "title": "Magnitude anomaly"
+    }
+  ],
+  "entries": [
+    {
+      "id": 1,
+      "topic": "Clebsch velocity decomposition",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.v_macro"
+      ],
+      "note": "Defines addition in an arbitrary real module. No velocity 1-form, gradient or Clebsch coordinate construction is supplied."
+    },
+    {
+      "id": 2,
+      "topic": "Vorticity exterior derivative and wedge identity",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.Omega"
+      ],
+      "note": "Related only: Omega applies an arbitrary function ext_deriv to curl_phase; no exterior derivative laws or wedge product are constructed."
+    },
+    {
+      "id": 3,
+      "topic": "Ambient pressure budget",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.P_g",
+        "AsymmetricTensor.P_dyn_scalar"
+      ],
+      "note": "The deficit is defined as one-half rho_tau times velocity squared; Pambient is not a named field or a derived energy balance."
+    },
+    {
+      "id": 4,
+      "topic": "Gravitational compliance ratio",
+      "status": "proved_identity",
+      "declarations": [
+        "AsymmetricTensor.compliance_equivalence"
+      ],
+      "note": "The scalar ratio identity is proved from defined pressures and positive constant axioms. No alpha_g field or admissible-state bound is constructed."
+    },
+    {
+      "id": 5,
+      "topic": "Orthogonal dynamic-pressure budget",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.P_dyn_components"
+      ],
+      "note": "Defines the sum of three velocity squares; orthogonality and an energy interpretation are not proved."
+    },
+    {
+      "id": 6,
+      "topic": "Symmetric and antisymmetric splitting",
+      "status": "proved_identity",
+      "declarations": [
+        "AsymmetricTensor.symPart",
+        "AsymmetricTensor.antiPart",
+        "AsymmetricTensor.matrix_decomposition",
+        "AsymmetricTensor.tensor_decomposition_proven"
+      ],
+      "note": "The matrix sum identity is proved entrywise. Clifford algebra and Cosserat-continuum isomorphisms in surrounding prose are absent."
+    },
+    {
+      "id": 7,
+      "topic": "Covariant four-velocity/projector assembly",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_hat"
+      ],
+      "note": "Related only: U_hat is a fixed-chart component ansatz. No normalized four-velocity, spatial projector, or covariant assembly is implemented; see #13."
+    },
+    {
+      "id": 8,
+      "topic": "Explicit asymmetric component matrix",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.U_hat",
+        "AsymmetricTensor.U_sym",
+        "AsymmetricTensor.U_anti",
+        "AsymmetricTensor.symmetric_diagonals",
+        "AsymmetricTensor.antisymmetric_shear"
+      ],
+      "note": "Matches the component ansatz and selected entry identities. Parameters are arbitrary reals; inverse entries use totalized division and no admissibility restriction is bundled."
+    },
+    {
+      "id": 9,
+      "topic": "Stress deviation from Minkowski baseline",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.energy_density_proof",
+        "AsymmetricTensor.spatial_stress_proof"
+      ],
+      "note": "Related only: scalar budget rewrites do not define the full stress tensor or background metric field."
+    },
+    {
+      "id": 10,
+      "topic": "Vacuum contraction equals four",
+      "status": "proved_identity",
+      "declarations": [
+        "AsymmetricTensor.I_2_vac",
+        "AsymmetricTensor.I_2_vac_equals_4"
+      ],
+      "note": "Proves the explicit scalar sum (-1)(-1)+1+1+1=4. It is not connected to a defined Minkowski inverse metric contraction."
+    },
+    {
+      "id": 11,
+      "topic": "Nonlinear invariant stress penalty",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No C1-penalty stress tensor, invariant bound, or non-singularity result is implemented."
+    },
+    {
+      "id": 12,
+      "topic": "Temporal stress/energy-density budget",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.energy_density_proof"
+      ],
+      "note": "Rearranges h_P_static. A full T00 tensor component, stress-energy interpretation and integrated energy are not derived."
+    },
+    {
+      "id": 13,
+      "topic": "Spatial stress budget",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.spatial_stress_proof"
+      ],
+      "note": "Substitutes h_P_static into a scalar quotient. No physical nonzero P_static or subcritical-state bound is required; totalized division applies."
+    },
+    {
+      "id": 14,
+      "topic": "Planck-surface yield pressure",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.c4_div_G_eq_planck_force",
+        "AsymmetricTensor.metric_density_derivation"
+      ],
+      "note": "The Planck force identity is algebraic; the pressure-area yield equation is not derived. metric_density_derivation takes the resulting pressure relation as h_P_c."
+    },
+    {
+      "id": 15,
+      "topic": "Microscopic pressure in fundamental constants",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.P_c",
+        "AsymmetricTensor.metric_density_derivation"
+      ],
+      "note": "P_c is defined through rho_tau; this expression occurs as h_P_c for a real parameter in metric_density_derivation, not as a named pressure-yield derivation."
+    },
+    {
+      "id": 16,
+      "topic": "Metric density from critical pressure",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.rho_tau",
+        "AsymmetricTensor.reduce_density_algebra",
+        "AsymmetricTensor.reduce_c7_c2",
+        "AsymmetricTensor.metric_density_derivation"
+      ],
+      "note": "The displayed density formula follows algebraically from h_P_c and h_P_dyn. The density and constant relations are separately definitions; physical yield assumptions remain inputs."
+    },
+    {
+      "id": 17,
+      "topic": "Horizon-area tension dilution",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.cosmological_constant_derivation"
+      ],
+      "note": "Related only: the consequence of the dilution ansatz is assumed in h_P_macro. No area, volume integral or conservation-based dilution derivation exists."
+    },
+    {
+      "id": 18,
+      "topic": "Macroscopic pressure formula",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.dilate_lambda_algebra",
+        "AsymmetricTensor.cosmological_constant_derivation"
+      ],
+      "note": "P_macro=(c^4/G)/(4*pi*R_h^2) is the supplied h_P_macro premise, not a derived horizon model."
+    },
+    {
+      "id": 19,
+      "topic": "Cosmological constant scaling",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.dilate_lambda_algebra",
+        "AsymmetricTensor.cosmological_constant_derivation"
+      ],
+      "note": "Requires R_h nonzero, the pressure-dilution premise and h_Lambda identifying pressure with Lambda; proves scalar elimination only."
+    },
+    {
+      "id": 20,
+      "topic": "Numerical cosmological constant estimate",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.cosmological_constant_derivation"
+      ],
+      "note": "Related only: no numerical horizon value, rounding bounds or empirical agreement theorem is encoded."
+    },
+    {
+      "id": 21,
+      "topic": "Spatial stress definition",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.spatial_stress_proof"
+      ],
+      "note": "Related only: no full T_ii tensor is defined; the nearby theorem rewrites a scalar budget."
+    },
+    {
+      "id": 22,
+      "topic": "Weak-field stress approximation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.spatial_stress_potential"
+      ],
+      "note": "Related only: the weak-field expansion and error bound are absent; spatial_stress_potential starts with the already-expanded scalar expression."
+    },
+    {
+      "id": 23,
+      "topic": "Stress equals negative density times potential",
+      "status": "proved_identity",
+      "declarations": [
+        "AsymmetricTensor.spatial_stress_potential"
+      ],
+      "note": "Proves cancellation in ((rho_tau*c^2)/2)*(-2*Phi/c^2)=-rho_tau*Phi. Identifying that input with stress is additional modeling content."
+    },
+    {
+      "id": 24,
+      "topic": "Macroscopic stress equation",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No macroscopic stress tensor or physical averaging/dilution construction is implemented."
+    },
+    {
+      "id": 25,
+      "topic": "Compliance as normalized metric determinant volume",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_hat"
+      ],
+      "note": "Related only: there is no metric determinant/volume element or Jacobian theorem. Component diagonals alone do not establish this geometric identification."
+    },
+    {
+      "id": 26,
+      "topic": "Incompatibility equals Einstein curvature",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.macroscopic_torsion_nullification"
+      ],
+      "note": "Related only: Inc is an arbitrary linear map on matrices, not the displayed differential operator; no Einstein tensor is constructed. See #15."
+    },
+    {
+      "id": 27,
+      "topic": "Volume-average integral",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.VolAvg"
+      ],
+      "note": "VolAvg is defined as symPart, not an integral or mean over space. It cannot stand for the displayed volume averaging operation; see #14."
+    },
+    {
+      "id": 28,
+      "topic": "Random-orientation mean shear vanishes",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.VolAvg_U_anti"
+      ],
+      "note": "Proves symPart(antiPart(U))=0. No distribution, random phases or spatial averaging is encoded; coherent antisymmetric averages need not vanish (#14)."
+    },
+    {
+      "id": 29,
+      "topic": "Commutation of averaging and incompatibility",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.macroscopic_torsion_nullification"
+      ],
+      "note": "Requires h_commute for an arbitrary linear Inc and uses VolAvg=symPart. The physical integral/derivative commutation and averaged torsion statement remain open."
+    },
+    {
+      "id": 30,
+      "topic": "Einstein field equation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.macroscopic_torsion_nullification"
+      ],
+      "note": "Related only: projection algebra does not construct curvature or derive G_mu_nu=(8*pi*G/c^4)*T_mu_nu from conservation; see #15."
+    },
+    {
+      "id": 31,
+      "topic": "Boosted temporal-spatial symmetric component",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_hat"
+      ],
+      "note": "Related only: no four-velocity boost or projector assembly; U_hat has antisymmetric temporal off-diagonals, and the physical boosted symmetric component is not derived."
+    },
+    {
+      "id": 32,
+      "topic": "Weak-field temporal momentum flux",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.geometric_navier_stokes"
+      ],
+      "note": "Related only: no rho_dyn velocity flux derivation or controlled weak-field expansion is provided; see #17 and #18."
+    },
+    {
+      "id": 33,
+      "topic": "Boosted spatial tensor approximation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_hat"
+      ],
+      "note": "Related only: no boost law, asymptotic order bookkeeping or approximation remainder is implemented (#13, #17)."
+    },
+    {
+      "id": 34,
+      "topic": "Spatial stress from boosted strain",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.geometric_navier_stokes"
+      ],
+      "note": "Related only: no tensor-to-fluid stress formula or consistent truncation proof; the formal result uses named component derivatives (#17, #18)."
+    },
+    {
+      "id": 35,
+      "topic": "Pressure and convective spatial flux",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.geometric_navier_stokes"
+      ],
+      "note": "Related only: the pressure/velocity/stress tensor decomposition used by the manuscript is absent."
+    },
+    {
+      "id": 36,
+      "topic": "Substitution into component momentum conservation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.CoordinateConserved",
+        "AsymmetricTensor.navier_stokes_momentum_conservation",
+        "AsymmetricTensor.geometric_navier_stokes"
+      ],
+      "note": "Related only: #9 makes coordinate conservation an explicit premise. Projection of that premise does not derive the displayed physical fluxes or covariant-to-partial limit (#18)."
+    },
+    {
+      "id": 37,
+      "topic": "Halved momentum conservation equation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.geometric_navier_stokes"
+      ],
+      "note": "Related only: no density/velocity PDE or physical halving calculation is implemented; the named theorem rewrites fixed component derivatives."
+    },
+    {
+      "id": 38,
+      "topic": "Product-rule expansion of momentum flux",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.partial_deriv"
+      ],
+      "note": "Related only: coordinate fderiv is defined, but no differentiability assumptions and product-rule derivation for these fluid fields are proved."
+    },
+    {
+      "id": 39,
+      "topic": "Continuity/acceleration grouping",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.geometric_navier_stokes"
+      ],
+      "note": "Related only: no continuity equation or material acceleration construction is supplied (#18)."
+    },
+    {
+      "id": 40,
+      "topic": "Material-acceleration momentum equation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.kinematic_accel_f",
+        "AsymmetricTensor.geometric_navier_stokes"
+      ],
+      "note": "Related only: kinematic_accel_f is a scaled temporal derivative of one matrix entry, not Dv/Dt; pressure and stress are component definitions, not the displayed PDE."
+    },
+    {
+      "id": 41,
+      "topic": "Partitioned viscoelastic momentum equation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.geometric_navier_stokes"
+      ],
+      "note": "Related only: no velocity Laplacian, viscosity, pressure-partition dynamics or resulting fluid PDE is derived."
+    },
+    {
+      "id": 42,
+      "topic": "Kinematic ambient-pressure normalization",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No definition of manuscript kinematic Pambient=Pambient/(2*rho_tau) or dimensional normalization interface."
+    },
+    {
+      "id": 43,
+      "topic": "Kinematic dynamic-pressure normalization",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.P_dyn_f"
+      ],
+      "note": "Related only: P_dyn_f=(1-alpha_s_f^2)*P_c is a different field definition, not Pdyn/(2*rho_tau)."
+    },
+    {
+      "id": 44,
+      "topic": "Kinematic transverse-stress normalization",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.T_perp_f"
+      ],
+      "note": "Related only: T_perp_f scales a component by P_c; it does not define the manuscript T_perp/(2*rho_tau)."
+    },
+    {
+      "id": 45,
+      "topic": "Kinematic viscosity normalization",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No viscosity or kinematic-viscosity definition."
+    },
+    {
+      "id": 46,
+      "topic": "Compliance-modified Navier–Stokes equation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.geometric_navier_stokes"
+      ],
+      "note": "Related only: no density ratio, material derivative, viscosity or full pressure/stress PDE. Existing theorem assumes h_geometric_zero and rewrites component-defined quantities (#18)."
+    },
+    {
+      "id": 47,
+      "topic": "Defect displacement-volume formula",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No displacement-volume calculation or defect momentum model; the corresponding source subsection contains only variables (#18, #22)."
+    },
+    {
+      "id": 48,
+      "topic": "Covariant defect stress-energy tensor",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No four-velocity, metric, defect stress tensor or connection is constructed (#13, #18)."
+    },
+    {
+      "id": 49,
+      "topic": "Projected covariant conservation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.CoordinateConserved"
+      ],
+      "note": "Related only: fixed-chart coordinate divergence is a different object; no orthogonal projector, connection or projected product-rule proof exists."
+    },
+    {
+      "id": 50,
+      "topic": "Covariant defect acceleration balance",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No covariant acceleration or pressure/enthalpy projected equation is implemented (#18)."
+    },
+    {
+      "id": 51,
+      "topic": "Defect acceleration versus geodesic background",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "The manuscript compliance/defect equation has no Lean implementation; source §5.8 declares variables only."
+    },
+    {
+      "id": 52,
+      "topic": "Compliance-modified defect equation",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No derivation of acceleration minus gravity with pressure-dependent denominator and surface force (#18)."
+    },
+    {
+      "id": 53,
+      "topic": "Geodesic weak-field acceleration",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.longitudinal_transport_acceleration"
+      ],
+      "note": "Related only: the later theorem assumes the acceleration-gradient relationship; no connection, Christoffel symbol or geodesic approximation exists."
+    },
+    {
+      "id": 54,
+      "topic": "Static-pressure acceleration",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.longitudinal_transport_acceleration"
+      ],
+      "note": "The acceleration-gradient relationship is supplied as h_a in longitudinal_transport_acceleration; that theorem rewrites it using h_grad. No connection or geodesic derivation establishes the assumed law."
+    },
+    {
+      "id": 55,
+      "topic": "Added-mass buoyancy force",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No added-mass derivation or particle-force construction. Scalar force laws elsewhere do not establish this mechanism."
+    },
+    {
+      "id": 56,
+      "topic": "Effective-displacement buoyancy force",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No effective-volume definition or pressure-force integral. The physical identification is not an implemented theorem (#22)."
+    },
+    {
+      "id": 57,
+      "topic": "Spherical harmonic pressure equation",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No radial Laplacian, spherical coordinate transformation or harmonic pressure solution."
+    },
+    {
+      "id": 58,
+      "topic": "Inverse-square pressure gradient",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No ODE solution or pressure-field derivative theorem; k is not derived by this calculation."
+    },
+    {
+      "id": 59,
+      "topic": "Inverse-radius pressure integral",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No radial antiderivative, boundary condition at infinity or field construction implementing this integral."
+    },
+    {
+      "id": 60,
+      "topic": "Static/dynamic gradient complement",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.energy_density_proof"
+      ],
+      "note": "Related only: scalar budget rewriting does not establish derivatives of static/dynamic pressure fields."
+    },
+    {
+      "id": 61,
+      "topic": "Inverse-square buoyancy force",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No force derived from the radial pressure gradient and effective volume."
+    },
+    {
+      "id": 62,
+      "topic": "Mass/coupling identification",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.G",
+        "AsymmetricTensor.rho_tau",
+        "AsymmetricTensor.t_p"
+      ],
+      "note": "Related only: constants are defined, but the identification of pressure amplitude k with gravitational mass is a manuscript modeling premise (#22)."
+    },
+    {
+      "id": 63,
+      "topic": "Newtonian pressure profile",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.cavitation_schwarzschild_radius"
+      ],
+      "note": "The pressure profile occurs in h_P_dyn at a single radius for the Schwarzschild algebra. It is not derived as a field from the preceding radial differential equation."
+    },
+    {
+      "id": 64,
+      "topic": "Newtonian inverse-square limit",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.universal_gravitation_limit"
+      ],
+      "note": "Related only: the later scalar aggregation theorem assumes its own mass/action laws and does not derive this buoyancy-to-force limit."
+    },
+    {
+      "id": 65,
+      "topic": "Quadratic tensor contraction expansion",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.tensor_contract",
+        "AsymmetricTensor.unified_action_separation"
+      ],
+      "note": "The source theorem proves Frobenius component algebra, not the paper Lorentzian raised-index contraction. contract2 exists separately but is not used here (#10)."
+    },
+    {
+      "id": 66,
+      "topic": "Orthogonal action-sector separation",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.contract_sym_anti_proven",
+        "AsymmetricTensor.unified_action_separation",
+        "AsymmetricTensor.contract2"
+      ],
+      "note": "Frobenius orthogonality/separation is proved. This candidate has not connected it to the Lorentzian physical action; see #10. No later action repair is included."
+    },
+    {
+      "id": 67,
+      "topic": "Symmetric strain/Einstein tensor identification",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "Conservation does not supply this proportionality in Lean. No Einstein tensor or symmetric curvature identification is constructed (#15)."
+    },
+    {
+      "id": 68,
+      "topic": "Symmetric curvature contraction expansion",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No curvature tensor, cosmological scale or raised-index contraction of the displayed terms is implemented."
+    },
+    {
+      "id": 69,
+      "topic": "Einstein-tensor square equals Ricci-tensor square",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No Ricci/Einstein tensor definitions, trace identities or dimension-four curvature contraction proof."
+    },
+    {
+      "id": 70,
+      "topic": "Quadratic gravitational Lagrangian",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No curvature-squared action or derivation; the Frobenius split alone does not establish the displayed Lagrangian (#15, #16)."
+    },
+    {
+      "id": 71,
+      "topic": "Cauchy strain definition",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.almansi_finite_strain"
+      ],
+      "note": "Related only: a later section-16 specification assumes a different Almansi inverse-strain formula; no Cauchy strain tensor is defined here."
+    },
+    {
+      "id": 72,
+      "topic": "Saint-Venant incompatibility differential operator",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.macroscopic_torsion_nullification"
+      ],
+      "note": "Related only: Inc is a supplied linear map on constant matrices, not this second-derivative field operator."
+    },
+    {
+      "id": 73,
+      "topic": "Burgers-vector contour integral",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No multivalued displacement, contour integral or Burgers-vector construction."
+    },
+    {
+      "id": 74,
+      "topic": "Linearized Riemann/incompatibility identification",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No Riemann curvature, strain differential operator or infinitesimal-limit theorem; source §6.2 is prose only."
+    },
+    {
+      "id": 75,
+      "topic": "Cavitation Schwarzschild radius",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.isolate_schwarzschild_radius",
+        "AsymmetricTensor.cavitation_schwarzschild_radius"
+      ],
+      "note": "Solves the supplied pressure profile and saturation equality at nonzero r_c. It does not derive that pressure law or a regular metric at the limit."
+    },
+    {
+      "id": 76,
+      "topic": "Gradient Lagrangian/field identification",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No field-gradient norm, bosonic field or action functional is defined."
+    },
+    {
+      "id": 77,
+      "topic": "Curvature/dAlembertian static term",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No harmonic gauge, Ricci curvature or differential identification with the dAlembertian."
+    },
+    {
+      "id": 78,
+      "topic": "Higher-order raw symmetric Lagrangian",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.modified_poisson_equation"
+      ],
+      "note": "Related only: the later theorem starts from a variation equation as h_variation; no Lagrangian or variational derivation is implemented (#16)."
+    },
+    {
+      "id": 79,
+      "topic": "Integration by parts for symmetric action",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No action integral, boundary hypotheses, decay assumptions or integration-by-parts theorem (#16)."
+    },
+    {
+      "id": 80,
+      "topic": "Integrated higher-order symmetric action",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.modified_poisson_equation"
+      ],
+      "note": "Related only: no action is constructed; modified_poisson_equation assumes the claimed Euler–Lagrange equation and only rescales it."
+    },
+    {
+      "id": 81,
+      "section": "6.4",
+      "page": 17,
+      "topic": "Higher-order Euler–Lagrange equation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.modified_poisson_equation"
+      ],
+      "note": "Related only: h_variation assumes an already-varied scalar equation. No action functional, functional derivative, second-derivative Euler–Lagrange operator, or stationarity derivation is implemented."
+    },
+    {
+      "id": 82,
+      "section": "6.4",
+      "page": 17,
+      "topic": "Classical geometric-plus-matter Lagrangian",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.modified_poisson_equation",
+        "AsymmetricTensor.orthogonal_mass_extraction"
+      ],
+      "note": "Related only: neither declaration defines this Lagrangian. The action functional, source term, boundary conditions and variation are absent; the later scalar L_kin premise is a different expression."
+    },
+    {
+      "id": 83,
+      "section": "6.4",
+      "page": 17,
+      "topic": "Static weak-field spatial diagonal approximation",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.modified_poisson_equation"
+      ],
+      "note": "The h_weak_field premise supplies S_ii = 1 - 2*Phi/c^2 as an exact scalar equality. No weak-field expansion, remainder bound or regime of validity is proved for the matrix diagonal."
+    },
+    {
+      "id": 84,
+      "section": "6.4",
+      "page": 17,
+      "topic": "Assumed Laplacian-minus-biharmonic strain equation",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.modified_poisson_equation"
+      ],
+      "note": "The h_variation premise directly supplies Laplacian S_ii - r_c^2*Biharmonic S_ii = kappa*rho_dyn. Both operators are arbitrary functions from real numbers to real numbers; no variational/PDE derivation is encoded."
+    },
+    {
+      "id": 85,
+      "section": "6.4",
+      "page": 17,
+      "topic": "Modified Poisson source rescaling",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.apply_source_coupling",
+        "AsymmetricTensor.modified_poisson_equation"
+      ],
+      "note": "Proves scalar rescaling from h_variation, h_weak_field, h_kappa and the two operator-rescaling premises. No actual Laplacian/biharmonic field operators, Green function, singularity bound or Newtonian asymptotics are constructed."
+    },
+    {
+      "id": 86,
+      "section": "6.5",
+      "page": 18,
+      "topic": "Wave operator distributes over tensor split",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.unified_wave_propagation",
+        "AsymmetricTensor.tensor_decomposition_proven"
+      ],
+      "note": "The theorem uses a supplied additive T2-to-T2 operator and a supplied vacuum equality to conclude Box(S)+Box(A)=0. It supports the abstract additive splitting but does not define a spacetime d’Alembertian; the standalone displayed equality is only an intermediate rewrite."
+    },
+    {
+      "id": 87,
+      "section": "6.5",
+      "page": 18,
+      "topic": "Symmetric gravitational wave sourced by stress",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.unified_wave_propagation"
+      ],
+      "note": "Related only: no stress tensor wave equation, Lambda-dependent source factor or differential field operator is represented. The supplied additive matrix operator does not establish this sourced equation."
+    },
+    {
+      "id": 88,
+      "section": "6.5",
+      "page": 18,
+      "topic": "Antisymmetric transverse wave from velocity and vorticity",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.unified_wave_propagation",
+        "AsymmetricTensor.U_anti",
+        "AsymmetricTensor.Omega"
+      ],
+      "note": "Related only: the covariant wedge expression, normalized four-velocity, exterior calculus and differential wave operator are absent. No theorem derives Maxwell dynamics from the matrix off-diagonals."
+    },
+    {
+      "id": 89,
+      "section": "6.5",
+      "page": 18,
+      "topic": "Vacuum d’Alembertian and common propagation speed",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.unified_wave_propagation",
+        "AsymmetricTensor.transverse_wave_propagation"
+      ],
+      "note": "Related only: unified_wave_propagation assumes its vacuum equation for an arbitrary additive matrix operator. transverse_wave_propagation rewrites supplied module-valued acceleration/Laplacian relations; neither constructs this tensor PDE or proves a shared characteristic speed."
+    },
+    {
+      "id": 90,
+      "section": "7",
+      "page": 18,
+      "topic": "Symmetric–antisymmetric tensor decomposition",
+      "status": "proved_identity",
+      "declarations": [
+        "AsymmetricTensor.matrix_decomposition",
+        "AsymmetricTensor.tensor_decomposition_proven",
+        "AsymmetricTensor.U_sym",
+        "AsymmetricTensor.U_anti"
+      ],
+      "note": "Exact fixed-chart 4-by-4 matrix identity U_hat = U_sym + U_anti. This is algebraic decomposition, without a manifold or transformation law."
+    },
+    {
+      "id": 91,
+      "section": "7",
+      "page": 18,
+      "topic": "Full covariant rank-two Lie derivative expansion",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.lie_derivative",
+        "AsymmetricTensor.partial_deriv"
+      ],
+      "note": "Related only: the baseline lie_derivative contains only the transport term sum X^alpha*partial_alpha U_mu_nu. Both derivative-of-X index terms displayed in the manuscript are omitted; this is not the covariant rank-two Lie derivative."
+    },
+    {
+      "id": 92,
+      "section": "7.1",
+      "page": 19,
+      "topic": "Translation Lie derivative",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.lie_derivative",
+        "AsymmetricTensor.is_translationally_symmetric",
+        "AsymmetricTensor.U_hat_dynamic"
+      ],
+      "note": "Related only: the transport-only definition has the appropriate shape for constant translations, but no constant-generator specialization, derivative of the tensor split, or expansion/gravity symmetry-breaking theorem is present. Differentiability must also be supplied."
+    },
+    {
+      "id": 93,
+      "section": "7.1",
+      "page": 19,
+      "topic": "Lorentz-generator Lie derivative",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.lie_derivative",
+        "AsymmetricTensor.lorentz_symmetry_broken"
+      ],
+      "note": "Related only: no Lorentz generator or matrix action is defined, and lie_derivative omits the two index terms needed for this formula. lorentz_symmetry_broken only manipulates an assumed scalar residual."
+    },
+    {
+      "id": 94,
+      "section": "7.1",
+      "page": 19,
+      "topic": "Symmetric Lorentz contraction and four-velocity projection",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.lorentz_symmetry_broken",
+        "AsymmetricTensor.U_sym"
+      ],
+      "note": "Related only: there is no normalized four-velocity, spatial projector, Lorentz generator or indexed contraction proving the displayed residual. The downstream scalar theorem assumes a special residual instead."
+    },
+    {
+      "id": 95,
+      "section": "7.1",
+      "page": 19,
+      "topic": "Boost time–space residual",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.lorentz_symmetry_broken",
+        "AsymmetricTensor.isolate_lorentz_scalar"
+      ],
+      "note": "Related only: h_residual assumes omega_0i*(1/alpha_s_val^2-alpha_s_val^2)=0; neither theorem derives the displayed indexed boost contraction or its sign from U_sym."
+    },
+    {
+      "id": 96,
+      "section": "7.1",
+      "page": 19,
+      "topic": "Symmetric-sector boost Lie derivative",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.lie_derivative",
+        "AsymmetricTensor.lorentz_symmetry_broken"
+      ],
+      "note": "Related only: the implemented derivative lacks the generator-index terms generating the displayed residual. The scalar conclusion alpha_s_val=1 follows only after separately assuming the residual vanishes, a nonzero boost and positive admittance."
+    },
+    {
+      "id": 97,
+      "section": "7.1",
+      "page": 19,
+      "topic": "Antisymmetric-sector rotational Lie derivative",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.lie_derivative",
+        "AsymmetricTensor.U_anti"
+      ],
+      "note": "Related only: the displayed commutator/index-action terms are missing from lie_derivative. No antisymmetric rotational-invariance result is implemented."
+    },
+    {
+      "id": 98,
+      "section": "7.2",
+      "page": 20,
+      "topic": "Conformal Killing proportionality constraint",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.lie_derivative",
+        "AsymmetricTensor.is_translationally_symmetric"
+      ],
+      "note": "Related only: no conformal-symmetry predicate, scalar conformal factor or tensor-field generator condition is defined. is_translationally_symmetric tests zero transport derivative, a different property."
+    },
+    {
+      "id": 99,
+      "section": "7.2",
+      "page": 20,
+      "topic": "Dilation Lie derivative with tensor weight two",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.lie_derivative"
+      ],
+      "note": "Related only: the baseline transport-only definition omits the +2*sigma*U term. The dilation generator, conformal action and homogeneity constraint are not formalized."
+    },
+    {
+      "id": 100,
+      "section": "7.2",
+      "page": 20,
+      "topic": "Special conformal generator",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.VectorField",
+        "AsymmetricTensor.lie_derivative"
+      ],
+      "note": "Related only: VectorField can host a generator, but no definition of this quadratic vector field, Minkowski contraction or special conformal group action is provided."
+    },
+    {
+      "id": 101,
+      "section": "7.2",
+      "page": 20,
+      "topic": "Derivative of the special conformal generator",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.partial_deriv",
+        "AsymmetricTensor.lie_derivative"
+      ],
+      "note": "Related only: no special conformal generator or derivative computation exists. A coordinate derivative API alone does not establish the indexed quadratic-field identity."
+    },
+    {
+      "id": 102,
+      "section": "7.2",
+      "page": 20,
+      "topic": "Special conformal tensor Lie derivative",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.lie_derivative",
+        "AsymmetricTensor.conformal_pressure_coupling"
+      ],
+      "note": "Related only: the generator and index-action terms are absent from lie_derivative. conformal_pressure_coupling proves a separate scalar pressure substitution, not the displayed tensor transformation."
+    },
+    {
+      "id": 103,
+      "section": "7.2",
+      "page": 20,
+      "topic": "Special conformal time–space residual",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.isolate_lorentz_scalar",
+        "AsymmetricTensor.conformal_pressure_coupling"
+      ],
+      "note": "Related only: no indexed special conformal calculation yields the factor 2*(x0*b1-x1*b0). The scalar Lorentz isolation lemma concerns a separately supplied coefficient; it does not prove this residual or its vanishing criterion."
+    },
+    {
+      "id": 104,
+      "section": "7.2",
+      "page": 21,
+      "topic": "Conformal pressure-gradient scaling factor",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.conformal_pressure_coupling"
+      ],
+      "note": "Proves the one-component scalar identity from h_a: a_i = -(1/rho_tau)*grad_P_dyn and the definition of P_c. No summed four-vector contraction, uniform acceleration field or conformal geometric derivation is present."
+    },
+    {
+      "id": 105,
+      "section": "7.2",
+      "page": 21,
+      "topic": "Thermodynamic refractive index",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.tensor_refractive_index",
+        "AsymmetricTensor.spatial_diagonal_lorentz_derivation"
+      ],
+      "note": "tensor_refractive_index obtains n_r = 1/(1-P_dyn_val/P_c_val) from supplied positive alpha_sq, pressure, phase-speed and index premises; its proof also obtains n_r=1/alpha_sq. The displayed Pc/(Pc-Pdyn) additionally requires nonzero Pc. No Gordon optical geometry or light propagation is derived."
+    },
+    {
+      "id": 106,
+      "section": "7.2",
+      "page": 21,
+      "topic": "Gordon optical metric ansatz",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.tensor_refractive_index",
+        "AsymmetricTensor.U_hat"
+      ],
+      "note": "Related only: no optical metric, normalized optical four-velocity, rank-one correction or null-geodesic model is defined. A scalar refractive-index theorem cannot supply this tensor ansatz."
+    },
+    {
+      "id": 107,
+      "section": "7.2",
+      "page": 21,
+      "topic": "Gordon metric after admittance substitution",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.tensor_refractive_index",
+        "AsymmetricTensor.U_hat"
+      ],
+      "note": "Related only: scalar n_r substitution is available conditionally, but the optical metric and four-velocity dyad are absent. No theorem states or proves this optical tensor equality."
+    },
+    {
+      "id": 108,
+      "section": "7.4",
+      "page": 22,
+      "topic": "Noether current for metric action",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.lie_derivative",
+        "AsymmetricTensor.CoordinateConserved"
+      ],
+      "note": "Related only: no action functional, Lagrangian derivative, variational symmetry or Noether current is constructed. CoordinateConserved is an explicitly assumed coordinate-divergence property, not a Noether theorem."
+    },
+    {
+      "id": 109,
+      "section": "7.4",
+      "page": 22,
+      "topic": "Energy–momentum current conservation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.CoordinateConserved",
+        "AsymmetricTensor.bernoulli_energy_conservation",
+        "AsymmetricTensor.navier_stokes_momentum_conservation",
+        "AsymmetricTensor.constant_coordinate_conserved"
+      ],
+      "note": "Related only: the #9 repair defines and projects an assumed conservation constraint on an arbitrary MetricField, and proves it for constant fields. No stress-energy tensor or Noether argument derives this equation for physical fields; universal field conservation has explicitly been removed."
+    },
+    {
+      "id": 110,
+      "section": "7.4",
+      "page": 22,
+      "topic": "Orbital-plus-spin angular momentum current",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_anti",
+        "AsymmetricTensor.lie_derivative"
+      ],
+      "note": "Related only: orbital angular momentum, Clebsch spin tensor, Lorentz Noether current and their divergence are not defined. Matrix antisymmetry alone supplies none of these conservation claims."
+    },
+    {
+      "id": 111,
+      "section": "7.5",
+      "page": 22,
+      "topic": "Abelian dressing transformations",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.v_perp_g",
+        "AsymmetricTensor.h_g"
+      ],
+      "note": "Related only to the full field equation: the two definitions implement subtraction/addition of an arbitrary module element chi_val. h_g takes grad_h_val, rather than a scalar h, and there are no differential forms, d-operator laws or local U(1) action."
+    },
+    {
+      "id": 112,
+      "section": "7.5",
+      "page": 22,
+      "topic": "Dressed velocity gauge cancellation",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.dressing_field_invariance",
+        "AsymmetricTensor.v_perp_g",
+        "AsymmetricTensor.h_g"
+      ],
+      "note": "The checked content is exact additive-module cancellation of v_perp_val-chi_val and grad_h_val+chi_val. Its use as the displayed gauge-field identity is conditional on identifying those elements with gradients; no derivative linearity, connection or gauge-invariant observable is constructed."
+    },
+    {
+      "id": 113,
+      "section": "7.5",
+      "page": 23,
+      "topic": "Diffeomorphism-dressed Clebsch vorticity",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.Omega",
+        "AsymmetricTensor.v_macro"
+      ],
+      "note": "Related only: Omega applies an arbitrary ext_deriv function to a module element. There are no Clebsch scalar fields, antisymmetrized derivative/wedge product, Diff(M) action or dressing-invariance proof."
+    },
+    {
+      "id": 114,
+      "section": "8.1",
+      "page": 23,
+      "topic": "Spatial diagonal as pressure-capacity ratio",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.spatial_diagonal_lorentz_derivation"
+      ],
+      "note": "The displayed S_ii = P_c/P_static is supplied exactly as h_S_ii. The theorem does not derive it from the matrix admittance entry or a thermodynamic state model."
+    },
+    {
+      "id": 115,
+      "section": "8.1",
+      "page": 23,
+      "topic": "Spatial diagonal after Bernoulli and kinetic-pressure substitution",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.spatial_diagonal_lorentz_derivation"
+      ],
+      "note": "This scalar ratio is an intermediate substitution from h_S_ii, h_Bernoulli and h_P_dyn. Those physical relations are assumptions; no admissible field or pressure-budget derivation is constructed."
+    },
+    {
+      "id": 116,
+      "section": "8.1",
+      "page": 24,
+      "topic": "Velocity-ratio expression for spatial diagonal",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.spatial_diagonal_lorentz_derivation"
+      ],
+      "note": "Exact scalar conclusion S_ii=1/(1-v_val^2/c^2) from three pressure premises and the defined P_c. Lean uses totalized real division, so the algebraic identity alone supplies neither a subcritical domain nor behavior at saturation."
+    },
+    {
+      "id": 117,
+      "section": "8.1",
+      "page": 24,
+      "topic": "Spatial-diagonal divergence at the phase limit",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.spatial_diagonal_lorentz_derivation",
+        "AsymmetricTensor.legal_cavitation_collapse"
+      ],
+      "note": "Related only: no one-sided limit theorem exists. The nearby legal_cavitation_collapse evaluates the totalized inverse at alpha_s=0 and obtains 0, which cannot justify divergence. The printed two-sided v→c limit also needs a subcritical one-sided qualification for +infinity."
+    },
+    {
+      "id": 118,
+      "section": "8.1",
+      "page": 24,
+      "topic": "VEV pressure threshold",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.tensor_vev_origin"
+      ],
+      "note": "Proves v_vev^2=2*P_ambient/rho_tau from h_yield: P_ambient=(1/2)*rho_tau*v_vev^2. The pressure equality and its interpretation as a phase-transition threshold are supplied, not derived."
+    },
+    {
+      "id": 119,
+      "section": "8.1",
+      "page": 24,
+      "topic": "Velocity perturbation around VEV",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.tensor_vev_origin",
+        "AsymmetricTensor.v_macro"
+      ],
+      "note": "Related only: neither a perturbation field delta_v nor the decomposition v(x)=v_vev+delta_v(x) is defined. tensor_vev_origin is only a scalar pressure-threshold rearrangement."
+    },
+    {
+      "id": 120,
+      "section": "8.2",
+      "page": 24,
+      "topic": "Cavitation implies discrete rest mass",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.metric_is_cavitated",
+        "AsymmetricTensor.legal_cavitation_collapse",
+        "AsymmetricTensor.cavitated_determinant_lock",
+        "AsymmetricTensor.topological_yield_limit"
+      ],
+      "note": "Related only: metric_is_cavitated is the scalar equality alpha_s=0. No limiting family, topological defect, phase lock, energy functional or discrete mass mechanism is defined; the two cavitation theorems use totalized inverse values, not singular limits."
+    },
+    {
+      "id": 121,
+      "section": "8.3",
+      "page": 24,
+      "topic": "Symmetric Lorentzian self-contraction",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.contract2",
+        "AsymmetricTensor.raiseBoth",
+        "AsymmetricTensor.U_sym",
+        "AsymmetricTensor.tensor_contract",
+        "AsymmetricTensor.symmetric_diagonals"
+      ],
+      "note": "Related only: these provide contraction machinery and diagonal entries, but no theorem computes the displayed alpha_s^4+3/alpha_s^4 covariant contraction. No normalized four-velocity/projector orthogonality model is constructed; tensor_contract is Frobenius, not metric raising."
+    },
+    {
+      "id": 122,
+      "section": "8.3",
+      "page": 24,
+      "topic": "Weak-field Taylor expansion of symmetric trace",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.orthogonal_mass_extraction",
+        "AsymmetricTensor.tensor_contract"
+      ],
+      "note": "Related only: orthogonal_mass_extraction assumes an L_kin expression already containing 4*v_macro_scalar^2/c^2. There is no Taylor expansion, derivative/remainder estimate, or approximation predicate deriving that term."
+    },
+    {
+      "id": 123,
+      "section": "8.3",
+      "page": 25,
+      "topic": "Signed antisymmetric Lorentzian self-contraction",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.tensor_contract",
+        "AsymmetricTensor.contract2",
+        "AsymmetricTensor.raiseBoth",
+        "AsymmetricTensor.U_anti",
+        "AsymmetricTensor.unified_action_separation"
+      ],
+      "note": "Related only: the physical action theorem uses the positive Frobenius square sum, while this Lorentzian contraction has negative time–space contributions. contract2 can accept an index-raising matrix but is not linked to the action or evaluated in a theorem giving this formula."
+    },
+    {
+      "id": 124,
+      "section": "8.3",
+      "page": 25,
+      "topic": "Kinematic Lagrangian from trace variance",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.orthogonal_mass_extraction",
+        "AsymmetricTensor.P_c",
+        "AsymmetricTensor.unified_action_separation"
+      ],
+      "note": "orthogonal_mass_extraction assumes h_L_kin with the already-expanded scalar trace variance, then algebraically substitutes P_c. No tensor trace evaluation, weak-field approximation, action normalization or signed stress/energy interpretation is derived; the Frobenius action is not the displayed Lorentzian trace."
+    },
+    {
+      "id": 125,
+      "section": "8.3",
+      "page": 25,
+      "topic": "Kinematic Lagrangian pressure split",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.orthogonal_mass_extraction"
+      ],
+      "note": "Exact scalar conclusion L_kin=P_dyn_val+P_shear_val follows from h_L_kin, h_P_dyn and h_P_shear. The pressure split and trace interpretation are model premises, with no constructed energy density or mass-extraction map."
+    },
+    {
+      "id": 126,
+      "section": "8.3",
+      "page": 25,
+      "topic": "Reduced Compton cavitation radius",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.isolate_planck_yield_algebra",
+        "AsymmetricTensor.topological_yield_limit"
+      ],
+      "note": "Related only: the downstream boundary-intersection hypothesis contains hbar/(M_val*c), but no radius/frequency definitions, E=hbar*omega postulate, standing-wave model or derivation rc=c/omega=hbar/(m*c) is formalized."
+    },
+    {
+      "id": 127,
+      "section": "8.3",
+      "page": 26,
+      "topic": "Compton–Schwarzschild intersection and Planck yield mass",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.isolate_planck_yield_algebra",
+        "AsymmetricTensor.positive_sqrt_reduction",
+        "AsymmetricTensor.topological_yield_limit"
+      ],
+      "note": "Proves M_val=M_P/sqrt(2) from the assumed radius intersection hbar/(M_val*c)=2*G*M_val/c^2 and positive nonzero mass. It does not derive the quantum radius or establish that the boundary intersection is a physical mass-generation threshold."
+    },
+    {
+      "id": 128,
+      "section": "8.3",
+      "page": 26,
+      "topic": "Total-load structural compliance",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.yield_partition",
+        "AsymmetricTensor.mass_yield_equivalence",
+        "AsymmetricTensor.P_dyn_components"
+      ],
+      "note": "Related only: no declaration defines alpha_s as sqrt(1-(Pdyn+Pshear)/Pc) or proves this full pressure-budget identity. yield_partition assumes an already-specialized half-load square root, and no nonnegative energy/load model is supplied."
+    },
+    {
+      "id": 129,
+      "section": "8.3",
+      "page": 26,
+      "topic": "Half-load yield admittance",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.yield_partition",
+        "AsymmetricTensor.mass_yield_equivalence"
+      ],
+      "note": "yield_partition simplifies the assumed h_yield: alpha_yield=sqrt(1-1/2) to 1/sqrt(2). mass_yield_equivalence additionally assumes both mass and admittance ratios. Equal physical load partition and the identification of admittance with bounded mass are not derived."
+    },
+    {
+      "id": 130,
+      "section": "9",
+      "page": 26,
+      "topic": "Characteristic determinant eigenvalue condition",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_hat",
+        "AsymmetricTensor.longitudinal_axis_invariance"
+      ],
+      "note": "Related only: no Matrix.det characteristic polynomial or eigenvalue criterion is stated for U_hat. longitudinal_axis_invariance proves only a product of diagonal entries equals -1."
+    },
+    {
+      "id": 131,
+      "section": "9",
+      "page": 26,
+      "topic": "Axis-aligned characteristic matrix",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_hat",
+        "AsymmetricTensor.symmetric_diagonals",
+        "AsymmetricTensor.antisymmetric_shear"
+      ],
+      "note": "Related only: U_hat supplies the underlying entries and specializes with vz=Omega_x=Omega_y=0. No declaration forms or proves this shifted axis-aligned matrix U_hat-lambda*I, and no characteristic determinant computation is present."
+    },
+    {
+      "id": 132,
+      "section": "9",
+      "page": 27,
+      "topic": "Full characteristic polynomial and transverse rotational cancellation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_hat",
+        "AsymmetricTensor.longitudinal_axis_invariance",
+        "AsymmetricTensor.generalized_cavitation"
+      ],
+      "note": "Related only: no Matrix.det expansion, longitudinal eigenroot factorization or O(2) action is proved. generalized_cavitation starts with a scalar zero-determinant-shaped premise at lambda=0, not this characteristic polynomial."
+    },
+    {
+      "id": 133,
+      "section": "9.2",
+      "page": 27,
+      "topic": "Coupled cubic eigenvalue equation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.cross_coupling_impedance",
+        "AsymmetricTensor.generalized_cavitation"
+      ],
+      "note": "Related only: cross_coupling_impedance is a ratio of two individual matrix entries and has no eigenvalue parameter; generalized_cavitation is scalar lambda=0 algebra. Neither proves the coupled cubic equation."
+    },
+    {
+      "id": 134,
+      "section": "9.2",
+      "page": 27,
+      "topic": "Eigenvalue-dependent transverse impedance ratio",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.cross_coupling_impedance"
+      ],
+      "note": "Related only: the theorem cancels alpha in U_hat(0,1)/U_hat(1,2). It does not contain lambda, solve the cubic, justify division by alpha_s^(-2)-lambda or establish Maxwell impedance."
+    },
+    {
+      "id": 135,
+      "section": "9.3",
+      "page": 27,
+      "topic": "Transverse–longitudinal eigenvalue degeneracy restriction",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.transverse_eigenvalues_are_real_iff_no_spin"
+      ],
+      "note": "Related only: despite its name, the theorem proves x=0 iff x^2=0 for x=alpha*t_p_val*Omega_z. No characteristic polynomial, eigenvalues, degeneration limit or positivity-based inference Omega=0 is implemented; nonzero coupling/time factors would also be needed."
+    },
+    {
+      "id": 136,
+      "section": "9.4",
+      "page": 27,
+      "topic": "Static-capacity characteristic polynomial",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.determinant_expansion_static",
+        "AsymmetricTensor.isochoric_volume_preservation"
+      ],
+      "note": "Related only: these declarations use an assumed scalar determinant value at lambda=0. They do not compute or specialize the lambda-dependent characteristic polynomial."
+    },
+    {
+      "id": 137,
+      "section": "9.4",
+      "page": 28,
+      "topic": "Isochoric determinant condition and electric–magnetic magnitude equality",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.determinant_expansion_static",
+        "AsymmetricTensor.isochoric_volume_preservation"
+      ],
+      "note": "The scalar implication from h_det to equal squared amplitudes is proved, but h_det is assumed and never connected to Matrix.det. The manuscript inference from antisymmetric trace-free shear to finite determinant preservation is invalid; trace-free additive strain need not preserve determinant."
+    },
+    {
+      "id": 138,
+      "section": "9.5",
+      "page": 28,
+      "topic": "Schwinger eigenvalue impedance modulus sqrt(5)",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.schwinger_limit_eigenvalues",
+        "AsymmetricTensor.cross_coupling_impedance"
+      ],
+      "note": "Related only: schwinger_limit_eigenvalues proves a diagonal entry is 1 and repeats alpha*t_p_val*Omega_z=1; it has no complex eigenvalues or norm. The values 1±i concern the isolated transverse block and are not full-matrix eigenvalues for arbitrary nonzero transverse slip."
+    },
+    {
+      "id": 139,
+      "section": "9.6",
+      "page": 28,
+      "topic": "Transverse block as scalar identity plus rotation generator",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.transverse_U1_decomposition",
+        "AsymmetricTensor.symmetric_diagonals",
+        "AsymmetricTensor.U_hat"
+      ],
+      "note": "Related only: the theorem checks three real entries and symmetric_diagonals supplies the other diagonal. No extracted 2-by-2 matrix, I/J decomposition, J^2=-I, exponential or U(1) unitary action is defined/proved."
+    },
+    {
+      "id": 140,
+      "section": "9.6",
+      "page": 28,
+      "topic": "Normalized complex circular-polarization eigenvectors",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.transverse_U1_decomposition",
+        "AsymmetricTensor.schwinger_limit_eigenvalues"
+      ],
+      "note": "Related only: no complex matrix, eigenvector/eigenvalue equation, Hermitian norm or normalized Jones vector is constructed. The real entry statements do not prove the displayed vectors or justify a physical half-load partition."
+    },
+    {
+      "id": 141,
+      "section": "9.7",
+      "page": 29,
+      "topic": "Generalized determinant-collapse scalar equation",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.generalized_cavitation",
+        "AsymmetricTensor.generalized_cavitation_algebra"
+      ],
+      "note": "The scalar polynomial equal to zero is supplied as h_det_collapse (or the lemma premise), with positive alpha_s_val. No Matrix.det calculation identifies it as det(U_hat); its interpretation as volume collapse is additional modeling content."
+    },
+    {
+      "id": 142,
+      "section": "9.7",
+      "page": 29,
+      "topic": "Generalized cavitation hyperbola",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.generalized_cavitation_algebra",
+        "AsymmetricTensor.generalized_cavitation"
+      ],
+      "note": "Proves the scalar hyperbola from h_det_collapse under alpha_s_val>0 by clearing denominators. No determinant bridge or radiation mechanism is proved, and the theorem excludes alpha_s=0 rather than establishing a singular limiting statement."
+    },
+    {
+      "id": 143,
+      "section": "9.9",
+      "page": 29,
+      "topic": "Complex representation of transverse strain",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_perp_Re",
+        "AsymmetricTensor.U_perp_Im",
+        "AsymmetricTensor.transverse_U1_decomposition"
+      ],
+      "note": "Related only: U_perp_Re and U_perp_Im define separate real scalars. The transverse block, complex embedding/isomorphism and rotational generator are not constructed."
+    },
+    {
+      "id": 144,
+      "section": "9.9",
+      "page": 30,
+      "topic": "Rheological loss-tangent reduction",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.tan_delta",
+        "AsymmetricTensor.U_perp_Re",
+        "AsymmetricTensor.U_perp_Im",
+        "AsymmetricTensor.viscoelastic_phase_angle_reduction"
+      ],
+      "note": "tan_delta defines the ratio of two real stand-ins; viscoelastic_phase_angle_reduction proves the equivalent real-power simplification for positive alpha_s. No complex matrix, angle, storage/loss measurement or rheological constitutive model is encoded."
+    },
+    {
+      "id": 145,
+      "section": "9.9",
+      "page": 30,
+      "topic": "Deborah number as inverse strain ratio",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.geometric_deborah_derivation",
+        "AsymmetricTensor.U_perp_Re",
+        "AsymmetricTensor.U_perp_Im"
+      ],
+      "note": "The checked statement is a scalar rational identity Re/Im=1/(alpha_s^2*(alpha*t_p_val*Omega_z)). Its interpretation as De is an identification, not a constructed relaxation/time-scale ratio; no physical nonzero domain or divergence theorem follows from totalized division."
+    },
+    {
+      "id": 146,
+      "section": "9.9",
+      "page": 30,
+      "topic": "Complex transverse-strain magnitude",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.U_perp_Re",
+        "AsymmetricTensor.U_perp_Im"
+      ],
+      "note": "Related only: no complex transverse object or norm theorem computes the square-root magnitude. Separate real scalar definitions do not establish the stated geometric/physical interpretation."
+    },
+    {
+      "id": 147,
+      "section": "9.9",
+      "page": 30,
+      "topic": "Macroscopic Deborah number from temporal compliance",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.symmetric_diagonals",
+        "AsymmetricTensor.kinematic_crossover_limit",
+        "AsymmetricTensor.crossover_algebra"
+      ],
+      "note": "Related only: no De_macro definition or derivation from sqrt(-U_00) is supplied. The scalar alpha/alpha_s ratio appears directly in the assumed crossover equality; an identification of capacities and a positive-admittance square-root step remain separate."
+    },
+    {
+      "id": 148,
+      "section": "9.9",
+      "page": 30,
+      "topic": "Macroscopic Deborah number equals alpha times gamma",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.phenomenological_energy_scale",
+        "AsymmetricTensor.kinematic_crossover_limit"
+      ],
+      "note": "phenomenological_energy_scale supplies the displayed relation directly as h_De. kinematic_crossover_limit separately assumes 1/alpha_s_val=gamma_val. No relativistic or rheological model derives these identifications."
+    },
+    {
+      "id": 149,
+      "section": "9.9",
+      "page": 30,
+      "topic": "Kinematic crossover vorticity constraint",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.crossover_algebra",
+        "AsymmetricTensor.kinematic_crossover_limit"
+      ],
+      "note": "Proves t_p_val*Omega_z=gamma_val/alpha_val^2 from positive alpha_s_val and alpha_val, h_gamma and the assumed equality of macroscopic/microscopic De ratios. The boundary equality, Lorentz interpretation and limiting vorticity divergence are not derived."
+    },
+    {
+      "id": 150,
+      "section": "9.9",
+      "page": 31,
+      "topic": "Lorentz factor as energy/rest-energy ratio",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.phenomenological_energy_scale"
+      ],
+      "note": "The relation gamma_val=E_val/(m_val*c^2) is supplied directly as h_gamma_def. There is no energy functional, rest-mass dynamics or relativistic derivation in this declaration."
+    },
+    {
+      "id": 151,
+      "section": "9.9",
+      "page": 31,
+      "topic": "Deborah energy scale",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.phenomenological_energy_scale"
+      ],
+      "note": "Proves the displayed scalar equality solely by rewriting h_De and h_gamma_def. No physical energy threshold, time scale or observable shear model is constructed."
+    },
+    {
+      "id": 152,
+      "section": "10.1",
+      "page": 31,
+      "topic": "Rank-two covariant frame transformation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.asBilinear",
+        "AsymmetricTensor.U_hat",
+        "AsymmetricTensor.rotational_covariance_leakage"
+      ],
+      "note": "Related only: no Jacobian-defined change of frame or tensor-field pullback is defined. asBilinear turns a fixed matrix into a bilinear form; rotational_covariance_leakage assumes a restricted scalar transformed-component expression."
+    },
+    {
+      "id": 153,
+      "section": "10.2",
+      "page": 32,
+      "topic": "Active temporal diagonal contraction",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.temporal_diagonal_collapse",
+        "AsymmetricTensor.active_kinematic_contraction"
+      ],
+      "note": "Proves a scalar pressure-ratio simplification from h_U, Bernoulli and kinetic-pressure premises, using nonzero density/speed. No tensor transformation, physical time-dilation derivation or limit as v_rel→c is formalized."
+    },
+    {
+      "id": 154,
+      "section": "10.3",
+      "page": 32,
+      "topic": "Rotating-coordinate temporal Jacobian",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.rotational_covariance_leakage"
+      ],
+      "note": "The result Lambda_phi_0=omega is supplied as h_LambdaPhi. No coordinate map, azimuthal field or derivative computes this Jacobian entry."
+    },
+    {
+      "id": 155,
+      "section": "10.3",
+      "page": 32,
+      "topic": "Rotational time–space leakage",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.rotational_covariance_leakage"
+      ],
+      "note": "Substitutes Lambda_0_0=1 and Lambda_phi_0=omega into an assumed scalar two-term expression. No index summation, complete Jacobian/tensor action, or Coriolis/centrifugal dynamics is constructed."
+    },
+    {
+      "id": 156,
+      "section": "10.4",
+      "page": 33,
+      "topic": "Macroscopic antisymmetric averaging and homogenization",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.VolAvg",
+        "AsymmetricTensor.VolAvg_U_anti",
+        "AsymmetricTensor.macroscopic_torsion_nullification"
+      ],
+      "note": "Related only: VolAvg is matrix symmetrization, not a spatial volume integral. Its annihilation of antisymmetric matrices does not prove physical averaging; a coherent constant antisymmetric field has a nonzero volume average, so homogenization requires extra statistical/dynamical assumptions."
+    },
+    {
+      "id": 157,
+      "section": "10.5",
+      "page": 33,
+      "topic": "Static/dynamic pressure gradients and acceleration opposition",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.equivalence_principle_gradients"
+      ],
+      "note": "Proves a_grav=-a_kin from supplied module equalities for opposite gradients and the two acceleration identifications. No gradient operator, conservation derivation, density normalization or observer-equivalence model is constructed."
+    },
+    {
+      "id": 158,
+      "section": "10.6",
+      "page": 33,
+      "topic": "Time reversal preserves temporal diagonal",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.T_symmetry_mass"
+      ],
+      "note": "Only the final real scalar sign identity (-1)*(-1)*U_00=U_00 is proved. Its use as the full displayed transformation is conditional on a tensor frame-action law; no time-reversal matrix/action, mass or gravitational invariance model is defined."
+    },
+    {
+      "id": 159,
+      "section": "10.6",
+      "page": 33,
+      "topic": "Time reversal reverses time–space shear",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.T_symmetry_charge"
+      ],
+      "note": "Only the final real scalar sign identity (-1)*1*U_0i=-U_0i is proved. No time-reversal action on tensor fields or charge/shear physical model connects it to the indexed transformation."
+    },
+    {
+      "id": 160,
+      "section": "10.6",
+      "page": 34,
+      "topic": "Spatial parity preserves spatial diagonal",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.P_symmetry_mass"
+      ],
+      "note": "Only the final real scalar sign identity (-1)*(-1)*U_ii=U_ii is proved. No parity matrix/action, density construction or gravitational-observer equivalence is formalized."
+    },
+    {
+      "id": 161,
+      "section": "10.6",
+      "page": 34,
+      "topic": "Spatial parity preserves spatial-spatial components: (-1)(-1)U_ij = U_ij",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.P_symmetry_axial"
+      ],
+      "note": "Proves the scalar sign-product identity only. The parity matrix, tensor transformation law, axial-vector interpretation and chirality reversal are not implemented."
+    },
+    {
+      "id": 162,
+      "section": "10.6",
+      "page": 34,
+      "topic": "Spatial parity reverses temporal-spatial components: (1)(-1)U_0i = -U_0i",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.P_symmetry_charge"
+      ],
+      "note": "Proves scalar sign arithmetic only. No parity action on tensors, charge conjugation or topological winding number is constructed."
+    },
+    {
+      "id": 163,
+      "section": "11.1",
+      "page": 34,
+      "topic": "Total dynamic pressure: -rho_tau Phi + (rho_tau c^2/2)(1-exp(-r/R_h))^2",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.P_cosmo",
+        "AsymmetricTensor.P_dyn_total"
+      ],
+      "note": "The scalar pressure profile is directly defined. Its exponential cosmological component is a model input, not a consequence of continuity or conservation."
+    },
+    {
+      "id": 164,
+      "section": "11.2",
+      "page": 35,
+      "topic": "Circular-orbit velocity operator v^2 = -(r/rho_tau) partial_r P_dyn",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No radial pressure-gradient operator or orbit-balance theorem matching this equation is implemented."
+    },
+    {
+      "id": 165,
+      "section": "11.2",
+      "page": 35,
+      "topic": "Derivative of total pressure gives bounded baryonic-cosmological velocity baseline",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.P_dyn_total"
+      ],
+      "note": "The pressure profile exists, but its derivative, the resulting velocity formula, and claimed core, capture-radius and asymptotic bounds are not proved."
+    },
+    {
+      "id": 166,
+      "section": "11.3",
+      "page": 35,
+      "topic": "Empirical anomaly Gamma_anom as observed velocity squared minus baseline",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "An empirical residual is defined in the manuscript; no Gamma_anom, observational velocity field or residual definition exists in Lean."
+    },
+    {
+      "id": 167,
+      "section": "11.6",
+      "page": 37,
+      "topic": "Nonzero volume-averaged microscopic antisymmetric strain under galactic rotation",
+      "status": "conjecture",
+      "declarations": [],
+      "note": "No microscopic ensemble, genuine volume integral or rotational alignment model is implemented. The existing VolAvg elsewhere is a symmetric projection and does not realize this nonzero physical average."
+    },
+    {
+      "id": 168,
+      "section": "11.6",
+      "page": 37,
+      "topic": "Source-free two-dimensional polar Laplace equation for shear pressure",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No polar Laplacian, dimensional-reduction argument or shear-pressure PDE is implemented."
+    },
+    {
+      "id": 169,
+      "section": "11.6",
+      "page": 37,
+      "topic": "Logarithmic cylindrical shear pressure P_shear = k log(R_max/r)",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.P_shear_2D"
+      ],
+      "note": "The logarithmic scalar profile is defined; it is not obtained by integrating Eq. 168 and has no encoded physical radial domain or boundary conditions."
+    },
+    {
+      "id": 170,
+      "section": "11.6",
+      "page": 37,
+      "topic": "Temporal diagonal admittance includes three-dimensional dynamic and two-dimensional shear pressure",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.temporal_diagonal_admittance",
+        "AsymmetricTensor.P_shear_2D"
+      ],
+      "note": "The theorem assumes the displayed S_00 pressure relation and only unfolds P_shear_2D. No derivation of the shear contribution to the symmetric metric is supplied."
+    },
+    {
+      "id": 171,
+      "section": "11.6",
+      "page": 38,
+      "topic": "Weak-field geodesic acceleration is c^2/(2P_c) times total pressure gradient",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No geodesic equation, weak-field limit or differentiated combined pressure field is implemented."
+    },
+    {
+      "id": 172,
+      "section": "11.6",
+      "page": 38,
+      "topic": "Combined inward inverse-square baryonic and inverse-radius shear acceleration",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "The radial differentiation and vector acceleration formula are not proved; the later plateau theorem takes its shear acceleration balance as a premise."
+    },
+    {
+      "id": 173,
+      "section": "11.6",
+      "page": 38,
+      "topic": "Shear centripetal balance gives constant velocity v_rot = c sqrt(k/(2P_c))",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.plug_flow_algebra",
+        "AsymmetricTensor.kinematic_plateau_extraction"
+      ],
+      "note": "Algebraically derives the square-root velocity from an assumed centripetal balance, nonzero radius and sign conditions. No plug-flow dynamics, spatial solution or generation of k is established."
+    },
+    {
+      "id": 174,
+      "section": "11.6",
+      "page": 39,
+      "topic": "Inner transition radius r_t = sqrt(G M_bar/a_0(z))",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "Neither the transition radius nor its acceleration-balance equation is defined or solved in Lean. The BTFR theorem instead assumes the already-substituted plateau relation."
+    },
+    {
+      "id": 175,
+      "section": "11.6",
+      "page": 39,
+      "topic": "Transition radius diverges as the yield acceleration approaches zero",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No limiting theorem, redshift-dependent acceleration or high-redshift galaxy prediction is formalized; the direction of approach and positive mass domain need specification."
+    },
+    {
+      "id": 176,
+      "section": "11.6",
+      "page": 39,
+      "topic": "Outer capture boundary H_0 R_max = v_rot implies R_max = v_rot/H_0",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "R_max is a free scalar in P_shear_2D. No expansion field, terminal-boundary condition or division by a nonzero H_0 is proved."
+    },
+    {
+      "id": 177,
+      "section": "11.6",
+      "page": 39,
+      "topic": "Baryonic Tully-Fisher scaling v_rot^4 = a_0 G M_bar",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.tully_fisher_algebra",
+        "AsymmetricTensor.baryonic_tully_fisher_derivation"
+      ],
+      "note": "Squaring an assumed v_rot^2 = a_0 sqrt(G M_bar/a_0) gives the fourth-power relation under positivity assumptions. The transition-radius coupling and physical BTFR mechanism are not derived."
+    },
+    {
+      "id": 178,
+      "section": "11.6",
+      "page": 40,
+      "topic": "Estimated galactic shear-pressure fraction P_shear/P_c approximately 4.4e-7",
+      "status": "known_mismatch",
+      "declarations": [],
+      "note": "No numerical estimate or pressure-ratio theorem is implemented. Eqs. 169 and 173 give P_shear(r)/P_c = 2(v_rot^2/c^2) log(R_max/r), so the displayed ratio also needs an explicit radial/normalization justification. See author-correction issue #44; no corrected manuscript publication is claimed."
+    },
+    {
+      "id": 179,
+      "section": "11.6",
+      "page": 40,
+      "topic": "Effective refractive index is -1/S_00 with summed baryonic and shear pressure",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.temporal_diagonal_admittance",
+        "AsymmetricTensor.tensor_refractive_index"
+      ],
+      "note": "Only related scalar admittance and refractive-index conditional lemmas exist. No theorem connects the shear-modified S_00 to a physical effective index or constructs stress birefringence."
+    },
+    {
+      "id": 180,
+      "section": "11.6",
+      "page": 40,
+      "topic": "Isotropic Newtonian refractive index (1-2GM_bar/(rc^2))^-1",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.tensor_refractive_index"
+      ],
+      "note": "The general scalar index formula is available conditionally, but the Newtonian pressure substitution and spherical optical field are not implemented."
+    },
+    {
+      "id": 181,
+      "section": "11.6",
+      "page": 40,
+      "topic": "Cylindrical logarithmic-shear refractive index",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.P_shear_2D",
+        "AsymmetricTensor.kinematic_plateau_extraction",
+        "AsymmetricTensor.tensor_refractive_index"
+      ],
+      "note": "Related scalar pieces exist, but the displayed cylindrical index is not proved and no anisotropic optical model or finite-radius geometry is constructed."
+    },
+    {
+      "id": 182,
+      "section": "11.6",
+      "page": 40,
+      "topic": "Inclination-dependent total deflection integral from isotropic and cylindrical index gradients",
+      "status": "conjecture",
+      "declarations": [],
+      "note": "No lensing integral, inclination projection, gradient of either index or terminal shear-ring theorem is implemented."
+    },
+    {
+      "id": 183,
+      "section": "12.1",
+      "page": 41,
+      "topic": "Affine connection decomposition into Levi-Civita connection and contortion",
+      "status": "definition",
+      "declarations": [],
+      "note": "A manuscript connection decomposition only. Lean has no affine connection, Levi-Civita connection, contortion tensor or corresponding equality."
+    },
+    {
+      "id": 184,
+      "section": "12.2",
+      "page": 41,
+      "topic": "Weak-field Levi-Civita component from static-pressure gradient",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.longitudinal_transport_acceleration"
+      ],
+      "note": "The related theorem only rewrites an assumed coordinate-acceleration vector using opposite static/dynamic gradients. It defines no connection and proves neither the displayed Christoffel approximation nor its geodesic origin."
+    },
+    {
+      "id": 185,
+      "section": "12.4",
+      "page": 41,
+      "topic": "Spin density equals tension-normalized torsion and differentiated Clebsch vorticity",
+      "status": "conjecture",
+      "declarations": [],
+      "note": "No torsion, spin-density tensor, covariant exterior derivative or vorticity-to-contortion map exists in this formalization."
+    },
+    {
+      "id": 186,
+      "section": "12.6",
+      "page": 42,
+      "topic": "Riemann curvature expansion in the affine connection",
+      "status": "definition",
+      "declarations": [],
+      "note": "The standard curvature expression is stated in the manuscript but no connection-derived Riemann tensor is implemented."
+    },
+    {
+      "id": 187,
+      "section": "12.6",
+      "page": 42,
+      "topic": "Einstein-Cartan Lagrangian with quadratic contortion terms",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.einstein_cartan_lagrangian"
+      ],
+      "note": "Represented only by h_L_Tot, an assumed equality between real scalars L_Tot, tension_limit, R_tilde and two K traces. No Riemann contraction, boundary term or tensor-derived Lagrangian is constructed."
+    },
+    {
+      "id": 188,
+      "section": "12.6",
+      "page": 42,
+      "topic": "Scalar split of the Einstein-Cartan Lagrangian into Einstein-Hilbert and spin terms",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.einstein_cartan_lagrangian"
+      ],
+      "note": "Distributivity proves L_Tot = L_EH + L_Spin after assuming all three scalar formulas. Geometric identification and the c^4/(8 pi G) normalization remain inputs rather than derived tensor facts."
+    },
+    {
+      "id": 189,
+      "section": "13",
+      "page": 42,
+      "topic": "Spatial Cauchy stress P_c(S^ij-delta^ij) = P_c(alpha_s^-2-1)delta^ij",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.symmetric_diagonals",
+        "AsymmetricTensor.spatial_stress_proof"
+      ],
+      "note": "The coordinate diagonal values and a separate pressure-budget rearrangement are proved. No Cauchy stress tensor or the displayed index-bearing field equation is defined."
+    },
+    {
+      "id": 190,
+      "section": "13",
+      "page": 42,
+      "topic": "Force density as gradient of inverse scalar capacity",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No spatial stress divergence or nonlinear inverse-capacity force-density field is implemented."
+    },
+    {
+      "id": 191,
+      "section": "13.1",
+      "page": 43,
+      "topic": "Antisymmetric momentum-divergence equation couples transverse acceleration to vorticity divergence",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No antisymmetric field divergence expansion establishes this equation; the wave theorem starts from a later abstract vector equality."
+    },
+    {
+      "id": 192,
+      "section": "13.1",
+      "page": 43,
+      "topic": "Bianchi-derived rotational induction t_p partial_t Omega = -d v_perp",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No antisymmetric-field Bianchi identity or exterior-calculus induction equation is formalized."
+    },
+    {
+      "id": 193,
+      "section": "13.1",
+      "page": 43,
+      "topic": "Time differentiation and induction substitution produce the second-order transverse equation",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No time/spatial differentiation, interchange rule or exterior-derivative divergence identity is implemented for these fields."
+    },
+    {
+      "id": 194,
+      "section": "13.1",
+      "page": 43,
+      "topic": "Transverse wave equation partial_t^2 v_perp = c^2 Laplacian v_perp",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.wave_equation_algebra",
+        "AsymmetricTensor.transverse_wave_propagation"
+      ],
+      "note": "Proves scalar-multiplication cancellation on abstract V_3D vectors assuming (1/c^2) times an acceleration symbol equals a Laplacian symbol. Neither symbol is defined as a derivative, and no PDE follows from tensor conservation or Bianchi identities."
+    },
+    {
+      "id": 195,
+      "section": "13.2",
+      "page": 43,
+      "topic": "Background-vorticity coupling sources transverse wave acceleration",
+      "status": "conjecture",
+      "declarations": [],
+      "note": "The proportionality relation is not formalized. No rotating wave field, coupling coefficient or differential equation is supplied."
+    },
+    {
+      "id": 196,
+      "section": "13.2",
+      "page": 43,
+      "topic": "Chiral induction via orthogonal contraction of vorticity with transverse time derivative",
+      "status": "conjecture",
+      "declarations": [],
+      "note": "No one-form/two-form contraction, orthogonality proof or chiral wave dynamics is implemented."
+    },
+    {
+      "id": 197,
+      "section": "13.3",
+      "page": 44,
+      "topic": "Measurement-boundary projection of transverse velocity onto an allowed axis",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No normalized axis, orthogonal projection or vector-to-scalar amplitude relation is implemented. The following energy theorem simply assumes the cosine-scaled scalar velocity."
+    },
+    {
+      "id": 198,
+      "section": "13.3",
+      "page": 44,
+      "topic": "Malus-law pressure transmission P_trans = P_0 cos^2(theta)",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.malus_law_algebra",
+        "AsymmetricTensor.transverse_energy_transmission"
+      ],
+      "note": "Proves the scalar squared-amplitude identity from assumed initial/transmitted Bernoulli pressures. It does not derive an apparatus projection or a quantum measurement probability."
+    },
+    {
+      "id": 199,
+      "section": "13.3",
+      "page": 44,
+      "topic": "Projected transverse slip substituted into rotational induction",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No projected one-form, Bianchi identity or boundary induction equation is implemented."
+    },
+    {
+      "id": 200,
+      "section": "13.3",
+      "page": 44,
+      "topic": "Exterior-derivative product rule for cosine-modulated transverse slip",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No exterior-calculus product rule or wedge-product field exists here. eigenstate_convergence uses only a free real wedge_product in a steady-state scalar premise."
+    },
+    {
+      "id": 201,
+      "section": "13.3",
+      "page": 44,
+      "topic": "Steady-state angular alignment: sin(theta)=0 implies theta in {0,pi}",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.steady_state_collapse",
+        "AsymmetricTensor.eigenstate_convergence"
+      ],
+      "note": "Lean concludes only sin(theta)=0 from a scalar product equal to zero and a nonzero wedge-product assumption. It does not prove theta in {0,pi}; that unrestricted real-angle claim requires an angular domain/modulo convention and otherwise has additional solutions such as 2 pi."
+    },
+    {
+      "id": 202,
+      "section": "13.4",
+      "page": 45,
+      "topic": "Screened Poisson attenuation equation with inverse-capacity stiffness",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No screened Poisson PDE, field domain or boundary conditions are implemented."
+    },
+    {
+      "id": 203,
+      "section": "13.4",
+      "page": 45,
+      "topic": "Radial Yukawa-type amplitude A(r)=A_0 exp(-r/lambda_D)/r",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No radial PDE solution, exponential attenuation field or boundary-value verification is implemented."
+    },
+    {
+      "id": 204,
+      "section": "13.4",
+      "page": 45,
+      "topic": "Debye attenuation length lambda_D = L_0 alpha_s = L_0 sqrt(1-P_dyn/P_c)",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.attenuation_length_algebra",
+        "AsymmetricTensor.debye_attenuation_length"
+      ],
+      "note": "Assumes the square-root attenuation-length expression and substitutes the definition of P_c. It does not solve Eq. 202, define alpha_s from the PDE or derive a physical Debye screening scale."
+    },
+    {
+      "id": 205,
+      "section": "13.4",
+      "page": 45,
+      "topic": "Deborah ratio De = 1/(alpha_s^2 alpha t_p Omega)",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.U_perp_Re",
+        "AsymmetricTensor.U_perp_Im",
+        "AsymmetricTensor.geometric_deborah_derivation"
+      ],
+      "note": "The real/imaginary scalar ratio has exactly the displayed algebraic form. Identifying that ratio as a physical Deborah number is not a formal model; no relaxation or timescale dynamics is implemented."
+    },
+    {
+      "id": 206,
+      "section": "13.4",
+      "page": 45,
+      "topic": "Deborah number diverges at vanishing scalar admittance",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.geometric_deborah_derivation"
+      ],
+      "note": "No limit or magnetic-reconnection theorem is proved. A positive nonzero alpha t_p Omega and a specified approach to zero are needed; point evaluation at zero uses totalized real division and is not an infinite value."
+    },
+    {
+      "id": 207,
+      "section": "14.1",
+      "page": 45,
+      "topic": "Divergence-free velocity expanded in spherical coordinates",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No spherical-coordinate vector field, divergence formula or derivation of incompressibility from the antisymmetric trace is implemented."
+    },
+    {
+      "id": 208,
+      "section": "14.1",
+      "page": 46,
+      "topic": "Spherical symmetry reduces continuity to radial flux conservation",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No angular-independence hypotheses or radial differential conservation law are formalized."
+    },
+    {
+      "id": 209,
+      "section": "14.1",
+      "page": 46,
+      "topic": "Integrating radial flux yields v(r)=C/r^2",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.isochoric_velocity_scaling"
+      ],
+      "note": "The velocity profile is h_v, an input to the pressure-scaling theorem. No radial integration or derivation of a conserved C is proved."
+    },
+    {
+      "id": 210,
+      "section": "14.1",
+      "page": 46,
+      "topic": "Bernoulli pressure for inverse-square velocity scales as rho_tau C^2/(2r^4)",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.isochoric_velocity_scaling"
+      ],
+      "note": "Algebraic substitution from the assumed velocity profile and Bernoulli pressure relation; no continuity equation is solved."
+    },
+    {
+      "id": 211,
+      "section": "14.2",
+      "page": 46,
+      "topic": "Geometric action invariant S=E T=kappa",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.geometric_action_boundary"
+      ],
+      "note": "Encoded as h_S: kappa = E_val * T_val. There is no action functional, time integral or proof of its invariance."
+    },
+    {
+      "id": 212,
+      "section": "14.2",
+      "page": 46,
+      "topic": "Closed rotation period T=2 pi r/c",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.geometric_action_boundary"
+      ],
+      "note": "Encoded as h_T. No rotating trajectory, phase-speed boundary or period calculation is constructed."
+    },
+    {
+      "id": 213,
+      "section": "14.2",
+      "page": 46,
+      "topic": "Work integral of confinement pressure gives E=2 pi rho_tau C^2/r",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.geometric_action_boundary"
+      ],
+      "note": "The final energy expression is assumed as h_E. No improper integral, integrability or evaluation at infinity is formalized."
+    },
+    {
+      "id": 214,
+      "section": "14.2",
+      "page": 46,
+      "topic": "Eliminating radius from action gives C^2=kappa c/(4 pi^2 rho_tau)",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.geometric_action_boundary"
+      ],
+      "note": "Proved algebraically from assumed action, period and energy formulas with nonzero radius; it does not derive the input integrals or action invariant."
+    },
+    {
+      "id": 215,
+      "section": "14.2",
+      "page": 46,
+      "topic": "Confinement pressure P(r)=kappa c/(8 pi^2 r^4)",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.spatial_confinement_gradient"
+      ],
+      "note": "Proves substitution of the assumed C^2 relation into an assumed pressure law. No spatial gradient or confinement dynamics is defined despite the theorem name."
+    },
+    {
+      "id": 216,
+      "section": "14.3",
+      "page": 47,
+      "topic": "Pressure projected over spherical area gives F(r)=kappa c/(2 pi r^2)",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.fundamental_force_limit"
+      ],
+      "note": "The quotient is used by a later normalization theorem, but no force-equals-pressure-times-spherical-area theorem proves this step."
+    },
+    {
+      "id": 217,
+      "section": "14.3",
+      "page": 47,
+      "topic": "Force-work improper integral E(r)=kappa c/(2 pi r)",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.action_constant_identity"
+      ],
+      "note": "Only the resulting rest-energy relation appears as h_energy in action_constant_identity; no force integral or convergence theorem is implemented."
+    },
+    {
+      "id": 218,
+      "section": "14.3",
+      "page": 47,
+      "topic": "Rest-energy equality fixes r=kappa/(2 pi m c)",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.action_constant_identity"
+      ],
+      "note": "The theorem assumes the rest-energy equality but concludes kappa from a separately assumed Compton radius. It has no conclusion deriving this displayed radius formula."
+    },
+    {
+      "id": 219,
+      "section": "14.3",
+      "page": 47,
+      "topic": "Matching rest-energy radius with reduced Compton radius yields kappa=2 pi hbar=h",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.action_constant_identity"
+      ],
+      "note": "Derives kappa = 2 pi hbar from positive mass/radius, the assumed energy relation and r=hbar/(mc). No unreduced Planck-constant h declaration or independent physical quantization principle is supplied."
+    },
+    {
+      "id": 220,
+      "section": "14.3",
+      "page": 47,
+      "topic": "Fundamental force normalization F(r)=h c/(2 pi r^2)=hbar c/r^2",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.F_fund",
+        "AsymmetricTensor.fundamental_force_limit"
+      ],
+      "note": "F_fund is defined as hbar c/r^2; the theorem equates kappa c/(2 pi r^2) to it assuming kappa=2 pi hbar. The physical force law is not derived from a pressure field here."
+    },
+    {
+      "id": 221,
+      "section": "14.4",
+      "page": 47,
+      "topic": "Planck-radius force recovers c^4/G",
+      "status": "proved_identity",
+      "declarations": [
+        "AsymmetricTensor.F_fund",
+        "AsymmetricTensor.interaction_hierarchy_gravity",
+        "AsymmetricTensor.c4_div_G_eq_planck_force"
+      ],
+      "note": "Exact algebraic identity under the file's positive fundamental constants and definitions of G and F_fund. Identifying this value as gravitational maximum tension is a physical interpretation."
+    },
+    {
+      "id": 222,
+      "section": "14.4",
+      "page": 47,
+      "topic": "Weak-interaction radius substitution gives m_W^2 c^3/hbar",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.interaction_hierarchy_weak"
+      ],
+      "note": "Exact scalar substitution after assuming R_W=hbar/(m_W c). No W-boson dynamics, weak interaction or rupture mechanism is modeled."
+    },
+    {
+      "id": 223,
+      "section": "14.4",
+      "page": 47,
+      "topic": "Strong-interaction radius substitution gives m_e^2 c^3/(alpha^2 hbar)",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.interaction_hierarchy_strong"
+      ],
+      "note": "Exact scalar substitution after assuming L_crit=alpha hbar/(m_e c). No strong interaction, confinement dynamics or physical identification of this radius is derived."
+    },
+    {
+      "id": 224,
+      "section": "14.4",
+      "page": 48,
+      "topic": "Electromagnetic baseline F(a_0)=alpha^2 m_e^2 c^3/hbar at the Bohr radius",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.interaction_hierarchy_em"
+      ],
+      "note": "The current theorem proves alpha_em * F_fund(a_0) = alpha_em^3 m_e^2 c^3/hbar, whereas the manuscript states the unweighted F_fund(a_0) with alpha_em^2. Cancellation could recover the baseline under nonzero alpha, but no matching unweighted theorem is supplied."
+    },
+    {
+      "id": 225,
+      "section": "14.5",
+      "page": 48,
+      "topic": "Cosmic-horizon force F(R_h,0)=hbar c/R_h,0^2=h c/(2 pi R_h,0^2)",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.F_fund",
+        "AsymmetricTensor.kinematic_acceleration_floor"
+      ],
+      "note": "The hbar expression is F_fund evaluated at a horizon radius. The h-form is independently assumed as h_F by the acceleration-floor theorem; no declaration relates its h_val parameter to hbar."
+    },
+    {
+      "id": 226,
+      "section": "14.5",
+      "page": 48,
+      "topic": "Dividing horizon force by action-defined horizon mass yields a_0=c^2/(2 pi R_h,0)",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.kinematic_acceleration_floor"
+      ],
+      "note": "Algebraic cancellation from assumed acceleration, force and horizon-mass relations, with positive radius and h_val. The horizon mass and galactic threshold are not dynamically derived."
+    },
+    {
+      "id": 227,
+      "section": "14.6",
+      "page": 48,
+      "topic": "Planck mass M_P=sqrt(hbar c/G)",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.M_P",
+        "AsymmetricTensor.M_P_pos",
+        "AsymmetricTensor.M_P_sq_eq_hbar_c_div_G"
+      ],
+      "note": "M_P is defined by hbar/(l_p c), and its positivity and squared relation are proved. The exact square-root equality is not a named theorem; the aggregate-gravity theorem uses a free M_P_val and assumes its squared relation."
+    },
+    {
+      "id": 228,
+      "section": "14.6",
+      "page": 48,
+      "topic": "Macroscopic force is a product of mass/Planck-mass counts times F_fund",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.universal_gravitation_limit"
+      ],
+      "note": "The full combinatorial superposition formula is h_F_macro. No count of defects, interaction additivity or physical aggregate model is constructed."
+    },
+    {
+      "id": 229,
+      "section": "14.6",
+      "page": 48,
+      "topic": "Assumed aggregate force simplifies to Newtonian G M_1 M_2/r^2",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.universal_gravitation_limit"
+      ],
+      "note": "Proves scalar cancellation using assumed aggregate-force and Planck-mass-squared relations. It is not a derivation of the combinatorial interaction law or a gravitational field equation."
+    },
+    {
+      "id": 230,
+      "section": "15.1",
+      "page": 49,
+      "topic": "Spatial line element fixes invariant rest wavelength through S_ii=alpha_s^-2",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.symmetric_diagonals"
+      ],
+      "note": "The diagonal entry is proved, but no line element, wavelength, null field or invariant rest-wavelength construction is formalized."
+    },
+    {
+      "id": 231,
+      "section": "15.1",
+      "page": 49,
+      "topic": "Cosmological redshift is the observer/emitter wavelength and scalar-admittance ratio",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.cosmological_redshift_ratio"
+      ],
+      "note": "Proves only equality of two ratios from assumed lambda=alpha lambda_0 relations. No z variable, wave propagation or derivation of cosmological redshift is present."
+    },
+    {
+      "id": 232,
+      "section": "15.2",
+      "page": 49,
+      "topic": "Null-geodesic coordinate phase speed c sqrt(-S_00/S_ii)",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.tensor_refractive_index"
+      ],
+      "note": "The substituted speed expression appears as h_vc. The null interval, geodesic, dr/dt and its derivation from a metric are not constructed."
+    },
+    {
+      "id": 233,
+      "section": "15.2",
+      "page": 49,
+      "topic": "Positive-capacity phase speed simplifies to c alpha_s^2=c(1-P_dyn/P_c)",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.tensor_refractive_index"
+      ],
+      "note": "The theorem's local algebra proves v_c_r=c*alpha_sq assuming positive alpha_sq, its pressure relation and the square-root speed formula. It does not establish any differential or null-geodesic premise."
+    },
+    {
+      "id": 234,
+      "section": "15.2",
+      "page": 49,
+      "topic": "Scalar refractive index n=c/v_c=(1-P_dyn/P_c)^-1",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.tensor_refractive_index"
+      ],
+      "note": "Exact scalar conclusion under assumed speed, index definition and positive capacity. Neither n>1 nor the physical pressure domain is established by this theorem."
+    },
+    {
+      "id": 235,
+      "section": "15.3",
+      "page": 49,
+      "topic": "Phenomenological cosmological pressure P_dyn=P_c(1-exp(-r/ct))^2",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.P_cosmo",
+        "AsymmetricTensor.refractive_index_substitution"
+      ],
+      "note": "The manuscript explicitly leaves the continuum boundary derivation open and motivates the curve through observational fitting. Lean uses the expression in a substitution identity; it does not derive it or fit Pantheon+ data."
+    },
+    {
+      "id": 236,
+      "section": "15.3",
+      "page": 50,
+      "topic": "Canceling P_c in the exponential-pressure refractive-index expression",
+      "status": "proved_identity",
+      "declarations": [
+        "AsymmetricTensor.refractive_index_substitution"
+      ],
+      "note": "The cancellation is an internal step of the exact scalar identity covering Eqs. 236-237, with P_c>0. It proves no cosmological pressure model or ray propagation."
+    },
+    {
+      "id": 237,
+      "section": "15.3",
+      "page": 50,
+      "topic": "Factored optical index 1/[exp(-r/ct)(2-exp(-r/ct))]",
+      "status": "proved_identity",
+      "declarations": [
+        "AsymmetricTensor.refractive_index_substitution"
+      ],
+      "note": "Exact algebraic factorization with exponential values treated as scalars. No positive-radius/horizon domain, finite index or n>1 theorem is included; real division is totalized."
+    },
+    {
+      "id": 238,
+      "section": "15.4",
+      "page": 50,
+      "topic": "Optical distance r_opt is the line integral of refractive index along r_true",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No path integral, integrability result or r_opt>r_true theorem is implemented; later formulas use r_opt and r_true as independent positive real parameters."
+    },
+    {
+      "id": 239,
+      "section": "15.5",
+      "page": 50,
+      "topic": "Distance-modulus anomaly Delta mu=5 log_10(r_opt/r_true)",
+      "status": "known_mismatch",
+      "declarations": [
+        "AsymmetricTensor.logarithmic_magnitude_anomaly",
+        "AsymmetricTensor.magnitude_anomaly_divergence"
+      ],
+      "note": "The Lean statements use Real.log (natural logarithm), including in their assumed moduli, whereas the manuscript uses log base 10. No factor 1/log(10) or logb(10) appears. The scalar ratio cancellation does not prove positive anomaly or dark-energy equivalence."
+    },
+    {
+      "id": "S16.1.alpha_decay",
+      "section": "16.1",
+      "page": 51,
+      "topic": "Alpha-decay transmission mapped to a WKB strain integral",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.alpha_decay_wkb_mapping"
+      ],
+      "note": "The conclusion T_transmission=exp(-WKB_integral) is exactly the h_target premise. No WKB integral, barrier solution or decay probability is derived."
+    },
+    {
+      "id": "S16.1.baryon_acoustic_oscillations",
+      "section": "16.1",
+      "page": 51,
+      "topic": "BAO and volumetric admittance/redshift scaling",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.volumetric_admittance_scaling"
+      ],
+      "note": "Proves only sqrt((1/alpha_s^2)^3)=1/alpha_s^3 for positive alpha_s. No spatial determinant, volume form, redshift relation or acoustic oscillation is constructed; the manuscript conflates determinant and its square-root volume scaling."
+    },
+    {
+      "id": "S16.1.casimir_effect",
+      "section": "16.1",
+      "page": 51,
+      "topic": "Casimir boundary suction scaling as inverse fourth power of separation",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.casimir_pressure_scaling"
+      ],
+      "note": "Assumes F_c/Area=hbar*c/(4*pi*d^4), then multiplies by Area. No mode sum, renormalization, boundary-energy calculation or physical Casimir coefficient is derived."
+    },
+    {
+      "id": "S16.1.holographic_bound",
+      "section": "16.1",
+      "page": 51,
+      "topic": "Holographic bound from an incompressible cavitation boundary",
+      "status": "conjecture",
+      "declarations": [],
+      "note": "No entropy, boundary-area bound, Dirichlet boundary or holographic inequality is modeled."
+    },
+    {
+      "id": "S16.1.lemaitre_tolman_bondi",
+      "section": "16.1",
+      "page": 51,
+      "topic": "Lemaitre-Tolman-Bondi expanding pressure-free metric mapping",
+      "status": "conjecture",
+      "declarations": [],
+      "note": "No LTB metric, radial field solution or comparison with FLRW is implemented."
+    },
+    {
+      "id": "S16.1.michelson_morley",
+      "section": "16.1",
+      "page": 51,
+      "topic": "Michelson-Morley null result from continuum contraction",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.michelson_morley_invariance"
+      ],
+      "note": "Assumes both travel times equal the identical L_arm/v_light expression and concludes equality. No moving-arm two-way transit, anisotropic speeds or contraction dynamics is derived."
+    },
+    {
+      "id": "S16.1.newton_first_law",
+      "section": "16.1",
+      "page": 52,
+      "topic": "Inertia and d Alembert cancellation of integrated dynamic-pressure gradient",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.inertia_conservation"
+      ],
+      "note": "Assumes Net_Force=Integral_grad_P_dyn and that the latter scalar is zero. No integral, spatial symmetry or divergence theorem is implemented."
+    },
+    {
+      "id": "S16.1.newton_third_law",
+      "section": "16.1",
+      "page": 52,
+      "topic": "Action-reaction as balanced momentum transfer",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.action_reaction_equilibrium"
+      ],
+      "note": "Adds two scalar rates, assumes their total is zero and rearranges. No stress flux, momentum derivative or interaction boundary is modeled."
+    },
+    {
+      "id": "S16.1.optimal_transport",
+      "section": "16.1",
+      "page": 51,
+      "topic": "Optimal transport identifies Wasserstein distance with minimized kinematic action",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.optimal_transport_minimization"
+      ],
+      "note": "Returns its equality premise unchanged. No measures, transport plans, action integral or minimization problem is implemented."
+    },
+    {
+      "id": "S16.1.shapiro_delay",
+      "section": "16.1",
+      "page": 52,
+      "topic": "Shapiro time delay as scalar-capacity optical refraction",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.shapiro_delay_refraction"
+      ],
+      "note": "Rearranges an assumed scalar c/(r/t)=1/alpha_s^2 relation into r/t=c alpha_s^2. No dr/dt field, path integration or delay prediction is computed."
+    },
+    {
+      "id": "S16.1.wakefield_cavitation",
+      "section": "16.1",
+      "page": 51,
+      "topic": "Wakefield ponderomotive pressure-gradient balance and cavitation",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.wakefield_cavitation_gradient"
+      ],
+      "note": "A scalar conservation premise and constant-capacity premise imply opposite gradients. Gradients are free reals; no fields, ponderomotive force or cavitation dynamics are constructed."
+    },
+    {
+      "id": "S16.2.coulomb_positronium",
+      "section": "16.2",
+      "page": 54,
+      "topic": "Coulomb attraction and helicity-mediated orbital arrest in positronium",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.helicity_orbital_arrest"
+      ],
+      "note": "The sole theorem assumes alpha_s>0 and returns it. No two-defect field, Coulomb force, helicity three-form, bounded invariant or stable orbit is derived."
+    },
+    {
+      "id": "S16.2.cp_violation",
+      "section": "16.2",
+      "page": 54,
+      "topic": "CP-induced sign reversal of defect-background coupling energy",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.cp_violation_energy_shift"
+      ],
+      "note": "Given scalar E_CP=v_perp*Omega_0, proves that negating v_perp negates the product. No physical CP transformation, vector dot product, nonzero energy condition or baryogenesis mechanism is implemented."
+    },
+    {
+      "id": "S16.2.dirac_clifford_spinor",
+      "section": "16.2",
+      "page": 52,
+      "topic": "Clifford algebra, Dirac spinor and Spin(1,3) double-cover claim",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.dirac_spinor_double_cover"
+      ],
+      "note": "Proves only cosine half-angle evaluations at 2 pi and 4 pi times a real scalar. No Clifford algebra, gamma matrices, spin representation, topological double cover, four-component spinor or Dirac equation is constructed."
+    },
+    {
+      "id": "S16.2.entanglement_decoherence",
+      "section": "16.2",
+      "page": 53,
+      "topic": "Contextual measurement domains, entanglement correlations and decoherence",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.entanglement_contextuality"
+      ],
+      "note": "Assumes two types are unequal and returns that same proposition. No probability measures, correlations, measurement settings, sesquilinear contraction, Bell inequalities or decoherence dynamics are formalized."
+    },
+    {
+      "id": "S16.2.gravitoelectromagnetism",
+      "section": "16.2",
+      "page": 52,
+      "topic": "Gravitoelectric slip and gravitomagnetic vorticity mapping",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.gravitoelectromagnetism_mapping"
+      ],
+      "note": "Returns exactly the assumed pair of abstract-vector identifications. No gravity/electromagnetism fields or frame-dragging equations are derived."
+    },
+    {
+      "id": "S16.2.mott_scattering",
+      "section": "16.2",
+      "page": 53,
+      "topic": "Helicity-dependent Mott scattering cosine-squared factor",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.mott_scattering_cross_section"
+      ],
+      "note": "Assumes the amplitude equals cos^2(theta/2) and rewrites it as (1+cos theta)/2. No scattering cross section, tensor contraction, helicity conservation or inverse-fourth-momentum law is derived."
+    },
+    {
+      "id": "S16.2.poynting_vector",
+      "section": "16.2",
+      "page": 53,
+      "topic": "Poynting flux identified with convective Lamb-vector transport",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.poynting_vector_convection"
+      ],
+      "note": "Returns an assumed equality of two abstract vectors. No convective derivative, one-form/two-form contraction, stress-energy flux or Poynting identity is implemented."
+    },
+    {
+      "id": "S16.2.rydberg_series",
+      "section": "16.2",
+      "page": 54,
+      "topic": "Atomic orbital quantization and inverse-square Rydberg energy scaling",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.rydberg_energy_quantization"
+      ],
+      "note": "Assumes v_n scaling through a pressure formula and E_n=P_dyn_n, then rearranges to 1/n^2. n_integer is a real parameter, not an integer; periodic quantization, rn~n^2, effective volume and physical binding energy are absent."
+    },
+    {
+      "id": "S16.3.acoustic_covariance",
+      "section": "16.3",
+      "page": 55,
+      "topic": "Acoustic covariance and volume contraction V=V_0/gamma",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.acoustic_covariance_volume"
+      ],
+      "note": "Assumes contracted length and volume=length*fixed area, then rewrites. No Lorentz factor, unchanged transverse axes, internal-frequency dynamics or Planck-length bound is derived."
+    },
+    {
+      "id": "S16.3.almansi_strain",
+      "section": "16.3",
+      "page": 55,
+      "topic": "Almansi finite strain and proposed asymptotic freedom mapping",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.almansi_finite_strain"
+      ],
+      "note": "Returns the assumed scalar Almansi-looking formula unchanged. No deformation map, inverse metric matrix, finite strain tensor or asymptotic-freedom limit is constructed."
+    },
+    {
+      "id": "S16.3.electromagnetic_decoupling",
+      "section": "16.3",
+      "page": 56,
+      "topic": "Mixed-tensor electric/magnetic coupling scales and running-coupling limits",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.electromagnetic_decoupling_ratio"
+      ],
+      "note": "Assumes scalar electric/magnetic scaling formulas with common alpha factor omitted and proves their ratio scales as alpha_s^-4. No metric index-raising computation, alpha normalization, physical running coupling or divergent/vanishing limit is derived."
+    },
+    {
+      "id": "S16.3.fourier_curvature",
+      "section": "16.3",
+      "page": 56,
+      "topic": "Fourier decomposition of curvature into frequency and momentum states",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.fourier_curvature_decomposition"
+      ],
+      "note": "Proves only k^2>0 and omega^2>0 from nonzero real parameters. There is no Fourier transform, wave operator, spectral decomposition, dispersion relation or quantized momentum construction."
+    },
+    {
+      "id": "S16.3.lorentz_magnus_force",
+      "section": "16.3",
+      "page": 55,
+      "topic": "Lorentz force as antisymmetric-tensor contraction and Magnus force",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.lorentz_force_magnus_mapping"
+      ],
+      "note": "Returns an assumed equality between free real force and contraction symbols. No actual contraction, velocity dependence or Magnus-force derivation is modeled."
+    },
+    {
+      "id": "S16.3.su3_mass_gap",
+      "section": "16.3",
+      "page": 55,
+      "topic": "SU(3) generators and mass gap identified with Deborah-number unity",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.su3_mass_gap_transition"
+      ],
+      "note": "Assumes De=1 and returns that premise. No traceless-Hermitian matrix basis, su(3) Lie algebra, representation, Yang-Mills model, spectral gap or glass-transition dynamics is implemented."
+    },
+    {
+      "id": "S16.3.u1_gauge",
+      "section": "16.3",
+      "page": 56,
+      "topic": "Compensated Clebsch shift and claimed U(1) gauge invariance",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.u1_gauge_invariance"
+      ],
+      "note": "Proves additive cancellation of opposite grad_chi shifts in an abstract module given v=grad_h+A. No U(1) group action, phase rotation, derivatives or metric invariance is constructed."
+    },
+    {
+      "id": "S16.3.viscoelastic_phase_angle",
+      "section": "16.3",
+      "page": 56,
+      "topic": "Viscoelastic phase angle from antisymmetric/symmetric scalar strain ratio",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.viscoelastic_phase_angle_reduction"
+      ],
+      "note": "Proves a real-power reciprocal simplification for positive alpha_s. It does not model frequency response, complex rheology or establish the physical phase-angle interpretation."
+    },
+    {
+      "id": "S16.3.wake_detachment",
+      "section": "16.3",
+      "page": 56,
+      "topic": "Detached galactic wakes and normalization-stabilized lensing structure",
+      "status": "specification_target",
+      "declarations": [
+        "AsymmetricTensor.wake_detachment_stabilization"
+      ],
+      "note": "Returns the assumed Normalized_Shear=A_ij/alpha_s equality. No collision, wake evolution, attenuation, stability theorem or Bullet Cluster prediction is implemented."
+    },
+    {
+      "id": "S16.3.z_pinch",
+      "section": "16.3",
+      "page": 55,
+      "topic": "Z-pinch pressure balance and sausage-instability yield",
+      "status": "conditional_implication",
+      "declarations": [
+        "AsymmetricTensor.z_pinch_sausage_instability"
+      ],
+      "note": "From a scalar pressure budget and P_dyn=0, derives P_static=P_c-P_shear. No instability modes, critical pressure crossing or fracture mechanism is proved."
+    },
+    {
+      "id": "U1.exterior_closure",
+      "section": "1",
+      "page": 1,
+      "topic": "Irrotational phase d(dh)=0",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.Omega"
+      ],
+      "note": "No exterior complex, nilpotence theorem or actual 1-forms are implemented; ext_deriv is an arbitrary function."
+    },
+    {
+      "id": "U10.observer_frames",
+      "section": "10.1",
+      "page": 31,
+      "topic": "Classification of inertial and non-inertial frames",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No observer structure, frame bundle or action on the field; the source subsection is an empty heading."
+    },
+    {
+      "id": "U10.scale_variance",
+      "section": "10.4",
+      "page": 32,
+      "topic": "Micro–macro conformal scale variance",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No field-level conformal scale action or observer-dependent micro–macro structure; the source subsection is an empty heading."
+    },
+    {
+      "id": "U11.envelope",
+      "section": "11.5",
+      "page": 36,
+      "topic": "Phenomenological requirements for supplementary gradient",
+      "status": "assumption",
+      "declarations": [],
+      "note": "Spatial logarithmic pressure, causal baryonic coupling and inertial decoupling are proposed requirements. No theorem constructs the mechanism or establishes exclusion of all alternatives."
+    },
+    {
+      "id": "U11.no_go",
+      "section": "11.4",
+      "page": 36,
+      "topic": "Universal no-go assertion",
+      "status": "open_derivation",
+      "declarations": [],
+      "note": "No theorem quantifies over alternative gravity or dark-matter models. The source-free 3D harmonic argument does not support the universal exclusion; author scope correction remains #28/#43."
+    },
+    {
+      "id": "U2.critical_capacity",
+      "section": "2",
+      "page": 2,
+      "topic": "Critical pressure Pc=rho_tau*c^2/2",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.P_c",
+        "AsymmetricTensor.emergent_critical_pressure"
+      ],
+      "note": "The pressure relation is the definition of P_c and its reflexive theorem, not an independently derived yield criterion."
+    },
+    {
+      "id": "U2.total_admittance",
+      "section": "2",
+      "page": 2,
+      "topic": "Static-pressure and total-admittance budget",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.energy_density_proof",
+        "AsymmetricTensor.dynamic_compliance_link"
+      ],
+      "note": "The static budget is supplied as h_P_static; dynamic_compliance_link rewrites P_dyn_f defined from alpha_s_f. Neither proves a physically admissible state domain."
+    },
+    {
+      "id": "U3.antisymmetric_entries",
+      "section": "3.2",
+      "page": 3,
+      "topic": "Temporal slip and spatial vorticity entries",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.U_hat",
+        "AsymmetricTensor.antisymmetric_shear"
+      ],
+      "note": "Specified entry signs and antisymmetry are checked. The shear modulus, vorticity, acoustic speed and local total pressure interpretations remain model choices."
+    },
+    {
+      "id": "U3.symmetric_diagonals",
+      "section": "3.1",
+      "page": 3,
+      "topic": "Temporal and spatial compliance entries",
+      "status": "definition",
+      "declarations": [
+        "AsymmetricTensor.U_hat",
+        "AsymmetricTensor.symmetric_diagonals"
+      ],
+      "note": "The displayed diagonal entries are encoded and checked directly. Their interpretation as clock capacity, covariant length strain and constitutive compressibility is not derived."
+    },
+    {
+      "id": "U5.conservation",
+      "section": "5",
+      "page": 8,
+      "topic": "Covariant stress divergence and continuity",
+      "status": "assumption",
+      "declarations": [
+        "AsymmetricTensor.CoordinateConserved",
+        "AsymmetricTensor.bernoulli_energy_conservation",
+        "AsymmetricTensor.navier_stokes_momentum_conservation"
+      ],
+      "note": "This candidate uses an explicit fixed-chart CoordinateConserved premise, with constant-field witnesses and a nonconserved linear field. It does not assert conservation for all fields or construct the manuscript covariant stress divergence, continuity law or connection."
+    },
+    {
+      "id": "U8.phase_lock",
+      "section": "8.2",
+      "page": 24,
+      "topic": "Topological phase lock and mass generation",
+      "status": "open_derivation",
+      "declarations": [
+        "AsymmetricTensor.tensor_vev_origin"
+      ],
+      "note": "Related only: scalar spatial-diagonal algebra supplies no phase topology, locking, localized circulation or mass-generation calculation."
+    }
+  ]
+}

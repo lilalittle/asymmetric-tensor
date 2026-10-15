@@ -1,0 +1,4502 @@
+{
+  "schema_version": 1,
+  "snapshot_files": {
+    "AsymmetricTensor.lean": "99534c73b6c5f5784785a26f181882e43abd8edfc367323d1ea66a9cc8aed000",
+    "papers/asymmetric-metric-tensor.pdf": "0d97cbca284e68aeed75c98b830ce16ab0453fa54f7333ce50eb90e1f4f4e7a7",
+    "lean-toolchain": "ca5f1f601d34c49079e38d7e7041eb0f2a9c227fbc1df0f404820069a052330c",
+    "lake-manifest.json": "03f477185bc2d92b77707b6c6c85fe2221059a214fdc53c79d990f0404f0ccac",
+    "tests/EquationAxioms.lean": "4c36bf4efaf6e16d4e675e1b8436b1549ec2d004ae793ed8d048cf9f0b952311"
+  },
+  "method": "Lean collectAxioms for every declaration owned by the AsymmetricTensor module (including generated declarations), plus Meta.ppExpr for complete elaborated types.",
+  "standard_logical_axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "allowed_custom_axioms": [
+    "AsymmetricTensor.c",
+    "AsymmetricTensor.c_pos",
+    "AsymmetricTensor.hbar",
+    "AsymmetricTensor.hbar_pos",
+    "AsymmetricTensor.l_p",
+    "AsymmetricTensor.l_p_pos"
+  ],
+  "declaration_count": 240,
+  "source_declaration_count": 214,
+  "declarations": [
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.CoordinateConserved",
+      "type": "AsymmetricTensor.MetricField → Prop",
+      "source_line": 469,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.F_fund",
+      "type": "ℝ → ℝ",
+      "source_line": 1706,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.G",
+      "type": "ℝ",
+      "source_line": 71,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.G_mul_hbar",
+      "type": "AsymmetricTensor.G * AsymmetricTensor.hbar = AsymmetricTensor.l_p ^ 2 * AsymmetricTensor.c ^ 3",
+      "source_line": 131,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.G_ne_zero",
+      "type": "AsymmetricTensor.G ≠ 0",
+      "source_line": 111,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.G_pos",
+      "type": "0 < AsymmetricTensor.G",
+      "source_line": 78,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.I_2_vac",
+      "type": "ℝ",
+      "source_line": 299,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.I_2_vac_equals_4",
+      "type": "AsymmetricTensor.I_2_vac = 4",
+      "source_line": 302,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.M_P",
+      "type": "ℝ",
+      "source_line": 70,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.M_P_mul_l_p_c",
+      "type": "AsymmetricTensor.M_P * AsymmetricTensor.l_p * AsymmetricTensor.c = AsymmetricTensor.hbar",
+      "source_line": 124,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.M_P_ne_zero",
+      "type": "AsymmetricTensor.M_P ≠ 0",
+      "source_line": 110,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.M_P_pos",
+      "type": "0 < AsymmetricTensor.M_P",
+      "source_line": 92,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.M_P_sq_eq_hbar_c_div_G",
+      "type": "AsymmetricTensor.M_P ^ 2 = AsymmetricTensor.hbar * AsymmetricTensor.c / AsymmetricTensor.G",
+      "source_line": 96,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.MetricField",
+      "type": "Type",
+      "source_line": 452,
+      "source_kind": "abbrev",
+      "generated": false
+    },
+    {
+      "axioms": [],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.Omega",
+      "type": "{V_3D Forms_2D : Type} → V_3D → (V_3D → Forms_2D) → Forms_2D",
+      "source_line": 169,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "opaque",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.Omega_x_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 520,
+      "source_kind": "opaque",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "opaque",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.Omega_y_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 521,
+      "source_kind": "opaque",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "opaque",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.Omega_z_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 522,
+      "source_kind": "opaque",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_c",
+      "type": "ℝ",
+      "source_line": 73,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_c_pos",
+      "type": "0 < AsymmetricTensor.P_c",
+      "source_line": 114,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_cosmo",
+      "type": "ℝ → ℝ → ℝ → ℝ → ℝ",
+      "source_line": 1365,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_dyn_components",
+      "type": "ℝ → ℝ → ℝ → ℝ",
+      "source_line": 213,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_dyn_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 549,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_dyn_scalar",
+      "type": "ℝ → ℝ",
+      "source_line": 176,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_dyn_total",
+      "type": "ℝ → ℝ → ℝ → ℝ → ℝ → ℝ",
+      "source_line": 1368,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_g",
+      "type": "ℝ → ℝ",
+      "source_line": 183,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_shear_2D",
+      "type": "ℝ → ℝ → ℝ → ℝ",
+      "source_line": 1373,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_symmetry_axial",
+      "type": "∀ (U_ij : ℝ), -1 * -1 * U_ij = U_ij",
+      "source_line": 1354,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_symmetry_charge",
+      "type": "∀ (U_0i : ℝ), 1 * -1 * U_0i = -U_0i",
+      "source_line": 1357,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.P_symmetry_mass",
+      "type": "∀ (U_ii : ℝ), -1 * -1 * U_ii = U_ii",
+      "source_line": 1351,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.Pc_non_zero",
+      "type": "AsymmetricTensor.P_c ≠ 0",
+      "source_line": 539,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.ScalarField",
+      "type": "Type",
+      "source_line": 450,
+      "source_kind": "abbrev",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.SpaceTime",
+      "type": "Type",
+      "source_line": 447,
+      "source_kind": "abbrev",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.T2",
+      "type": "Type",
+      "source_line": 160,
+      "source_kind": "abbrev",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.T_perp_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 572,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.T_symmetry_charge",
+      "type": "∀ (U_0i : ℝ), -1 * 1 * U_0i = -U_0i",
+      "source_line": 1348,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.T_symmetry_mass",
+      "type": "∀ (U_00 : ℝ), -1 * -1 * U_00 = U_00",
+      "source_line": 1345,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.U_anti",
+      "type": "ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → AsymmetricTensor.T2",
+      "source_line": 272,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.U_hat",
+      "type": "ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → AsymmetricTensor.T2",
+      "source_line": 247,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.U_hat_dynamic",
+      "type": "AsymmetricTensor.MetricField",
+      "source_line": 524,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.U_perp_Im",
+      "type": "ℝ → ℝ → ℝ → ℝ",
+      "source_line": 1192,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.U_perp_Re",
+      "type": "ℝ → ℝ",
+      "source_line": 1191,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.U_sym",
+      "type": "ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → AsymmetricTensor.T2",
+      "source_line": 269,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.V4",
+      "type": "Type",
+      "source_line": 159,
+      "source_kind": "abbrev",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.VectorField",
+      "type": "Type",
+      "source_line": 451,
+      "source_kind": "abbrev",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.VolAvg",
+      "type": "AsymmetricTensor.T2 →ₗ[ℝ] AsymmetricTensor.T2",
+      "source_line": 389,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.VolAvg_U_anti",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  AsymmetricTensor.VolAvg (AsymmetricTensor.U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 0",
+      "source_line": 401,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.acceleration_link",
+      "type": "∀ (x : AsymmetricTensor.SpaceTime),\n  AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.U_hat_dynamic y 0 1) 0 x =\n    -AsymmetricTensor.kinematic_accel_f x / AsymmetricTensor.P_c",
+      "source_line": 599,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.acoustic_covariance_volume",
+      "type": "∀ (V V_0 L L_0 Area gamma : ℝ), gamma ≠ 0 → L = L_0 / gamma → V_0 = L_0 * Area → V = L * Area → V = V_0 / gamma",
+      "source_line": 2161,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.action_constant_identity",
+      "type": "∀ (kappa r m : ℝ),\n  0 < AsymmetricTensor.c →\n    m > 0 →\n      r > 0 →\n        m * AsymmetricTensor.c ^ 2 = kappa * AsymmetricTensor.c / (2 * Real.pi * r) →\n          r = AsymmetricTensor.hbar / (m * AsymmetricTensor.c) → kappa = 2 * Real.pi * AsymmetricTensor.hbar",
+      "source_line": 1676,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.action_reaction_equilibrium",
+      "type": "∀ (rate_T_0i_A rate_T_0i_B rate_T_total : ℝ),\n  rate_T_total = rate_T_0i_A + rate_T_0i_B → rate_T_total = 0 → rate_T_0i_A = -rate_T_0i_B",
+      "source_line": 2055,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.active_kinematic_contraction",
+      "type": "∀ (U_00_prime P_static_val P_dyn_val v_rel : ℝ),\n  U_00_prime = -(P_static_val / AsymmetricTensor.P_c) →\n    P_static_val = AsymmetricTensor.P_c - P_dyn_val →\n      P_dyn_val = 1 / 2 * AsymmetricTensor.rho_tau * v_rel ^ 2 → U_00_prime = -(1 - v_rel ^ 2 / AsymmetricTensor.c ^ 2)",
+      "source_line": 1299,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.almansi_finite_strain",
+      "type": "∀ (e_ij S_ij_inv delta_ij : ℝ), e_ij = 1 / 2 * (delta_ij - S_ij_inv) → e_ij = 1 / 2 * (delta_ij - S_ij_inv)",
+      "source_line": 2220,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.alpha_decay_wkb_mapping",
+      "type": "∀ (T_transmission WKB_integral : ℝ),\n  T_transmission = Real.exp (-WKB_integral) → T_transmission = Real.exp (-WKB_integral)",
+      "source_line": 2067,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "opaque",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.alpha_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 516,
+      "source_kind": "opaque",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "opaque",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.alpha_s_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 515,
+      "source_kind": "opaque",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.antiPart",
+      "type": "AsymmetricTensor.T2 → AsymmetricTensor.T2",
+      "source_line": 224,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.antisymmetric_shear",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 0 1 =\n      -AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 1 0 ∧\n    AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 1 2 =\n      -AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 2 1",
+      "source_line": 283,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.apply_source_coupling",
+      "type": "∀ (Laplace_op Biharm_op : ℝ → ℝ) (Phi_val rho_dyn r_c_val kappa : ℝ),\n  Laplace_op (1 - 2 * Phi_val / AsymmetricTensor.c ^ 2) = -(2 / AsymmetricTensor.c ^ 2) * Laplace_op Phi_val →\n    Biharm_op (1 - 2 * Phi_val / AsymmetricTensor.c ^ 2) = -(2 / AsymmetricTensor.c ^ 2) * Biharm_op Phi_val →\n      kappa = -(8 * Real.pi * AsymmetricTensor.G) / AsymmetricTensor.c ^ 2 →\n        Laplace_op (1 - 2 * Phi_val / AsymmetricTensor.c ^ 2) -\n              r_c_val ^ 2 * Biharm_op (1 - 2 * Phi_val / AsymmetricTensor.c ^ 2) =\n            kappa * rho_dyn →\n          Laplace_op Phi_val - r_c_val ^ 2 * Biharm_op Phi_val = 4 * Real.pi * AsymmetricTensor.G * rho_dyn",
+      "source_line": 765,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.asBilinear",
+      "type": "AsymmetricTensor.T2 → LinearMap.BilinForm ℝ AsymmetricTensor.V4",
+      "source_line": 235,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.attenuation_length_algebra",
+      "type": "∀ (L_val P_c_val P_dyn_val rho_val c_val : ℝ),\n  P_c_val = 1 / 2 * rho_val * c_val ^ 2 →\n    L_val * √(1 - P_dyn_val / P_c_val) = L_val * √(1 - P_dyn_val / (1 / 2 * rho_val * c_val ^ 2))",
+      "source_line": 1554,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.baryonic_tully_fisher_derivation",
+      "type": "∀ (a_0 M_bar v_rot : ℝ),\n  a_0 > 0 →\n    M_bar ≥ 0 →\n      v_rot ≥ 0 → v_rot ^ 2 = a_0 * √(AsymmetricTensor.G * M_bar / a_0) → v_rot ^ 4 = a_0 * AsymmetricTensor.G * M_bar",
+      "source_line": 1425,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.bernoulli_energy_conservation",
+      "type": "∀ (U : AsymmetricTensor.MetricField),\n  AsymmetricTensor.CoordinateConserved U →\n    ∀ (x : AsymmetricTensor.SpaceTime), AsymmetricTensor.metric_divergence U x 0 = 0",
+      "source_line": 499,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "axiom",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.c",
+      "type": "ℝ",
+      "source_line": 57,
+      "source_kind": "axiom",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.c4_div_G_eq_planck_force",
+      "type": "AsymmetricTensor.c ^ 4 / AsymmetricTensor.G = AsymmetricTensor.hbar * AsymmetricTensor.c / AsymmetricTensor.l_p ^ 2",
+      "source_line": 144,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.c_ne_zero",
+      "type": "AsymmetricTensor.c ≠ 0",
+      "source_line": 106,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos"
+      ],
+      "kind": "axiom",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.c_pos",
+      "type": "0 < AsymmetricTensor.c",
+      "source_line": 62,
+      "source_kind": "axiom",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.cancel_fraction_rho",
+      "type": "∀ (v_val : ℝ),\n  1 / 2 * AsymmetricTensor.rho_tau * v_val ^ 2 / (1 / 2 * AsymmetricTensor.rho_tau * AsymmetricTensor.c ^ 2) =\n    v_val ^ 2 / AsymmetricTensor.c ^ 2",
+      "source_line": 185,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.casimir_pressure_scaling",
+      "type": "∀ (d_val F_c Area : ℝ),\n  d_val > 0 →\n    Area > 0 →\n      F_c / Area = AsymmetricTensor.hbar * AsymmetricTensor.c / (4 * Real.pi * d_val ^ 4) →\n        F_c = Area * AsymmetricTensor.hbar * AsymmetricTensor.c / (4 * Real.pi * d_val ^ 4)",
+      "source_line": 1991,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.cavitated_determinant_lock",
+      "type": "∀ (v_perp Omega_z alpha_s_val alpha_val t_p_val : ℝ),\n  AsymmetricTensor.metric_is_cavitated alpha_s_val →\n    -(1 / alpha_s_val ^ 4) - (alpha_val * t_p_val * Omega_z) ^ 2 +\n          1 / alpha_s_val ^ 4 * (alpha_val * (v_perp / AsymmetricTensor.c)) ^ 2 =\n        0 →\n      (alpha_val * t_p_val * Omega_z) ^ 2 = 0",
+      "source_line": 1175,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.cavitation_schwarzschild_radius",
+      "type": "∀ (M r_c P_dyn_val P_c_val : ℝ),\n  r_c ≠ 0 →\n    P_c_val = 1 / 2 * AsymmetricTensor.rho_tau * AsymmetricTensor.c ^ 2 →\n      P_dyn_val = AsymmetricTensor.rho_tau * (AsymmetricTensor.G * M / r_c) →\n        P_dyn_val = P_c_val → r_c = 2 * AsymmetricTensor.G * M / AsymmetricTensor.c ^ 2",
+      "source_line": 751,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.compliance_equivalence",
+      "type": "∀ (v_esc_val : ℝ),\n  (AsymmetricTensor.P_c - AsymmetricTensor.P_g v_esc_val) / AsymmetricTensor.P_c =\n    1 - v_esc_val ^ 2 / AsymmetricTensor.c ^ 2",
+      "source_line": 195,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.conformal_pressure_coupling",
+      "type": "∀ (x_i a_i grad_P_dyn : ℝ),\n  a_i = -(1 / AsymmetricTensor.rho_tau) * grad_P_dyn →\n    4 * (x_i * (a_i / AsymmetricTensor.c ^ 2)) = -(2 / AsymmetricTensor.P_c) * (x_i * grad_P_dyn)",
+      "source_line": 883,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.constant_coordinate_conserved",
+      "type": "∀ (A : AsymmetricTensor.T2), AsymmetricTensor.CoordinateConserved fun x => A",
+      "source_line": 473,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.contract2",
+      "type": "AsymmetricTensor.T2 → AsymmetricTensor.T2 → AsymmetricTensor.T2 → ℝ",
+      "source_line": 242,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.contract_sym_anti_proven",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  AsymmetricTensor.tensor_contract (AsymmetricTensor.U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)\n      (AsymmetricTensor.U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) =\n    0",
+      "source_line": 691,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.coordinate_field_not_conserved",
+      "type": "¬AsymmetricTensor.CoordinateConserved fun x x_1 x_2 => x 0",
+      "source_line": 484,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.cosmological_constant_derivation",
+      "type": "∀ (R_h P_macro Lambda : ℝ),\n  R_h ≠ 0 →\n    P_macro = AsymmetricTensor.c ^ 4 / AsymmetricTensor.G / (4 * Real.pi * R_h ^ 2) →\n      Lambda = 8 * Real.pi * AsymmetricTensor.G * P_macro / AsymmetricTensor.c ^ 4 → Lambda = 2 / R_h ^ 2",
+      "source_line": 366,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.cosmological_redshift_ratio",
+      "type": "∀ (lambda_obs lambda_emit alpha_obs alpha_emit lambda_0 : ℝ),\n  lambda_emit ≠ 0 →\n    alpha_emit ≠ 0 →\n      lambda_0 ≠ 0 →\n        lambda_obs = alpha_obs * lambda_0 →\n          lambda_emit = alpha_emit * lambda_0 → lambda_obs / lambda_emit = alpha_obs / alpha_emit",
+      "source_line": 1885,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.cp_violation_energy_shift",
+      "type": "∀ (v_perp Omega_0 E_CP : ℝ), E_CP = v_perp * Omega_0 → -v_perp * Omega_0 = -E_CP",
+      "source_line": 2080,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.cross_coupling_impedance",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  alpha > 0 →\n    AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 0 1 /\n        AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 1 2 =\n      v_x / AsymmetricTensor.c / (t_p_val * Omega_z)",
+      "source_line": 1081,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.crossover_algebra",
+      "type": "∀ (alpha_val alpha_s_val tp_omega gamma_var : ℝ),\n  alpha_s_val > 0 →\n    alpha_val > 0 →\n      1 / alpha_s_val = gamma_var →\n        alpha_val / alpha_s_val = 1 / alpha_s_val ^ 2 / (alpha_val * tp_omega) → tp_omega = gamma_var / alpha_val ^ 2",
+      "source_line": 1204,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.debye_attenuation_length",
+      "type": "∀ (lambda_D L_0 P_dyn_val : ℝ),\n  lambda_D = L_0 * √(1 - P_dyn_val / AsymmetricTensor.P_c) →\n    lambda_D = L_0 * √(1 - P_dyn_val / (1 / 2 * AsymmetricTensor.rho_tau * AsymmetricTensor.c ^ 2))",
+      "source_line": 1561,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.determinant_expansion_static",
+      "type": "∀ (v_perp Omega_z alpha_val t_p_val : ℝ),\n  -1 - (alpha_val * t_p_val * Omega_z) ^ 2 + (alpha_val * (v_perp / AsymmetricTensor.c)) ^ 2 = -1 →\n    (alpha_val * (v_perp / AsymmetricTensor.c)) ^ 2 = (alpha_val * t_p_val * Omega_z) ^ 2",
+      "source_line": 1102,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.dilate_lambda_algebra",
+      "type": "∀ (P_m R_val : ℝ),\n  R_val ≠ 0 →\n    P_m = AsymmetricTensor.c ^ 4 / AsymmetricTensor.G / (4 * Real.pi * R_val ^ 2) →\n      8 * Real.pi * AsymmetricTensor.G / AsymmetricTensor.c ^ 4 * P_m = 2 / R_val ^ 2",
+      "source_line": 355,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.dirac_spinor_double_cover",
+      "type": "∀ (psi_initial : ℝ),\n  Real.cos (2 * Real.pi / 2) * psi_initial = -psi_initial ∧ Real.cos (4 * Real.pi / 2) * psi_initial = psi_initial",
+      "source_line": 2098,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.div_T_perp_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 618,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.divergence_expansion",
+      "type": "∀ (x : AsymmetricTensor.SpaceTime) (ν : Fin 4),\n  AsymmetricTensor.metric_divergence AsymmetricTensor.U_hat_dynamic x ν =\n    ∑ μ, AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.U_hat_dynamic y μ ν) μ x",
+      "source_line": 528,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.dressing_field_invariance",
+      "type": "∀ {V_3D : Type} [inst : AddCommGroup V_3D] [_root_.Module ℝ V_3D] (v_perp_val grad_h_val chi_val : V_3D),\n  AsymmetricTensor.v_perp_g v_perp_val chi_val + AsymmetricTensor.h_g grad_h_val chi_val = v_perp_val + grad_h_val",
+      "source_line": 908,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.dynamic_compliance_link",
+      "type": "∀ (x : AsymmetricTensor.SpaceTime),\n  1 / AsymmetricTensor.alpha_s_f x ^ 2 = 1 / (1 - AsymmetricTensor.P_dyn_f x / AsymmetricTensor.P_c)",
+      "source_line": 553,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.eigenstate_convergence",
+      "type": "∀ (theta wedge_product : ℝ), 0 = -0 + Real.sin theta * wedge_product → wedge_product ≠ 0 → Real.sin theta = 0",
+      "source_line": 1546,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.einstein_cartan_lagrangian",
+      "type": "∀ (L_Tot L_EH L_Spin tension_limit R_tilde K_trace_1 K_trace_2 : ℝ),\n  L_Tot = tension_limit * (R_tilde + K_trace_1 - K_trace_2) →\n    L_EH = tension_limit * R_tilde → L_Spin = tension_limit * (K_trace_1 - K_trace_2) → L_Tot = L_EH + L_Spin",
+      "source_line": 1475,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.electromagnetic_decoupling_ratio",
+      "type": "∀ (A_0i A_ij alpha_s v_perp c t_p Omega : ℝ),\n  alpha_s ≠ 0 →\n    c ≠ 0 →\n      t_p ≠ 0 →\n        Omega ≠ 0 →\n          A_0i = 1 / alpha_s ^ 2 * (v_perp / c) →\n            A_ij = alpha_s ^ 2 * (t_p * Omega) → A_0i / A_ij = v_perp / (c * t_p * Omega) * (1 / alpha_s ^ 4)",
+      "source_line": 2172,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.emergent_critical_pressure",
+      "type": "AsymmetricTensor.P_c = 1 / 2 * AsymmetricTensor.rho_tau * AsymmetricTensor.c ^ 2",
+      "source_line": 179,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.energy_density_proof",
+      "type": "∀ (v_esc v_parallel v_perp_mag v_circ P_static P_shear : ℝ),\n  P_static =\n      AsymmetricTensor.P_c -\n        (AsymmetricTensor.P_g v_esc + AsymmetricTensor.P_dyn_components v_parallel v_perp_mag v_circ + P_shear) →\n    AsymmetricTensor.P_c - P_static =\n      AsymmetricTensor.P_g v_esc + AsymmetricTensor.P_dyn_components v_parallel v_perp_mag v_circ + P_shear",
+      "source_line": 309,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.entanglement_contextuality",
+      "type": "∀ (Lambda_ab Lambda_ab_prime : Type), Lambda_ab ≠ Lambda_ab_prime → Lambda_ab ≠ Lambda_ab_prime",
+      "source_line": 2132,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "opaque",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.epsilon_vec_f",
+      "type": "AsymmetricTensor.VectorField",
+      "source_line": 660,
+      "source_kind": "opaque",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.equivalence_principle_gradients",
+      "type": "∀ {V_3D : Type} [inst : AddCommGroup V_3D] [_root_.Module ℝ V_3D] (a_grav a_kin grad_P_static grad_P_dyn : V_3D),\n  grad_P_static = -grad_P_dyn → a_grav = grad_P_static → a_kin = grad_P_dyn → a_grav = -a_kin",
+      "source_line": 1332,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.exact_pressure_link",
+      "type": "∀ (x : AsymmetricTensor.SpaceTime),\n  AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.U_hat_dynamic y 1 1) 1 x =\n    AsymmetricTensor.partial_deriv (fun y => 1 / (1 - AsymmetricTensor.P_dyn_f y / AsymmetricTensor.P_c)) 1 x",
+      "source_line": 610,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.exists_coordinate_conserved",
+      "type": "∃ U, AsymmetricTensor.CoordinateConserved U",
+      "source_line": 480,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.fourier_curvature_decomposition",
+      "type": "∀ (k omega : ℝ), k ≠ 0 → omega ≠ 0 → k ^ 2 > 0 ∧ omega ^ 2 > 0",
+      "source_line": 2212,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.fundamental_force_limit",
+      "type": "∀ (kappa r : ℝ),\n  r ≠ 0 →\n    kappa = 2 * Real.pi * AsymmetricTensor.hbar →\n      kappa * AsymmetricTensor.c / (2 * Real.pi * r ^ 2) = AsymmetricTensor.F_fund r",
+      "source_line": 1709,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.generalized_cavitation",
+      "type": "∀ (v_perp Omega_z alpha_s_val alpha_val t_p_val : ℝ),\n  alpha_s_val > 0 →\n    -(1 / alpha_s_val ^ 4) - (alpha_val * t_p_val * Omega_z) ^ 2 +\n          1 / alpha_s_val ^ 4 * (alpha_val * (v_perp / AsymmetricTensor.c)) ^ 2 =\n        0 →\n      (alpha_val * (v_perp / AsymmetricTensor.c)) ^ 2 - alpha_s_val ^ 4 * (alpha_val * t_p_val * Omega_z) ^ 2 = 1",
+      "source_line": 1157,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.generalized_cavitation_algebra",
+      "type": "∀ (alpha_s_val alpha_val v_perp Omega_z t_p_val : ℝ),\n  alpha_s_val > 0 →\n    -(1 / alpha_s_val ^ 4) - (alpha_val * t_p_val * Omega_z) ^ 2 +\n          1 / alpha_s_val ^ 4 * (alpha_val * (v_perp / AsymmetricTensor.c)) ^ 2 =\n        0 →\n      (alpha_val * (v_perp / AsymmetricTensor.c)) ^ 2 - alpha_s_val ^ 4 * (alpha_val * t_p_val * Omega_z) ^ 2 = 1",
+      "source_line": 1134,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.geometric_action_boundary",
+      "type": "∀ (C E_val T_val r : ℝ),\n  r ≠ 0 →\n    ∀ (kappa : ℝ),\n      kappa = E_val * T_val →\n        T_val = 2 * Real.pi * r / AsymmetricTensor.c →\n          E_val = 2 * Real.pi * AsymmetricTensor.rho_tau * C ^ 2 / r →\n            C ^ 2 = kappa * AsymmetricTensor.c / (4 * Real.pi ^ 2 * AsymmetricTensor.rho_tau)",
+      "source_line": 1598,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.geometric_deborah_derivation",
+      "type": "∀ (alpha_s_val alpha_val Omega_z t_p_val : ℝ),\n  AsymmetricTensor.U_perp_Re alpha_s_val / AsymmetricTensor.U_perp_Im alpha_val Omega_z t_p_val =\n    1 / (alpha_s_val ^ 2 * (alpha_val * t_p_val * Omega_z))",
+      "source_line": 1197,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.geometric_navier_stokes",
+      "type": "∀ (x : AsymmetricTensor.SpaceTime),\n  AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.U_hat_dynamic y 0 1) 0 x +\n            AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.U_hat_dynamic y 1 1) 1 x +\n          AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.U_hat_dynamic y 2 1) 2 x +\n        AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.U_hat_dynamic y 3 1) 3 x =\n      0 →\n    AsymmetricTensor.kinematic_accel_f x / AsymmetricTensor.P_c =\n      AsymmetricTensor.partial_deriv (fun y => 1 / (1 - AsymmetricTensor.P_dyn_f y / AsymmetricTensor.P_c)) 1 x +\n        AsymmetricTensor.div_T_perp_f x / AsymmetricTensor.P_c",
+      "source_line": 633,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.gravitoelectromagnetism_mapping",
+      "type": "∀ {Force3D : Type} [inst : AddCommGroup Force3D] [_root_.Module ℝ Force3D]\n  (GravitoElectric GravitoMagnetic v_perp_val Omega_val : Force3D),\n  GravitoElectric = v_perp_val ∧ GravitoMagnetic = Omega_val →\n    GravitoElectric = v_perp_val ∧ GravitoMagnetic = Omega_val",
+      "source_line": 2121,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.h_g",
+      "type": "{V_3D : Type} → [AddCommGroup V_3D] → V_3D → V_3D → V_3D",
+      "source_line": 905,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.hbar",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.hbar"
+      ],
+      "kind": "axiom",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.hbar",
+      "type": "ℝ",
+      "source_line": 59,
+      "source_kind": "axiom",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.hbar_ne_zero",
+      "type": "AsymmetricTensor.hbar ≠ 0",
+      "source_line": 108,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos"
+      ],
+      "kind": "axiom",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.hbar_pos",
+      "type": "0 < AsymmetricTensor.hbar",
+      "source_line": 64,
+      "source_kind": "axiom",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.helicity_orbital_arrest",
+      "type": "∀ alpha_s_val > 0, alpha_s_val > 0",
+      "source_line": 2137,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.inertia_conservation",
+      "type": "∀ (Net_Force Integral_grad_P_dyn : ℝ), Net_Force = Integral_grad_P_dyn → Integral_grad_P_dyn = 0 → Net_Force = 0",
+      "source_line": 2049,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.interaction_hierarchy_em",
+      "type": "∀ (m_e alpha_em a_0_val : ℝ),\n  m_e ≠ 0 →\n    alpha_em ≠ 0 →\n      a_0_val = AsymmetricTensor.hbar / (alpha_em * m_e * AsymmetricTensor.c) →\n        alpha_em * AsymmetricTensor.F_fund a_0_val =\n          alpha_em ^ 3 * m_e ^ 2 * AsymmetricTensor.c ^ 3 / AsymmetricTensor.hbar",
+      "source_line": 1770,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.interaction_hierarchy_gravity",
+      "type": "AsymmetricTensor.F_fund AsymmetricTensor.l_p = AsymmetricTensor.c ^ 4 / AsymmetricTensor.G",
+      "source_line": 1727,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.interaction_hierarchy_strong",
+      "type": "∀ (m_e alpha_em L_crit : ℝ),\n  m_e ≠ 0 →\n    alpha_em ≠ 0 →\n      L_crit = alpha_em * AsymmetricTensor.hbar / (m_e * AsymmetricTensor.c) →\n        AsymmetricTensor.F_fund L_crit = m_e ^ 2 * AsymmetricTensor.c ^ 3 / (alpha_em ^ 2 * AsymmetricTensor.hbar)",
+      "source_line": 1753,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.interaction_hierarchy_weak",
+      "type": "∀ (m_W R_W : ℝ),\n  m_W ≠ 0 →\n    R_W = AsymmetricTensor.hbar / (m_W * AsymmetricTensor.c) →\n      AsymmetricTensor.F_fund R_W = m_W ^ 2 * AsymmetricTensor.c ^ 3 / AsymmetricTensor.hbar",
+      "source_line": 1736,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.is_translationally_symmetric",
+      "type": "AsymmetricTensor.MetricField → AsymmetricTensor.VectorField → AsymmetricTensor.SpaceTime → Prop",
+      "source_line": 665,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.isochoric_velocity_scaling",
+      "type": "∀ (v_val P_dyn_val C r : ℝ),\n  r ≠ 0 →\n    v_val = C / r ^ 2 →\n      P_dyn_val = 1 / 2 * AsymmetricTensor.rho_tau * v_val ^ 2 →\n        P_dyn_val = AsymmetricTensor.rho_tau * C ^ 2 / (2 * r ^ 4)",
+      "source_line": 1578,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.isochoric_volume_preservation",
+      "type": "∀ (v_perp Omega_z alpha_val t_p_val : ℝ),\n  -1 - (alpha_val * t_p_val * Omega_z) ^ 2 + (alpha_val * (v_perp / AsymmetricTensor.c)) ^ 2 = -1 →\n    (alpha_val * (v_perp / AsymmetricTensor.c)) ^ 2 = (alpha_val * t_p_val * Omega_z) ^ 2",
+      "source_line": 1108,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.isolate_lorentz_scalar",
+      "type": "∀ (omega_0i alpha_val : ℝ),\n  omega_0i ≠ 0 → alpha_val > 0 → omega_0i * (1 / alpha_val ^ 2 - alpha_val ^ 2) = 0 → alpha_val = 1",
+      "source_line": 837,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.isolate_planck_yield_algebra",
+      "type": "∀ (m_var : ℝ),\n  m_var ≠ 0 →\n    AsymmetricTensor.hbar / (m_var * AsymmetricTensor.c) = 2 * AsymmetricTensor.G * m_var / AsymmetricTensor.c ^ 2 →\n      m_var ^ 2 = AsymmetricTensor.M_P ^ 2 / 2",
+      "source_line": 994,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.isolate_schwarzschild_radius",
+      "type": "∀ (M_val r_val : ℝ),\n  r_val ≠ 0 →\n    AsymmetricTensor.rho_tau * (AsymmetricTensor.G * M_val / r_val) =\n        1 / 2 * AsymmetricTensor.rho_tau * AsymmetricTensor.c ^ 2 →\n      r_val = 2 * AsymmetricTensor.G * M_val / AsymmetricTensor.c ^ 2",
+      "source_line": 733,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.kinematic_accel_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 596,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.kinematic_acceleration_floor",
+      "type": "∀ (a_0 F_R_h m_h h_val R_h_0 : ℝ),\n  R_h_0 > 0 →\n    h_val > 0 →\n      a_0 = F_R_h / m_h →\n        F_R_h = h_val * AsymmetricTensor.c / (2 * Real.pi * R_h_0 ^ 2) →\n          m_h = h_val / (R_h_0 * AsymmetricTensor.c) → a_0 = AsymmetricTensor.c ^ 2 / (2 * Real.pi * R_h_0)",
+      "source_line": 1793,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.kinematic_crossover_limit",
+      "type": "∀ (gamma_val Omega_z alpha_s_val alpha_val t_p_val : ℝ),\n  alpha_s_val > 0 →\n    alpha_val > 0 →\n      1 / alpha_s_val = gamma_val →\n        alpha_val / alpha_s_val = 1 / alpha_s_val ^ 2 / (alpha_val * (t_p_val * Omega_z)) →\n          t_p_val * Omega_z = gamma_val / alpha_val ^ 2",
+      "source_line": 1250,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.kinematic_plateau_extraction",
+      "type": "∀ (k_shear v_rot r : ℝ),\n  r ≠ 0 →\n    k_shear ≥ 0 →\n      v_rot ≥ 0 →\n        v_rot ^ 2 / r = AsymmetricTensor.c ^ 2 / (2 * AsymmetricTensor.P_c) * (k_shear / r) →\n          v_rot = AsymmetricTensor.c * √(k_shear / (2 * AsymmetricTensor.P_c))",
+      "source_line": 1400,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "axiom",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.l_p",
+      "type": "ℝ",
+      "source_line": 58,
+      "source_kind": "axiom",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.l_p_ne_zero",
+      "type": "AsymmetricTensor.l_p ≠ 0",
+      "source_line": 107,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "axiom",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.l_p_pos",
+      "type": "0 < AsymmetricTensor.l_p",
+      "source_line": 63,
+      "source_kind": "axiom",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.legal_cavitation_collapse",
+      "type": "∀ (alpha_s_val : ℝ), AsymmetricTensor.metric_is_cavitated alpha_s_val → 1 / alpha_s_val ^ 2 = 0",
+      "source_line": 1167,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.lie_derivative",
+      "type": "AsymmetricTensor.VectorField → AsymmetricTensor.MetricField → AsymmetricTensor.SpaceTime → AsymmetricTensor.T2",
+      "source_line": 662,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.logarithmic_magnitude_anomaly",
+      "type": "∀ (mu_o mu_l r_o r_t z : ℝ),\n  r_o > 0 →\n    r_t > 0 →\n      1 + z > 0 →\n        mu_o = 5 * Real.log (r_o * (1 + z)) + 25 →\n          mu_l = 5 * Real.log (r_t * (1 + z)) + 25 → mu_o - mu_l = 5 * Real.log (r_o / r_t)",
+      "source_line": 1943,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.longitudinal_axis_invariance",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  alpha_s > 0 →\n    AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 0 0 *\n        AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 1 1 =\n      -1",
+      "source_line": 1067,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.longitudinal_transport_acceleration",
+      "type": "∀ {V_3D : Type} [inst : AddCommGroup V_3D] [inst_1 : _root_.Module ℝ V_3D] (grad_P_static grad_P_dyn a_coord : V_3D),\n  grad_P_static = -grad_P_dyn →\n    a_coord = -(1 / AsymmetricTensor.rho_tau) • grad_P_static → a_coord = (1 / AsymmetricTensor.rho_tau) • grad_P_dyn",
+      "source_line": 1443,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.lorentz_force_magnus_mapping",
+      "type": "∀ (F_mu A_mu_nu_v_nu : ℝ), F_mu = A_mu_nu_v_nu → F_mu = A_mu_nu_v_nu",
+      "source_line": 2231,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.lorentz_symmetry_broken",
+      "type": "∀ (alpha_s_val omega_0i : ℝ),\n  omega_0i ≠ 0 → alpha_s_val > 0 → omega_0i * (1 / alpha_s_val ^ 2 - alpha_s_val ^ 2) = 0 → alpha_s_val = 1",
+      "source_line": 872,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.macroscopic_torsion_nullification",
+      "type": "∀ (Inc : AsymmetricTensor.T2 →ₗ[ℝ] AsymmetricTensor.T2) (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  (∀ (A : AsymmetricTensor.T2), Inc (AsymmetricTensor.VolAvg A) = AsymmetricTensor.VolAvg (Inc A)) →\n    AsymmetricTensor.VolAvg (Inc (AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) =\n      AsymmetricTensor.VolAvg (Inc (AsymmetricTensor.U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val))",
+      "source_line": 410,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.magnitude_anomaly_divergence",
+      "type": "∀ (mu_obs mu_lin r_opt r_true z_val : ℝ),\n  r_opt > 0 →\n    r_true > 0 →\n      1 + z_val > 0 →\n        mu_obs = 5 * Real.log (r_opt * (1 + z_val)) + 25 →\n          mu_lin = 5 * Real.log (r_true * (1 + z_val)) + 25 → mu_obs - mu_lin = 5 * Real.log (r_opt / r_true)",
+      "source_line": 1962,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.malus_law_algebra",
+      "type": "∀ (rho_val v_perp_val theta_val P_0_val : ℝ),\n  P_0_val = 1 / 2 * rho_val * v_perp_val ^ 2 →\n    1 / 2 * rho_val * (v_perp_val * Real.cos theta_val) ^ 2 = P_0_val * Real.cos theta_val ^ 2",
+      "source_line": 1515,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.mass_yield_equivalence",
+      "type": "∀ (M_val alpha_yield : ℝ),\n  M_val = AsymmetricTensor.M_P / √2 → alpha_yield = 1 / √2 → M_val / AsymmetricTensor.M_P = alpha_yield",
+      "source_line": 1049,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.matrix_decomposition",
+      "type": "∀ (U : AsymmetricTensor.T2), U = AsymmetricTensor.symPart U + AsymmetricTensor.antiPart U",
+      "source_line": 228,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.metric_density_derivation",
+      "type": "∀ (P_c_val : ℝ),\n  P_c_val = AsymmetricTensor.c ^ 7 / (4 * Real.pi * AsymmetricTensor.hbar * AsymmetricTensor.G ^ 2) →\n    1 / 2 * AsymmetricTensor.rho_tau * AsymmetricTensor.c ^ 2 = P_c_val →\n      AsymmetricTensor.rho_tau =\n        1 / (2 * Real.pi) * (AsymmetricTensor.c ^ 5 / (AsymmetricTensor.hbar * AsymmetricTensor.G ^ 2))",
+      "source_line": 345,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.metric_divergence",
+      "type": "AsymmetricTensor.MetricField → AsymmetricTensor.SpaceTime → AsymmetricTensor.V4",
+      "source_line": 463,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.metric_is_cavitated",
+      "type": "ℝ → Prop",
+      "source_line": 1164,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.metric_is_continuous",
+      "type": "ℝ → Prop",
+      "source_line": 1163,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.michelson_morley_invariance",
+      "type": "∀ (t_parallel t_perp L_arm v_light : ℝ),\n  v_light > 0 → t_parallel = L_arm / v_light → t_perp = L_arm / v_light → t_parallel = t_perp",
+      "source_line": 2018,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.modified_poisson_equation",
+      "type": "∀ (r_c Phi : ℝ) (Laplacian Biharmonic : ℝ → ℝ) (S_ii rho_dyn kappa : ℝ),\n  Laplacian (1 - 2 * Phi / AsymmetricTensor.c ^ 2) = -(2 / AsymmetricTensor.c ^ 2) * Laplacian Phi →\n    Biharmonic (1 - 2 * Phi / AsymmetricTensor.c ^ 2) = -(2 / AsymmetricTensor.c ^ 2) * Biharmonic Phi →\n      kappa = -(8 * Real.pi * AsymmetricTensor.G) / AsymmetricTensor.c ^ 2 →\n        S_ii = 1 - 2 * Phi / AsymmetricTensor.c ^ 2 →\n          Laplacian S_ii - r_c ^ 2 * Biharmonic S_ii = kappa * rho_dyn →\n            Laplacian Phi - r_c ^ 2 * Biharmonic Phi = 4 * Real.pi * AsymmetricTensor.G * rho_dyn",
+      "source_line": 798,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.mott_scattering_cross_section",
+      "type": "∀ (Mott_Amplitude theta_val : ℝ),\n  Mott_Amplitude = Real.cos (theta_val / 2) ^ 2 → Mott_Amplitude = (1 + Real.cos theta_val) / 2",
+      "source_line": 2107,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.navier_stokes_momentum_conservation",
+      "type": "∀ (U : AsymmetricTensor.MetricField),\n  AsymmetricTensor.CoordinateConserved U →\n    ∀ (x : AsymmetricTensor.SpaceTime) (i : Fin 4), i ≠ 0 → AsymmetricTensor.metric_divergence U x i = 0",
+      "source_line": 507,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.optimal_transport_minimization",
+      "type": "∀ (W_2_distance Minimized_Action : ℝ), W_2_distance = Minimized_Action → W_2_distance = Minimized_Action",
+      "source_line": 2072,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.orthogonal_mass_extraction",
+      "type": "∀ (P_dyn_val L_kin P_shear_val A_anti_trace v_macro_scalar : ℝ),\n  L_kin = 1 / 4 * AsymmetricTensor.P_c * (4 * (v_macro_scalar ^ 2 / AsymmetricTensor.c ^ 2) + A_anti_trace) →\n    P_dyn_val = 1 / 2 * AsymmetricTensor.rho_tau * v_macro_scalar ^ 2 →\n      P_shear_val = 1 / 4 * AsymmetricTensor.P_c * A_anti_trace → L_kin = P_dyn_val + P_shear_val",
+      "source_line": 974,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.partial_deriv",
+      "type": "AsymmetricTensor.ScalarField → Fin 4 → AsymmetricTensor.SpaceTime → ℝ",
+      "source_line": 458,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.phenomenological_energy_scale",
+      "type": "∀ (gamma_val E_val m_val De_macro alpha_val : ℝ),\n  De_macro = alpha_val * gamma_val →\n    gamma_val = E_val / (m_val * AsymmetricTensor.c ^ 2) →\n      De_macro = alpha_val * (E_val / (m_val * AsymmetricTensor.c ^ 2))",
+      "source_line": 1261,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.plug_flow_algebra",
+      "type": "∀ (v_rot r_val c_val P_c_val k_val : ℝ),\n  r_val ≠ 0 →\n    P_c_val > 0 →\n      k_val ≥ 0 →\n        v_rot ≥ 0 →\n          c_val > 0 →\n            v_rot ^ 2 / r_val = c_val ^ 2 / (2 * P_c_val) * (k_val / r_val) → v_rot = c_val * √(k_val / (2 * P_c_val))",
+      "source_line": 1382,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.positive_sqrt_reduction",
+      "type": "∀ m_var > 0, m_var ^ 2 = AsymmetricTensor.M_P ^ 2 / 2 → m_var = AsymmetricTensor.M_P / √2",
+      "source_line": 1018,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.poynting_vector_convection",
+      "type": "∀ {Force3D : Type} [inst : AddCommGroup Force3D] [_root_.Module ℝ Force3D] (Poynting_Vector Lamb_Vector : Force3D),\n  Poynting_Vector = Lamb_Vector → Poynting_Vector = Lamb_Vector",
+      "source_line": 2126,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.pressure_gradient_extraction",
+      "type": "∀ (μ : Fin 4) (x : AsymmetricTensor.SpaceTime),\n  AsymmetricTensor.partial_deriv (fun y => 1 / AsymmetricTensor.alpha_s_f y ^ 2) μ x =\n    AsymmetricTensor.partial_deriv (fun y => 1 / (1 - AsymmetricTensor.P_dyn_f y / AsymmetricTensor.P_c)) μ x",
+      "source_line": 562,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.raiseBoth",
+      "type": "AsymmetricTensor.T2 → AsymmetricTensor.T2 → AsymmetricTensor.T2",
+      "source_line": 239,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.reduce_c7_c2",
+      "type": "2 * (AsymmetricTensor.c ^ 7 / (4 * Real.pi * AsymmetricTensor.hbar * AsymmetricTensor.G ^ 2)) / AsymmetricTensor.c ^ 2 =\n  1 / (2 * Real.pi) * (AsymmetricTensor.c ^ 5 / (AsymmetricTensor.hbar * AsymmetricTensor.G ^ 2))",
+      "source_line": 336,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.reduce_density_algebra",
+      "type": "∀ (P_val : ℝ),\n  1 / 2 * AsymmetricTensor.rho_tau * AsymmetricTensor.c ^ 2 = P_val →\n    AsymmetricTensor.rho_tau = 2 * P_val / AsymmetricTensor.c ^ 2",
+      "source_line": 326,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.refractive_index_substitution",
+      "type": "∀ (r_val ct_val : ℝ),\n  AsymmetricTensor.P_c > 0 →\n    1 / (1 - AsymmetricTensor.P_c * (1 - Real.exp (-r_val / ct_val)) ^ 2 / AsymmetricTensor.P_c) =\n      1 / (Real.exp (-r_val / ct_val) * (2 - Real.exp (-r_val / ct_val)))",
+      "source_line": 1923,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.rho_tau",
+      "type": "ℝ",
+      "source_line": 72,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.rho_tau_mul",
+      "type": "AsymmetricTensor.rho_tau * (2 * Real.pi * AsymmetricTensor.l_p ^ 4 * AsymmetricTensor.c) = AsymmetricTensor.hbar",
+      "source_line": 136,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.rho_tau_ne_zero",
+      "type": "AsymmetricTensor.rho_tau ≠ 0",
+      "source_line": 112,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.rho_tau_pos",
+      "type": "0 < AsymmetricTensor.rho_tau",
+      "source_line": 84,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.rotational_covariance_leakage",
+      "type": "∀ (U_0i_prime U_0beta U_phi_beta Lambda_beta_i omega Lambda_0_0 Lambda_phi_0 : ℝ),\n  Lambda_0_0 = 1 →\n    Lambda_phi_0 = omega →\n      U_0i_prime = Lambda_0_0 * Lambda_beta_i * U_0beta + Lambda_phi_0 * Lambda_beta_i * U_phi_beta →\n        U_0i_prime = Lambda_beta_i * U_0beta + omega * Lambda_beta_i * U_phi_beta",
+      "source_line": 1313,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.rydberg_energy_quantization",
+      "type": "∀ (v_0 n_integer P_dyn_n E_n : ℝ),\n  n_integer ≠ 0 →\n    P_dyn_n = 1 / 2 * AsymmetricTensor.rho_tau * (v_0 / n_integer) ^ 2 →\n      E_n = P_dyn_n → E_n = 1 / 2 * AsymmetricTensor.rho_tau * v_0 ^ 2 * (1 / n_integer ^ 2)",
+      "source_line": 2086,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.schwinger_limit_eigenvalues",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  alpha_s = 1 →\n    alpha * t_p_val * Omega_z = 1 →\n      AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 1 1 = 1 ∧\n        alpha * t_p_val * Omega_z = 1",
+      "source_line": 1114,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.shapiro_delay_refraction",
+      "type": "∀ (r_val t_val alpha_s_val : ℝ),\n  alpha_s_val > 0 →\n    AsymmetricTensor.c / (r_val / t_val) = 1 / alpha_s_val ^ 2 → r_val / t_val = AsymmetricTensor.c * alpha_s_val ^ 2",
+      "source_line": 2025,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.shear_divergence_extraction",
+      "type": "∀ (μ : Fin 4) (x : AsymmetricTensor.SpaceTime),\n  AsymmetricTensor.partial_deriv\n      (fun y => -AsymmetricTensor.alpha_f y * (AsymmetricTensor.v_x_f y / AsymmetricTensor.c)) μ x =\n    AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.T_perp_f y / AsymmetricTensor.P_c) μ x",
+      "source_line": 582,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_confinement_gradient",
+      "type": "∀ (P_dyn_val C r : ℝ),\n  r ≠ 0 →\n    ∀ (kappa : ℝ),\n      P_dyn_val = AsymmetricTensor.rho_tau * C ^ 2 / (2 * r ^ 4) →\n        C ^ 2 = kappa * AsymmetricTensor.c / (4 * Real.pi ^ 2 * AsymmetricTensor.rho_tau) →\n          P_dyn_val = kappa * AsymmetricTensor.c / (8 * Real.pi ^ 2 * r ^ 4)",
+      "source_line": 1631,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_diagonal_lorentz_derivation",
+      "type": "∀ (S_ii P_static P_dyn_val v_val : ℝ),\n  S_ii = AsymmetricTensor.P_c / P_static →\n    P_static = AsymmetricTensor.P_c - P_dyn_val →\n      P_dyn_val = 1 / 2 * AsymmetricTensor.rho_tau * v_val ^ 2 → S_ii = 1 / (1 - v_val ^ 2 / AsymmetricTensor.c ^ 2)",
+      "source_line": 919,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_stress_potential",
+      "type": "∀ (Phi : ℝ),\n  1 / 2 * AsymmetricTensor.rho_tau * AsymmetricTensor.c ^ 2 * (-(2 * Phi) / AsymmetricTensor.c ^ 2) =\n    -(AsymmetricTensor.rho_tau * Phi)",
+      "source_line": 378,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_stress_proof",
+      "type": "∀ (v_esc v_parallel v_perp_mag v_circ P_static P_shear : ℝ),\n  P_static =\n      AsymmetricTensor.P_c -\n        (AsymmetricTensor.P_g v_esc + AsymmetricTensor.P_dyn_components v_parallel v_perp_mag v_circ + P_shear) →\n    AsymmetricTensor.P_c * ((AsymmetricTensor.P_c - P_static) / P_static) =\n      AsymmetricTensor.P_c *\n        ((AsymmetricTensor.P_g v_esc + AsymmetricTensor.P_dyn_components v_parallel v_perp_mag v_circ + P_shear) /\n          P_static)",
+      "source_line": 315,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.steady_state_collapse",
+      "type": "∀ (sin_theta wedge_product : ℝ), wedge_product ≠ 0 → 0 = -0 + sin_theta * wedge_product → sin_theta = 0",
+      "source_line": 1531,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.su3_mass_gap_transition",
+      "type": "∀ (De : ℝ), De = 1 → De = 1",
+      "source_line": 2226,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.symPart",
+      "type": "AsymmetricTensor.T2 → AsymmetricTensor.T2",
+      "source_line": 221,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.symmetric_diagonals",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 0 0 = -alpha_s ^ 2 ∧\n    AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 1 1 = 1 / alpha_s ^ 2 ∧\n      AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 2 2 = 1 / alpha_s ^ 2 ∧\n        AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 3 3 = 1 / alpha_s ^ 2",
+      "source_line": 275,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.t_p",
+      "type": "ℝ",
+      "source_line": 69,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.t_p_mul_c",
+      "type": "AsymmetricTensor.t_p * AsymmetricTensor.c = AsymmetricTensor.l_p",
+      "source_line": 119,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.t_p_ne_zero",
+      "type": "AsymmetricTensor.t_p ≠ 0",
+      "source_line": 109,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.tan_delta",
+      "type": "ℝ → ℝ → ℝ → ℝ → ℝ",
+      "source_line": 1194,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.temporal_diagonal_admittance",
+      "type": "∀ (k_shear R_max P_dyn_3D r S_00 : ℝ),\n  S_00 = -(1 - (P_dyn_3D + AsymmetricTensor.P_shear_2D k_shear R_max r) / AsymmetricTensor.P_c) →\n    S_00 = -(1 - (P_dyn_3D + k_shear * Real.log (R_max / r)) / AsymmetricTensor.P_c)",
+      "source_line": 1376,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.temporal_diagonal_collapse",
+      "type": "∀ (P_static_val P_c_val P_dyn_val rho_t v_rel c_val : ℝ),\n  c_val ≠ 0 →\n    rho_t ≠ 0 →\n      P_static_val = P_c_val - P_dyn_val →\n        P_c_val = 1 / 2 * rho_t * c_val ^ 2 →\n          P_dyn_val = 1 / 2 * rho_t * v_rel ^ 2 → -(P_static_val / P_c_val) = -(1 - v_rel ^ 2 / c_val ^ 2)",
+      "source_line": 1278,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.tensor_contract",
+      "type": "AsymmetricTensor.T2 → AsymmetricTensor.T2 → ℝ",
+      "source_line": 684,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.tensor_decomposition_proven",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val =\n    AsymmetricTensor.U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val +\n      AsymmetricTensor.U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val",
+      "source_line": 290,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.tensor_refractive_index",
+      "type": "∀ (P_dyn_val P_c_val v_c_r n_r alpha_sq : ℝ),\n  AsymmetricTensor.c > 0 →\n    alpha_sq > 0 →\n      alpha_sq = 1 - P_dyn_val / P_c_val →\n        v_c_r = AsymmetricTensor.c * √(alpha_sq / (1 / alpha_sq)) →\n          n_r = AsymmetricTensor.c / v_c_r → n_r = 1 / (1 - P_dyn_val / P_c_val)",
+      "source_line": 1897,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.tensor_vev_origin",
+      "type": "∀ (v_vev P_ambient : ℝ),\n  P_ambient = 1 / 2 * AsymmetricTensor.rho_tau * v_vev ^ 2 → v_vev ^ 2 = 2 * P_ambient / AsymmetricTensor.rho_tau",
+      "source_line": 953,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.topological_yield_limit",
+      "type": "∀ (M_val : ℝ),\n  M_val ≠ 0 →\n    M_val > 0 →\n      AsymmetricTensor.hbar / (M_val * AsymmetricTensor.c) = 2 * AsymmetricTensor.G * M_val / AsymmetricTensor.c ^ 2 →\n        M_val = AsymmetricTensor.M_P / √2",
+      "source_line": 1031,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.transverse_U1_decomposition",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 1 1 = 1 / alpha_s ^ 2 ∧\n    AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 1 2 =\n        -(alpha * (t_p_val * Omega_z)) ∧\n      AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val 2 1 = alpha * (t_p_val * Omega_z)",
+      "source_line": 1124,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.transverse_divergence_link",
+      "type": "∀ (x : AsymmetricTensor.SpaceTime),\n  AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.U_hat_dynamic y 2 1) 2 x +\n      AsymmetricTensor.partial_deriv (fun y => AsymmetricTensor.U_hat_dynamic y 3 1) 3 x =\n    AsymmetricTensor.div_T_perp_f x / AsymmetricTensor.P_c",
+      "source_line": 622,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.transverse_eigenvalues_are_real_iff_no_spin",
+      "type": "∀ (alpha Omega_z t_p_val : ℝ), alpha * t_p_val * Omega_z = 0 ↔ (alpha * t_p_val * Omega_z) ^ 2 = 0",
+      "source_line": 1095,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.transverse_energy_transmission",
+      "type": "∀ (P_dyn_trans P_dyn_0 theta v_perp_val : ℝ),\n  P_dyn_0 = 1 / 2 * AsymmetricTensor.rho_tau * v_perp_val ^ 2 →\n    P_dyn_trans = 1 / 2 * AsymmetricTensor.rho_tau * (v_perp_val * Real.cos theta) ^ 2 →\n      P_dyn_trans = P_dyn_0 * Real.cos theta ^ 2",
+      "source_line": 1523,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "AsymmetricTensor.l_p_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.transverse_shear_link",
+      "type": "∀ (x : AsymmetricTensor.SpaceTime),\n  -AsymmetricTensor.alpha_f x * (AsymmetricTensor.v_x_f x / AsymmetricTensor.c) =\n    AsymmetricTensor.T_perp_f x / AsymmetricTensor.P_c",
+      "source_line": 575,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.transverse_wave_propagation",
+      "type": "∀ {V_3D : Type} [inst : AddCommGroup V_3D] [inst_1 : _root_.Module ℝ V_3D] (v_perp_accel v_perp_laplace : V_3D),\n  (1 / AsymmetricTensor.c ^ 2) • v_perp_accel = v_perp_laplace → v_perp_accel = AsymmetricTensor.c ^ 2 • v_perp_laplace",
+      "source_line": 1501,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.tully_fisher_algebra",
+      "type": "∀ (v_rot a_0 G_val M_bar : ℝ),\n  a_0 > 0 →\n    G_val > 0 → M_bar ≥ 0 → v_rot ≥ 0 → v_rot ^ 2 = a_0 * √(G_val * M_bar / a_0) → v_rot ^ 4 = a_0 * G_val * M_bar",
+      "source_line": 1406,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.u1_gauge_invariance",
+      "type": "∀ {Force3D : Type} [inst : AddCommGroup Force3D] [_root_.Module ℝ Force3D] (v grad_h A grad_chi : Force3D),\n  v = grad_h + A → grad_h + grad_chi + (A - grad_chi) = v",
+      "source_line": 2149,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.unified_action_separation",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  AsymmetricTensor.tensor_contract (AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)\n      (AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) =\n    AsymmetricTensor.tensor_contract (AsymmetricTensor.U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)\n        (AsymmetricTensor.U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +\n      AsymmetricTensor.tensor_contract\n        (AsymmetricTensor.U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)\n        (AsymmetricTensor.U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)",
+      "source_line": 699,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.unified_wave_propagation",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ)\n  (dAlembertian : AsymmetricTensor.T2 → AsymmetricTensor.T2),\n  (∀ (A B : AsymmetricTensor.T2), dAlembertian (A + B) = dAlembertian A + dAlembertian B) →\n    dAlembertian (AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 0 →\n      dAlembertian (AsymmetricTensor.U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +\n          dAlembertian (AsymmetricTensor.U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) =\n        0",
+      "source_line": 811,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c",
+        "AsymmetricTensor.c_pos",
+        "AsymmetricTensor.hbar",
+        "AsymmetricTensor.hbar_pos",
+        "AsymmetricTensor.l_p"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.universal_gravitation_limit",
+      "type": "∀ (r F_macro M_1 M_2 M_P_val : ℝ),\n  M_P_val > 0 →\n    r > 0 →\n      AsymmetricTensor.G > 0 →\n        F_macro = M_1 / M_P_val * (M_2 / M_P_val) * (AsymmetricTensor.hbar * AsymmetricTensor.c / r ^ 2) →\n          M_P_val ^ 2 = AsymmetricTensor.hbar * AsymmetricTensor.c / AsymmetricTensor.G →\n            F_macro = AsymmetricTensor.G * M_1 * M_2 / r ^ 2",
+      "source_line": 1850,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.v_macro",
+      "type": "{V_3D : Type} → [AddCommGroup V_3D] → V_3D → V_3D → V_3D → V_3D",
+      "source_line": 166,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [],
+      "custom_axioms": [],
+      "kind": "definition",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.v_perp_g",
+      "type": "{V_3D : Type} → [AddCommGroup V_3D] → V_3D → V_3D → V_3D",
+      "source_line": 904,
+      "source_kind": "def",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "opaque",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.v_x_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 517,
+      "source_kind": "opaque",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "opaque",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.v_y_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 518,
+      "source_kind": "opaque",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "opaque",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.v_z_f",
+      "type": "AsymmetricTensor.ScalarField",
+      "source_line": 519,
+      "source_kind": "opaque",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.viscoelastic_phase_angle_reduction",
+      "type": "∀ (Omega_z alpha alpha_s t_p : ℝ),\n  alpha_s > 0 → alpha * t_p * Omega_z / alpha_s ^ (-2) = alpha * t_p * Omega_z * alpha_s ^ 2",
+      "source_line": 2192,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.volumetric_admittance_scaling",
+      "type": "∀ alpha_s > 0, √((1 / alpha_s ^ 2) ^ 3) = 1 / alpha_s ^ 3",
+      "source_line": 1980,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.wake_detachment_stabilization",
+      "type": "∀ (A_ij alpha_s Normalized_Shear : ℝ), Normalized_Shear = A_ij / alpha_s → Normalized_Shear = A_ij / alpha_s",
+      "source_line": 2236,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.wakefield_cavitation_gradient",
+      "type": "∀ (grad_P_shear grad_P_dyn grad_P_c : ℝ),\n  grad_P_c = grad_P_dyn + grad_P_shear → grad_P_c = 0 → grad_P_shear = -grad_P_dyn",
+      "source_line": 2009,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.wave_equation_algebra",
+      "type": "∀ {V_3D : Type} [inst : AddCommGroup V_3D] [inst_1 : _root_.Module ℝ V_3D] (c_val : ℝ),\n  0 < c_val →\n    ∀ (v_perp_accel v_perp_laplace : V_3D),\n      (1 / c_val ^ 2) • v_perp_accel = v_perp_laplace → v_perp_accel = c_val ^ 2 • v_perp_laplace",
+      "source_line": 1488,
+      "source_kind": "lemma",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.yield_partition",
+      "type": "∀ (alpha_yield : ℝ), alpha_yield = √(1 - 1 / 2) → alpha_yield = 1 / √2",
+      "source_line": 1038,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.z_pinch_sausage_instability",
+      "type": "∀ (P_static P_c P_dyn P_shear : ℝ), P_c = P_static + P_dyn + P_shear → P_dyn = 0 → P_static = P_c - P_shear",
+      "source_line": 2186,
+      "source_kind": "theorem",
+      "generated": false
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.U_hat._proof_1",
+      "type": "NeZero (3 + 1)",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.U_hat",
+      "source_line": 247
+    },
+    {
+      "axioms": [
+        "propext",
+        "AsymmetricTensor.c",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [
+        "AsymmetricTensor.c"
+      ],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.U_hat.eq_1",
+      "type": "∀ (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ),\n  AsymmetricTensor.U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val =\n    Matrix.of fun i j =>\n      if i = 0 ∧ j = 0 then -alpha_s ^ 2\n      else\n        if i = 0 ∧ j = 1 then -alpha * (v_x / AsymmetricTensor.c)\n        else\n          if i = 0 ∧ j = 2 then -alpha * (v_y / AsymmetricTensor.c)\n          else\n            if i = 0 ∧ j = 3 then -alpha * (v_z / AsymmetricTensor.c)\n            else\n              if i = 1 ∧ j = 0 then alpha * (v_x / AsymmetricTensor.c)\n              else\n                if i = 1 ∧ j = 1 then 1 / alpha_s ^ 2\n                else\n                  if i = 1 ∧ j = 2 then -alpha * (t_p_val * Omega_z)\n                  else\n                    if i = 1 ∧ j = 3 then alpha * (t_p_val * Omega_y)\n                    else\n                      if i = 2 ∧ j = 0 then alpha * (v_y / AsymmetricTensor.c)\n                      else\n                        if i = 2 ∧ j = 1 then alpha * (t_p_val * Omega_z)\n                        else\n                          if i = 2 ∧ j = 2 then 1 / alpha_s ^ 2\n                          else\n                            if i = 2 ∧ j = 3 then -alpha * (t_p_val * Omega_x)\n                            else\n                              if i = 3 ∧ j = 0 then alpha * (v_z / AsymmetricTensor.c)\n                              else\n                                if i = 3 ∧ j = 1 then -alpha * (t_p_val * Omega_y)\n                                else\n                                  if i = 3 ∧ j = 2 then alpha * (t_p_val * Omega_x)\n                                  else if i = 3 ∧ j = 3 then 1 / alpha_s ^ 2 else 0",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.U_hat",
+      "source_line": 247
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.VolAvg._proof_1",
+      "type": "∀ (A B : AsymmetricTensor.T2),\n  AsymmetricTensor.symPart (A + B) = AsymmetricTensor.symPart A + AsymmetricTensor.symPart B",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.VolAvg",
+      "source_line": 389
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.VolAvg._proof_2",
+      "type": "∀ (r_scalar : ℝ) (A : AsymmetricTensor.T2),\n  AsymmetricTensor.symPart (r_scalar • A) = (RingHom.id ℝ) r_scalar • AsymmetricTensor.symPart A",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.VolAvg",
+      "source_line": 389
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.asBilinear._proof_1",
+      "type": "RingHomInvPair (RingHom.id ℝ) (RingHom.id ℝ)",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.asBilinear",
+      "source_line": 235
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.asBilinear._proof_2",
+      "type": "SMulCommClass ℝ ℝ ℝ",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.asBilinear",
+      "source_line": 235
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.asBilinear._proof_3",
+      "type": "SMulCommClass ℝ ℝ ℝ",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.asBilinear",
+      "source_line": 235
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.asBilinear._proof_4",
+      "type": "SMulCommClass ℝ ℝ ((Fin 4 → ℝ) →ₗ[ℝ] ℝ)",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.asBilinear",
+      "source_line": 235
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.dressing_field_invariance._abel_1_1",
+      "type": "∀ {V_3D : Type} [inst : AddCommGroup V_3D] (v_perp_val grad_h_val chi_val : V_3D),\n  v_perp_val - chi_val + (grad_h_val + chi_val) = v_perp_val + grad_h_val",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.dressing_field_invariance",
+      "source_line": 908
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.metric_divergence.eq_1",
+      "type": "∀ (U : AsymmetricTensor.MetricField) (x : AsymmetricTensor.SpaceTime) (ν : Fin 4),\n  AsymmetricTensor.metric_divergence U x ν = ∑ μ, AsymmetricTensor.partial_deriv (fun y => U y μ ν) μ x",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.metric_divergence",
+      "source_line": 463
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.partial_deriv.eq_1",
+      "type": "∀ (f : AsymmetricTensor.ScalarField) (μ : Fin 4) (x : AsymmetricTensor.SpaceTime),\n  AsymmetricTensor.partial_deriv f μ x = (fderiv ℝ f x) fun i => if i = μ then 1 else 0",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.partial_deriv",
+      "source_line": 458
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.reduce_c7_c2._simp_1_1",
+      "type": "∀ {α : Type u_2} [inst : Zero α] [inst_1 : OfNat α 2] [NeZero 2], (2 = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.reduce_c7_c2",
+      "source_line": 336
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.reduce_c7_c2._simp_1_2",
+      "type": "∀ {α : Type u_2} [inst : Zero α] [inst_1 : OfNat α 3] [NeZero 3], (3 = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.reduce_c7_c2",
+      "source_line": 336
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.reduce_c7_c2._simp_1_3",
+      "type": "∀ {α : Type u_2} [inst : Zero α] [inst_1 : OfNat α 4] [NeZero 4], (4 = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.reduce_c7_c2",
+      "source_line": 336
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.reduce_c7_c2._simp_1_4",
+      "type": "∀ {M₀ : Type u_1} [inst : Mul M₀] [inst_1 : Zero M₀] [NoZeroDivisors M₀] {a b : M₀}, a ≠ 0 → b ≠ 0 → (a * b = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.reduce_c7_c2",
+      "source_line": 336
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.reduce_c7_c2._simp_1_5",
+      "type": "∀ {M₀ : Type u_1} [inst : MonoidWithZero M₀] {a : M₀} [IsReduced M₀] (n : ℕ), a ≠ 0 → (a ^ n = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.reduce_c7_c2",
+      "source_line": 336
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.reduce_c7_c2._simp_1_6",
+      "type": "∀ {G₀ : Type u_3} [inst : GroupWithZero G₀] {a : G₀} (n : ℤ), a ≠ 0 → (a ^ n = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.reduce_c7_c2",
+      "source_line": 336
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.reduce_c7_c2._simp_1_7",
+      "type": "∀ {R : Type u_1} [inst : AddMonoidWithOne R] [CharZero R] (n : ℕ), (↑n + 1 = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.reduce_c7_c2",
+      "source_line": 336
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.rho_tau._proof_1",
+      "type": "(1 + 1).AtLeastTwo",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.rho_tau",
+      "source_line": 72
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_stress_potential._simp_1_1",
+      "type": "∀ {α : Type u_2} [inst : Zero α] [inst_1 : OfNat α 2] [NeZero 2], (2 = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.spatial_stress_potential",
+      "source_line": 378
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_stress_potential._simp_1_2",
+      "type": "∀ {α : Type u_2} [inst : Zero α] [inst_1 : OfNat α 3] [NeZero 3], (3 = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.spatial_stress_potential",
+      "source_line": 378
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_stress_potential._simp_1_3",
+      "type": "∀ {α : Type u_2} [inst : Zero α] [inst_1 : OfNat α 4] [NeZero 4], (4 = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.spatial_stress_potential",
+      "source_line": 378
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_stress_potential._simp_1_4",
+      "type": "∀ {M₀ : Type u_1} [inst : Mul M₀] [inst_1 : Zero M₀] [NoZeroDivisors M₀] {a b : M₀}, a ≠ 0 → b ≠ 0 → (a * b = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.spatial_stress_potential",
+      "source_line": 378
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_stress_potential._simp_1_5",
+      "type": "∀ {M₀ : Type u_1} [inst : MonoidWithZero M₀] {a : M₀} [IsReduced M₀] (n : ℕ), a ≠ 0 → (a ^ n = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.spatial_stress_potential",
+      "source_line": 378
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_stress_potential._simp_1_6",
+      "type": "∀ {G₀ : Type u_3} [inst : GroupWithZero G₀] {a : G₀} (n : ℤ), a ≠ 0 → (a ^ n = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.spatial_stress_potential",
+      "source_line": 378
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "custom_axioms": [],
+      "kind": "theorem",
+      "module": "AsymmetricTensor",
+      "name": "AsymmetricTensor.spatial_stress_potential._simp_1_7",
+      "type": "∀ {R : Type u_1} [inst : AddMonoidWithOne R] [CharZero R] (n : ℕ), (↑n + 1 = 0) = False",
+      "generated": true,
+      "source_parent": "AsymmetricTensor.spatial_stress_potential",
+      "source_line": 378
+    }
+  ]
+}
