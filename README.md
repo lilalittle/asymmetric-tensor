@@ -17,11 +17,20 @@ document, in order.
 
 Requires [elan](https://lean-lang.org/install/):
 
+If you use [direnv](https://direnv.net/), enable its shell hook and run
+`direnv allow` once in this checkout. The checked-in `.envrc` puts elan's
+tools on `PATH` and selects the exact version in `lean-toolchain`, even if
+the shell has a different `ELAN_TOOLCHAIN`. It respects `ELAN_HOME` and
+restores your previous environment when you leave. Entering the directory
+does not install tooling, download dependencies, or build anything.
+
 ```
-lake update          # pins Lean + Mathlib (see lean-toolchain, lake-manifest.json)
 lake exe cache get   # fetch prebuilt Mathlib oleans (~6 GB); do NOT build Mathlib from source
 lake build           # elaborates AsymmetricTensor.lean
 ```
+
+These commands use the checked-in `lean-toolchain` and `lake-manifest.json`.
+Run `lake update` only when intentionally updating dependency pins.
 
 CI (`.github/workflows/lean_action_ci.yml`) does the same via
 `leanprover/lean-action`, which fetches the Mathlib cache automatically.
