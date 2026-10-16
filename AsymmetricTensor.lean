@@ -158,7 +158,9 @@ lemma c4_div_G_eq_planck_force : c^4 / G = (hbar * c) / l_p^2 := by
 -- ==========================================
 -- SECTION 1: Kinematic Parametrization
 -- ==========================================
+/-- Four real coordinate components, indexed by Fin 4. No metric or frame is built into this type. -/
 abbrev V4 := Fin 4 → ℝ
+/-- Real 4×4 component matrix. Tensor transformation laws and nondegeneracy are additional structure, not properties of this alias. -/
 abbrev T2 := Matrix (Fin 4) (Fin 4) ℝ
 
 variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
@@ -220,13 +222,16 @@ noncomputable def P_dyn_components (v_parallel_val v_perp_mag_val v_circ_val : �
 -- ==========================================
 
 -- 3.1 Generalized Matrix Slicing Operators
+/-- Symmetric part (U + Uᵀ)/2 of any real component matrix. No invertibility or physical assumptions are required. -/
 noncomputable def symPart (U : T2) : T2 :=
   fun i j => (U i j + U j i) / 2
 
+/-- Antisymmetric part (U − Uᵀ)/2 of any real component matrix. This is algebraic projection, not a volume average. -/
 noncomputable def antiPart (U : T2) : T2 :=
   fun i j => (U i j - U j i) / 2
 
 -- Proof: 4x4 real matrix decomposition.
+/-- Every real 4×4 matrix is the sum of its symmetric and antisymmetric parts. The proof is pointwise ring algebra and uses no physical axioms. -/
 theorem matrix_decomposition (U : T2) :
     U = symPart U + antiPart U := by
   ext i j
@@ -234,20 +239,24 @@ theorem matrix_decomposition (U : T2) :
   ring
 
 -- 3.2 The Bilinear Form Bridge
+/-- Convert a component matrix to the bilinear form (x,y) ↦ ∑ᵢⱼ xᵢ Uᵢⱼ yⱼ, in the fixed standard basis. No metric is inserted. -/
 noncomputable def asBilinear (U : T2) : LinearMap.BilinForm ℝ V4 :=
   Matrix.toBilin' U
 
 -- 3.3 Concrete Tensor Contractions
 -- A and V have two covariant (lower) indices. gInv supplies the contravariant
 -- inverse metric; raiseBoth raises both indices of its second argument.
+/-- Raise both component indices using the supplied matrix gInv: ∑αβ gInv μα gInv νβ A αβ. Callers must establish that gInv is the intended inverse metric; this definition does not impose symmetry or inverse laws. -/
 noncomputable def raiseBoth (gInv A : T2) : T2 :=
   fun μ ν => ∑ α : Fin 4, ∑ β : Fin 4, gInv μ α * gInv ν β * A α β
 
+/-- Contract U with V after raising both indices of V with gInv. This is metric-dependent; with a Lorentzian inverse metric it need not be nonnegative. -/
 noncomputable def contract2 (gInv U V : T2) : ℝ :=
   ∑ μ : Fin 4, ∑ ν : Fin 4, U μ ν * raiseBoth gInv V μ ν
 
 -- 3.4 Assembly of the Specific Asymmetric Metric-Tensor
 -- Foundation tensor matrix.
+/-- Assemble the manuscript-inspired component matrix in its fixed comoving chart. Inputs are scalar admittance, velocity, rotation, and time-scale parameters. The formula is totalized at zero denominators; physical use requires a separately justified admissible domain. -/
 noncomputable def U_hat (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) : T2 :=
   Matrix.of (fun i j =>
     if i = 0 ∧ j = 0 then -alpha_s^2
@@ -270,9 +279,11 @@ noncomputable def U_hat (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_v
   )
 
 -- Derived symmetric and antisymmetric tensor components.
+/-- Symmetric algebraic projection of U_hat. In this fixed chart it is diagonal; this does not construct a covariant tensor in arbitrary frames. -/
 noncomputable def U_sym (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) : T2 :=
   symPart (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)
 
+/-- Antisymmetric algebraic projection of U_hat, containing the off-diagonal velocity/rotation terms. Antisymmetry alone does not imply finite volume preservation. -/
 noncomputable def U_anti (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) : T2 :=
   antiPart (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)
 
@@ -291,6 +302,7 @@ theorem antisymmetric_shear (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t
   simp
 
 -- Tensor decomposition theorem.
+/-- Specialization of matrix_decomposition to U_hat. It proves the algebraic split for all scalar parameters, not an independent physical decomposition law. -/
 theorem tensor_decomposition_proven (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
     U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val = 
     U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val + 
@@ -390,6 +402,7 @@ theorem spatial_stress_potential (Phi : ℝ) :
 
 -- The Volumetric Average operator acts as the symmetric spatial projection.
 -- Bundled as a LinearMap over ℝ.
+/-- The implemented linear map is symPart. Despite its historical name it is not integration, expectation, or a general spatial coarse-graining operation. -/
 noncomputable def VolAvg : T2 →ₗ[ℝ] T2 where
   toFun U := symPart U
   map_add' A B := by
@@ -448,11 +461,17 @@ theorem macroscopic_torsion_nullification (alpha_s alpha v_x v_y v_z Omega_x Ome
 
 -- 5.1 Spacetime Manifold & Continuous Fields
 -- We define continuous 4D spacetime natively as a mapping from 4 indices to Reals.
+/-- A single global coordinate space ℝ⁴. No connection, curvature, manifold atlas, or causal structure is supplied by this alias. -/
 abbrev SpaceTime := Fin 4 → ℝ
 
 -- Physical quantities are promoted from static scalars/tensors to dynamic fields.
+/-- An arbitrary real function on the fixed coordinate space; regularity must be supplied separately. -/
 abbrev ScalarField := SpaceTime → ℝ
+/-- An arbitrary coordinate-vector-valued function; no differentiability is implicit. -/
 abbrev VectorField := SpaceTime → SpaceTime
+/-- An arbitrary component-matrix-valued function on the fixed chart.
+The Lie derivative treats its entries as covariant `(0,2)` components; this alias
+does not impose symmetry, nondegeneracy, regularity, conservation, or a chart-change law. -/
 abbrev MetricField := SpaceTime → T2
 
 -- 5.2 Coordinate Partial Derivatives and Divergence
@@ -631,9 +650,10 @@ theorem transverse_divergence_link (x : SpaceTime) :
     mul_div_cancel_right₀ (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) Pc_non_zero
   rw [h_cancel]
 
--- THEOREM: The Exact Geometric Origin of Fluid Dynamics (Axiom-Free)
--- We prove that the fluid equations exactly map to the continuous geometric divergence.
--- (Upgraded to the exact nonlinear geometric pressure compliance, eliminating all approximations).
+/-- Rewrite an assumed zero coordinate-component derivative sum using the defined
+acceleration, pressure, and transverse-stress fields. This is conditional component
+algebra, not a derivation of a material-acceleration PDE. Its proof uses the six
+physical constant/positivity axioms, so it is not axiom-free. -/
 theorem geometric_navier_stokes (x : SpaceTime)
     (h_geometric_zero : partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x + 
                         partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x + 
@@ -861,6 +881,9 @@ variable (M : ℝ)
 -- It does not raise either index and is not the Lorentzian action scalar.
 -- The explicit frobenius_* names below preserve this valid algebra; the physical
 -- convention is implemented separately by lorentzian_action_density.
+/-- Legacy Frobenius component pairing ∑ᵢⱼ Aᵢⱼ Bᵢⱼ; `frobenius_contract` is its explicit alias.
+Use `contract2` with an explicit inverse metric for raised-index contraction, or
+`lorentzian_action_density` for the fixed background-Minkowski quadratic scalar. -/
 noncomputable def tensor_contract (A B : T2) : ℝ :=
   (A 0 0 * B 0 0) + (A 0 1 * B 0 1) + (A 0 2 * B 0 2) + (A 0 3 * B 0 3) +
   (A 1 0 * B 1 0) + (A 1 1 * B 1 1) + (A 1 2 * B 1 2) + (A 1 3 * B 1 3) +
@@ -877,6 +900,9 @@ theorem contract_sym_anti_proven (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omeg
 
 -- Legacy Frobenius decomposition. This historical API name is retained for
 -- compatibility; use lorentzian_action_separation for the manuscript contraction.
+/-- Legacy Frobenius quadratic separation of the symmetric and antisymmetric projections.
+Use `frobenius_action_separation` for the same algebra with an explicit name, or
+`lorentzian_action_separation` for the manuscript background-Minkowski contraction. -/
 theorem unified_action_separation (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
     tensor_contract 
       (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 
@@ -915,6 +941,8 @@ alias frobenius_action_separation := unified_action_separation
 
 noncomputable def minkowskiSign (μ : Fin 4) : ℝ := if μ = 0 then -1 else 1
 
+/-- Background inverse Minkowski metric `diag(-1,1,1,1)`. Its inverse law is
+proved by `minkowskiInv_sq`; it is distinct from the inverse of the parameterized `U_sym`. -/
 noncomputable def minkowskiInv : T2 := fun μ ν => if μ = ν then minkowskiSign μ else 0
 
 lemma raiseBoth_minkowskiInv (A : T2) (μ ν : Fin 4) :
@@ -939,6 +967,8 @@ lemma lorentzian_sym_anti_orthogonality (U V : T2) :
   dsimp [symPart, antiPart]
   ring
 
+/-- Quadratic separation for an arbitrary component matrix under the fixed
+Minkowski two-index contraction. This finite matrix identity does not vary or integrate an action. -/
 lemma lorentzian_matrix_action_separation (U : T2) :
     contract2 minkowskiInv U U =
       contract2 minkowskiInv (symPart U) (symPart U) +
@@ -1119,8 +1149,13 @@ lemma restSpatialMetric_eq_background_projector :
 -- 6.1.5 Dimensionless quadratic action scalar used in Eqs. (65)-(66).
 -- No spacetime integral or Euler-Lagrange variation is asserted here.
 
+/-- Dimensionless quadratic scalar `contract2 minkowskiInv U U` in the
+fixed background metric. Time-space and spatial antisymmetric components have
+opposite signs. This is not a spacetime integral or an Euler–Lagrange derivation. -/
 noncomputable def lorentzian_action_density (U : T2) : ℝ := contract2 minkowskiInv U U
 
+/-- Specialize the fixed-Minkowski quadratic separation to `U_hat`.
+This is the Lorentzian counterpart of the separately retained Frobenius theorem. -/
 lemma lorentzian_action_separation (as a vx vy vz Ox Oy Oz tp : ℝ) :
     lorentzian_action_density (U_hat as a vx vy vz Ox Oy Oz tp) =
       lorentzian_action_density (U_sym as a vx vy vz Ox Oy Oz tp) +
@@ -1850,6 +1885,10 @@ theorem tully_fisher_algebra (v_rot a_0 G_val M_bar : ℝ)
 
 -- Theorem 44: Derivation of the Baryonic Tully-Fisher Relation (Equation 133 / 11.6)
 variable (a_0 M_bar : ℝ)
+/-- Square the assumed plateau relation `h_plateau` to obtain the displayed
+fourth-power identity. Assumes positive a_0, nonnegative M_bar and v_rot, and uses
+the defined G with its positivity proof. No galactic coupling or dynamics is
+derived by this algebraic implication. -/
 theorem baryonic_tully_fisher_derivation (v_rot : ℝ)
     (ha : a_0 > 0) (hM : M_bar ≥ 0) (_hv : v_rot ≥ 0)
     (h_plateau : v_rot^2 = a_0 * Real.sqrt (G * M_bar / a_0)) :
@@ -2131,6 +2170,7 @@ lemma action_constant_identity (hc : (0 : ℝ) < c) (hm : m > 0) (_hr : r > 0)
     exact h_kappa_c2
   exact h_final
 
+/-- Scalar inverse-square expression ℏc/r². At r = 0 Lean totalizes division; a physical interpretation must restrict the domain and justify its force model. -/
 noncomputable def F_fund (r : ℝ) : ℝ := (hbar * c) / r^2
 
 -- Theorem 53: The Fundamental Force Limit (Equation 176 / 14.3)
@@ -2199,6 +2239,9 @@ theorem interaction_hierarchy_strong (L_crit : ℝ) (_hm_e : m_e ≠ 0) (_h_alph
 -- baseline F_EMbase = F_fund(a_0), with no extra factor of alpha_em.
 -- Nonzero mass and coupling specify the domain of the radius substitution;
 -- Lean's totalized division at zero is not a physical boundary condition.
+/-- Unscaled electromagnetic baseline from the stated radius substitution,
+`F_fund(a₀) = α² mₑ² c³ / ℏ`. Nonzero mass and coupling delimit the physical
+radius domain. Multiplication by another `α` belongs to `interaction_hierarchy_em_scaled_algebra`. -/
 theorem interaction_hierarchy_em (a_0_val : ℝ) (_hm_e : m_e ≠ 0) (_h_alpha : alpha_em ≠ 0)
     (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c)) :
     F_fund a_0_val = (alpha_em^2 * m_e^2 * c^3) / hbar := by
@@ -2217,6 +2260,9 @@ theorem interaction_hierarchy_em (a_0_val : ℝ) (_hm_e : m_e ≠ 0) (_h_alpha :
 
 -- The baseline/strong ratio stated immediately after Eq. (224).
 -- Both radii and the strong-force denominator are nonzero on this domain.
+/-- The unscaled electromagnetic-to-strong ratio is `α⁴`, under the stated
+radius formulas and nonzero mass/coupling assumptions. This is a consequence of
+the supplied force model, not an independent coupling-law derivation. -/
 theorem interaction_hierarchy_em_strong_ratio (a_0_val L_crit : ℝ)
     (hm_e : m_e ≠ 0) (h_alpha : alpha_em ≠ 0)
     (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c))
@@ -2232,6 +2278,8 @@ theorem interaction_hierarchy_em_strong_ratio (a_0_val L_crit : ℝ)
 -- interaction_hierarchy_em statement. Multiplication by alpha_em is an
 -- additional operation, not the manuscript's baseline or a derived physical
 -- coupling law. See docs/force-hierarchy.md for the manuscript correspondence.
+/-- Optional algebraic rescaling of the unscaled electromagnetic baseline by `α`.
+Its `α³` right-hand side does not replace the manuscript baseline or define a new physical force. -/
 theorem interaction_hierarchy_em_scaled_algebra (a_0_val : ℝ)
     (hm_e : m_e ≠ 0) (h_alpha : alpha_em ≠ 0)
     (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c)) :
