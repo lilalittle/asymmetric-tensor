@@ -23,9 +23,9 @@ interpretation.
   marker reconciliation are separate from the mathematical base above.
 - **Source identity:** the base `AsymmetricTensor.lean` SHA-256 is
   `af1b28227043e80f0f746087ea9cddfd58c8682bb73adf611cf1196284447568`.
-  This documentation revision changes only its introductory module comment;
-  all imports, declarations and proofs remain byte-for-byte identical outside
-  that comment. The hash identifies the immutable mathematical base, not the
+  This documentation stack changes the introductory module comment and adds
+  declaration docstrings. Imports, declaration signatures and proof bodies are
+  unchanged after comments are removed. The hash identifies the immutable mathematical base, not the
   current file after comment-only changes. Record `git rev-parse HEAD` and any
   uncommitted changes separately for this checkout or later documentation stacks.
 - **Manuscript inspected:** [v9, dated September 25, 2026][pdf], published as
@@ -39,7 +39,8 @@ interpretation.
   reported elaboration with no errors or `sorry` occurrences. That build did
   not detect the inconsistent custom conservation axiom.
 - **Local validation, 2026-10-15:** the combined `./scripts/verify.sh` run
-  passed production/support builds, all nine checked-in Lean regression files,
+  passed production/support builds, all ten checked-in Lean regression files
+  (including the [API examples](../tests/ApiExamples.lean)),
   the 360-declaration completeness and six-axiom inventory check, 11 general
   and 17 action-specific exact dependency audits, the roadmap inventory and
   finite-contract checks, and the clean/negative mutation suite. It used the
@@ -296,7 +297,8 @@ issue-state report. Paper corrections remain the author's responsibility.
    repaired action, Lie-derivative, optical and force results must be re-reviewed
    as current coverage, rather than described as unimplemented work.
 2. Preserve the merged repair implementations, tests and explanatory notes.
-   The source edit here is limited to the introductory module comment. Keep
+   Source edits here are limited to the introductory module comment and
+   declaration docstrings. Keep
    general geometry, physical PDEs, action variation and empirical validation
    distinct from bounded coordinate, algebraic and integral results.
 3. Re-run the build and every retained regression after integration, verify

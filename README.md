@@ -181,3 +181,10 @@ The author's published manuscripts (Zenodo, CC-BY-4.0). The latest version is al
 All versions live at the concept DOI: https://doi.org/10.5281/zenodo.21321264
 
 Copyright Binyamin Tsadik Bair-Mosheh — [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
+
+## Contributing and API navigation
+
+Start with [the contributor guide](CONTRIBUTING.md) and its checked matrix example.
+Core definitions and headline results have declaration docstrings describing
+their mathematical contracts and limitations. The guide links the repaired
+Lie, action, optical, and force interfaces and their focused regression files.
