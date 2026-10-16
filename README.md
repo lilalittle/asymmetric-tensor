@@ -1,17 +1,37 @@
 # asymmetric-tensor
 
-Lean 4 formalization of the **asymmetric metric-tensor and the thermodynamic
-equation of state**, by Binyamin Tsadik Bair-Mosheh.
+Lean 4 research companion to **The Asymmetric Metric-Tensor and the
+Thermodynamic Equation of State**, by Binyamin Tsadik Bair-Mosheh.
 
-`AsymmetricTensor.lean` formalizes sections 1–16 of the work:
-kinematic parametrization, the thermodynamic budget, metric-tensor assembly
-(`U_hat`/`U_sym`/`U_anti`), the field equation, the equation of motion,
-the unified action, conformal symmetry, the mass mechanism (VEV → Planck
-mass → yield), gauge theory, tensor covariance / CPT, galactic kinematics
-(Tully-Fisher), the Einstein–Cartan isomorphism, wave mechanics, pressure
-dynamics, lensing, and future-work corollaries. The 8-commit history on the
-`binyamin/formalization` branch records one version per draft of the working
-document, in order.
+The repository contains a real 4×4 coordinate-matrix model, algebraic lemmas,
+a fixed-chart tensor Lie derivative, Lorentzian contraction identities, finite
+optical-path integrals, and conditional statements motivated by the manuscript.
+Its headings follow topics 1–16 of the paper; they do **not** mean those sections
+are fully formalized. Several geometric objects and physical derivations remain
+open, and ten specification targets simply return their assumed conclusions.
+
+## What is implemented?
+
+Start with the [formalization status map](docs/formalization-status.md):
+
+- [Section-by-section coverage, objects, and assumptions](docs/formalization-status.md#section-by-section-status)
+- [Custom assumptions and unspecified model symbols](docs/formalization-status.md#assumptions-and-unspecified-symbols)
+- [All ten assumed targets](docs/formalization-status.md#the-ten-exact-h_target-cases)
+- [Current dispositions of the 22 reviewed findings](docs/formalization-status.md#review-findings-and-dispositions)
+
+Useful entry points in [AsymmetricTensor.lean](AsymmetricTensor.lean) are
+`matrix_decomposition` (matrix algebra), `constant_coordinate_conserved`
+(a proved nonempty conservation constraint), `lorentzian_action_separation`
+(an explicit Minkowski contraction), and `optical_distance_gt` (a finite
+integral inequality for a specified ansatz). The [entry-point guide](docs/formalization-status.md#where-to-start)
+explains each result's scope.
+
+The historical universal conservation axiom has been removed; the current
+[coordinate-conservation interface](docs/conservation.md) requires an explicit
+`CoordinateConserved` premise. The [action](docs/lorentzian-action.md),
+[Lie-derivative](docs/lie-derivative.md), [optical-path](docs/optical-path.md), and
+[force-hierarchy](docs/force-hierarchy.md) notes describe the other bounded
+mathematical repairs and the physical questions they leave open.
 
 ## Building the committed version
 
@@ -62,39 +82,39 @@ The electromagnetic force-hierarchy regression checks run with
 [the force-hierarchy correspondence](docs/force-hierarchy.md) for the exact
 manuscript baseline, its domain, and the separately named algebraic rescaling.
 
-## Verification status
+## Verification and scope
 
 The checked-in [Lean proof-audit workflow](.github/workflows/lean_action_ci.yml)
 runs on pushes and pull requests. It preserves the dependency pins, obtains the
-Mathlib cache, builds the advertised target, rejects incomplete first-party
-proofs, checks eleven general and seventeen action-specific theorem axiom sets,
-and exercises the checked-in regressions and failure mutations.
+Mathlib cache, builds the advertised target, checks all production declarations
+for incomplete proofs, checks eleven general and seventeen action-specific
+theorem axiom sets, and exercises the regressions and failure mutations.
 Existing module-system/style warnings remain visible and nonfatal; proof errors
 and detected `sorryAx` dependencies fail verification independently.
 
-The repaired candidate passed local checks on 2026-10-15. The exact published
-head `6b667bbc6e3657cc8727bd7565fd3aa0509299b6` also passed its
+The [status map](docs/formalization-status.md#reviewed-snapshot-and-validation)
+records the mathematical source identity, unchanged manuscript hash, and local
+validation of this rebased combination. Historical CI-only head
+`6b667bbc6e3657cc8727bd7565fd3aa0509299b6` passed its
 [hosted proof-audit run](https://github.com/subtleGradient/asymmetric-tensor/actions/runs/38788710791).
-That is evidence for this identified revision, not for a later merged combination;
-check the revision-specific workflow result after subsequent changes.
+That run does not cover this combined source; no hosted result for the rebased
+combination is recorded here. Local existing-cache validation, clean setup, and
+revision-specific hosted checks are distinct evidence.
 
-The [verification contract](docs/verification.md) lists every selectively audited
-theorem, its exact allowed custom axioms, and the separate production-module
-completeness coverage. This is not a whole-library custom-axiom audit.
-`FutureWork` statements that simply return `h_target` are explicitly classified
-there as target specifications, not completed physical derivations.
+The [verification contract](docs/verification.md) distinguishes whole-production
+proof-completeness checking from the selected exact theorem dependency audits.
+The selected lists are not a whole-library custom-axiom audit. The ten
+`FutureWork` statements returning `h_target` remain target specifications.
 
-## What "compiles" does and doesn't mean
-
-A successful build means every definition and proof term checks against
-Lean's kernel, Mathlib, and the file's 6 stated axioms
-(`c`, `l_p`, `hbar`, and their positivity). Coordinate conservation is an
-explicit `CoordinateConserved U` hypothesis, not a universal axiom. The
-component-projection theorems do not derive Bernoulli or Navier–Stokes PDEs.
-See [the conservation repair](docs/conservation.md) for the counterexample,
-nonempty solution class, API change, and focused axiom-audit commands.
-It does not prove the physics from first principles — the physical content
-lives in those axioms and in the theorems' hypotheses.
+Lean checks formal statements against their hypotheses and dependencies. It
+does not check whether a physical name matches its implemented objects, whether
+an assumed law is empirically true, or whether the manuscript is fully represented.
+The source has six explicit `axiom` declarations for physical constants and their
+positivity, plus nine body-less `opaque` field declarations. Those counts are a
+source inventory, **not** a transitive dependency audit. Removing the historical
+conservation contradiction does not prove consistency of every remaining model
+assumption. The component-projection results do not derive Bernoulli or
+Navier–Stokes PDEs, and the action results do not supply an action variation.
 
 ## Next mathematical contribution
 

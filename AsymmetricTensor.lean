@@ -14,16 +14,31 @@ import Mathlib.Tactic
 # The Asymmetric Metric-Tensor and the Thermodynamic Equation of State
 
 **Author:** Binyamin Tsadik Bair-Mosheh
-**Dataset / Code Archive:** [Github Insert]
+**Dataset / Code Archive:** https://github.com/lilalittle/asymmetric-tensor
 **Preprint:** Zenodo (https://doi.org/10.5281/zenodo.21321264)
 
-## Abstract
+## Manuscript abstract (not a statement of formal coverage)
 This document resumes Einstein's effort to unify gravitation and electromagnetism by generalizing the classical symmetric metric into a complete Asymmetric Metric-Tensor (). By relaxing the assumption of an irrotational vacuum baseline, the tensor forward-models both macroscopic spacetime curvature (General Relativity) and discrete quantum kinematics (Electromagnetism and Mass) as orthogonal, coupled strain components of a continuous manifold. 
 
 The scope of this manuscript constructs the primary tensor, computes its principal eigenvalues, and applies symmetry-breaking Lie derivatives to resolve the trace contractions of the matrix. These operations derive the four fundamental forces as boundary conditions of a single continuous pressure gradient. Beyond recovering the admittance-modified Navier-Stokes equation, the Kinematic Lagrangian and the Schwarzschild metric, the tensor extracts the cosmological constant (), the physical Planck mass yield limit, the Compton cavitation boundary, anomalous galactic kinematics without dark matter, and cosmological redshift via thermodynamic metric capacity.
 
 ## Formalization Architecture (v2.0)
-This Lean 4 document translates the theoretical framework into a continuous differential geometry model. Macroscopic forces are derived as the geometric divergence of the continuous metric field.
+This file supplies a coordinate-matrix research prototype, algebraic lemmas,
+finite-path integral results, and conditional statements. Physical names and
+section headings do not assert complete manuscript coverage. See
+`docs/formalization-status.md` for implemented objects, assumptions and open work.
+
+The historical universal `covariant_conservation` axiom was inconsistent and
+has been removed. Conservation is an explicit `CoordinateConserved` premise,
+with constant-field witnesses and a linear-field counterexample. The library
+also includes the fixed-chart rank-two Lie derivative, Minkowski action
+contractions, base-10 distance moduli, finite optical-path inequalities, and the
+corrected electromagnetic baseline. These results retain explicit domains and
+model assumptions; they do not supply a general covariant connection, derive
+the physical momentum PDE, or validate the manuscript empirically.
+Section 16 still contains ten `exact h_target` specifications that assume
+their conclusions. Kernel checking does not itself prove consistency of all
+model assumptions or establish scientific correspondence.
 -/
 
 open Real
