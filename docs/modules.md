@@ -8,7 +8,7 @@ that the named physical theories have been derived.
 ## Finding and importing a result
 
 `import AsymmetricTensor` remains the compatibility entry point. It publicly
-imports all nine implementation modules. Every declaration remains in namespace
+imports all implementation modules. Every declaration remains in namespace
 `AsymmetricTensor`; a filename does not add a namespace segment. In particular,
 `FutureWork` is a section, not a namespace.
 
@@ -19,6 +19,7 @@ imports all nine implementation modules. Every declaration remains in namespace
 | `FieldCalculus` | Fixed-chart fields, partial derivatives, conditional conservation, field inputs | `MatrixAlgebra` |
 | `Applications.MechanicsMass` | Cavitation, conditional field equations, boost-symmetry constraint, dressing, mass relations | `FieldCalculus` |
 | `Applications.Electromagnetism` | Eigenvalue/contraction identities and cavitation limits | `MatrixAlgebra` |
+| `Applications.Saturation` | Admissible scalar/pressure domain, continuity, one-sided limits, totalized boundary counterexamples | `MatrixAlgebra`; explicit logarithm and topology imports |
 | `Applications.Geometry` | Frame transformations, galactic relations, affine-connection target | `Model` |
 | `Applications.WavesForces` | Wave, pressure, and force relations | `Model` |
 | `Applications.Optics` | Conditional redshift, finite optical-path integrals, base-10 magnitude relations | `Model`; explicit Mathlib interval-integral import |
@@ -119,6 +120,11 @@ every production source is reachable from the umbrella. Four mutation regression
 check clean acceptance and rejection of a new long line, broad linter suppression,
 and an unimported module. `scripts/verify.sh` runs both scripts before Lean checks.
 This small gate is intentionally narrower than the full Mathlib style linter.
+
+The later [saturation repair](saturation-limits.md) adds `Applications.Saturation`
+and deprecates two physically misleading boundary names with compatibility
+wrappers. The numerical API counts below describe the original module-split
+validation, not the subsequently extended library.
 
 ## Compatibility evidence
 

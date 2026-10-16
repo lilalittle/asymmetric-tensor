@@ -10,6 +10,7 @@ public import AsymmetricTensor.MatrixAlgebra
 public import AsymmetricTensor.FieldCalculus
 public import AsymmetricTensor.Applications.MechanicsMass
 public import AsymmetricTensor.Applications.Electromagnetism
+public import AsymmetricTensor.Applications.Saturation
 public import AsymmetricTensor.Applications.Geometry
 public import AsymmetricTensor.Applications.WavesForces
 public import AsymmetricTensor.Applications.Optics

@@ -124,33 +124,56 @@ theorem generalized_cavitation (v_perp Omega_z alpha_s_val alpha_val t_p_val : �
     (alpha_val * (v_perp / c))^2 - alpha_s_val^4 * (alpha_val * t_p_val * Omega_z)^2 = 1 := by
   exact generalized_cavitation_algebra alpha_s_val alpha_val v_perp Omega_z t_p_val h_alpha_s h_det_collapse
 
--- 9.8 The Temporal Cavitation Limit (alpha_s \to 0)
+-- 9.8 Exact Totalized Boundary Values (not one-sided limits)
+/-!
+The author assigns these zero-input identities a discrete post-cavitation convention:
+https://github.com/lilalittle/asymmetric-tensor/issues/43#issuecomment-6217484113 (point 1).
+Continuum compliance remains on `(0, 1]` with a divergent positive-side limit. This supplied
+interpretation does not identify the scalar formula below with the actual boundary determinant.
+-/
+/-- Legacy positive-admittance predicate. It asserts no topological continuity by itself.
+Use `AdmissibleAdmittance` for the positive, pressure-bounded scalar domain. -/
 def metric_is_continuous (alpha_s_val : ℝ) : Prop := alpha_s_val > 0
-def metric_is_cavitated  (alpha_s_val : ℝ) : Prop := alpha_s_val = 0
 
--- Theorem 30.5: Legal Cavitation (The Destruction of Elasticity)
-theorem legal_cavitation_collapse (alpha_s_val : ℝ) (h_cav : metric_is_cavitated alpha_s_val) :
-    1 / alpha_s_val^2 = 0 := by
-  dsimp [metric_is_cavitated] at h_cav
-  rw [h_cav]
-  have h1 : (0:ℝ)^2 = 0 := by ring
-  rw [h1, one_div, inv_zero]
+/-- Zero-input predicate used for the author's discrete post-cavitation convention.
+The predicate alone supplies no transition dynamics or continuum boundary limit. -/
+def metric_is_cavitated (alpha_s_val : ℝ) : Prop := alpha_s_val = 0
 
--- Theorem 30.6: The Topological Phase Lock
-theorem cavitated_determinant_lock (v_perp Omega_z alpha_s_val alpha_val t_p_val : ℝ) (h_cav : metric_is_cavitated alpha_s_val)
-    (h_det_collapse : - (1 / alpha_s_val^4) - (alpha_val * t_p_val * Omega_z)^2 + (1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2 = 0) :
-    (alpha_val * t_p_val * Omega_z)^2 = 0 := by
-  dsimp [metric_is_cavitated] at h_cav
-  rw [h_cav] at h_det_collapse
-  have h1 : (0:ℝ)^4 = 0 := by ring
-  have h_inv : 1 / (0:ℝ)^4 = 0 := by rw [h1, one_div, inv_zero]
-  rw [h_inv] at h_det_collapse
-  have h_zero_mul : (0 : ℝ) * (alpha_val * (v_perp / c))^2 = 0 := by exact zero_mul ((alpha_val * (v_perp / c))^2)
-  have h_zero_term : 0 * (alpha_val * (v_perp / c))^2 = 0 := by exact h_zero_mul
-  rw [h_zero_term] at h_det_collapse
-  have h_zero_sub : -0 - (alpha_val * t_p_val * Omega_z)^2 + 0 = - (alpha_val * t_p_val * Omega_z)^2 := by ring
-  rw [h_zero_sub] at h_det_collapse
-  linarith
+/-- Exact evaluation of totalized real division at a zero input. This is not a limit.
+The positive one-sided limit is `inverse_sq_tendsto_at_top` in `Applications.Saturation`. -/
+theorem totalized_inverse_sq_at_zero (alpha_s_val : ℝ)
+    (h_zero : alpha_s_val = 0) : 1 / alpha_s_val ^ 2 = 0 := by
+  simp [h_zero]
+
+/-- Compatibility name for the author's discrete zero-input convention.
+`totalized_inverse_sq_at_zero` checks its scalar value, not a physical transition or limit. -/
+@[deprecated totalized_inverse_sq_at_zero +typeChanged (since := "2026-10-16")]
+theorem legal_cavitation_collapse (alpha_s_val : ℝ)
+    (h_cav : metric_is_cavitated alpha_s_val) : 1 / alpha_s_val ^ 2 = 0 :=
+  totalized_inverse_sq_at_zero alpha_s_val h_cav
+
+/-- At zero input, the totalized rational expression reduces to minus the rotation square.
+The hypothesis is not the determinant of `U_hat` at the boundary. In particular, it cannot
+be obtained by extending a determinant formula proved only at nonzero admittance. -/
+theorem totalized_cavitation_formula_at_zero
+    (v_perp Omega_z alpha_s_val alpha_val t_p_val : ℝ) (h_zero : alpha_s_val = 0)
+    (h_formula : -(1 / alpha_s_val ^ 4) - (alpha_val * t_p_val * Omega_z) ^ 2 +
+      (1 / alpha_s_val ^ 4) * (alpha_val * (v_perp / c)) ^ 2 = 0) :
+    (alpha_val * t_p_val * Omega_z) ^ 2 = 0 := by
+  simpa [h_zero] using h_formula
+
+/-- Compatibility name for a scalar implication under the author's discrete convention.
+Its premise remains a totalized scalar equation, not the actual boundary determinant.
+`aligned_boundary_determinant` shows that actual boundary determinant zero permits nonzero spin. -/
+@[deprecated totalized_cavitation_formula_at_zero +typeChanged (since := "2026-10-16")]
+theorem cavitated_determinant_lock
+    (v_perp Omega_z alpha_s_val alpha_val t_p_val : ℝ)
+    (h_cav : metric_is_cavitated alpha_s_val)
+    (h_det_collapse : -(1 / alpha_s_val ^ 4) - (alpha_val * t_p_val * Omega_z) ^ 2 +
+      (1 / alpha_s_val ^ 4) * (alpha_val * (v_perp / c)) ^ 2 = 0) :
+    (alpha_val * t_p_val * Omega_z) ^ 2 = 0 :=
+  totalized_cavitation_formula_at_zero v_perp Omega_z alpha_s_val alpha_val t_p_val
+    h_cav h_det_collapse
 
 -- 9.9 Complex Strain & The Deborah Number
 noncomputable def U_perp_Re (alpha_s_val : ℝ) : ℝ := 1 / alpha_s_val^2
