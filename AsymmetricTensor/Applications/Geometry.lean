@@ -1,3 +1,18 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+public import AsymmetricTensor.Model
+public import AsymmetricTensor.FieldCalculus
+/-!
+# Tensor covariance, galactic kinematics, and the affine connection
+Module of Binyamin's v3.0 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+namespace AsymmetricTensor
+variable (r : ℝ)
 -- ==========================================
 -- SECTION 10: Tensor Covariance & Non-Inertial Reference Frames
 -- ==========================================
@@ -203,3 +218,4 @@ theorem einstein_cartan_lagrangian
     _ = tension_limit * R_tilde + tension_limit * (K_trace_1 - K_trace_2) := by ring
     _ = L_EH + tension_limit * (K_trace_1 - K_trace_2) := by rw [←h_L_EH]
     _ = L_EH + L_Spin := by rw [←h_L_Spin]
+end AsymmetricTensor

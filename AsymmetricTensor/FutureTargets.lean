@@ -1,3 +1,16 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+public import AsymmetricTensor.Model
+/-!
+# Predictive corollaries and future work
+Module of Binyamin's v3.0 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+namespace AsymmetricTensor
 -- ==========================================
 -- SECTION 16: Discussion: Predictive Corollaries & Future Work
 -- ==========================================

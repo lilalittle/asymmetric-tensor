@@ -1,3 +1,17 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+public import AsymmetricTensor.Model
+/-!
+# Asymmetric metric-tensor assembly and the unified action
+Module of Binyamin's v3.0 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+namespace AsymmetricTensor
+variable (M : ℝ)
 -- ==========================================
 -- SECTION 3: Assembly of the Asymmetric Metric-Tensor
 -- ==========================================
@@ -146,3 +160,4 @@ theorem unified_wave_propagation
   have h2 : dAlembertian (S_sym_macro + A_anti_macro) = dAlembertian S_sym_macro + dAlembertian A_anti_macro := h_linear S_sym_macro A_anti_macro
   rw [h2] at h1
   exact h1
+end AsymmetricTensor

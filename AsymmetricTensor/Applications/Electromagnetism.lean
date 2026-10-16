@@ -1,3 +1,21 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+public import AsymmetricTensor.Model
+public import AsymmetricTensor.MatrixAlgebra
+/-!
+# Electromagnetic gauge and unitary evolution
+Module of Binyamin's v3.0 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+namespace AsymmetricTensor
+variable {Omega_z : ℝ}
+variable {alpha : ℝ}
+variable {alpha_s : ℝ}
+variable {v_x : ℝ}
 -- ==========================================
 -- SECTION 9: Electromagnetic Gauge & Unitary Evolution
 -- ==========================================
@@ -215,3 +233,4 @@ theorem phenomenological_energy_scale (De_macro : ℝ)
   calc
     De_macro = alpha * gamma_val := by exact h_De
     _ = alpha * (E_val / (m_val * c^2)) := by rw [h_gamma_def]
+end AsymmetricTensor

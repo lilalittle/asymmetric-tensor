@@ -1,3 +1,22 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+public import AsymmetricTensor.Model
+/-!
+# Field equation, equation of motion, and Lie-derivative constraints
+Module of Binyamin's v3.0 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+namespace AsymmetricTensor
+variable {V_3D : Type*} [AddCommGroup V_3D] [Module ℝ V_3D]
+variable {alpha : ℝ}
+variable (v_circ : ℝ)
+variable (v_esc : ℝ)
+variable (v_parallel : ℝ)
+variable (v_perp_mag : ℝ)
 -- ==========================================
 -- SECTION 4: The Continuous Field Equation
 -- ==========================================
@@ -265,3 +284,4 @@ theorem dressing_field_invariance (v_perp grad_h chi : V_3D) :
   calc
     v_perp - chi + (grad_h + chi) = v_perp + grad_h - chi + chi := by abel
     _ = v_perp + grad_h := by abel
+end AsymmetricTensor

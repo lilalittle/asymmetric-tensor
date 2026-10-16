@@ -1,13 +1,24 @@
----
-import Mathlib.Data.Matrix.Basic
-import Mathlib.Data.Real.Basic
-import Mathlib.Analysis.SpecialFunctions.Sqrt
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.Tactic
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.Data.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Tactic
+/-!
+# Fundamental constants, kinematics, and thermodynamic relations
+Module of Binyamin's v3.0 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+namespace AsymmetricTensor
 -- ==========================================
 -- THE ASYMMETRIC METRIC-TENSOR (Generative Architecture)
 -- ==========================================
-namespace AsymmetricTensor
+
 -- ==========================================
 -- FUNDAMENTAL CONSTANTS (FROZEN GLOBALLY)
 -- ==========================================
@@ -77,3 +88,4 @@ theorem compliance_equivalence (v_esc : ℝ) :
 variable (v_parallel v_perp_mag v_circ : ℝ)
 noncomputable def P_dyn_components (v_parallel v_perp_mag v_circ : ℝ) : ℝ :=
   (1 / 2) * rho_tau * (v_parallel^2 + v_perp_mag^2 + v_circ^2)
+end AsymmetricTensor

@@ -1,3 +1,17 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+public import AsymmetricTensor.Model
+/-!
+# Transverse wave mechanics and pressure dynamics
+Module of Binyamin's v3.0 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+namespace AsymmetricTensor
+variable {Vector3D : Type*} [AddCommGroup Vector3D] [Module ℝ Vector3D]
 -- ==========================================
 -- SECTION 13: Transverse Wave Mechanics & Chiral Induction
 -- ==========================================
@@ -220,3 +234,4 @@ theorem universal_gravitation_limit (hM_P : M_P > 0) (hr : r > 0) (hG : G > 0)
     _ = (hbar * c * (M_1 * M_2 * G)) / (hbar * c * r^2) := by ring
     _ = (M_1 * M_2 * G) / r^2 := by exact mul_div_mul_left (M_1 * M_2 * G) r^2 h_hbar_c_ne
     _ = (G * M_1 * M_2) / r^2 := by ring
+end AsymmetricTensor

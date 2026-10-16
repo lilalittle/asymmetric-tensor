@@ -1,3 +1,16 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+public import AsymmetricTensor.Model
+/-!
+# Macroscopic lensing (the optical pressure gradient)
+Module of Binyamin's v3.0 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+namespace AsymmetricTensor
 -- ==========================================
 -- SECTION 15: Macroscopic Lensing (The Optical Pressure Gradient)
 -- ==========================================
@@ -89,3 +102,4 @@ theorem magnitude_anomaly_divergence (hr_o : r_opt > 0) (hr_t : r_true > 0) (hz 
     (h_mu_lin : mu_lin = 5 * Real.log (r_true * (1 + z_val)) + 25) :
     mu_obs - mu_lin = 5 * Real.log (r_opt / r_true) := by
   exact logarithmic_magnitude_anomaly mu_obs mu_lin r_opt r_true z_val hr_o hr_t hz h_mu_obs h_mu_lin
+end AsymmetricTensor
