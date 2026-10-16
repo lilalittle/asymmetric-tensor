@@ -2,8 +2,10 @@
 
 This is the reader-facing scope map for [#33][i33]. It distinguishes implemented
 mathematics from physical assumptions, missing constructions, and specification
-targets. It is not the exhaustive equation-to-declaration ledger requested by
-[#29][i29], and it does not change the manuscript or resolve its scientific
+targets. The separate [historical equation ledger](equation-coverage.md) accounts
+for 239 numbered v9 equations and 40 unnumbered claims in the exact #9/#33
+snapshot requested by [#29][i29]. It does not establish current-source equation
+coverage. Neither document changes the manuscript or resolves its scientific
 interpretation.
 
 ## Reviewed snapshot and validation
@@ -12,6 +14,14 @@ interpretation.
   Finding evidence links remain pinned to that revision; they are not claims
   about the repaired source. The original scope-only review was commit
   `16b25ef7d2bb8d5484dc0a19ab5df03509c3a30e` on its conservation-repair base.
+- **Historical equation evidence:** the [ledger](equation-coverage.md) preserves
+  its reviewed source and dependency manifest as inert text archives, with
+  complete types and transitive dependencies for 240 declarations. Its accepted
+  hashes and mappings are unchanged. Run
+  `python3 scripts/equation_ledger.py --check --historical` to validate those
+  archives; the default live check rejects
+  later source or dependency changes. A current-source audit must not overwrite
+  this historical evidence. Current-source equation remapping remains open.
 - **Current mathematical base:** [`94c49e59d796fdbec846d59c6cbfa45f0304d598`][current],
   which already contains the merged conservation, action, Lie-derivative,
   distance-modulus, optical-path and electromagnetic-baseline repairs, plus
@@ -40,8 +50,9 @@ interpretation.
   reported elaboration with no errors or `sorry` occurrences. That build did
   not detect the inconsistent custom conservation axiom.
 - **Local validation, 2026-10-15:** the combined `./scripts/verify.sh` run
-  passed production/support builds, all eleven checked-in Lean regression files
-  (including the [API examples](../tests/ApiExamples.lean)),
+  passed production/support builds, all twelve checked-in Lean regression files
+  (including the [API examples](../tests/ApiExamples.lean) and the separate
+  current-source [declaration audit](../tests/EquationAxioms.lean)),
   the 364-declaration completeness and six-axiom inventory check, 11 general
   and 17 action-specific exact dependency audits, the roadmap inventory and
   finite-contract checks, and the clean/negative mutation suite. It used the
@@ -80,8 +91,14 @@ The separate [verification layer](verification.md) checks all 364 declarations
 owned by the production root and its implementation modules for transitive `sorryAx` and verifies the six-axiom
 first-party inventory. It additionally enforces exact custom dependencies for
 11 general and 17 action-specific theorems. Those selective lists are not a
-whole-library allowlist of imported custom axioms, and neither audit establishes
-consistency or empirical validity of the model assumptions. Further review requirements are [listed below](#reconciliation-before-candidate-review).
+whole-library allowlist of imported custom axioms. The additional
+[`EquationAxioms.lean`](../tests/EquationAxioms.lean) check enumerates all 364
+current production declarations and rejects transitive axioms outside the six
+allowed custom names and the three standard logical axioms. Its current-source
+output does not update equation correspondence and must not overwrite the
+historical 240-declaration audit. These checks do not establish consistency or
+empirical validity of the model assumptions. Further review requirements are
+[listed below](#reconciliation-before-candidate-review).
 
 ## How to read the status labels
 
@@ -138,8 +155,10 @@ implementation is distinguished from historical finding evidence below.
 
 The numbering follows the source's advertised paper topics. Section links point
 to the repaired mathematical base above. Old subsection/equation comments are
-not an exhaustive verified v9 mapping; the separate [#29 ledger][i29] must
-establish that correspondence. Individual repair notes give bounded mappings.
+not an exhaustive verified v9 mapping. The [historical #29 ledger](equation-coverage.md)
+establishes that correspondence only for its archived #9/#33 snapshot;
+current-source equation remapping remains open. Individual repair notes give
+bounded mappings.
 
 | Section/topic | Entry-point declarations and implemented objects | Essential assumptions and completion status |
 |---|---|---|
@@ -289,7 +308,7 @@ issue-state report. Paper corrections remain the author's responsibility.
 | [#26 Optical path integral][i26] | **Missing bridge:** arbitrary distances/moduli and a local speed identity; no `∫ n`, integrability, strict distance inequality, or travel-time theorem. [Source][f26] | **Finite-ansatz mathematical bridge implemented.** [Optical note](optical-path.md) and [regressions](../tests/OpticalPath.lean) cover actual finite path/inverse-speed integrals, continuity, integrability, strict distance/time inequalities and positive base-10 anomaly on explicit domains. The ansatz and modulus prescriptions remain assumptions; #23 horizon interpretation and physical/empirical correspondence remain open. |
 | [#27 Electromagnetic force factor][i27] | **Formula mismatch:** Lean proves `alpha_em * F_fund(a0)` with cubic coupling; v9 (224) specifies the unscaled baseline with quadratic coupling. [Source][f27] | **Lean/paper formula reconciliation implemented.** [Force note](force-hierarchy.md) and [regressions](../tests/ForceHierarchy.lean) cover the unscaled Eq. (224) baseline and `alpha_em^4` ratio. The prior scaled identity is retained under an explicit algebra-only name, with its distinct `alpha_em^5` ratio. No new physical coupling law is claimed. |
 | [#28 Universal no-go claims][i28] | **Unsupported generalization:** a source-free 3D Laplace observation does not quantify over other gravity/halo models; no such exclusion theorem exists in this Lean section. [Source][f28] | **Open paper correction.** Scope the exclusion to its actual operator, dimension, source and domain, or supply a precise broader target and argument. No empirical verdict is supplied here. |
-| [#29 Equation-level ledger][i29] | **Coverage/documentation gap:** named targets, empty headings and scalar stand-ins do not amount to exhaustive paper coverage. [Source][f29] | **Section/topic scope documented; exhaustive ledger remains separate.** This map records assumptions and all ten exact targets. The merged [roadmap](formalization-roadmap.md) records missing constructions and a bounded next task. Neither supplies the exhaustive v9 equation-to-declaration mapping or establishes complete scientific correspondence. |
+| [#29 Equation-level ledger][i29] | **Coverage/documentation gap:** named targets, empty headings and scalar stand-ins do not amount to exhaustive paper coverage. [Source][f29] | **Historical snapshot accounting completed; current-source equation remapping remains open.** The [historical ledger](equation-coverage.md) accounts for all 239 numbered equations, 40 unnumbered claims and 240 declarations in its exact #9/#33 snapshot. Its archived source, manifest, hashes and audit are preserved; later repaired declarations have not been remapped equation by equation. This map describes current scope, while the [roadmap](formalization-roadmap.md) records open constructions. Neither extends the historical ledger or claims complete scientific correspondence. |
 | [#30 Reproducible workflow][i30] | **Repository mismatch:** baseline README refers to absent `.github` CI and starts reproduction with `lake update`. [Baseline README][f30] | **Pinned setup and verification workflow implemented.** The merged [#34][i34] repair preserves the committed Mathlib selection. The included [verification layer](verification.md) builds production/support targets, runs every Lean regression plus the roadmap checks and mutation suite, and separates whole-production proof-hole checks from selective exact dependency audits. A historical hosted run is revision-specific; it does not establish hosted success for this rebased combination. |
 
 ## Reconciliation before candidate review
@@ -311,9 +330,12 @@ issue-state report. Paper corrections remain the author's responsibility.
    to the historical baseline and includes dated pre-merge progress. Use this
    map and current source for the repair status; do not read its old PR-state
    notes as current status. The finite-determinant task remains an open target.
-5. Keep [#29][i29]'s exhaustive ledger separate. The citation/license repair
-   distinguishes software from manuscript identity; neither a software commit
-   nor a successful check means the unchanged v9 paper has been corrected.
+5. Keep [#29][i29]'s [historical ledger](equation-coverage.md) separate from
+   current-source coverage. Preserve the archived snapshot and validate it with
+   `--check --historical`; review equation mappings anew before claiming coverage
+   for later repairs. The citation/license repair distinguishes software from
+   manuscript identity; neither a software commit nor a successful check means
+   the unchanged v9 paper has been corrected.
 
 [current]: https://github.com/lilalittle/asymmetric-tensor/tree/94c49e59d796fdbec846d59c6cbfa45f0304d598
 [snapshot]: https://github.com/lilalittle/asymmetric-tensor/tree/9f69988d17c9fb86f35a563eb6466be9dbf4e524
