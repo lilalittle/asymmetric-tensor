@@ -18,6 +18,14 @@ Start with the [formalization status map](docs/formalization-status.md):
 - [Custom assumptions and unspecified model symbols](docs/formalization-status.md#assumptions-and-unspecified-symbols)
 - [All ten assumed targets](docs/formalization-status.md#the-ten-exact-h_target-cases)
 - [Current dispositions of the 22 reviewed findings](docs/formalization-status.md#review-findings-and-dispositions)
+- [Historical v9 equation ledger: 239 equations and 40 unnumbered claims](docs/equation-coverage.md)
+- [Historical #9/#33 declaration types and transitive axiom audit](docs/declaration-audit.json)
+
+The equation ledger preserves the exact reviewed #9/#33 source and dependency
+snapshot. Its 240-declaration audit and equation labels are historical evidence;
+current-source equation remapping remains open. Validate the archive with
+`python3 scripts/equation_ledger.py --check --historical` (requires Poppler
+`pdftotext`). The current proof-audit workflow below checks a different scope.
 
 Useful entry points exposed by [AsymmetricTensor.lean](AsymmetricTensor.lean) are
 `matrix_decomposition` (matrix algebra), `constant_coordinate_conserved`
