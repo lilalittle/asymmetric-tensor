@@ -23,11 +23,12 @@ interpretation.
   marker reconciliation are separate from the mathematical base above.
 - **Source identity:** the base `AsymmetricTensor.lean` SHA-256 is
   `af1b28227043e80f0f746087ea9cddfd58c8682bb73adf611cf1196284447568`.
-  This documentation stack changes the introductory module comment and adds
-  declaration docstrings. Imports, declaration signatures and proof bodies are
-  unchanged after comments are removed. The hash identifies the immutable mathematical base, not the
-  current file after comment-only changes. Record `git rev-parse HEAD` and any
-  uncommitted changes separately for this checkout or later documentation stacks.
+  This hash identifies the pre-split mathematical base, not the current umbrella
+  or implementation-module bytes. The module split preserves every declaration's
+  statement and body tokens and all 304 public types/universes; scope text and all
+  78 declaration docstrings from the subsequent API stack are retained. See
+  [module compatibility evidence](modules.md#compatibility-evidence). Record
+  `git rev-parse HEAD` and any uncommitted changes separately for this checkout.
 - **Manuscript inspected:** [v9, dated September 25, 2026][pdf], published as
   [Zenodo 22953897](https://doi.org/10.5281/zenodo.22953897). PDF SHA-256:
   `0d97cbca284e68aeed75c98b830ce16ab0453fa54f7333ce50eb90e1f4f4e7a7`.
@@ -39,12 +40,13 @@ interpretation.
   reported elaboration with no errors or `sorry` occurrences. That build did
   not detect the inconsistent custom conservation axiom.
 - **Local validation, 2026-10-15:** the combined `./scripts/verify.sh` run
-  passed production/support builds, all ten checked-in Lean regression files
+  passed production/support builds, all eleven checked-in Lean regression files
   (including the [API examples](../tests/ApiExamples.lean)),
-  the 360-declaration completeness and six-axiom inventory check, 11 general
+  the 364-declaration completeness and six-axiom inventory check, 11 general
   and 17 action-specific exact dependency audits, the roadmap inventory and
   finite-contract checks, and the clean/negative mutation suite. It used the
-  existing shared package cache. Import/module warnings remain. Dependency pins
+  existing shared package cache. The ten production modules compile without warnings; warnings from supporting
+  regressions remain visible. Dependency pins
   and all three configuration-file byte sequences were preserved during the run;
   the CI layer intentionally adds the separate `ProofAudit` library target.
   No hosted CI result or fresh-checkout run for this combination is asserted.
@@ -74,8 +76,8 @@ statements**, not the entire library:
 | `unified_action_separation` | The same standard logical axioms plus `c` |
 
 None of those seven lists contains `sorryAx` or a custom conservation axiom.
-The separate [verification layer](verification.md) checks all 360 declarations
-owned by the production root for transitive `sorryAx` and verifies the six-axiom
+The separate [verification layer](verification.md) checks all 364 declarations
+owned by the production root and its implementation modules for transitive `sorryAx` and verifies the six-axiom
 first-party inventory. It additionally enforces exact custom dependencies for
 11 general and 17 action-specific theorems. Those selective lists are not a
 whole-library allowlist of imported custom axioms, and neither audit establishes
@@ -297,10 +299,11 @@ issue-state report. Paper corrections remain the author's responsibility.
    repaired action, Lie-derivative, optical and force results must be re-reviewed
    as current coverage, rather than described as unimplemented work.
 2. Preserve the merged repair implementations, tests and explanatory notes.
-   Source edits here are limited to the introductory module comment and
-   declaration docstrings. Keep
-   general geometry, physical PDEs, action variation and empirical validation
-   distinct from bounded coordinate, algebraic and integral results.
+   The module split changes file organization, imports, and local linter settings;
+   declaration tokens, all public signatures, and computational definitions are
+   preserved. Scope paragraphs and API docstrings are retained. Keep general
+   geometry, physical PDEs, action variation and empirical validation distinct
+   from bounded coordinate, algebraic and integral results.
 3. Re-run the build and every retained regression after integration, verify
    dependency files remain unchanged, and inspect any audit's exact coverage.
    Local elaboration, fresh setup, hosted CI and consistency are distinct claims.

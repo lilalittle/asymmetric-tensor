@@ -18,6 +18,11 @@ check_locks() {
   done
 }
 
+# Check production module boundaries and reviewed style compatibility exceptions.
+python3 scripts/check_lean_style.py
+python3 scripts/test_lean_style.py
+python3 scripts/test_module_source.py
+
 # Warnings remain visible but are not fatal; proof completeness is checked below.
 lake build AsymmetricTensor ProofAudit
 check_locks

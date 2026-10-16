@@ -41,7 +41,7 @@ A missing cache, elaboration error, failed audit, or failed regression is fatal.
 2. **Completeness and declared-axiom inventory:** `#audit_root AsymmetricTensor`
    examines every declaration owned by the root module and its imported
    `AsymmetricTensor.*` submodules, regardless of declaration namespace. This
-   includes private/generated declarations, and currently covers 360 declarations.
+   includes private/generated declarations, and currently covers 364 declarations.
    Each declaration's transitive axiom set must exclude `sorryAx`. Every axiom
    declared in those modules must be one of exactly the six listed below.
    This is whole-production-module completeness coverage, not a whole-library
@@ -180,7 +180,7 @@ or manuscript coverage.
 
 The CI-only rebased candidate on main `94c49e59d796fdbec846d59c6cbfa45f0304d598` had a
 separate local validation on 2026-10-15: production/support builds, all eight
-inherited Lean regression files plus `tests/ProofAudit.lean`, the current
+inherited Lean regression files plus `tests/ProofAudit.lean`, the then-current
 360-declaration completeness/inventory check, eleven general and seventeen
 action-specific exact theorem axiom checks, the roadmap inventory and
 finite-contract checks, and the mutation suite. Its production source was
@@ -189,3 +189,14 @@ their additional examples are recorded in the
 [scope validation snapshot](formalization-status.md#reviewed-snapshot-and-validation). The historical hosted run above does not
 cover this combined source or the expanded regression gate; the new published
 revision requires its own hosted result.
+
+The module-split stack has a separate local validation on 2026-10-15: all ten
+production modules, the audit support library, all eleven Lean regression files,
+the 364-declaration completeness check with the same six declared axioms, eleven
+general and seventeen action-specific exact dependency checks, roadmap checks,
+and proof-audit and style mutation regressions pass. The increase from 360 to 364
+is compiler-generated implementation detail; the 304 source-declared public
+names and their full types/universes are unchanged. All 78 API declaration
+docstrings and the scope text are retained. See [module evidence](modules.md).
+This local result uses the existing shared Mathlib cache; it does not certify
+hosted CI or a fresh checkout of the final published revision.

@@ -19,12 +19,13 @@ Start with the [formalization status map](docs/formalization-status.md):
 - [All ten assumed targets](docs/formalization-status.md#the-ten-exact-h_target-cases)
 - [Current dispositions of the 22 reviewed findings](docs/formalization-status.md#review-findings-and-dispositions)
 
-Useful entry points in [AsymmetricTensor.lean](AsymmetricTensor.lean) are
+Useful entry points exposed by [AsymmetricTensor.lean](AsymmetricTensor.lean) are
 `matrix_decomposition` (matrix algebra), `constant_coordinate_conserved`
 (a proved nonempty conservation constraint), `lorentzian_action_separation`
 (an explicit Minkowski contraction), and `optical_distance_gt` (a finite
 integral inequality for a specified ansatz). The [entry-point guide](docs/formalization-status.md#where-to-start)
-explains each result's scope.
+explains each result's scope. The [module map](docs/modules.md) locates their
+implementations and describes the unchanged public namespace and import policy.
 
 The historical universal conservation axiom has been removed; the current
 [coordinate-conservation interface](docs/conservation.md) requires an explicit
