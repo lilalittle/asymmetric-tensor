@@ -1,5 +1,11 @@
 # Derive the finite aligned determinant and distinguish volume densities
 
+Current progress: the [spectral repair](full-tensor-spectra.md) supplies the
+aligned determinant formula from the actual `U_hat` via `U_hat_aligned_det`
+(set its second transverse slip to zero for the specialization below).
+The volume-density results and physical interpretation below remain separate
+work; the retained target propositions are specifications, not proof records.
+
 Implementation contract for the mathematical part of the existing finite-volume
 finding. This is a proposed implementation scope, not a claim that the following
 results are already proved in the production library.

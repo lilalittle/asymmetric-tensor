@@ -41,7 +41,7 @@ A missing cache, elaboration error, failed audit, or failed regression is fatal.
 2. **Completeness and declared-axiom inventory:** `#audit_root AsymmetricTensor`
    examines every declaration owned by the root module and its imported
    `AsymmetricTensor.*` submodules, regardless of declaration namespace. This
-   includes private/generated declarations, and currently covers 364 declarations.
+   includes private/generated declarations; the original module split covered 364.
    Each declaration's transitive axiom set must exclude `sorryAx`. Every axiom
    declared in those modules must be one of exactly the six listed below.
    This is whole-production-module completeness coverage, not a whole-library
@@ -214,3 +214,20 @@ The historical source, mapping, coverage JSON, audit JSON and accepted hashes
 were preserved. These separate Python ledger checks require Poppler `pdftotext`
 and are not part of the hosted workflow; the Lean declaration check is part
 of its normal `tests/*.lean` gate.
+
+## Aligned spectral regression
+
+The issue #20 repair adds `tests/FullTensorSpectra.lean` with 22 exact selective
+custom-axiom checks. Generic aligned determinant/characteristic-polynomial,
+complex eigenvectors, invariant-plane iff, longitudinal-root criterion and
+Schwinger counterexample theorems use no custom axioms. The real/complex
+`U_hat` bridges and corrected `schwinger_limit_eigenvalues` use only `c`;
+`nonzero_slip_example_from_U_hat` additionally uses `c_pos` to divide by `c`.
+The block-reality theorem uses no custom axioms. The three ordinary logical
+axioms remain allowed. These sets are declared explicitly in the regression,
+not inferred into an allowlist from build output.
+
+The new production `Applications.Spectra` module is publicly imported through
+`Applications.Electromagnetism` and is covered by both whole-root audits.
+The historical declaration counts and validation records above are unchanged
+snapshots; they do not enumerate the new module's declarations.

@@ -9,13 +9,19 @@ assessment or a promise to formalize all of the manuscript.
 
 ## Recommendation and current progress
 
-Select the finite determinant calculation in existing [issue #21](https://github.com/lilalittle/asymmetric-tensor/issues/21).
+The original next-task recommendation selected the finite determinant calculation in [issue #21](https://github.com/lilalittle/asymmetric-tensor/issues/21).
 The exact bounded contract is in [finite-determinant-task.md](finite-determinant-task.md).
 It connects an actual `Matrix.det` to existing scalar algebra, supplies a concrete
 counterexample to trace implying finite volume preservation, and separates three
 different volume expressions. It needs no choice of constitutive law, connection,
 quantum model, or cosmology. The task only completes the mathematical portion
 specified there; it does not close the mixed paper-and-Lean issue by itself.
+
+The later [issue #20 spectral repair](full-tensor-spectra.md) implements the
+aligned determinant and characteristic polynomial. The symmetric/spatial
+volume-density targets and the author-owned interpretation remain separate.
+The planning validation recorded below is historical, not a current claim that
+no production determinant theorem exists.
 
 Progress verified separately on 2026-10-15, after the inventory revision:
 
@@ -282,12 +288,12 @@ L2/L4/L6/L7 (issue #19).
 
 ### B7. Spectra, determinants, finite strain and volume
 <!-- declarations: transverse_eigenvalues_are_real_iff_no_spin isochoric_volume_preservation schwinger_limit_eigenvalues transverse_U1_decomposition generalized_cavitation volumetric_admittance_scaling -->
-Current “eigenvalue” results prove scalar square/diagonal identities; determinant
-conclusions assume an expanded expression. Compute the actual aligned determinant
-first, using `α_s ≠ 0`; this is the selected task. Full spectra additionally require
-complexification, characteristic polynomial, eigenvectors and a proved invariant
-subspace/decoupling condition. Nonzero electric slip can destroy the presumed
-transverse-block eigenvalues. For volume, distinguish `det U`, the symmetric
+The [spectral repair](full-tensor-spectra.md) now computes the actual aligned
+`Matrix.det` for `α_s ≠ 0` and its characteristic polynomial. It proves explicit
+complex eigenvector equations and the transverse invariant-plane criterion,
+restricts the Schwinger roots to zero transverse slip, and checks the nonzero-slip
+counterexample. Physical impedance and mass-yield inferences remain unsupported.
+For volume, distinguish `det U`, the symmetric
 spacetime determinant and the spatial determinant/square root; trace-free additive
 shear is not finite isochoric deformation. **Decision block:** whether a volume
 constraint is imposed, a finite deformation is constructed, or a different density
