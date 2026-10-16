@@ -1,0 +1,10 @@
+# CODEOWNERS — lilalittle/asymmetric-tensor
+#
+# Binyamin Tsadik Bair-Mosheh (@binyamintsadik-svg) is the author of the Lean
+# formalization. His review is required before any changes to the Lean code
+# he wrote: the root formalization file and the topic modules split from it.
+# (Tests under tests/ and ProofAudit.lean were contributed by others and are
+# not covered here.)
+
+/AsymmetricTensor.lean @binyamintsadik-svg
+/AsymmetricTensor/ @binyamintsadik-svg
