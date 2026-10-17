@@ -8,7 +8,7 @@ part of an unrelated proof change. Read the issue and existing PRs before
 starting, so an already-covered repair is not duplicated.
 
 `import AsymmetricTensor` remains the public compatibility entry point. The
-implementation is organized into nine topic modules under `AsymmetricTensor/`;
+implementation is organized into ten topic modules under `AsymmetricTensor/`;
 see the [module map and naming/style policy](docs/modules.md). Every declaration
 still lives in namespace `AsymmetricTensor`. Section comments follow the
 manuscript's topic order, not a claim that each physical theory is formalized.
@@ -66,6 +66,11 @@ reports and do not replace the aggregate gate.
 - [Force baseline](docs/force-hierarchy.md): `interaction_hierarchy_em` has the
   unscaled `α²` baseline and `interaction_hierarchy_em_strong_ratio` gives `α⁴`.
   Names containing `scaled` retain the optional extra-`α` algebra separately.
+
+- [Aligned spectra](docs/full-tensor-spectra.md): actual determinant and charpoly
+  formulas, complex eigenvector equations, and a proved invariant-plane condition.
+  The Schwinger theorem requires aligned zero slip; impedance and mass-yield
+  interpretations remain separate author-owned questions.
 
 ## Mathematical and scientific scope
 

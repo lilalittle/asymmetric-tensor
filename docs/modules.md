@@ -1,14 +1,15 @@
 # Modules, naming, and style
 
-This is an organizational refactor of the current repaired library and scope/API/CI stack.
-It preserves the existing public declarations and their mathematical statements.
+The original module split was an organizational refactor of the repaired library
+and scope/API/CI stack, preserving its public declarations and statements.
+Later mathematical API changes are identified separately below.
 The manuscript's topic labels are retained for navigation; they do not establish
 that the named physical theories have been derived.
 
 ## Finding and importing a result
 
 `import AsymmetricTensor` remains the compatibility entry point. It publicly
-imports all nine implementation modules. Every declaration remains in namespace
+imports all ten implementation modules. Every declaration remains in namespace
 `AsymmetricTensor`; a filename does not add a namespace segment. In particular,
 `FutureWork` is a section, not a namespace.
 
@@ -18,7 +19,8 @@ imports all nine implementation modules. Every declaration remains in namespace
 | `MatrixAlgebra` | `symPart`/`antiPart`, matrix assembly, contractions, `VolAvg`, action identity | `Model` |
 | `FieldCalculus` | Fixed-chart fields, partial derivatives, conditional conservation, field inputs | `MatrixAlgebra` |
 | `Applications.MechanicsMass` | Cavitation, conditional field equations, boost-symmetry constraint, dressing, mass relations | `FieldCalculus` |
-| `Applications.Electromagnetism` | Eigenvalue/contraction identities and cavitation limits | `MatrixAlgebra` |
+| `Applications.Spectra` | Aligned determinant/charpoly, complex eigenvectors and decoupling | `MatrixAlgebra`; Mathlib charpoly |
+| `Applications.Electromagnetism` | Restricted Schwinger roots, contraction identities and cavitation limits | `Applications.Spectra` |
 | `Applications.Geometry` | Frame transformations, galactic relations, affine-connection target | `Model` |
 | `Applications.WavesForces` | Wave, pressure, and force relations | `Model` |
 | `Applications.Optics` | Conditional redshift, finite optical-path integrals, base-10 magnitude relations | `Model`; explicit Mathlib interval-integral import |
@@ -172,7 +174,7 @@ python3 scripts/check_module_source.py /path/to/pre-split-api-checkout
 git diff --check
 ```
 
-The default build reaches all ten production modules, including the umbrella.
+The original split built ten production modules, including the umbrella.
 The completeness audit checks 364 declarations after this split, including private
 and compiler-generated declarations, retains the six-axiom inventory, and rejects
 all transitive `sorryAx` uses. All eleven reviewed per-theorem custom-axiom checks
@@ -182,3 +184,12 @@ system; the 304 source-declared public signatures are unchanged.
 
 See [the verification contract](verification.md) for exact coverage, limitations,
 and the requirement to verify hosted CI on the final published revision.
+
+## Spectral API repair
+
+The later issue #20 repair deliberately changes two misleading public signatures:
+`schwinger_limit_eigenvalues` now proves complex eigenvector equations for aligned
+zero slip, and `transverse_eigenvalues_are_real_iff_no_spin` now refers to the
+imaginary parts of explicit block eigenvalues. The original module-split API
+comparison above is historical, not a claim that these new signatures are equal.
+See [spectral scope](full-tensor-spectra.md) and its regression file.

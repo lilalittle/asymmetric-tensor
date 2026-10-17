@@ -5,7 +5,7 @@ Authors: Binyamin Tsadik Bair-Mosheh
 -/
 module
 
-public import AsymmetricTensor.MatrixAlgebra
+public import AsymmetricTensor.Applications.Spectra
 
 /-!
 # Electromagnetic tensor relations and cavitation limits
@@ -56,12 +56,17 @@ theorem cross_coupling_impedance (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omeg
 
   exact mul_div_mul_left (v_x / c) (t_p_val * Omega_z) h_ne
 
--- Theorem 28.3: Transverse Eigenstate Degeneracy
-theorem transverse_eigenvalues_are_real_iff_no_spin (alpha Omega_z t_p_val : ℝ) :
-    (alpha * t_p_val * Omega_z = 0) ↔ (alpha * t_p_val * Omega_z)^2 = 0 := by
-  constructor
-  · intro h; rw [h]; ring
-  · intro h; exact sq_eq_zero_iff.mp h
+/--
+The two isolated-block eigenvalues are real exactly when the rotation coupling
+vanishes. Despite the legacy name, this is not a claim about the coupled full
+spectrum, and `alpha * t_p_val * Omega_z = 0` implies zero spin only when the
+other two factors are nonzero.
+-/
+theorem transverse_eigenvalues_are_real_iff_no_spin (d alpha Omega_z t_p_val : ℝ) :
+    (((d : ℂ) + (alpha * t_p_val * Omega_z : ℝ) * Complex.I).im = 0 ∧
+      ((d : ℂ) - (alpha * t_p_val * Omega_z : ℝ) * Complex.I).im = 0) ↔
+      alpha * t_p_val * Omega_z = 0 := by
+  simp
 
 -- 9.4 Classical Volume Preservation (alpha_s = 1)
 lemma determinant_expansion_static (v_perp Omega_z alpha_val t_p_val : ℝ) :
@@ -75,15 +80,28 @@ theorem isochoric_volume_preservation (v_perp Omega_z alpha_val t_p_val : ℝ)
     (alpha_val * (v_perp / c))^2 = (alpha_val * t_p_val * Omega_z)^2 := by
   exact determinant_expansion_static v_perp Omega_z alpha_val t_p_val h_det
 
--- 9.5 Non-Linear Vacuum Polarization (The Schwinger Limit)
-theorem schwinger_limit_eigenvalues (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ)
+-- 9.5 Restricted Schwinger block roots
+/--
+At unit admittance and rotation coupling, `1 ± i` are full-tensor eigenvalues
+for the aligned zero-slip specialization. The explicit nonzero eigenvectors
+are lifted from the invariant transverse block. No impedance law follows.
+
+This replaces the old same-named diagonal-entry conjunction, which did not
+state an eigenvalue result. Aligned tensors with nonzero transverse slip do not satisfy this claim.
+-/
+theorem schwinger_limit_eigenvalues (alpha_s alpha Omega_z t_p_val : ℝ)
     (h_alpha_s : alpha_s = 1) (h_Omega : alpha * t_p_val * Omega_z = 1) :
-    ((U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1) ∧ (alpha * t_p_val * Omega_z = 1) := by
-  constructor
-  · have h1 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2 := by simp [U_hat]
-    rw [h1, h_alpha_s]
-    norm_num
-  · exact h_Omega
+    (embedTransverse circularPlus ≠ 0 ∧
+      (complexify (U_hat alpha_s alpha 0 0 0 0 0 Omega_z t_p_val)).mulVec
+        (embedTransverse circularPlus) =
+        (1 + Complex.I) • embedTransverse circularPlus) ∧
+    (embedTransverse circularMinus ≠ 0 ∧
+      (complexify (U_hat alpha_s alpha 0 0 0 0 0 Omega_z t_p_val)).mulVec
+        (embedTransverse circularMinus) =
+        (1 - Complex.I) • embedTransverse circularMinus) := by
+  rw [complex_U_hat_aligned_eq]
+  simpa [h_alpha_s, h_Omega] using
+    And.intro (aligned_eigenvector_plus (-1) 1 1) (aligned_eigenvector_minus (-1) 1 1)
 
 -- 9.6 Continuous Unitary Evolution (U(1) Symmetry)
 theorem transverse_U1_decomposition (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :

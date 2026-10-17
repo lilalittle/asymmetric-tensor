@@ -96,8 +96,8 @@ manuscript baseline, its domain, and the separately named algebraic rescaling.
 The checked-in [Lean proof-audit workflow](.github/workflows/lean_action_ci.yml)
 runs on pushes and pull requests. It preserves the dependency pins, obtains the
 Mathlib cache, builds the advertised target, checks all production declarations
-for incomplete proofs, checks eleven general and seventeen action-specific
-theorem axiom sets, and exercises the regressions and failure mutations.
+for incomplete proofs, checks eleven general, seventeen action-specific and
+22 spectral theorem axiom sets, and exercises the regressions and failure mutations.
 Existing module-system/style warnings remain visible and nonfatal; proof errors
 and detected `sorryAx` dependencies fail verification independently.
 
@@ -125,11 +125,19 @@ conservation contradiction does not prove consistency of every remaining model
 assumption. The component-projection results do not derive Bernoulli or
 Navier–Stokes PDEs, and the action results do not supply an action variation.
 
+The [aligned spectral repair](docs/full-tensor-spectra.md) proves the actual
+determinant, characteristic polynomial, complex eigenvectors and zero-slip
+invariant-plane condition. Its corrected Schwinger theorem does not establish
+physical impedance, symmetry breaking or mass yield; manuscript changes remain
+proposals for the author.
+
 ## Next mathematical contribution
 
 The [formalization roadmap](docs/formalization-roadmap.md) inventories target
 specifications and simplified models, records open modeling decisions, and selects
-a [bounded finite-determinant task](docs/finite-determinant-task.md).
+a [bounded finite-determinant/density task](docs/finite-determinant-task.md).
+The aligned determinant is now supplied by the spectral repair; the remaining
+volume-density statements and physical interpretation remain separate work.
 
 ## License
 
