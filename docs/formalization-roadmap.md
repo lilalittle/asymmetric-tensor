@@ -297,14 +297,21 @@ Investigate L1/L5/L8 (issues #20/#21).
 
 ### B8. Singular domains and post-yield phase
 <!-- declarations: metric_is_continuous metric_is_cavitated legal_cavitation_collapse cavitated_determinant_lock -->
-Current boundary substitutions use Lean's `1/0 = 0`. The intended analysis requires
-admissible positive/nonzero parameters and one-sided limits, for example
-`1/a² → +∞` as `a → 0+`; a totalized value is not that limit. Prove denominator
-bounds on the subcritical domain and state all square-root/logarithm assumptions.
-**Decision block:** a post-yield phase needs a distinct defined object and matching
-conditions; it cannot inherit a limiting signature from `inv_zero`. Investigate
-L2/L8 (issue #12). Restricting a finite theorem to `a ≠ 0` does not require solving
-this singular-limit problem first.
+The [saturation repair](saturation-limits.md) supplies a positive scalar subtype,
+subcritical total-pressure bounds, continuity, one-sided spatial divergence and
+no-finite-limit theorems. Exact totalized zero values are kept separately. A
+nonzero-rotation aligned boundary matrix has determinant zero, disproving the
+spin-lock inference from actual determinant zero; denominator clearing is valid
+only at nonzero admittance. A bounded inverse-derived scalar and an explicitly normalized
+matrix family are distinct from the raw divergent family.
+**Supplied author decision:** [#43, point 1](https://github.com/lilalittle/asymmetric-tensor/issues/43#issuecomment-6217484113)
+assigns zero-division evaluation a discrete post-cavitation convention, separate
+from continuum relations on `(0, 1]` and their divergent positive-side limit.
+**Remaining scope:** incorporate that clarification in the manuscript, including
+the determinant-domain correction. A transition or matching law, or a physical
+identification of the normalized/strain examples, would require additional
+modeling; none follows from `inv_zero`. Investigate L2/L8 (issue #12). Restricting
+a finite theorem to `a ≠ 0` does not require a physical post-yield model.
 
 ### B9. Mass, energy, pressure partition and force hierarchy
 <!-- declarations: tensor_vev_origin orthogonal_mass_extraction topological_yield_limit yield_partition mass_yield_equivalence geometric_action_boundary spatial_confinement_gradient action_constant_identity interaction_hierarchy_gravity interaction_hierarchy_weak interaction_hierarchy_strong interaction_hierarchy_em -->

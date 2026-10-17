@@ -214,3 +214,29 @@ The historical source, mapping, coverage JSON, audit JSON and accepted hashes
 were preserved. These separate Python ledger checks require Poppler `pdftotext`
 and are not part of the hosted workflow; the Lean declaration check is part
 of its normal `tests/*.lean` gate.
+
+## Saturation-domain repair (#12)
+
+The main-based saturation repair adds the `Applications.Saturation` module and
+`tests/SaturationLimits.lean`. It preserves every one of the 304 prior
+source-declared public signatures and introduces 34 public names. The two old
+physically named boundary theorems remain deprecated compatibility wrappers.
+The focused regression enforces 26 exact custom-axiom sets, including three
+real-power notation checks relevant to the separate v3.0 review vehicle. Pure
+scalar analysis requires no custom axioms; matrix statements retain `c` from
+`U_hat`. The latter checks do not certify v3.0's global `t_p = l_p/c` interface.
+
+The whole-production audit now covers 406 declarations, including generated
+helpers, and retains exactly the same six declared axioms. Run the aggregate
+gate against the final revision; the historical counts and results above are
+not assertions about later source. The historical equation ledger and PDF
+remain unchanged. See [the mathematical and manuscript contract](saturation-limits.md).
+
+Local validation on 2026-10-16 passed `bash scripts/verify.sh`: the library and
+audit-support build, all thirteen Lean regression files, the 406-declaration
+completeness/inventory check, the 26 new exact dependency checks, and the
+roadmap/style/proof-audit mutation checks. The historical ledger check and its
+22 Python regressions passed separately. A comparison with the built main base
+confirmed all 304 existing public signatures unchanged, with 34 intentional
+additions. Dependency pins and archived evidence were unchanged. This is local
+verification of the main-based repair, not hosted CI or a PR #61 build.
