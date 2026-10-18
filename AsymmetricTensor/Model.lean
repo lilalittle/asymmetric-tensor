@@ -1,7 +1,35 @@
-namespace AsymmetricTensor
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
 
-set_option linter.unusedSectionVars false
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
+
+/-!
+# Fundamental bedrock axioms, dimensional audit layer, kinematics, and thermodynamic relations
+
+Module of Binyamin's v3.1 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
 set_option autoImplicit false
+set_option linter.unusedSectionVars true
+
+namespace AsymmetricTensor
 
 -- ==========================================
 -- SECTION 0: FUNDAMENTAL BEDROCK AXIOMS (Irreducible)

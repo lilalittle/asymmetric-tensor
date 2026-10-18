@@ -1,3 +1,28 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+
+public import AsymmetricTensor.Model
+
+/-!
+# The mass mechanism (topological tensor yield)
+
+Module of Binyamin's v3.1 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
+set_option autoImplicit false
+set_option linter.unusedSectionVars true
+
+namespace AsymmetricTensor
+
 -- ==========================================
 -- SECTION 8: The Mass Mechanism (Topological Tensor Yield)
 -- ==========================================
