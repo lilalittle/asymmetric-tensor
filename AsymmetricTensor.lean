@@ -16,26 +16,14 @@ public import AsymmetricTensor.Applications.Optics
 public import AsymmetricTensor.FutureTargets
 
 /-!
-# The Asymmetric Metric-Tensor companion library
+# The Asymmetric Metric-Tensor library (v3.1)
 
-Compatibility umbrella: importing `AsymmetricTensor` continues to expose every
-existing `AsymmetricTensor` declaration. Import a submodule to work on a smaller
-part of the development. See `docs/modules.md` for the module map and naming policy.
+Compatibility umbrella: importing `AsymmetricTensor` exposes every
+`AsymmetricTensor` declaration. Import a submodule to work on a smaller
+part of the development.
 
-This library supplies a coordinate-matrix research prototype, algebraic lemmas,
-finite-path integral results, and conditional statements. Physical names and
-section headings do not assert complete manuscript coverage. See
-`docs/formalization-status.md` for implemented objects, assumptions and open work.
-
-The historical universal `covariant_conservation` axiom was inconsistent and
-has been removed. Conservation is an explicit `CoordinateConserved` premise,
-with constant-field witnesses and a linear-field counterexample. The library
-also includes the fixed-chart rank-two Lie derivative, Minkowski action
-contractions, base-10 distance moduli, finite optical-path inequalities, and the
-corrected electromagnetic baseline. These results retain explicit domains and
-model assumptions; they do not supply a general covariant connection, derive
-the physical momentum PDE, or validate the manuscript empirically.
-Section 16 still contains ten `exact h_target` specifications that assume
-their conclusions. Kernel checking does not itself prove consistency of all
-model assumptions or establish scientific correspondence.
+This is the modular layout of Binyamin Tsadik Bair-Mosheh's v3.1
+formalization, mechanically split from his single-file development with
+no changes to any declaration. Section headings and physical names are
+the author's; they do not assert complete manuscript coverage.
 -/
