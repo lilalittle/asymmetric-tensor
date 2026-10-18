@@ -80,21 +80,21 @@ noncomputable def U_sym (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_v
 noncomputable def U_anti (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) : T2 :=
   antiPart (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)
 theorem symmetric_diagonals (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
-    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 0 = -alpha_s^2 ∧ 
-    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2 ∧ 
-    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 2 2 = 1 / alpha_s^2 ∧ 
+    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 0 = -alpha_s^2 ∧
+    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = 1 / alpha_s^2 ∧
+    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 2 2 = 1 / alpha_s^2 ∧
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 3 3 = 1 / alpha_s^2 := by
   dsimp [U_hat, Matrix.of_apply]
   simp
 theorem antisymmetric_shear (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
-    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 1 = - (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 0 ∧ 
+    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 1 = - (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 0 ∧
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = - (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 2 1 := by
   dsimp [U_hat, Matrix.of_apply]
   simp
 -- Tensor decomposition theorem.
 theorem tensor_decomposition_proven (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
-    U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val = 
-    U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val + 
+    U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val =
+    U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val +
     U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val := by
   exact matrix_decomposition (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)
 -- ==========================================
@@ -170,29 +170,29 @@ noncomputable def tensor_contract (A B : T2) : ℝ :=
   (A 3 0 * B 3 0) + (A 3 1 * B 3 1) + (A 3 2 * B 3 2) + (A 3 3 * B 3 3)
 -- The orthogonality of the symmetric and antisymmetric states is now proven.
 theorem contract_sym_anti_proven (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
-    tensor_contract 
-      (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 
+    tensor_contract
+      (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)
       (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 0 := by
   dsimp [tensor_contract, U_sym, U_anti, symPart, antiPart, U_hat, Matrix.of_apply]
   simp
 -- All abstract hypotheses vanish. The physical action decomposes perfectly via native matrix algebra.
 theorem unified_action_separation (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
-    tensor_contract 
-      (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 
-      (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 
-    tensor_contract 
-      (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 
-      (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) + 
-    tensor_contract 
-      (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 
+    tensor_contract
+      (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)
+      (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) =
+    tensor_contract
+      (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)
+      (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +
+    tensor_contract
+      (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)
       (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) := by
   have h_decomp := tensor_decomposition_proven alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val
   rw [h_decomp]
-  have h_expand : tensor_contract 
-                    (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val + U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 
-                    (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val + U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 
-                  tensor_contract (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) + 
-                  tensor_contract (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) + 
+  have h_expand : tensor_contract
+                    (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val + U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)
+                    (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val + U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) =
+                  tensor_contract (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +
+                  tensor_contract (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +
                   2 * tensor_contract (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) := by
     dsimp [tensor_contract]
     ring
@@ -243,7 +243,7 @@ theorem lorentzian_antisymmetric_trace_eq123 (alpha_s alpha v_x v_y v_z Omega_x 
 -- ==========================================
 -- 6.2 Strain Incompatibility & Riemann Curvature
 -- ==========================================
--- (This section establishes the macroscopic Riemann curvature via the 
+-- (This section establishes the macroscopic Riemann curvature via the
 -- Saint-Venant compatibility operator. Formalized conceptually in prose).
 -- 6.3 Volumetric Cavitation & The Metric Lagrangian
 variable (r_c : ℝ)
@@ -261,7 +261,7 @@ lemma isolate_schwarzschild_radius (M_val r_val : ℝ) (hr : r_val ≠ 0) :
     r_val = (r_val * (rho_tau * c^2)) / (rho_tau * c^2) := by exact (mul_div_cancel_right₀ r_val (mul_ne_zero hrho_ne hc2)).symm
     _ = (((1 / 2) * rho_tau * c^2) * r_val * 2) / (rho_tau * c^2) := by ring
     _ = ((rho_tau * ((G * M_val) / r_val)) * r_val * 2) / (rho_tau * c^2) := by rw [←h]
-    _ = (rho_tau * (G * M_val) * 2) / (rho_tau * c^2) := by 
+    _ = (rho_tau * (G * M_val) * 2) / (rho_tau * c^2) := by
       have h_r_cancel : ((G * M_val) / r_val) * r_val = G * M_val := div_mul_cancel₀ (G * M_val) hr
       have h_sub : (rho_tau * ((G * M_val) / r_val)) * r_val = rho_tau * (((G * M_val) / r_val) * r_val) := by ring
       rw [h_sub, h_r_cancel]
@@ -298,9 +298,9 @@ lemma apply_source_coupling (Laplace_op Biharm_op : ℝ → ℝ) (Phi_val rho_dy
   rw [h_Laplace_linear, h_Biharmonic_linear, h_kappa] at h
   have hc2 : c^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt c_pos)
   have h_frac_eval : (- (c^2 / 2)) * (- (2 / c^2) * Laplace_op Phi_val - r_c_val^2 * (- (2 / c^2) * Biharm_op Phi_val)) = Laplace_op Phi_val - r_c_val^2 * Biharm_op Phi_val := by
-    calc (- (c^2 / 2)) * (- (2 / c^2) * Laplace_op Phi_val - r_c_val^2 * (- (2 / c^2) * Biharm_op Phi_val)) 
+    calc (- (c^2 / 2)) * (- (2 / c^2) * Laplace_op Phi_val - r_c_val^2 * (- (2 / c^2) * Biharm_op Phi_val))
       = (c^2 / 2) * (2 / c^2) * (Laplace_op Phi_val - r_c_val^2 * Biharm_op Phi_val) := by ring
-      _ = 1 * (Laplace_op Phi_val - r_c_val^2 * Biharm_op Phi_val) := by 
+      _ = 1 * (Laplace_op Phi_val - r_c_val^2 * Biharm_op Phi_val) := by
         have h_one_eval : (c^2 / 2) * (2 / c^2) = (c^2 * 2) / (c^2 * 2) := by ring
         have h_two_ne : (2 : ℝ) ≠ 0 := by norm_num
         have denom_ne : c^2 * 2 ≠ 0 := mul_ne_zero hc2 h_two_ne
@@ -308,12 +308,12 @@ lemma apply_source_coupling (Laplace_op Biharm_op : ℝ → ℝ) (Phi_val rho_dy
         rw [h_one_eval, h_one]
       _ = Laplace_op Phi_val - r_c_val^2 * Biharm_op Phi_val := by ring
   calc
-    Laplace_op Phi_val - r_c_val^2 * Biharm_op Phi_val = 
+    Laplace_op Phi_val - r_c_val^2 * Biharm_op Phi_val =
       (- (c^2 / 2)) * (- (2 / c^2) * Laplace_op Phi_val - r_c_val^2 * (- (2 / c^2) * Biharm_op Phi_val)) := by rw [h_frac_eval]
     _ = (- (c^2 / 2)) * (- (8 * Real.pi * G) / c^2 * rho_dyn) := by rw [h]
     _ = (c^2 / 2) * (8 * Real.pi * G / c^2) * rho_dyn := by ring
     _ = ((c^2 * 8 * Real.pi * G) / (2 * c^2)) * rho_dyn := by ring
-    _ = (4 * Real.pi * G) * rho_dyn := by 
+    _ = (4 * Real.pi * G) * rho_dyn := by
       have h_eval : ((c^2 * 8 * Real.pi * G) / (2 * c^2)) = (c^2 * (8 * Real.pi * G)) / (c^2 * 2) := by ring
       rw [h_eval]
       have h_cancel : (c^2 * (8 * Real.pi * G)) / (c^2 * 2) = (8 * Real.pi * G) / 2 := by exact mul_div_mul_left (8 * Real.pi * G) 2 hc2
@@ -336,7 +336,7 @@ theorem unified_wave_propagation (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omeg
     (dAlembertian : T2 → T2)
     (h_linear : ∀ A B, dAlembertian (A + B) = dAlembertian A + dAlembertian B)
     (h_vacuum : dAlembertian (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 0) :
-    dAlembertian (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) + 
+    dAlembertian (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +
     dAlembertian (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 0 := by
   have h_decomp := tensor_decomposition_proven alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val
   have h1 : dAlembertian (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val + U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 0 := by

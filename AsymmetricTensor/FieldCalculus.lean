@@ -26,21 +26,21 @@ namespace AsymmetricTensor
 -- ==========================================
 -- SECTION 4: The Continuous Field Equation
 -- ==========================================
-noncomputable def I_2_vac : ℝ := 
+noncomputable def I_2_vac : ℝ :=
   (-1) * (-1) + (1) * (1) + (1) * (1) + (1) * (1)
 theorem I_2_vac_equals_4 : I_2_vac = 4 := by
   dsimp [I_2_vac]
   ring
 -- 4.1 Energy Density and Structural Stress
 variable (P_static P_shear : ℝ)
-theorem energy_density_proof 
+theorem energy_density_proof
     (h_P_static : P_static = P_c - (P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear)) :
     P_c - P_static = P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear := by
   rw [h_P_static]
   ring
-theorem spatial_stress_proof 
+theorem spatial_stress_proof
     (h_P_static : P_static = P_c - (P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear)) :
-    P_c * ((P_c - P_static) / P_static) = 
+    P_c * ((P_c - P_static) / P_static) =
     P_c * ((P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear) / P_static) := by
   have h1 : P_c - P_static = P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear := by
     rw [h_P_static]
@@ -56,7 +56,7 @@ theorem unit_section4_cosmology_and_density :
     u_Phi = (u_G * u_M_P) / u_l_p ∧
     u_rho_tau * u_Phi = u_P_c := by
   refine ⟨rfl, rfl, rfl, rfl, rfl, rfl⟩
-lemma reduce_density_algebra (P_val : ℝ) : 
+lemma reduce_density_algebra (P_val : ℝ) :
   (1 / 2) * rho_tau * c^2 = P_val → rho_tau = 2 * P_val / c^2 := by
   intro h
   have hc2 : c^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt c_pos)
@@ -65,7 +65,7 @@ lemma reduce_density_algebra (P_val : ℝ) :
     _ = (((1 / 2) * rho_tau * c^2) * 2) / c^2 := by ring
     _ = (P_val * 2) / c^2 := by rw [h]
     _ = 2 * P_val / c^2 := by ring
-lemma reduce_c7_c2 : 
+lemma reduce_c7_c2 :
   2 * (c^7 / (4 * Real.pi * hbar * G^2)) / c^2 = (1 / (2 * Real.pi)) * (c^5 / (hbar * G^2)) := by
   have hc2 : c^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt c_pos)
   have hG2 : G^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt G_pos)
@@ -83,7 +83,7 @@ theorem metric_density_derivation (P_c_val : ℝ)
   rw [h_cancel] at h2
   exact h2
 lemma dilate_lambda_algebra (P_m R_val : ℝ) (hR : R_val ≠ 0) :
-  P_m = (c^4 / G) / (4 * Real.pi * R_val^2) → 
+  P_m = (c^4 / G) / (4 * Real.pi * R_val^2) →
   (8 * Real.pi * G / c^4) * P_m = 2 / R_val^2 := by
   intro h
   have hc : c ≠ 0 := ne_of_gt c_pos
@@ -132,21 +132,21 @@ lemma VolAvg_U_anti (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val :
 variable (Inc : T2 →ₗ[ℝ] T2)
 theorem macroscopic_torsion_nullification (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ)
     (h_commute : ∀ (A : T2), Inc (VolAvg A) = VolAvg (Inc A)) :
-    VolAvg (Inc (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) = 
+    VolAvg (Inc (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) =
     VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) := by
   have h_decomp := tensor_decomposition_proven alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val
   rw [h_decomp]
-  have h2 : Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val + 
-                 U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 
-            Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) + 
+  have h2 : Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val +
+                 U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) =
+            Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +
             Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) := map_add Inc _ _
   rw [h2]
-  have h3 : VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) + 
-                    Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) = 
-            VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) + 
+  have h3 : VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +
+                    Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) =
+            VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) +
             VolAvg (Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) := map_add VolAvg _ _
   rw [h3]
-  have h4 : VolAvg (Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) = 
+  have h4 : VolAvg (Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) =
             Inc (VolAvg (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) := by
     exact (h_commute (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)).symm
   rw [h4]
@@ -212,7 +212,7 @@ theorem divergence_expansion (x : SpaceTime) (ν : Fin 4) :
 -- ==========================================
 -- 5.5 Physical Projections (Pressure & Shear)
 -- ==========================================
--- We mathematically prove that the Planck pressure of the vacuum is  
+-- We mathematically prove that the Planck pressure of the vacuum is
 -- non-zero from the Section 0 axioms (bypassing ne_of_gt entirely).
 lemma Pc_non_zero : P_c ≠ 0 := by
   have hc := c_pos
@@ -229,7 +229,7 @@ noncomputable def P_dyn_f : ScalarField :=
 theorem dynamic_compliance_link (x : SpaceTime) :
   1 / (alpha_s_f x)^2 = 1 / (1 - (P_dyn_f x) / P_c) := by
   unfold P_dyn_f
-  have h_cancel : (1 - (alpha_s_f x)^2) * P_c / P_c = 1 - (alpha_s_f x)^2 := 
+  have h_cancel : (1 - (alpha_s_f x)^2) * P_c / P_c = 1 - (alpha_s_f x)^2 :=
     mul_div_cancel_right₀ (1 - (alpha_s_f x)^2) Pc_non_zero
   rw [h_cancel]
   have h_sub : 1 - (1 - (alpha_s_f x)^2) = (alpha_s_f x)^2 := by ring
@@ -248,11 +248,11 @@ noncomputable def T_perp_f : ScalarField :=
 theorem transverse_shear_link (x : SpaceTime) :
   - (alpha_f x) * (v_x_f x / c) = (T_perp_f x) / P_c := by
   unfold T_perp_f
-  have h_cancel : - (alpha_f x) * (v_x_f x / c) * P_c / P_c = - (alpha_f x) * (v_x_f x / c) := 
+  have h_cancel : - (alpha_f x) * (v_x_f x / c) * P_c / P_c = - (alpha_f x) * (v_x_f x / c) :=
     mul_div_cancel_right₀ (- (alpha_f x) * (v_x_f x / c)) Pc_non_zero
   rw [h_cancel]
 theorem shear_divergence_extraction (μ : Fin 4) (x : SpaceTime) :
-    partial_deriv (fun y => - (alpha_f y) * (v_x_f y / c)) μ x = 
+    partial_deriv (fun y => - (alpha_f y) * (v_x_f y / c)) μ x =
     partial_deriv (fun y => (T_perp_f y) / P_c) μ x := by
   have h_field : (fun y => - (alpha_f y) * (v_x_f y / c)) = (fun y => (T_perp_f y) / P_c) := by
     ext y
@@ -266,7 +266,7 @@ theorem unit_section5_navier_stokes_divergence :
     u_dimless / u_l_p = u_grad_P / u_P_c ∧
     (u_dimless / u_rho_tau) * u_grad_P = u_accel := by
   constructor <;> rfl
--- 1. We define material kinematic acceleration as the  
+-- 1. We define material kinematic acceleration as the
 -- temporal derivative of the geometric shear.
 noncomputable def kinematic_accel_f : ScalarField :=
   fun x => - (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c
@@ -275,10 +275,10 @@ theorem acceleration_link (x : SpaceTime) :
   unfold kinematic_accel_f
   have h1 : - (- (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c) = (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c := by ring
   rw [h1]
-  have h_cancel : (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c / P_c = partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x := 
+  have h_cancel : (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c / P_c = partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x :=
     mul_div_cancel_right₀ (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) Pc_non_zero
   rw [h_cancel]
--- 2. Because we proved in 5.5 that the diagonal derivative is the nonlinear 
+-- 2. Because we proved in 5.5 that the diagonal derivative is the nonlinear
 -- compliance gradient, we map the diagonal to the compliance field.
 theorem exact_pressure_link (x : SpaceTime) :
   partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x = partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x := by
@@ -288,22 +288,22 @@ theorem exact_pressure_link (x : SpaceTime) :
 -- 3. We define the transverse stress divergence as the
 -- derivative of the transverse geometric off-diagonals.
 noncomputable def div_T_perp_f : ScalarField :=
-  fun x => (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + 
+  fun x => (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
             partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) * P_c
 theorem transverse_divergence_link (x : SpaceTime) :
-  partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + 
+  partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
   partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x = (div_T_perp_f x) / P_c := by
   unfold div_T_perp_f
-  have h_cancel : (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) * P_c / P_c = partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x := 
+  have h_cancel : (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) * P_c / P_c = partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x :=
     mul_div_cancel_right₀ (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) Pc_non_zero
   rw [h_cancel]
 -- THEOREM: The Geometric Origin of Fluid Dynamics (Axiom-Free)
 -- We prove that the fluid equations exactly map to the continuous geometric divergence.
 -- (Upgraded to the exact nonlinear geometric pressure compliance, eliminating all approximations).
 theorem geometric_navier_stokes (x : SpaceTime)
-    (h_geometric_zero : partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x + 
-                        partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x + 
-                        partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + 
+    (h_geometric_zero : partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x +
+                        partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x +
+                        partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
                         partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x = 0) :
     (kinematic_accel_f x) / P_c = partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x + (div_T_perp_f x) / P_c := by
   have h1 := acceleration_link x
@@ -314,7 +314,7 @@ theorem geometric_navier_stokes (x : SpaceTime)
       _ = partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x + partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x + (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) := by rw [h1, h2, h3]
       _ = partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x + partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x + partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x := by ring
       _ = 0 := h_geometric_zero
-  calc (kinematic_accel_f x) / P_c 
+  calc (kinematic_accel_f x) / P_c
     _ = (kinematic_accel_f x) / P_c + 0 := by ring
     _ = (kinematic_accel_f x) / P_c + ((- (kinematic_accel_f x) / P_c) + partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x + ((div_T_perp_f x) / P_c)) := by rw [h_sum]
     _ = partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x + (div_T_perp_f x) / P_c := by ring
@@ -509,9 +509,9 @@ theorem incompatible_defect_momentum_eq52 (P_val : ℝ)
 -- SECTION 7: Conformal Symmetry & Lie Derivative Constraints
 -- ==========================================
 -- 7.1 The Poincare Subgroup (10 Generators)
--- The abstract Lie translation and dilation axioms have been replaced by concrete 
--- definitions of `lie_derivative` and `is_translationally_symmetric` in Section 5.7. 
--- The specific invariance theorems that these axioms once assumed are now statable 
+-- The abstract Lie translation and dilation axioms have been replaced by concrete
+-- definitions of `lie_derivative` and `is_translationally_symmetric` in Section 5.7.
+-- The specific invariance theorems that these axioms once assumed are now statable
 -- against `U_hat_dynamic` and remain open.
 variable (alpha_s_val : ℝ)
 -- Lemma: Isolation of the Lorentz scalar.
@@ -539,7 +539,7 @@ lemma isolate_lorentz_scalar (omega_0i alpha_val : ℝ) (h_omega : omega_0i ≠ 
   have h8 : alpha_val^2 - 1 = 0 := by
     cases mul_eq_zero.mp h6 with
     | inl hl => exact hl
-    | inr hr => 
+    | inr hr =>
       have h_pos2 : alpha_val^2 ≥ 0 := sq_nonneg alpha_val
       linarith
   have h10 : (alpha_val - 1) * (alpha_val + 1) = 0 := by

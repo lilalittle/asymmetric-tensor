@@ -34,7 +34,7 @@ theorem unit_section9_impedance_and_deborah :
   constructor <;> rfl
 -- Theorem 28.1: Invariant Volumetric Expansion
 theorem longitudinal_axis_invariance (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) (h_alpha_s : alpha_s > 0) :
-    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 0 * 
+    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 0 *
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 1 = -1 := by
   have ha2_ne : alpha_s^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt h_alpha_s)
   have h1 : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 0 = -alpha_s^2 := by simp [U_hat]
@@ -47,7 +47,7 @@ theorem longitudinal_axis_invariance (alpha_s alpha v_x v_y v_z Omega_x Omega_y 
   exact h3
 -- Theorem 28.2: The Pointwise Impedance Ratio
 theorem cross_coupling_impedance (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) (h_alpha : alpha > 0) :
-    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 1 / 
+    (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 1 /
     (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 1 2 = (v_x / c) / (t_p_val * Omega_z) := by
   have h_ne : alpha ≠ 0 := ne_of_gt h_alpha
   have h_num : (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) 0 1 = -(alpha * (v_x / c)) := by simp [U_hat]
@@ -119,7 +119,7 @@ theorem PureMagnetic_det4x4_eq_neg_two :
   rw [det4x4_U_hat_static]
   norm_num
 lemma determinant_expansion_static (v_perp Omega_z alpha_val t_p_val : ℝ) :
-  -1 - (alpha_val * t_p_val * Omega_z)^2 + (alpha_val * (v_perp / c))^2 = -1 → 
+  -1 - (alpha_val * t_p_val * Omega_z)^2 + (alpha_val * (v_perp / c))^2 = -1 →
   (alpha_val * (v_perp / c))^2 = (alpha_val * t_p_val * Omega_z)^2 := by
   intro h
   linarith
@@ -156,17 +156,17 @@ lemma generalized_cavitation_algebra (alpha_s_val alpha_val v_perp Omega_z t_p_v
   intro h
   have h_s_ne : alpha_s_val ≠ 0 := ne_of_gt h_alpha_s
   have h_s4_ne : alpha_s_val^4 ≠ 0 := pow_ne_zero 4 h_s_ne
-  have h2 : (- (1 / alpha_s_val^4) - (alpha_val * t_p_val * Omega_z)^2 + (1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 = 0 := by 
+  have h2 : (- (1 / alpha_s_val^4) - (alpha_val * t_p_val * Omega_z)^2 + (1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 = 0 := by
     have h_zero : 0 * alpha_s_val^4 = 0 := by ring
     rw [h, h_zero]
   have h_distrib : (- (1 / alpha_s_val^4) - (alpha_val * t_p_val * Omega_z)^2 + (1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 =
                    (- (1 / alpha_s_val^4)) * alpha_s_val^4 - (alpha_val * t_p_val * Omega_z)^2 * alpha_s_val^4 + ((1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 := by ring
   rw [h_distrib] at h2
-  have h_cancel_one : (- (1 / alpha_s_val^4)) * alpha_s_val^4 = -1 := by 
+  have h_cancel_one : (- (1 / alpha_s_val^4)) * alpha_s_val^4 = -1 := by
     have h_tmp : (- (1 / alpha_s_val^4)) * alpha_s_val^4 = - ((1 / alpha_s_val^4) * alpha_s_val^4) := by ring
     have h_div : (1 / alpha_s_val^4) * alpha_s_val^4 = 1 * (alpha_s_val^4 / alpha_s_val^4) := by ring
     rw [h_tmp, h_div, div_self h_s4_ne, mul_one]
-  have h_cancel_two : ((1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 = (alpha_val * (v_perp / c))^2 := by 
+  have h_cancel_two : ((1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 = (alpha_val * (v_perp / c))^2 := by
     have h_tmp2 : ((1 / alpha_s_val^4) * (alpha_val * (v_perp / c))^2) * alpha_s_val^4 = ((alpha_val * (v_perp / c))^2) * (alpha_s_val^4 / alpha_s_val^4) := by ring
     rw [h_tmp2, div_self h_s4_ne, mul_one]
   rw [h_cancel_one, h_cancel_two] at h2
@@ -238,7 +238,7 @@ theorem geometric_deborah_derivation (alpha_s_val alpha_val Omega_z t_p_val : �
   dsimp [U_perp_Re, U_perp_Im]
   ring
 variable (gamma_val : ℝ)
-lemma crossover_algebra (alpha_val alpha_s_val tp_omega gamma_var : ℝ) 
+lemma crossover_algebra (alpha_val alpha_s_val tp_omega gamma_var : ℝ)
   (h_alpha_s : alpha_s_val > 0) (h_alpha : alpha_val > 0) :
   1 / alpha_s_val = gamma_var →
   alpha_val / alpha_s_val = (1 / alpha_s_val^2) / (alpha_val * tp_omega) →

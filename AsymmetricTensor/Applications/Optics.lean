@@ -65,7 +65,7 @@ theorem tensor_refractive_index (P_dyn_val P_c_val v_c_r n_r alpha_sq : ℝ)
     have hc_ne : c ≠ 0 := ne_of_gt hc
     calc n_r = c / (c * alpha_sq) := by rw [h_n, h3]
       _ = (c * 1) / (c * alpha_sq) := by rw [mul_one c]
-      _ = 1 / alpha_sq := by 
+      _ = 1 / alpha_sq := by
         field_simp [hc_ne]
   rw [h_alpha] at h4
   exact h4
@@ -73,7 +73,7 @@ theorem tensor_refractive_index (P_dyn_val P_c_val v_c_r n_r alpha_sq : ℝ)
 -- 15.3 The Macroscopic Pressure Substitution (Resolves Reviewer Flag C)
 -- ==========================================
 theorem refractive_index_substitution (r_val ct_val : ℝ) :
-    1 / (1 - (P_c * (1 - Real.exp (-r_val / ct_val))^2) / P_c) = 
+    1 / (1 - (P_c * (1 - Real.exp (-r_val / ct_val))^2) / P_c) =
     1 / (Real.exp (-r_val / ct_val) * (2 - Real.exp (-r_val / ct_val))) := by
   have hPc_ne : P_c ≠ 0 := Pc_non_zero
   congr 1

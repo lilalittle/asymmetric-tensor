@@ -62,7 +62,7 @@ lemma spatial_diagonal_lorentz_derivation
   rw [h_final]
 -- Theorem 46: The Vacuum Expectation Value (VEV)
 variable (v_vev P_ambient : ℝ)
-theorem tensor_vev_origin 
+theorem tensor_vev_origin
     (h_yield : P_ambient = (1 / 2) * rho_tau * v_vev^2) :
     v_vev^2 = 2 * P_ambient / rho_tau := by
   have hrho : rho_tau ≠ 0 := ne_of_gt rho_tau_pos
@@ -123,14 +123,14 @@ theorem P_shear_pure_electric_limit (alpha_s alpha v_x t_p_val : ℝ) :
   rw [h_anti]
   ring
 -- Theorem 47: The Kinematic Lagrangian Trace (Equation 140)
-theorem orthogonal_mass_extraction 
+theorem orthogonal_mass_extraction
     (h_L_kin : L_kin = (1 / 4) * P_c * (4 * (v_macro_scalar^2 / c^2) + A_anti_trace))
     (h_P_dyn : P_dyn_val = (1 / 2) * rho_tau * v_macro_scalar^2)
     (h_P_shear : P_shear_val = (1 / 4) * P_c * A_anti_trace) :
     L_kin = P_dyn_val + P_shear_val := by
   have hc2 : c^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt c_pos)
   have h_Pc_sub : P_c = (1 / 2) * rho_tau * c^2 := emergent_critical_pressure
-  have h1 : L_kin = (1 / 4) * P_c * (4 * (v_macro_scalar^2 / c^2)) + (1 / 4) * P_c * A_anti_trace := by 
+  have h1 : L_kin = (1 / 4) * P_c * (4 * (v_macro_scalar^2 / c^2)) + (1 / 4) * P_c * A_anti_trace := by
     rw [h_L_kin]; ring
   rw [h1, ←h_P_shear, h_Pc_sub]
   have h2 : (1 / 4) * ((1 / 2) * rho_tau * c^2) * (4 * (v_macro_scalar^2 / c^2)) = ((1 / 2) * rho_tau * v_macro_scalar^2 * c^2) / c^2 := by ring
@@ -183,7 +183,7 @@ lemma positive_sqrt_reduction (m_var : ℝ) (hm_pos : m_var > 0) :
   exact h2
 -- Theorem 48: The Topological Yield Limit (Equation 145)
 -- Explicitly incorporates Equivalence Principle identification (m_inert = m_grav = M_val).
-theorem topological_yield_limit (hm : M_val ≠ 0) (hm_pos : M_val > 0) 
+theorem topological_yield_limit (hm : M_val ≠ 0) (hm_pos : M_val > 0)
     (h_intersection : hbar / (M_val * c) = 2 * G * M_val / c^2) :
     M_val = M_P / Real.sqrt 2 := by
   have h1 : M_val^2 = (M_P)^2 / 2 := isolate_planck_yield_algebra M_val hm h_intersection
@@ -209,7 +209,7 @@ theorem yield_partition (alpha_yield : ℝ)
   have h2 : Real.sqrt (1 / 2) = Real.sqrt 1 / Real.sqrt 2 := by rw [Real.sqrt_div h_one_pos]
   rw [h_yield, h1, h2, Real.sqrt_one]
 -- Theorem 50: The Mass-Yield Equivalence (Derived end-to-end from the intersection)
-theorem mass_yield_equivalence (alpha_yield : ℝ) 
+theorem mass_yield_equivalence (alpha_yield : ℝ)
     (h_mass : M_val = M_P / Real.sqrt 2)
     (h_yield : alpha_yield = 1 / Real.sqrt 2) :
     M_val / M_P = alpha_yield := by

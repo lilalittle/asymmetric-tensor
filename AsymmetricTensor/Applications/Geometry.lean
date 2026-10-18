@@ -38,7 +38,7 @@ theorem unit_section10_active_strain :
     u_P_c / u_P_c = (u_c^(2:ℤ)) / (u_c^(2:ℤ)) ∧
     (u_c^(2:ℤ)) / (u_c^(2:ℤ)) = u_dimless := by
   constructor <;> rfl
-theorem temporal_diagonal_collapse (P_static_val P_c_val P_dyn_val rho_t v_rel c_val : ℝ) 
+theorem temporal_diagonal_collapse (P_static_val P_c_val P_dyn_val rho_t v_rel c_val : ℝ)
     (hc : c_val ≠ 0) (hrho : rho_t ≠ 0)
     (h_static : P_static_val = P_c_val - P_dyn_val)
     (h_Pc : P_c_val = (1 / 2) * rho_t * c_val^2)
@@ -47,7 +47,7 @@ theorem temporal_diagonal_collapse (P_static_val P_c_val P_dyn_val rho_t v_rel c
   rw [h_static, h_Pc, h_Pdyn]
   have hc2 : c_val^2 ≠ 0 := pow_ne_zero 2 hc
   have h_denom : (1 / 2) * rho_t * c_val^2 ≠ 0 := mul_ne_zero (mul_ne_zero (by norm_num) hrho) hc2
-  have h1 : (((1 / 2) * rho_t * c_val^2) - ((1 / 2) * rho_t * v_rel^2)) / ((1 / 2) * rho_t * c_val^2) = 
+  have h1 : (((1 / 2) * rho_t * c_val^2) - ((1 / 2) * rho_t * v_rel^2)) / ((1 / 2) * rho_t * c_val^2) =
             (((1 / 2) * rho_t * c_val^2) / ((1 / 2) * rho_t * c_val^2)) - (((1 / 2) * rho_t * v_rel^2) / ((1 / 2) * rho_t * c_val^2)) := by ring
   rw [h1]
   have h2 : ((1 / 2) * rho_t * c_val^2) / ((1 / 2) * rho_t * c_val^2) = 1 := div_self h_denom
@@ -87,7 +87,7 @@ theorem rotational_covariance_leakage (U_0i_prime U_0beta U_phi_beta Lambda_beta
 -- ==========================================
 variable (a_grav a_kin grad_P_static grad_P_dyn : V_3D)
 -- Theorem 36: Acceleration Isomorphism (Equation 113)
-theorem equivalence_principle_gradients 
+theorem equivalence_principle_gradients
     (h_conservation : grad_P_static = - grad_P_dyn)
     (h_a_grav : a_grav = grad_P_static)
     (h_a_kin : a_kin = grad_P_dyn) :
@@ -126,12 +126,12 @@ noncomputable def P_dyn_total (r_val R_h_val rho_val c_val Phi_val : ℝ) : ℝ 
 variable (k_shear R_max : ℝ)
 noncomputable def P_shear_2D (r_val : ℝ) : ℝ := k_shear * Real.log (R_max / r_val)
 -- Theorem 42: Modified Temporal Diagonal (Equation 127 / 11.6)
-theorem temporal_diagonal_admittance (P_dyn_3D r S_00 : ℝ) 
+theorem temporal_diagonal_admittance (P_dyn_3D r S_00 : ℝ)
     (h : S_00 = - (1 - (P_dyn_3D + P_shear_2D k_shear R_max r) / P_c)) :
     S_00 = - (1 - (P_dyn_3D + k_shear * Real.log (R_max / r)) / P_c) := by
   dsimp [P_shear_2D] at h
   exact h
-theorem plug_flow_algebra (v_rot r_val c_val P_c_val k_val : ℝ) 
+theorem plug_flow_algebra (v_rot r_val c_val P_c_val k_val : ℝ)
     (hr : r_val ≠ 0) (_hPc : P_c_val > 0) (_hk : k_val ≥ 0) (hv : v_rot ≥ 0) (hc : c_val > 0)
     (h_accel : v_rot^2 / r_val = (c_val^2 / (2 * P_c_val)) * (k_val / r_val)) :
     v_rot = c_val * Real.sqrt (k_val / (2 * P_c_val)) := by
@@ -265,10 +265,10 @@ theorem longitudinal_transport_acceleration (a_coord : V_3D)
     (h_a : a_coord = - (1 / rho_tau) • grad_P_static) :
     a_coord = (1 / rho_tau) • grad_P_dyn := by
   have h1 : - (1 / rho_tau) • grad_P_static = - (1 / rho_tau) • (- grad_P_dyn) := by rw [h_grad]
-  have h2 : - (1 / rho_tau) • (- grad_P_dyn) = (- (1 / rho_tau) * -1) • grad_P_dyn := by 
+  have h2 : - (1 / rho_tau) • (- grad_P_dyn) = (- (1 / rho_tau) * -1) • grad_P_dyn := by
     have h_neg_vec : - grad_P_dyn = (-1 : ℝ) • grad_P_dyn := by exact (neg_one_smul ℝ grad_P_dyn).symm
     rw [h_neg_vec, smul_smul]
-  have h3 : (- (1 / rho_tau) * -1) • grad_P_dyn = (1 / rho_tau) • grad_P_dyn := by 
+  have h3 : (- (1 / rho_tau) * -1) • grad_P_dyn = (1 / rho_tau) • grad_P_dyn := by
     have h_scalar : (- (1 / rho_tau) * -1) = 1 / rho_tau := by ring
     rw [h_scalar]
   rw [h_a, h1, h2, h3]
@@ -286,7 +286,7 @@ theorem longitudinal_transport_acceleration (a_coord : V_3D)
 -- ==========================================
 variable (L_Tot L_EH L_Spin tension_limit R_tilde K_trace_1 K_trace_2 : ℝ)
 -- Theorem 47: The Einstein-Cartan Isomorphism (Equation 143 / 12.6)
-theorem einstein_cartan_lagrangian 
+theorem einstein_cartan_lagrangian
     (h_L_Tot : L_Tot = tension_limit * (R_tilde + K_trace_1 - K_trace_2))
     (h_L_EH : L_EH = tension_limit * R_tilde)
     (h_L_Spin : L_Spin = tension_limit * (K_trace_1 - K_trace_2)) :

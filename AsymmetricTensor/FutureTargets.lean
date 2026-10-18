@@ -77,7 +77,7 @@ theorem casimir_pressure_scaling (d_val F_c Area : ℝ)
     (h_pressure : F_c / Area = hbar * c / (4 * Real.pi * d_val^4)) :
     F_c = Area * hbar * c / (4 * Real.pi * d_val^4) := by
   have hA_ne : Area ≠ 0 := ne_of_gt hA
-  have h1 : F_c = (F_c / Area) * Area := by 
+  have h1 : F_c = (F_c / Area) * Area := by
     have h_frac : (F_c / Area) * Area = F_c * (Area / Area) := by ring
     rw [h_frac, div_self hA_ne, mul_one]
   have h2 : (F_c / Area) * Area = (hbar * c / (4 * Real.pi * d_val^4)) * Area := by
@@ -136,7 +136,7 @@ theorem shapiro_delay_refraction (r_val t_val alpha_s_val : ℝ)
   rw [h2]
 -- 8. Newton's First Law (Inertia):
 -- Symmetric dynamic pressure gradient integrates to zero net force under uniform translation.
-theorem inertia_conservation (Net_Force Integral_grad_P_dyn : ℝ) 
+theorem inertia_conservation (Net_Force Integral_grad_P_dyn : ℝ)
     (h_force_def : Net_Force = Integral_grad_P_dyn)
     (h_uniform_translation : Integral_grad_P_dyn = 0) :
     Net_Force = 0 := by
@@ -358,9 +358,9 @@ theorem electromagnetic_decoupling_ratio (A_0i A_ij alpha_s v_perp c t_p Omega :
   rw [h_E, h_M]
   have h1 : alpha_s^2 ≠ 0 := pow_ne_zero 2 ha_s
   have h3 : c * t_p * Omega ≠ 0 := mul_ne_zero (mul_ne_zero hc ht_p) h_Omega
-  have h4 : ((1 / alpha_s^2) * (v_perp / c)) / (alpha_s^2 * (t_p * Omega)) = 
+  have h4 : ((1 / alpha_s^2) * (v_perp / c)) / (alpha_s^2 * (t_p * Omega)) =
             (v_perp / (alpha_s^2 * c)) / (alpha_s^2 * (t_p * Omega)) := by ring
-  have h5 : (v_perp / (alpha_s^2 * c)) / (alpha_s^2 * (t_p * Omega)) = 
+  have h5 : (v_perp / (alpha_s^2 * c)) / (alpha_s^2 * (t_p * Omega)) =
             (v_perp / (c * t_p * Omega)) * (1 / alpha_s^4) := by ring
   rw [h4, h5]
 -- 4. Z-Pinch & Sausage Instability:

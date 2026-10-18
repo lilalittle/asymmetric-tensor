@@ -94,13 +94,13 @@ def u_Biharmonic  : UnitDim := u_dimless / (u_l_p^(4:ℤ))           -- ⟨-4, 0
 def u_C_isochoric : UnitDim := u_c * (u_l_p^(2:ℤ))                 -- ⟨2, 1, 0⟩   (Isochoric flow constant C = v r^2)
 -- 4. Automated Dimensional Verification (Proven by `rfl`)
 -- Time is emergent from Length and Velocity, and Frequency is 1 / Time:
-theorem unit_emergent_time : 
+theorem unit_emergent_time :
     u_t_p = ⟨1, -1, 0⟩ ∧ u_dimless / u_t_p = u_omega := by
   constructor <;> rfl
 -- The Section 14 Spatial Ladder (Energy -> Force -> Pressure):
 theorem unit_spatial_ladder :
-    u_Force = u_Energy / u_l_p ∧ 
-    u_P_c = u_Force / u_Area ∧ 
+    u_Force = u_Energy / u_l_p ∧
+    u_P_c = u_Force / u_Area ∧
     u_P_c = u_Energy / u_Volume := by
   refine ⟨rfl, rfl, rfl⟩
 -- Relativistic Mass-Momentum-Energy Ladder (multiplying by powers of c):
@@ -223,13 +223,13 @@ theorem unit_section2_thermodynamic_budget :
     u_P_c / u_P_c = u_dimless ∧
     (u_c^(2:ℤ)) / (u_c^(2:ℤ)) = u_dimless := by
   refine ⟨rfl, rfl, rfl⟩
-noncomputable def P_dyn_scalar (v : ℝ) : ℝ := 
+noncomputable def P_dyn_scalar (v : ℝ) : ℝ :=
   (1 / 2) * rho_tau * v^2
-theorem emergent_critical_pressure : 
+theorem emergent_critical_pressure :
     P_c = (1 / 2) * rho_tau * c^2 := by
   rfl
 noncomputable def P_g (v_esc_val : ℝ) : ℝ := P_dyn_scalar v_esc_val
-lemma cancel_fraction_rho (v_val : ℝ) : 
+lemma cancel_fraction_rho (v_val : ℝ) :
   (((1 / 2) * rho_tau * v_val^2) / ((1 / 2) * rho_tau * c^2)) = (v_val^2 / c^2) := by
   have hrho_ne_zero : rho_tau ≠ 0 := ne_of_gt rho_tau_pos
   have hc_ne_zero : c^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt c_pos)
@@ -244,7 +244,7 @@ theorem compliance_equivalence (v_esc_val : ℝ) :
   have h_Pg_sub : P_g v_esc_val = (1 / 2) * rho_tau * v_esc_val^2 := rfl
   rw [h_Pc_sub, h_Pg_sub]
   have hc_ne_zero : c ≠ 0 := ne_of_gt c_pos
-  have h1 : (((1 / 2) * rho_tau * c^2 - (1 / 2) * rho_tau * v_esc_val^2) / ((1 / 2) * rho_tau * c^2)) = 
+  have h1 : (((1 / 2) * rho_tau * c^2 - (1 / 2) * rho_tau * v_esc_val^2) / ((1 / 2) * rho_tau * c^2)) =
             (((1 / 2) * rho_tau * c^2) / ((1 / 2) * rho_tau * c^2)) - (((1 / 2) * rho_tau * v_esc_val^2) / ((1 / 2) * rho_tau * c^2)) := by ring
   rw [h1]
   have h_cancel_esc : (((1 / 2) * rho_tau * v_esc_val^2) / ((1 / 2) * rho_tau * c^2)) = (v_esc_val^2 / c^2) := by exact cancel_fraction_rho v_esc_val

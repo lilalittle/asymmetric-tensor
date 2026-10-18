@@ -31,18 +31,18 @@ namespace AsymmetricTensor
 theorem unit_section13_wave_mechanics :
     (u_dimless / (u_c^(2:ℤ))) * (u_c / (u_t_p^(2:ℤ))) = u_Laplacian * u_c := by rfl
 lemma wave_equation_algebra (c_val : ℝ) (hc : (0 : ℝ) < c_val) (v_perp_accel v_perp_laplace : V_3D) :
-  (1 / c_val^2) • v_perp_accel = v_perp_laplace → 
+  (1 / c_val^2) • v_perp_accel = v_perp_laplace →
   v_perp_accel = c_val^2 • v_perp_laplace := by
   intro h
   have hc_ne : c_val^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt hc)
-  have h1 : c_val^2 * (1 / c_val^2) = 1 := by 
+  have h1 : c_val^2 * (1 / c_val^2) = 1 := by
     have h_frac : c_val^2 * (1 / c_val^2) = c_val^2 / c_val^2 := by ring
     rw [h_frac]
     exact div_self hc_ne
   rw [← one_smul ℝ v_perp_accel, ← h1, mul_smul, h]
 -- Theorem 48: Transverse Wave Propagation (Equation 154 / 13.1)
 variable (v_perp_accel v_perp_laplace : V_3D)
-theorem transverse_wave_propagation 
+theorem transverse_wave_propagation
     (h_wave : (1 / c^2) • v_perp_accel = v_perp_laplace) :
     v_perp_accel = c^2 • v_perp_laplace := by
   exact wave_equation_algebra c c_pos v_perp_accel v_perp_laplace h_wave
@@ -60,7 +60,7 @@ lemma malus_law_algebra (rho_val v_perp_val theta_val P_0_val : ℝ) :
   have h1 : (1 / 2) * rho_val * (v_perp_val * Real.cos theta_val)^2 = ((1 / 2) * rho_val * v_perp_val^2) * (Real.cos theta_val)^2 := by ring
   rw [h1, ←h]
 -- Theorem 49: Transverse Energy Transmission (Malus's Law) (Equation 158 / 13.3)
-theorem transverse_energy_transmission 
+theorem transverse_energy_transmission
     (v_perp_val : ℝ)
     (h_P_0 : P_dyn_0 = (1 / 2) * rho_tau * v_perp_val^2)
     (h_P_trans : P_dyn_trans = (1 / 2) * rho_tau * (v_perp_val * Real.cos theta)^2) :
@@ -93,7 +93,7 @@ lemma attenuation_length_algebra (L_val P_c_val P_dyn_val rho_val c_val : ℝ) :
   intro h
   rw [h]
 -- Theorem 51: Debye Attenuation Length Envelope (Equation 164 / 13.4)
-theorem debye_attenuation_length 
+theorem debye_attenuation_length
     (h_lambda : lambda_D = L_0 * Real.sqrt (1 - P_dyn_val / P_c)) :
     lambda_D = L_0 * Real.sqrt (1 - P_dyn_val / ((1 / 2) * rho_tau * c^2)) := by
   have h_Pc_sub : P_c = (1 / 2) * rho_tau * c^2 := emergent_critical_pressure
@@ -196,7 +196,7 @@ theorem spatial_confinement_gradient (r : ℝ) (hr : r ≠ 0) (kappa : ℝ)
       rw [hs, ht]
     have h_pull2 : (((kappa * c) / (4 * Real.pi^2)) * (4 * Real.pi^2)) / (2 * r^4 * (4 * Real.pi^2)) = ((kappa * c) * ((4 * Real.pi^2) / (4 * Real.pi^2))) / (2 * r^4 * (4 * Real.pi^2)) := by ring
     have h_pull3 : ((kappa * c) * ((4 * Real.pi^2) / (4 * Real.pi^2))) / (2 * r^4 * (4 * Real.pi^2)) = (kappa * c) / (2 * r^4 * (4 * Real.pi^2)) := by rw [div_self hpi_ne, mul_one]
-    have h_pull4 : (kappa * c) / (2 * r^4 * (4 * Real.pi^2)) = (kappa * c) / (8 * Real.pi^2 * r^4) := by 
+    have h_pull4 : (kappa * c) / (2 * r^4 * (4 * Real.pi^2)) = (kappa * c) / (8 * Real.pi^2 * r^4) := by
       have h_denom : 2 * r^4 * (4 * Real.pi^2) = 8 * Real.pi^2 * r^4 := by ring
       rw [h_denom]
     rw [h_pull1, h_pull2, h_pull3, h_pull4]
@@ -330,7 +330,7 @@ theorem kinematic_acceleration_floor (hR_ne : R_h_0 > 0) (hh_ne : h_val > 0)
   have eq_F1 : F_R_h * (2 * Real.pi * R_h_0^2) = ((h_val * c) / (2 * Real.pi * R_h_0^2)) * (2 * Real.pi * R_h_0^2) := congrArg (· * (2 * Real.pi * R_h_0^2)) h_F
   have eq_F2 : ((h_val * c) / (2 * Real.pi * R_h_0^2)) * (2 * Real.pi * R_h_0^2) = (h_val * c) * ((2 * Real.pi * R_h_0^2) / (2 * Real.pi * R_h_0^2)) := by ring
   rw [eq_F2, div_self (mul_ne_zero (mul_ne_zero (by norm_num) h4) (pow_ne_zero 2 h1)), mul_one] at eq_F1
-  have h7 : m_h ≠ 0 := by 
+  have h7 : m_h ≠ 0 := by
      intro hz
      have h_bad : 0 * (R_h_0 * c) = h_val := by rw [←eq_m1, hz]
      rw [zero_mul] at h_bad
@@ -370,7 +370,7 @@ theorem universal_gravitation_limit (hM_P : M_P_val > 0) (_hr : r > 0) (hG : G >
   have eq1a : M_P_val^2 * G = ((hbar * c) / G) * G := congrArg (· * G) h_M_P_sq
   have eq1b : ((hbar * c) / G) * G = (hbar * c) * (G / G) := by ring
   rw [eq1b, div_self hG_ne, mul_one] at eq1a
-  have step1 : F_macro = ((M_1 * M_2) / M_P_val^2) * ((hbar * c) / r^2) := by 
+  have step1 : F_macro = ((M_1 * M_2) / M_P_val^2) * ((hbar * c) / r^2) := by
     have h_sub : (M_1 / M_P_val) * (M_2 / M_P_val) = (M_1 * M_2) / M_P_val^2 := by ring
     rw [h_F_macro, h_sub]
   have step2 : ((M_1 * M_2) / M_P_val^2) * ((hbar * c) / r^2) = (M_1 * M_2 * (hbar * c)) / (M_P_val^2 * r^2) := by ring
