@@ -194,7 +194,8 @@ spinor-field, or gravitational dynamics automatically.
 ## B. Simplified structures and conditional models
 
 ### B1. Coordinate fields, conservation and covariant geometry
-<!-- declarations: partial_deriv metric_divergence CoordinateConserved constant_coordinate_conserved exists_coordinate_conserved coordinate_field_not_conserved divergence_expansion bernoulli_energy_conservation navier_stokes_momentum_conservation -->
+<!-- declarations: partial_deriv metric_divergence divergence_expansion bernoulli_energy_conservation navier_stokes_momentum_conservation -->
+<!-- v3.1: CoordinateConserved, constant_coordinate_conserved, exists_coordinate_conserved, coordinate_field_not_conserved removed; v2-only, not in Binyamin's v3.1 drop -->
 Current divergence is a sum of coordinate derivatives with no connection terms;
 the baseline axiom asserts it vanishes for every field. That universal assertion
 is inconsistent (issue #9), not an admissibility condition. The finite repair is
@@ -296,7 +297,8 @@ alternative model, not a prerequisite for the additive determinant calculation.
 Investigate L1/L5/L8 (issues #20/#21).
 
 ### B8. Singular domains and post-yield phase
-<!-- declarations: metric_is_continuous metric_is_cavitated legal_cavitation_collapse cavitated_determinant_lock -->
+<!-- declarations: metric_is_continuous metric_is_cavitated -->
+<!-- v3.1: legal_cavitation_collapse, cavitated_determinant_lock removed; v2-only, not in Binyamin's v3.1 drop -->
 Current boundary substitutions use Lean's `1/0 = 0`. The intended analysis requires
 admissible positive/nonzero parameters and one-sided limits, for example
 `1/a² → +∞` as `a → 0+`; a totalized value is not that limit. Prove denominator
@@ -414,6 +416,13 @@ and deriving the radius dependence from the selected flux. **Decision block:**
 select these laws and clarify whether the target is conditional scaling or a
 dynamical/spectral conclusion; zero of a sine factor alone does not construct
 quantum eigenstates. Investigate L1/L2/L3/L4/L8.
+
+### B17. v3.1 Section 16 additions (dimensional audit corollaries and new cosmology)
+<!-- declarations: unit_section16_corollaries unit_section16_2_antisymmetric_corollaries unit_section16_3_cross_coupled_corollaries lemaitre_tolman_bondi_compliance holographic_bound_area_scaling -->
+v3.1 adds dimensional-audit corollaries for Section 16 (UnitDim layer) and two new
+cosmological results (Lemaître–Tolman–Bondi compliance, holographic bound area
+scaling). These are Binyamin's new Section 16 theorems, inventoried here for the
+roadmap check.
 
 ## C. Dependencies, alternatives and author decisions
 

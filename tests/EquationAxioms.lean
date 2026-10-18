@@ -8,9 +8,11 @@ run_cmd do
   let env ← getEnv
   let root := `AsymmetricTensor
   let logical := #[`propext, `Classical.choice, `Quot.sound]
+  -- v3.1: Binyamin's covariant_conservation is a seventh permitted axiom
+  -- (physical postulate, Astra-approved).
   let permitted := #[`AsymmetricTensor.c, `AsymmetricTensor.l_p,
     `AsymmetricTensor.hbar, `AsymmetricTensor.c_pos, `AsymmetricTensor.l_p_pos,
-    `AsymmetricTensor.hbar_pos]
+    `AsymmetricTensor.hbar_pos, `AsymmetricTensor.covariant_conservation]
   let mut count := 0
   let mut declared : Array Name := #[]
   for (name, info) in env.constants.toList.mergeSort (fun a b => Name.lt a.1 b.1) do

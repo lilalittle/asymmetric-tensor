@@ -14,14 +14,9 @@ Authors: Binyamin Tsadik Bair-Mosheh
 -/
 module
 """
-# Removing these instances changes established public theorem signatures.
-LEGACY_INSTANCES = {
-    "AsymmetricTensor/Applications/MechanicsMass.lean": ["dressing_field_invariance"],
-    "AsymmetricTensor/Applications/Geometry.lean": ["equivalence_principle_gradients"],
-    "AsymmetricTensor/FutureTargets.lean": [
-        "gravitoelectromagnetism_mapping", "poynting_vector_convection", "u1_gauge_invariance"
-    ],
-}
+# v3.1: Binyamin's drop has no unused-section-variable suppressions.
+# The v2 legacy instances were removed with the v2 module structure.
+LEGACY_INSTANCES = {}
 
 
 def check(root):
@@ -68,9 +63,10 @@ def check(root):
     for module in sorted(reached - module_imports.keys()):
         errors.append(f"{module}: imported production module has no source")
     if not errors:
+        exception_count = sum(len(v) for v in LEGACY_INSTANCES.values())
         print(f"STYLE_BASELINE_OK: {len(files)} reachable production modules; "
               f"{long_count} grandfathered lines over 100 columns; "
-              "5 declaration-local compatibility exceptions.")
+              f"{exception_count} declaration-local compatibility exceptions.")
     return errors
 
 
