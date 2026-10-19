@@ -36,6 +36,13 @@ variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
 variable {Forms_0D : Type} [AddCommGroup Forms_0D] [Module ℝ Forms_0D]
 variable {Forms_1D : Type} [AddCommGroup Forms_1D] [Module ℝ Forms_1D]
 variable {Forms_2D : Type} [AddCommGroup Forms_2D] [Module ℝ Forms_2D]
+variable (d0 : Forms_0D →ₗ[ℝ] Forms_1D)
+variable (d1 : Forms_1D →ₗ[ℝ] Forms_2D)
+variable (smul_form : Forms_0D → Forms_1D → Forms_1D)
+variable (smul_2form : Forms_0D → Forms_2D → Forms_2D)
+variable (wedge : Forms_1D →ₗ[ℝ] Forms_1D →ₗ[ℝ] Forms_2D)
+variable (v_val : ℝ)
+variable (a_0 : ℝ)
 
 -- SECTION 13: TRANSVERSE WAVE MECHANICS, CHIRAL INDUCTION, AND PLASMA ATTENUATION
 -- ======================================================================

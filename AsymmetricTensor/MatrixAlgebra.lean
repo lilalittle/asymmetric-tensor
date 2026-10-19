@@ -299,6 +299,7 @@ theorem lorentzian_antisymmetric_trace_eq123 (alpha_s alpha v_x v_y v_z : ℝ) (
 -- ----------------------------------------------------------------------
 -- 6.3 Volumetric Cavitation & The Metric Lagrangian (Manuscript Eqs. 74–79)
 -- ----------------------------------------------------------------------
+variable (M : ℝ)
 variable (r_c : ℝ)
 -- Dimensional Audit: Gravitational pressure saturation (rho_tau * G * M / r_c = P_c) and Schwarzschild radius (2 G M / c^2 = r_c):
 theorem unit_section6_schwarzschild_cavitation :

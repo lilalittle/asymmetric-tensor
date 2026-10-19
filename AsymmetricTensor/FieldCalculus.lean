@@ -38,6 +38,8 @@ variable {Forms_0D : Type} [AddCommGroup Forms_0D] [Module ℝ Forms_0D]
 variable {Forms_1D : Type} [AddCommGroup Forms_1D] [Module ℝ Forms_1D]
 variable (d0 : Forms_0D →ₗ[ℝ] Forms_1D)
 variable (smul_form  : Forms_0D → Forms_1D → Forms_1D)
+variable (v_esc : ℝ)
+variable (v_parallel v_perp_mag v_circ : ℝ)
 
 -- SECTION 4: THE CONTINUOUS FIELD EQUATION
 -- ======================================================================
