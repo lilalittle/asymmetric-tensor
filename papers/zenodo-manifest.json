@@ -72,6 +72,14 @@
       "doi": "10.5281/zenodo.22953897",
       "published": "2026-09-25",
       "note": "Added a Navier-Stokes section on particle motion and a dwarf-galaxy section to the dark-energy hypothesis."
+    },
+    {
+      "index": 10,
+      "recid": "23472554",
+      "doi": "10.5281/zenodo.23472554",
+      "published": "2026-10-19",
+      "file": "papers/asymmetric-metric-tensor.pdf",
+      "note": "Added Lean Code to formalize the mathematics"
     }
   ]
 }
