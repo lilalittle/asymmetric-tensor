@@ -1,0 +1,24 @@
+--- APPENDIX C: ROBUSTNESS & CHI-SQUARED COMPARISON (N = 1701) ---
+1. Refractive Exponential (Inverse Fit, Exact n, k=1):
+   K = 4200.36 Mpc (H0 = 71.37 km/s/Mpc)
+   Chi2 = 778.39 | Chi2/dof = 0.4579 | BIC = 785.83
+
+2. Refractive Exponential (Forward Fit, Exact n, k=1):
+   K = 4182.74 Mpc (H0 = 71.67 km/s/Mpc) | Agreement = 0.42%
+   Chi2 = 775.14 | Chi2/dof = 0.4560 | BIC = 782.58
+
+3. Refractive Sigmoidal (Forward Fit, Exact n, k=2):
+   K = 3379.00 Mpc, eta = 1.0596
+   Chi2 = 1159.32 | Chi2/dof = 0.6824 | BIC = 1174.19
+
+4. Flat LambdaCDM (Planck Om=0.315 fixed, k=1):
+   H0 = 73.36 km/s/Mpc
+   Chi2 = 749.21 | Chi2/dof = 0.4407 | BIC = 756.65
+
+5. Flat LambdaCDM (2-Parameter Free, k=2):
+   H0 = 72.97 km/s/Mpc, Om = 0.3508
+   Chi2 = 745.40 | Chi2/dof = 0.4387 | BIC = 760.28
+
+6. Un-lensed Linear Hubble Law (k=1):
+   H0 = 64.56 km/s/Mpc
+   Chi2 = 2458.54 | Chi2/dof = 1.4462 | BIC = 2465.97

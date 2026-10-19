@@ -1,0 +1,12 @@
+
+Fit Parameters Derived from Delensed Data:
+
+1. Exponential Fit (v = c * (1 - exp(-r/K)))
+   K = 4200.3645 Mpc
+
+2. Unconstrained Sigmoidal (v = c * (r/K)^eta / (1 + (r/K)^eta))
+   K = 3028.6277 Mpc
+   eta = 1.1775
+
+3. Refractive Root (Placeholder)
+   K = 4200.3645 Mpc

@@ -1,0 +1,24 @@
+--- REFRACTIVE COSMOLOGY TIME DILATION (Appendix D) ---
+Parameters Loaded: K_EXP=4200.36 Mpc, K_SIG=3028.63 Mpc, ETA_SIG=1.1775
+
+[Model: Exponential]
+ r_true(z=20): 12788.1 Mpc
+ r_true(z=14): 11374.8 Mpc | Optical Path r_opt(z=14): 32938.5 Mpc
+ Chronological Lookback Time to z=14: 12.79 Gyr (Sum Rule tau_0 = 13.70 Gyr)
+ Proper Metric Age at z=20: 652.4 Myr
+ Proper Metric Age at z=14: 913.3 Myr
+ Proper evolutionary window z=20 -> 14: 260.9 Myr
+  Cumulative Proper Age to +10K: 0.9133 Gyr
+  Cumulative Proper Age to +100K: 0.9133 Gyr
+  Cumulative Proper Age to +1000K: 0.9133 Gyr
+
+[Model: Sigmoidal (Hill)]
+ r_true(z=20): 38561.6 Mpc
+ r_true(z=14): 28484.1 Mpc | Optical Path r_opt(z=14): 113963.3 Mpc
+ Chronological Lookback Time to z=14: 20.74 Gyr (Sum Rule tau_0 = 57.79 Gyr)
+ Proper Metric Age at z=20: 35202.4 Myr
+ Proper Metric Age at z=14: 37048.4 Myr
+ Proper evolutionary window z=20 -> 14: 1846.0 Myr
+  Cumulative Proper Age to +10K: 4.3022 Gyr
+  Cumulative Proper Age to +100K: 12.8760 Gyr
+  Cumulative Proper Age to +1000K: 20.7466 Gyr
