@@ -76,8 +76,11 @@ def check(root):
     if baseline.get("version") != 1:
         return ["module context baseline: unsupported manifest version"]
     modules = baseline["modules"]
+    # Skip Binyamin's direct raw uploads (spaces in filename = not a valid Lean module name).
+    # These are his source material, not production modules.
     actual = {path.relative_to(root).as_posix()
-              for path in (root / "AsymmetricTensor").rglob("*.lean")}
+              for path in (root / "AsymmetricTensor").rglob("*.lean")
+              if " " not in path.name}
     errors = [f"{path}: missing reviewed module" for path in sorted(modules.keys() - actual)]
     errors.extend(f"{path}: additional module needs a reviewed context inventory"
                   for path in sorted(actual - modules.keys()))
