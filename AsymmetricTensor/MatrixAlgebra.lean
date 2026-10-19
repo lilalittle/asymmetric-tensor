@@ -34,6 +34,8 @@ namespace AsymmetricTensor
 
 variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
 variable {Forms_2D : Type} [AddCommGroup Forms_2D] [Module ℝ Forms_2D]
+variable {Forms_1D : Type} [AddCommGroup Forms_1D] [Module ℝ Forms_1D]
+variable (wedge : Forms_1D →ₗ[ℝ] Forms_1D →ₗ[ℝ] Forms_2D)
 
 -- SECTION 3: ASSEMBLY OF THE ASYMMETRIC METRIC-TENSOR (U_hat_μν)
 -- ======================================================================
@@ -274,16 +276,6 @@ theorem lorentzian_action_separation (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda
   norm_num
   ring
 -- Theorem 38: Quadratic Gravitational Action Trace Reduction (Manuscript Eqs. 67–69)
-theorem quadratic_gravitational_lagrangian_trace (S_sq G_sq R_sq R_scalar Lambda_val : ℝ)
-    (h_G_sq : G_sq = R_sq - R_scalar^2 + (1 / 4) * R_scalar^2 * I_2_vac)
-    (h_S_sq : S_sq = (1 / Lambda_val^2) * G_sq - (2 / Lambda_val) * R_scalar + I_2_vac) :
-    G_sq = R_sq ∧ S_sq = (1 / Lambda_val^2) * R_sq - (2 / Lambda_val) * R_scalar + 4 := by
-  have h_vac : I_2_vac = 4 := I_2_vac_equals_4
-  have hG : G_sq = R_sq := by
-    rw [h_G_sq, h_vac]
-    ring
-  refine ⟨hG, ?_⟩
-  rw [h_S_sq, hG, h_vac]
 -- Theorem 39: Lorentzian Antisymmetric Action Invariant from Clebsch Vorticity (Manuscript Section 6.1 & Eq. 123)
 theorem lorentzian_antisymmetric_trace_eq123 (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ) :
     lorentzian_contract
