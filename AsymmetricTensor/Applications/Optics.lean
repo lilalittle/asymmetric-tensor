@@ -1,39 +1,35 @@
-import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.Analysis.Calculus.FDeriv.Basic
-import Mathlib.Geometry.Manifold.Instances.Real
-import Mathlib.Basic.Real.Basic
-import Mathlib.Analysis.SpecialFunctions.Sqrt
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.Data.Matrix.Basic
-import Mathlib.LinearAlgebra.Matrix.BilinearForm
-import Mathlib.Tactic
-/-!
-# The Asymmetric Metric-Tensor and the Thermodynamic Equation of State
-**Author:** Binyamin Tsadik Bair-Mosheh
-**Dataset / Code Archive:** [https://github.com/lilalittle/asymmetric-tensor/]
-**Preprint:** (https://doi.org/10.5281/zenodo.21321264)
-## Formalization Overview
-This Lean 4 module formalizes the Asymmetric Metric-Tensor (`U_hat` / `U_covariant`) and its thermodynamic equation of state as a machine-checked, axiom-minimized deduction over `Mathlib`. Rather than postulating separate field equations for gravitation, fluid dynamics, and electromagnetism, the formalization constructs a single $4 \times 4$ real strain matrix (`T2 := Matrix (Fin 4) (Fin 4) ℝ`) and a continuous spacetime tensor field (`MetricField := SpaceTime → T2`), deriving macroscopic and quantum relations as algebraic projections, trace contractions, and Fréchet-derivative (`fderiv`) identities.
-Every theorem in this file compiles without `sorry`. Across 142 theorems and lemmas (Sections 0–16), the formalization verifies:
-* **Exterior Calculus & End-to-End Clebsch Vorticity (Sections 1, 3):** Graded differential form modules (`Forms_0D`, `Forms_1D`, `Forms_2D`) and concrete covector exterior wedge products (`wedge_covec`, `omega_clebsch_2form`) construct the macroscopic velocity 1-form $\mathbf{v} = dh + \mathbf{v}_\perp + \lambda_\Omega d\beta_\Omega$ and prove $\boldsymbol{\Omega} = d(\lambda_\Omega d\beta_\Omega) = d\lambda_\Omega \wedge d\beta_\Omega$. All vorticity components in `U_covariant`, `U_hat`, and `U_hat_dynamic` are generated directly from the Clebsch potentials.
-* **Thermodynamic Ledger, Cauchy Stress & Coarse-Grained GR Reduction (Sections 2, 4):** Derives the baseline metric density $\rho_\tau = c^5 / (2\pi \hbar G^2)$, the epoch-dependent cosmological constant $\Lambda = 2 / R_h^2$, constitutive and hyperelastic Cauchy stress tensors (`constitutive_stress`, `hyperelastic_stress`), and macroscopic torsion cancellation (`VolAvg (Inc U_hat) = VolAvg (Inc U_sym)`).
-* **Continuous Differential Geometry & Equations of Motion (Section 5):** Defines coordinate partial derivatives (`partial_deriv`), exterior derivatives (`d_scalar_field`), and spacetime divergence (`metric_divergence`) via `fderiv`. Proves the $\mathcal{O}(\beta^4)$ weak-field Reynolds stress expansion, the exact nonlinear geometric Navier-Stokes equation, the admittance-modified Eulerian momentum PDE with Clebsch wedge vorticity divergence, compliance-modified defect inertia ($\rho_{eff} = \rho_\tau + P/c^2$), and the Archimedean geodesic buoyancy limit ($F_g = -G M m_\tau / r^2$).
-* **Unified Action, Conformal Lie Derivatives & Dressing Field Method (Sections 6–7):** Proves Frobenius (`tensor_contract`) and Lorentzian (`lorentzian_contract`) orthogonality of `U_sym` and `U_anti`, quadratic curvature trace reduction ($G_{\mu\nu}G^{\mu\nu} = R_{\mu\nu}R^{\mu\nu}$), the Schwarzschild cavitation radius ($r_c = 2GM/c^2$), the 4th-order modified Poisson equation, rank-2 covariant Lie derivatives (`lie_derivative`), Lorentz boost symmetry breaking ($\alpha_s = 1$), the Gordon optical metric (`U_optical`), and Abelian/relational Dressing Field Method gauge invariance.
-* **Topological Mass Yield & Eigenstate Determinant Analysis (Sections 8–9):** Proves the positive-definite Frobenius shear load (`P_shear_hamiltonian_nonneg`), derives the Planck yield mass $M = M_P / \sqrt{2}$ and $1/2$ capacity partition from the Compton-Schwarzschild intersection, evaluates the explicit $4 \times 4$ Laplace determinant (`det4x4`) and trace (`trace4x4`), and proves null-wave equipartition ($\det(\hat{U}) = -1 \iff E^2 = B^2$), subcritical regularity (`is_subcritical_pressure`), one-sided spatial divergence as $\alpha_s \to 0^+$, and the geometric Deborah number ($De$).
-* **Covariance, Galactic Plug Flow, Affine Torsion, Waves & Forces (Sections 10–15):** Formalizes active kinematic contraction, rotational transverse leakage, CPT discrete symmetries, 2D logarithmic shear and Bingham plug-flow boundary matching deriving the Baryonic Tully-Fisher relation ($v_{rot}^4 = a_0 G M_{bar}$), affine connection torsion decomposition (`symConnection`, `torsionTensor`), Clebsch spin angular momentum density (`spin_angular_momentum_density`), the Einstein-Cartan Lagrangian split, transverse wave propagation, Malus's Law, exterior-derivative measurement torque and eigenstate convergence ($\sin\theta = 0$), Debye screening, isochoric action confinement ($F_{fund}(r) = \hbar c / r^2$), the four-force interaction hierarchy, the horizon acceleration floor $a_0 = c^2 / (2\pi R_{h,0})$, combinatorial Newtonian gravity, and optical refractive index redshift/magnitude anomalies.
-* **Predictive Corollaries & $\mathbb{Z}^3$ Dimensional Lattice Audit (Section 16):** Proves 32 target-free corollaries—including the Euler-Maclaurin Casimir force ($-\text{Area}\cdot\pi^2\hbar c / 240 d^4$), spherical Bernoulli Coulomb phase flux ($\Phi_{\perp(e)} = 4\pi\hbar G / c^2$), continuum momentum charge ($e_\tau = \sqrt{4\pi\epsilon_\tau\hbar c\alpha}$), the Schwinger magnetic anomaly ($a_e = \alpha / 2\pi$), the $\mathfrak{su}(3)$ solid-state mass gap bound ($1 \le De$), Lorentz/Magnus zero-work orthogonality, and the cavity entropy quantum ($S_p = \frac{8\pi}{3}k_B$)—and audits the 48-state $\langle L, V, S \rangle \in \mathbb{Z}^3$ dimensional possibility space (`UnitDim`proven by `rfl`), demonstrating integer-action closure and the elimination of both the Coulomb and the Kelvin.
-## Axiomatic Footprint (7 Irreducible Axioms)
-1. `c : ℝ`, `l_p : ℝ`, `hbar : ℝ` — The three primitive physical constants (Section 0.1).
-2. `c_pos : 0 < c`, `l_p_pos : 0 < l_p`, `hbar_pos : 0 < hbar` — Strict positivity bounds (Section 0.1).
-3. `covariant_conservation (x : SpaceTime) : metric_divergence U_hat_dynamic x = 0` — The divergence-free equation of motion for the dynamic metric tensor field (Section 5.1).
-## Formalization Architecture Changelog (v4.6)
-- **v4.0:** End-to-end Clebsch vorticity generation ($\boldsymbol{\Omega} = d\lambda_\Omega \wedge d\beta_\Omega$), concrete covector wedge products (`wedge_covec`), graded exterior calculus (`d0`, `d1`, `wedge`), and full 1-to-1 manuscript section parity.
-- **v3.0:** Automated physical dimensional audit layer (`UnitDim` over $\mathbb{Z}^3$).
-- **v2.0:** Continuous differential geometry (`fderiv`, `partial_deriv`, `lie_derivative`, `AffineConnection`) and axiom minimization to 7 irreducible axioms.
-- **v1.0:** Algebraic $4 \times 4$ matrix and bilinear form tensor foundation.
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
 -/
-open Real
-open BigOperators
+module
+
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
+public import AsymmetricTensor.Model
+
+/-!
+# Macroscopic lensing (optical pressure gradient)
+
+Module of Binyamin's v4.6 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
+set_option autoImplicit false
+set_option linter.unusedSectionVars true
+
 namespace AsymmetricTensor
 -- ======================================================================
 -- SECTION 15: MACROSCOPIC LENSING (THE OPTICAL PRESSURE GRADIENT)
@@ -174,6 +170,4 @@ theorem magnitude_anomaly_log10_pos (mu_obs_10 mu_lin_10 : ℝ)
   have h_log_pos : 0 < Real.log (r_opt / r_true) := Real.log_pos h_ratio_gt
   have h_log10_pos : 0 < Real.log 10 := Real.log_pos (by norm_num : (1 : ℝ) < 10)
   exact mul_pos (by norm_num) (div_pos h_log_pos h_log10_pos)
--- ======================================================================
-
 end AsymmetricTensor

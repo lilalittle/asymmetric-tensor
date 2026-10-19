@@ -8,7 +8,7 @@ updated for the author's raw v4.5 source
 planning decisions are retained where still relevant; historical progress records
 are not current PR status or validation evidence.
 
-Section 16 currently contains **39 theorems, 28 definitions, and zero `h_target`
+Section 16 currently contains **40 theorems, 32 definitions, and zero `h_target`
 binders**. The bounded inventory identifies **28 conditional declarations** there;
 these include substantive physical assumptions as well as domain conditions.
 Removing the old target binders does not derive every formerly named physical
@@ -513,6 +513,14 @@ charge and its nonnegative square root. The magnetic-moment result explicitly
 assumes `h_anomaly : a_e = alpha_em / (2 * Real.pi)` and substitutes it into the
 moment formula; it does not derive the Schwinger anomaly.
 
+### B19. v4.6 Section 16 additions (thermodynamic vacuum and particle entropy)
+<!-- declarations: thermodynamic_vacuum_and_particle_entropy -->
+This result proves the thermodynamic vacuum identity relating temperature,
+entropy density, energy density, pressure, and volume, with the continuum
+Boltzmann constant identified with the action quantum. The proof assumes
+nonzero volume, time, and Boltzmann constant, and the first law of
+thermodynamics as a hypothesis.
+
 ## C. Dependencies, alternatives and author decisions
 
 ### True mathematical inputs to the selected finite task
@@ -617,7 +625,7 @@ and applicability must be checked for each selected implementation.
 ## Validation and stopping point
 
 - `python3 tests/check_roadmap.py` checks the reviewed zero-`h_target` inventory,
-  39 Section 16 theorems and 28 definitions, and current declaration references.
+  40 Section 16 theorems and 32 definitions, and current declaration references.
   It also checks candidate library paths and independently evaluates the finite
   determinant contract using exact arithmetic.
 - `lake build AsymmetricTensor` checks production source against the pinned setup.

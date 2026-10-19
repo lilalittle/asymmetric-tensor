@@ -68,7 +68,9 @@ def declarations(sources):
 
 
 def source_files(root):
-    return [root / "AsymmetricTensor.lean", *sorted((root / "AsymmetricTensor").rglob("*.lean"))]
+    files = [root / "AsymmetricTensor.lean", *sorted((root / "AsymmetricTensor").rglob("*.lean"))]
+    # Exclude Binyamin's direct raw uploads (not part of the 9-module production layout).
+    return [p for p in files if " " not in p.name]
 
 
 def docstrings(sources):

@@ -22,6 +22,9 @@ LEGACY_INSTANCES = {}
 def check(root):
     baseline = json.loads((root / "scripts/lean-style-baseline.json").read_text())
     files = [root / "AsymmetricTensor.lean", *sorted((root / "AsymmetricTensor").rglob("*.lean"))]
+    # Exclude Binyamin's direct raw uploads (not part of the 9-module production layout).
+    # These are author source files with spaces in the name, not Lean modules.
+    files = [p for p in files if " " not in p.name]
     errors, module_imports, long_count = [], {}, 0
     for path in files:
         relative = path.relative_to(root).as_posix()

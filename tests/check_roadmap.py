@@ -39,8 +39,8 @@ assert source.count("end FutureWork") == 1
 future = source.split("section FutureWork", 1)[1].split("end FutureWork", 1)[0]
 future_names = set(re.findall(r"^theorem\s+(\w+)", future, re.M))
 future_defs = set(re.findall(r"^(?:noncomputable )?def\s+(\w+)", future, re.M))
-assert len(future_names) == 39, f"Review changed Section 16 theorem inventory: {future_names}"
-assert len(future_defs) == 28, f"Review changed Section 16 definition inventory: {future_defs}"
+assert len(future_names) == 40, f"Review changed Section 16 theorem inventory: {future_names}"
+assert len(future_defs) == 32, f"Review changed Section 16 definition inventory: {future_defs}"
 assert future_names <= inventory, f"Missing Section 16 results: {future_names - inventory}"
 assert len(re.findall(r"^def \w+Target : Prop", spec, re.M)) == 9
 assert not re.search(r"^\s*(?:axiom|theorem|lemma)\b|\b(?:sorry|admit)\b", spec, re.M)
