@@ -36,6 +36,7 @@ variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
 variable {Forms_2D : Type} [AddCommGroup Forms_2D] [Module ℝ Forms_2D]
 variable {Forms_1D : Type} [AddCommGroup Forms_1D] [Module ℝ Forms_1D]
 variable (wedge : Forms_1D →ₗ[ℝ] Forms_1D →ₗ[ℝ] Forms_2D)
+variable (M : ℝ)
 -- ======================================================================
 -- SECTION 3: ASSEMBLY OF THE ASYMMETRIC METRIC-TENSOR (U_hat_μν)
 -- ======================================================================
