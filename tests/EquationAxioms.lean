@@ -1,15 +1,16 @@
 import AsymmetricTensor
 import Lean
 
-/-! Machine-readable, complete first-party transitive dependency evidence for
-`docs/equation-coverage.json`. Run only after building the current source. -/
+/-! Machine-readable transitive dependencies for the current production source.
+This log does not update the historical `docs/equation-coverage.json` ledger.
+Its accepted six-axiom audit program is archived separately. Build first. -/
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
   let root := `AsymmetricTensor
   let logical := #[`propext, `Classical.choice, `Quot.sound]
-  -- v3.1: Binyamin's covariant_conservation is a seventh permitted axiom
-  -- (physical postulate, Astra-approved).
+  -- Preserve the author's exact seven-axiom inventory. Allowlisting a postulate
+  -- records a dependency; it is not a consistency or physical-validity claim.
   let permitted := #[`AsymmetricTensor.c, `AsymmetricTensor.l_p,
     `AsymmetricTensor.hbar, `AsymmetricTensor.c_pos, `AsymmetricTensor.l_p_pos,
     `AsymmetricTensor.hbar_pos, `AsymmetricTensor.covariant_conservation]

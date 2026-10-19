@@ -16,13 +16,13 @@ public import AsymmetricTensor.Applications.Optics
 public import AsymmetricTensor.FutureTargets
 
 /-!
-# The Asymmetric Metric-Tensor library (v3.1)
+# The Asymmetric Metric-Tensor library (v4.5)
 
 Compatibility umbrella: importing `AsymmetricTensor` exposes every
 `AsymmetricTensor` declaration. Import a submodule to work on a smaller
 part of the development.
 
-This is the modular layout of Binyamin Tsadik Bair-Mosheh's v3.1
+This is the modular layout of Binyamin Tsadik Bair-Mosheh's v4.5
 formalization, mechanically split from his single-file development with
 no changes to any declaration. Section headings and physical names are
 the author's; they do not assert complete manuscript coverage.

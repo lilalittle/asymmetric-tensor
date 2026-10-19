@@ -9,41 +9,44 @@ from fractions import Fraction as Q
 from itertools import permutations
 from pathlib import Path
 import re
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-# Preserve the declaration inventory after organizational module splits.
-# Scan each production source, never generated build files or test declarations.
-production = [ROOT / "AsymmetricTensor.lean",
-              *sorted((ROOT / "AsymmetricTensor").rglob("*.lean"))]
-source = "\n".join(path.read_text() for path in production)
-roadmap = (ROOT / "docs/formalization-roadmap.md").read_text()
-spec = (ROOT / "tests/RoadmapTargets.lean").read_text()
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(ROOT / "scripts"))
+from check_module_source import declarations, source_files
+from roadmap_inventory import mask_comments, target_binder_declarations
 
-# Pin source references to real declarations, cover every target-returning
-# specification and all Section 16 results, including conditional scalar algebra.
-decl = re.compile(r"^(?:theorem|lemma|(?:noncomputable )?def|axiom|opaque)\s+(\w+)", re.M)
-matches = list(decl.finditer(source))
-known = {m.group(1) for m in matches}
+# Scan production only, never generated files or test declarations. Lexical
+# extraction distinguishes actual binders from proof-local names and comments.
+sources = [path.read_text() for path in source_files(ROOT)]
+source = "\n".join(mask_comments(text) for text in sources)
+roadmap = (ROOT / "docs/formalization-roadmap.md").read_text()
+spec = mask_comments((ROOT / "tests/RoadmapTargets.lean").read_text())
+
+known = set(declarations(sources))
 inventory = set()
 for names in re.findall(r"<!-- declarations: (.*?) -->", roadmap):
     inventory.update(names.split())
 assert inventory <= known, f"Unknown declarations: {sorted(inventory - known)}"
-placeholders = set()
-for i, m in enumerate(matches):
-    body = source[m.end():matches[i + 1].start() if i + 1 < len(matches) else len(source)]
-    if "h_target" in body:
-        placeholders.add(m.group(1))
-# v3.1: Binyamin added two new target placeholders (fourier_curvature_decomposition,
-# mott_scattering_cross_section) to the ten from v2.
-assert len(placeholders) == 12, f"Expected twelve h_target declarations: {placeholders}"
-assert placeholders <= inventory, f"Missing targets: {placeholders - inventory}"
+placeholders = target_binder_declarations(sources)
+# The author's v4.5 source has no binder named h_target. This syntactic fact
+# does not establish the physical interpretations: h_wkb, h_on_shell and other
+# substantive model premises remain, checked separately by the scope regressions.
+assert placeholders == set(), f"Unexpected h_target declarations: {placeholders}"
+assert source.count("section FutureWork") == 1
+assert source.count("end FutureWork") == 1
 future = source.split("section FutureWork", 1)[1].split("end FutureWork", 1)[0]
 future_names = set(re.findall(r"^theorem\s+(\w+)", future, re.M))
+future_defs = set(re.findall(r"^(?:noncomputable )?def\s+(\w+)", future, re.M))
+assert len(future_names) == 39, f"Review changed Section 16 theorem inventory: {future_names}"
+assert len(future_defs) == 28, f"Review changed Section 16 definition inventory: {future_defs}"
 assert future_names <= inventory, f"Missing Section 16 results: {future_names - inventory}"
 assert len(re.findall(r"^def \w+Target : Prop", spec, re.M)) == 9
 assert not re.search(r"^\s*(?:axiom|theorem|lemma)\b|\b(?:sorry|admit)\b", spec, re.M)
-print(f"PASS inventory: {len(placeholders)} h_target specifications, "
-      f"{len(future_names)} Section 16 theorems, {len(inventory)} valid declaration references")
+print(f"PASS inventory: {len(placeholders)} h_target binders, "
+      f"{len(future_names)} Section 16 theorems, {len(future_defs)} Section 16 definitions, "
+      f"{len(inventory)} valid declaration references; conditional physical scope remains")
 
 # Check library candidates against the pinned, locally materialized dependency.
 mathlib = ROOT / ".lake/packages/mathlib"

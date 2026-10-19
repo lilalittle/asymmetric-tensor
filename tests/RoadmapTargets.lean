@@ -9,8 +9,10 @@ no proof of the proposed determinant or volume results. Production remains uncha
 -/
 namespace AsymmetricTensor.Roadmap
 
+-- The current U_hat takes Clebsch gradients. These gradients realize
+-- Omega_x = Omega_y = 0 and Omega_z = w, retaining the original matrix target.
 noncomputable def alignedU_hat (a b v w t : ℝ) : T2 :=
-  U_hat a b v 0 0 0 0 w t
+  U_hat a b v 0 0 (v_perp_covec 0 w 0) (v_perp_covec 1 0 0) t
 
 noncomputable def spatialS (a : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
   Matrix.diagonal (fun _ => 1 / a ^ 2)

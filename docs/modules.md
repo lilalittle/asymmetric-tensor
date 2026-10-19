@@ -1,30 +1,29 @@
 # Modules, naming, and style
 
-This is an organizational refactor of the current repaired library and scope/API/CI stack.
-It preserves the existing public declarations and their mathematical statements.
-The manuscript's topic labels are retained for navigation; they do not establish
-that the named physical theories have been derived.
+This is the modular layout of Binyamin Tsadik Bair-Mosheh's v4.5 formalization.
+The public umbrella and namespace remain `AsymmetricTensor`; preservation of
+that import path does not imply compatibility with the older repaired APIs.
+Section headings follow manuscript topics and do not establish full coverage.
 
 ## Finding and importing a result
 
-`import AsymmetricTensor` remains the compatibility entry point. It publicly
-imports all nine implementation modules. Every declaration remains in namespace
-`AsymmetricTensor`; a filename does not add a namespace segment. In particular,
-`FutureWork` is a section, not a namespace.
+`import AsymmetricTensor` publicly imports nine implementation modules.
+A filename does not add a namespace segment. In particular, `FutureWork` is a
+section inside `AsymmetricTensor`, not a namespace.
 
-| Module below `AsymmetricTensor` | Main contents | First-party dependency |
+| Module below `AsymmetricTensor` | Main contents | Direct first-party dependencies |
 |---|---|---|
-| `Model` | Six assumptions, constants, positivity, `V4`/`T2`, scalar budgets | none |
-| `MatrixAlgebra` | `symPart`/`antiPart`, matrix assembly, contractions, `VolAvg`, action identity | `Model` |
-| `FieldCalculus` | Fixed-chart fields, partial derivatives, conditional conservation, field inputs | `MatrixAlgebra` |
-| `Applications.MechanicsMass` | Cavitation, conditional field equations, boost-symmetry constraint, dressing, mass relations | `FieldCalculus` |
-| `Applications.Electromagnetism` | Eigenvalue/contraction identities and cavitation limits | `MatrixAlgebra` |
-| `Applications.Geometry` | Frame transformations, galactic relations, affine-connection target | `Model` |
-| `Applications.WavesForces` | Wave, pressure, and force relations | `Model` |
-| `Applications.Optics` | Conditional redshift, finite optical-path integrals, base-10 magnitude relations | `Model`; explicit Mathlib interval-integral import |
-| `FutureTargets` | Section 16 algebraic corollaries and explicitly hypothesis-driven targets | `Model` |
+| `Model` | Six constant/positivity axioms, dimensions, `V4`/`T2`, abstract forms and scalar budgets | none |
+| `MatrixAlgebra` | Matrix assembly, Clebsch wedge, comoving frame, Frobenius and Lorentzian contractions, cavitation and conditional scalar-operator relations | `Model` |
+| `FieldCalculus` | Stress, `VolAvg`, fixed-chart derivatives, dynamic Clebsch fields, scoped conservation axiom, conditional momentum identities, Lie derivative and dressing | `Model`, `MatrixAlgebra` |
+| `Applications.MechanicsMass` | Spatial compliance, conditional Lagrangian, defect and mass relations | `Model`, `MatrixAlgebra` |
+| `Applications.Electromagnetism` | Electromagnetic component identities, planar scalar eigenvalue relations and cavitation limits | `Model`, `MatrixAlgebra` |
+| `Applications.Geometry` | Frame relations, galactic algebra and conditional connection identities | `Model`, `FieldCalculus` |
+| `Applications.WavesForces` | Wave/abstract-form identities, pressure and scaled force relations | `Model` |
+| `Applications.Optics` | Redshift and pointwise refraction, natural-log magnitude identities | `Model` |
+| `FutureTargets` | Section 16 algebraic corollaries and additional dimensional identities | `Model`, `MatrixAlgebra`, `Applications.Electromagnetism`, `Applications.WavesForces` |
 
-For example, a matrix-only contribution can start with:
+For example:
 
 ```lean
 import AsymmetricTensor.MatrixAlgebra
@@ -34,151 +33,92 @@ example (U : AsymmetricTensor.T2) :
   AsymmetricTensor.matrix_decomposition U
 ```
 
-Implementation modules currently range from 232 to 520 lines. The split does not
-claim that all assumptions have been isolated from all reusable mathematics:
-`Model` still holds both basic types and the existing scalar theory. Moving those
-again is worth doing only when a concrete contributor needs that boundary.
+`quadratic_gravitational_lagrangian_trace` lives in `FieldCalculus`, with its
+`I_2_vac` dependency. Its statement and proof tokens are unchanged from the raw
+author source. Keeping it in `MatrixAlgebra` would require a forward dependency
+on `FieldCalculus`, which itself uses the matrix definitions.
 
-## Public API and module conventions
+## Public API and naming conventions
 
-Production files use the Lean 4.35 module system, an Apache-2.0 copyright header,
-explicit `public import`s, and `@[expose] public section` for the existing exposed
-API. Keep source attribution and the manuscript's separate licensing intact.
-Use `autoImplicit false` to catch accidental implicit parameters.
+Production files use Lean 4.35's module system, the author's Apache-2.0 copyright
+header, explicit `public import`s, `@[expose] public section`, and
+`set_option autoImplicit false`. Keep attribution and manuscript licensing intact.
+The broad `Mathlib.Tactic` import remains; the current optical module does not
+import an interval-integral implementation or expose the old finite-path API.
 
-All **304 source-declared public names** were compared with the pre-split repaired scope/API/CI
-library. Their fully elaborated types and universe parameters are identical after
-removing only generated binder hygiene scopes and elaborator metadata. This
-preserves user-written binder names, implicit/instance binder kinds, constants,
-and argument order. The compiler's auxiliary proof names are implementation
-details and change with module elaboration; those are covered by the completeness
-audit, rather than advertised as stable API.
-
-To repeat the comparison with a built baseline checkout using the same dependency
-pins, run from this checkout after building both libraries:
-
-```sh
-python3 scripts/check_public_api.py /path/to/built-baseline-checkout
-```
-
-The script uses `tests/ApiSnapshot.lean`. Its source-name inventory supports this
-project's current single-namespace declaration syntax, including attributes and
-aliases; extend it deliberately if
-introducing structures, nested namespaces, or other declaration forms. This is a
-migration check of names and types, not a proof that definition bodies are equal.
-
-## Deliberate naming policy
-
-- Keep existing scientific notation and public names in this change, including
-  `V4`, `T2`, `U_hat`, `U_sym`, `U_anti`, `M_P`, `rho_tau`, and `P_c`.
-- For new generic definitions, prefer descriptive `lowerCamelCase` names, as in
-  `symPart`, `antiPart`, and `raiseBoth`; types use `UpperCamelCase`.
-- New theorem names should describe the actual mathematical conclusion using
-  `snake_case`. Avoid upgrading a conditional algebraic identity into a claimed
-  physical derivation through its name.
-- Rename existing declarations only in a focused change with a reason and a
-  migration note. Preserve an old name with an appropriate alias/deprecation
-  when downstream use warrants it, and test both names. No renames are necessary
-  to make this module split usable.
-- Add declaration docstrings for new reusable APIs: define the objects, explain
-  nonzero/positivity hypotheses, and state what the result does not establish.
+Preserve existing scientific notation and public names during a layout repair.
+Use descriptive `lowerCamelCase` for new generic definitions, `UpperCamelCase`
+for types, and `snake_case` for theorems. A theorem name should not upgrade
+conditional algebra into a completed physical derivation. An intentional API
+change needs a migration note and tests of changed assumptions and boundaries.
+Add docstrings explaining objects, domains, and nonzero/positivity hypotheses.
 
 [Mathlib style](https://leanprover-community.github.io/contribute/style.html) and
 [naming conventions](https://leanprover-community.github.io/contribute/naming.html)
-are reference points. This prototype does not claim full Mathlib admission.
+are useful reference points; this prototype does not claim full Mathlib admission.
 
-## Lint and long-line baseline
+## Style and import/context guards
 
-`linter.unusedSectionVars` is enabled in every implementation module. Five
-individual theorems keep a documented declaration-local exception:
+`linter.unusedSectionVars` is enabled in all implementation modules. The current
+style policy has no declaration-local suppression exceptions. The five exceptions
+and 189-line baseline recorded for the older split are not current measurements.
 
-- `dressing_field_invariance`
-- `equivalence_principle_gradients`
-- `gravitoelectromagnetism_mapping`
-- `poynting_vector_convection`
-- `u1_gauge_invariance`
+New or edited production lines should fit within 100 characters.
+`scripts/lean-style-baseline.json` records the exact text and multiplicity of
+inherited long lines. Removing an inherited line is allowed; a new or changed
+overlong line is not. Wrap touched lines rather than automatically refreshing the
+baseline. `check_lean_style.py` also checks headers, module/public-import directives,
+whitespace, linter settings, and reachability of every production module.
 
-Their pre-existing typeclass parameters are unnecessary for the proof, but
-removing them would change the established public signatures. The exceptions
-cover only those declarations, not their surrounding files. Revisit them with a
-separately reviewed API migration; do not use a file-wide linter suppression.
-Unused hypotheses already named with `_` remain explicit parts of their theorem
-statements. Keeping them does not establish their physical necessity.
+`check_module_context.py` checks the reviewed first-party import and
+`variable`/`include`/`omit` inventories in `module-context-baseline.json`.
+It supports line-leading, single-line commands, ignores comments and strings,
+and preserves inventory order. It does not track section boundaries or command
+positions relative to declarations. It neither parses arbitrary Lean nor proves
+source or type preservation. The aggregate runs the context and style guards
+through their acceptance/rejection tests as well as the actual build.
 
-New or edited production lines should fit within 100 characters. The initial
-baseline records the **exact text and multiplicity of 189 inherited long lines**
-in `scripts/lean-style-baseline.json` from the current repaired source. It permits those
-existing lines and their removal, but rejects a new or changed overlong line,
-even if the total count decreases. Wrap touched lines instead of automatically
-refreshing the baseline. This is a maintenance baseline, not a claim to have reformatted all proofs.
-New API docstrings are wrapped without changing their text.
+## Compatibility checks
 
-`scripts/check_lean_style.py` also checks headers, module directives, explicit
-public import structure, the five exact linter exceptions, whitespace, and that
-every production source is reachable from the umbrella. Four mutation regressions
-check clean acceptance and rejection of a new long line, broad linter suppression,
-and an unimported module. `scripts/verify.sh` runs both scripts before Lean checks.
-This small gate is intentionally narrower than the full Mathlib style linter.
+This repair targets PR #70's `integrate/v4.5` branch at integration head
+`10158f3b5336ca15a78d98221c5531dd55a578b5`. The author baseline is raw v4.5 commit
+`5a84e0c52b71295a678dcc1c50f80d430e5475f2`, whose monolithic Lean source has SHA-256
+`7edb09326bcb05c4444645cc1ec645c238dd509b77ca96e7f791bba33728b136`.
+The repair preserves the preceding import fixes and unchanged trace-theorem
+relocation, then restores twelve remaining section-context identifiers. The
+reviewed context baseline also retains the existing unused Matrix Forms/wedge
+context and direct FutureTargets-to-MatrixAlgebra import; compiled API comparison
+checks that these inherited details do not change authored declaration types.
 
-## Compatibility evidence
+The bounded source comparison retains all **377 inventoried named declarations**
+and **54 declaration docstrings**, up to whitespace in docstrings. This parser
+covers the repository's supported `def`/`abbrev`/`opaque`/`axiom`/`lemma`/`theorem`/
+`alias` syntax; it does not inventory structures, instances, every generated
+declaration, or surrounding section context. Do not interpret 377 as the full
+compiled declaration count.
 
-The baseline is the current mathematical main `94c49e59d796fdbec846d59c6cbfa45f0304d598`
-with the independently reviewed CI, scope, and API changes stacked on it.
-The reproducible migration commands are:
-
-```sh
-python3 scripts/check_module_source.py /path/to/pre-split-api-checkout
-python3 scripts/check_public_api.py /path/to/built-pre-split-api-checkout
-```
-
-The first compares all 304 declaration attribute/statement/body token sequences
-and retains all 78 declaration docstrings up to whitespace. It deliberately
-supports this repository's present syntax, rather than claiming to parse arbitrary
-Lean. Its six mutation tests cover comments, body edits, declaration attributes,
-aliases, duplicates, docstrings, and string literals. The second checks all 304
-fully elaborated types and universe parameters, including binder kinds and names.
-Section-variable context is validated by that elaborated comparison.
-
-A separate elaborated-expression inspection expands generated first-party helpers
-and removes binder hygiene scopes and metadata. It finds 289 of 298 declaration
-values structurally identical. The other eight theorem proofs differ in generated
-proof terms; `VolAvg` differs only in its proof fields, while its function and
-non-proof parameters agree. These are proof-irrelevance/compiler elaboration
-differences, not changes to scientific statements or computational definitions.
-No claim is made that all raw compiled proof expressions are byte-identical.
-All source proof tokens are unchanged, and the complete audit still rejects
-transitive `sorryAx` and preserves the declared-axiom inventory.
-
-The scope paragraphs remain in the compatibility umbrella; implementation modules
-retain all declaration contracts. The obsolete monolithic manuscript abstract is
-not used as a coverage claim. README, contribution guidance, and revision-specific
-verification records point to this module map.
-
-## Import discipline
-
-The broad public `Mathlib.Tactic` import is retained for downstream compatibility.
-The finite optical-path module explicitly imports
-`Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic`; the newer boost-symmetry
-proof makes `Applications.MechanicsMass` depend on `FieldCalculus`. The module map
-reflects these current dependencies. No historical import-count or warm-run timing
-is presented as a measurement of this revised source.
-
-## Verification
+Use a separate reference checkout containing the author's monolith as
+`AsymmetricTensor.lean`, with no stale split source directory, the committed
+pins, and an independently completed reference build:
 
 ```sh
-./scripts/verify.sh
-python3 scripts/check_public_api.py /path/to/built-baseline-checkout
-python3 scripts/check_module_source.py /path/to/pre-split-api-checkout
+python3 scripts/check_module_source.py /path/to/author-reference-checkout
+python3 scripts/check_public_api.py /path/to/built-author-reference-checkout
+bash scripts/verify.sh
 git diff --check
 ```
 
-The default build reaches all ten production modules, including the umbrella.
-The completeness audit checks 364 declarations after this split, including private
-and compiler-generated declarations, retains the six-axiom inventory, and rejects
-all transitive `sorryAx` uses. All eleven reviewed per-theorem custom-axiom checks
-and all proof-audit mutation regressions still pass. The count differs from the
-360-declaration monolith because auxiliary declarations change under the module
-system; the 304 source-declared public signatures are unchanged.
+The elaborated API comparison retains full types, binder names/kinds/order,
+constant references and universe parameters after normalizing binder hygiene and
+metadata. Identical declaration tokens alone cannot establish this: section
+variables can change a declaration's parameters without changing its body text.
+A whole-type regression for `isochoric_velocity_scaling` specifically guards
+its inherited argument order.
 
-See [the verification contract](verification.md) for exact coverage, limitations,
-and the requirement to verify hosted CI on the final published revision.
+These are separate checks: source-token/docstring preservation, elaborated API
+compatibility, and whole-production proof completeness. They do not assert
+byte-identical compiled proof terms or empirical validity. Historical comparisons
+of 304 declarations and 78 docstrings describe the older library only. See
+[verification](verification.md#current-validation-boundary) for the exact-head
+validation boundary and [regression coverage](regression-coverage.md) for semantic changes
+from that older API.

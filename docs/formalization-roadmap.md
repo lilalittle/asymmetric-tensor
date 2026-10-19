@@ -1,13 +1,23 @@
 # Mathematical formalization roadmap
 
 This planning document addresses [issue #39](https://github.com/lilalittle/asymmetric-tensor/issues/39).
-The source inventory is pinned to [revision 9f69988](https://github.com/lilalittle/asymmetric-tensor/tree/9f69988d17c9fb86f35a563eb6466be9dbf4e524),
-`AsymmetricTensor.lean`, and manuscript v9. It distinguishes verified algebra,
-conditional reductions, specifications that return their own hypotheses, and
-mathematical models that have not been constructed. It is not an empirical
-assessment or a promise to formalize all of the manuscript.
+Its original inventory was pinned to [revision 9f69988](https://github.com/lilalittle/asymmetric-tensor/tree/9f69988d17c9fb86f35a563eb6466be9dbf4e524)
+and manuscript v9. Current-scope paragraphs and declaration markers below are
+updated for the author's raw v4.5 source
+`5a84e0c52b71295a678dcc1c50f80d430e5475f2` and the PR #70 repair. The older
+planning decisions are retained where still relevant; historical progress records
+are not current PR status or validation evidence.
 
-## Recommendation and current progress
+Section 16 currently contains **39 theorems, 28 definitions, and zero `h_target`
+binders**. The bounded inventory identifies **28 conditional declarations** there;
+these include substantive physical assumptions as well as domain conditions.
+Removing the old target binders does not derive every formerly named physical
+claim. Some targets were replaced by narrower algebra, some assumptions were
+renamed, and `helicity_orbital_arrest` was removed. This roadmap separates those
+actual conclusions from missing models and author decisions. It is not an
+empirical assessment or a promise to formalize the entire manuscript.
+
+## Bounded recommendation and historical progress
 
 Select the finite determinant calculation in existing [issue #21](https://github.com/lilalittle/asymmetric-tensor/issues/21).
 The exact bounded contract is in [finite-determinant-task.md](finite-determinant-task.md).
@@ -17,7 +27,8 @@ different volume expressions. It needs no choice of constitutive law, connection
 quantum model, or cosmology. The task only completes the mathematical portion
 specified there; it does not close the mixed paper-and-Lean issue by itself.
 
-Progress verified separately on 2026-10-15, after the inventory revision:
+Historical progress recorded on 2026-10-15, after the original inventory revision
+(the PR/branch states in this block are dated observations, not current status):
 
 - [PR #48](https://github.com/lilalittle/asymmetric-tensor/pull/48), head
   `63e464cf8dec7f61d8a9e89a738bca8edcf6fa26`, implements the fixed-chart covariant
@@ -49,11 +60,17 @@ API or the desired theorem is already available. In particular, algebraic exteri
 powers, a Spin group definition, and manifold charts do not supply Maxwell,
 spinor-field, or gravitational dynamics automatically.
 
-## A. All ten hypothesis-returning target specifications
+## A. Disposition of the ten former target specifications
+
+These headings preserve the original research directions. Their **Current**
+paragraphs describe v4.5, not the superseded `h_target` signatures.
 
 ### A1. WKB transmission
 <!-- declarations: alpha_decay_wkb_mapping -->
-- **Current:** returns the assumed equality `T = exp(-I)` for two free real inputs.
+- **Current:** evaluates `sqrt(-U_00)` under positive admittance and derives
+  positive transmission and `log(T) = -I` from `h_wkb : T = exp(-I)`.
+  The transmission law is still assumed. `I` is an arbitrary real, not a defined
+  path integral; neither nonnegative `I` nor `T ≤ 1` is established.
 - **Intended claim:** connect a transmission coefficient from a specified barrier
   problem to an integral through the classically forbidden region.
 - **Missing objects/assumptions:** a potential, energy, mass and positive semiclassical
@@ -68,7 +85,9 @@ spinor-field, or gravitational dynamics automatically.
 
 ### A2. Optimal transport and minimized action
 <!-- declarations: optimal_transport_minimization -->
-- **Current:** returns equality of two free reals, with no metric or minimization.
+- **Current:** proves a dynamic-pressure/tensor-diagonal identity and
+  nonnegativity under an admittance relation. The Wasserstein-distance and
+  minimized-action parameters and their equality were deleted, not proved.
 - **Intended claim:** identify a specified transport cost between probability
   measures with the infimum of a dynamical action over admissible paths.
 - **Missing objects/assumptions:** a metric space, probability measures with finite
@@ -84,21 +103,27 @@ spinor-field, or gravitational dynamics automatically.
 
 ### A3. Gravitoelectromagnetic mapping
 <!-- declarations: gravitoelectromagnetism_mapping -->
-- **Current:** returns two assumed equalities in an arbitrary real module.
+- **Current:** expands six components of `U_anti` into specified electric-slip
+  and Clebsch-vorticity expressions. The old abstract field-identification
+  equalities are absent. Physical field definitions, normalization and dynamics
+  do not follow merely from those component calculations.
 - **Intended claim:** electric and magnetic components of a defined field or
   curvature split equal specified normalized slip and vorticity fields.
 - **Missing objects/assumptions:** a time/space split, observer, metric/index
   convention, three-dimensional fields, actual derivatives and coupling constants;
   a declared weak-field order if curvature is used.
-- **Intermediate results:** derive component formulas from the selected tensor;
-  establish units, signs and transformation behavior; only then prove field equations.
+- **Intermediate results:** connect the existing component formulas to the
+  selected physical fields; establish units and transformation behavior; only
+  then prove field equations.
 - **Decision block:** extracting components of an algebraically defined 2-form
   and deriving a curvature-based approximation are alternative models. Neither
   forces completion of the other's geometry. Investigate L1/L2/L4.
 
 ### A4. Poynting and Lamb vectors
 <!-- declarations: poynting_vector_convection -->
-- **Current:** returns equality of two arbitrary module elements.
+- **Current:** computes a component product and a two-term scalar contraction
+  giving a scaled x-component cross-product expression. The abstract full-vector
+  `Poynting_Vector = Lamb_Vector` target was removed; no energy balance follows.
 - **Intended claim:** compare a defined energy flux (for example, a normalized
   `E × B`) to a hydrodynamic expression built from velocity and vorticity.
 - **Missing objects/assumptions:** oriented inner-product 3-space, cross product,
@@ -111,7 +136,10 @@ spinor-field, or gravitational dynamics automatically.
 
 ### A5. Contextuality
 <!-- declarations: entanglement_contextuality -->
-- **Current:** assumes and returns inequality between two Lean types.
+- **Current:** proves distinct affine scalar projections and a nonzero
+  difference product from distinct angles and a nonzero coefficient. The old
+  type-valued inequality was deleted. There is no quantum state, correlation
+  model or noncontextuality theorem in this statement.
 - **Intended claim:** measurement statistics for specified contexts cannot be
   represented by one specified noncontextual model.
 - **Missing objects/assumptions:** settings, outcomes, a probability model,
@@ -124,8 +152,12 @@ spinor-field, or gravitational dynamics automatically.
   chain of prerequisites. Investigate L3; no ready contextuality API is claimed.
 
 ### A6. Helicity and orbital arrest
-<!-- declarations: helicity_orbital_arrest -->
-- **Current:** assumes and returns positivity of a free scalar.
+<!-- declarations: -->
+<!-- v4.5: helicity_orbital_arrest removed from Binyamin's drop -->
+- **Current:** `helicity_orbital_arrest` is absent. The new Coulomb/Bernoulli
+  result retains inverse-fourth-power positivity under positive admittance and
+  adds conditional flux/pressure algebra; it does not construct helicity or an
+  orbital-arrest theorem. See B18 for its remaining assumptions.
 - **Intended claim:** a specified helicity-bearing evolution prevents the admittance
   from reaching zero on a specified time interval.
 - **Missing objects/assumptions:** evolution equation, admissible solutions, helicity
@@ -138,7 +170,10 @@ spinor-field, or gravitational dynamics automatically.
 
 ### A7. Euler–Almansi finite strain
 <!-- declarations: almansi_finite_strain -->
-- **Current:** returns an assumed scalar formula `e = (δ - S⁻¹)/2`.
+- **Current:** computes a scalar strain expression from `U_sym` when
+  `alpha_s ≠ 0`, relates it to pressure under `h_compliance`, and evaluates
+  `(1/2) * (1 - 0^2) = 1/2`. The literal-zero evaluation is not a limit of the
+  tensor or its inverse, and there is no deformation-gradient model.
 - **Intended claim:** for an invertible deformation gradient `F`, construct the
   spatial strain `e = (I - (F Fᵀ)⁻¹)/2` and establish its tensor properties.
 - **Missing objects/assumptions:** matrix-valued deformation gradient, a deformation
@@ -152,7 +187,10 @@ spinor-field, or gravitational dynamics automatically.
 
 ### A8. SU(3) and mass-gap transition
 <!-- declarations: su3_mass_gap_transition -->
-- **Current:** assumes and returns `De = 1` for a real scalar.
+- **Current:** proves `1 ≤ ratio` and `1 ≤ De` from positive imaginary part,
+  scalar ordering and a definition of `De`, alongside `(5 : ℕ) + 3 = 8`.
+  This replaces the old equality with a conditional bound. It constructs no
+  SU(3) generators, spanning theorem, Hamiltonian or spectral gap.
 - **Intended claim:** the manuscript must first distinguish a phenomenological
   Deborah-number crossover from a positive spectral gap in an SU(3) model.
 - **Missing objects/assumptions:** for crossover, a defined relaxation time and
@@ -161,32 +199,38 @@ spinor-field, or gravitational dynamics automatically.
 - **Intermediate results:** crossover route: identify the dimensionless ratio and
   solve its threshold equation. Spectral route: construct the operator and specify
   the gap above its ground state before attempting estimates.
-- **Decision block:** no well-posed mass-gap theorem follows from `De = 1`.
+- **Decision block:** no well-posed spectral mass-gap theorem follows from a scalar `De` bound.
   The routes are alternatives and differ greatly in scope. Investigate L5 for
   group/spectral building blocks only; no claim of solving a Yang–Mills mass gap.
 
 ### A9. Lorentz force and Magnus mapping
 <!-- declarations: lorentz_force_magnus_mapping -->
-- **Current:** returns an assumed equality of two reals; no tensor contraction exists.
+- **Current:** expands a spatial antisymmetric matrix-velocity contraction
+  and proves its zero-work orthogonality. The old physical four-force equality
+  is absent; identification with a physical force and its normalization remain
+  additional choices.
 - **Intended claim:** a specified force equals the contraction `q F^μ_ν u^ν`, and
   its spatial projection matches a defined fluid-force expression.
 - **Missing objects/assumptions:** velocity/force vectors, antisymmetric field,
   index-raising metric, normalization and signs, and the hydrodynamic force law.
-- **Intermediate results:** expand the actual matrix-vector contraction; prove
-  orthogonality to velocity under the selected metric; compare spatial terms.
+- **Intermediate results:** extend the existing spatial contraction and
+  zero-work identity to the selected four-force and metric conventions, then
+  compare the physical force terms.
 - **Decision block:** define the Magnus constitutive coefficient and field mapping.
   The finite contraction does not require a curved connection; a dynamical
   derivation would require more. Investigate L1/L4.
 
 ### A10. Wake detachment and stabilization
 <!-- declarations: wake_detachment_stabilization -->
-- **Current:** returns the assumed scalar normalization `shear = A/α_s`.
+- **Current:** divides a concrete antisymmetric component by `sqrt(-U_00)`
+  and proves its explicit formula for `alpha_s > 0`. The abstract normalized-shear
+  target was deleted. No detachment dynamics, bounded evolution or decay is proved.
 - **Intended claim:** under a specified wake evolution or boundary model, a defined
   normalized shear or perturbation stays bounded or decays after detachment.
 - **Missing objects/assumptions:** spatial/time domain, wake/phase boundary,
   solution class, norm and stability criterion; nonzero or positive admittance.
-- **Intermediate results:** first validate the normalization on its domain; then
-  prove an energy/decay estimate that actually implies the chosen stability.
+- **Intermediate results:** retain the computed normalization on its positive
+  domain, then prove an energy/decay estimate that implies the chosen stability.
 - **Decision block:** normalization is not stabilization. Select dynamics, boundary
   conditions and meaning of stability before stating that stronger target.
   Investigate L2/L3; a finite normalization lemma is independent of that choice.
@@ -196,16 +240,14 @@ spinor-field, or gravitational dynamics automatically.
 ### B1. Coordinate fields, conservation and covariant geometry
 <!-- declarations: partial_deriv metric_divergence divergence_expansion bernoulli_energy_conservation navier_stokes_momentum_conservation -->
 <!-- v3.1: CoordinateConserved, constant_coordinate_conserved, exists_coordinate_conserved, coordinate_field_not_conserved removed; v2-only, not in Binyamin's v3.1 drop -->
-Current divergence is a sum of coordinate derivatives with no connection terms;
-the baseline axiom asserts it vanishes for every field. That universal assertion
-is inconsistent (issue #9), not an admissibility condition. The finite repair is
-a predicate on selected fields and explicit conservation hypotheses.
-
-**Merged-source update:** the [conservation repair](conservation.md) removes that
-axiom. `CoordinateConserved` now restricts selected fields; constant fields provide
-a nonempty solution class, and `coordinate_field_not_conserved` proves the
-counterexample. The declaration marker above tracks this current API, while the
-baseline explanation retains the history of the finding. A stronger geometric
+Current divergence is a sum of coordinate derivatives with no connection terms.
+The historical universal-field axiom was inconsistent (issue #9); it is not the
+current postulate. v4.5 assumes divergence freedom only for `U_hat_dynamic`, and
+the two component projections inherit it. The former `CoordinateConserved`
+production interface is absent. Current test-local proofs recover constant-field
+witnesses and a nonconserved coordinate-field counterexample, while an exact-type
+guard protects the postulate's scope. See [coverage](regression-coverage.md).
+A stronger geometric
 target still needs a symmetric nondegenerate metric, observer and index
 conventions, admissible tensor fields, connection and torsion, and differentiability.
 For contravariant rank-two components, specify and derive
@@ -230,35 +272,44 @@ is not required for a pointwise finite determinant, nor does conservation alone
 select Einstein curvature. Investigate L2/L3/L6 (issues #14/#15).
 
 ### B3. Action, variation, regularization and wave operator
-<!-- declarations: tensor_contract unified_action_separation modified_poisson_equation unified_wave_propagation -->
-Current action separation is a Frobenius quadratic identity; “variation” is assumed
-for arbitrary scalar operators and the wave result uses an arbitrary additive map.
-Retain these as conditional algebra. A physical target needs a selected Lorentzian
+<!-- declarations: tensor_contract unified_action_separation lorentzian_contract lorentzian_action_separation modified_poisson_equation unified_wave_propagation -->
+The source contains both Frobenius and explicit Lorentzian quadratic identities.
+“Variation” is assumed for scalar operators and the wave result uses an arbitrary
+additive map.
+Retain these as conditional algebra. A physical target needs an explicitly selected use of the Lorentzian
 contraction, field space, action integral, source dependence and admissible
 variations with boundary conditions. Prove the first variation and integration by
 parts, then the Euler–Lagrange PDE; prove a solution or estimate for each quantity
 claimed regularized, separately from rescaling. Specify actual differential
 operators before propagation results. **Decision block:** fixed versus varied
 source, background versus dynamical metric, linearized versus nonlinear action,
-and what “finite” means. The Lorentzian contraction correction is a bounded
-algebraic step; it does not supply variational dynamics. Investigate L1/L2/L3
+and what “finite” means. The existing Lorentzian contraction is a bounded algebraic step; it does not
+supply variational dynamics. Investigate L1/L2/L3
 (issues #10/#16).
 
 ### B4. Tensor Lie derivative and symmetries
 <!-- declarations: lie_derivative is_translationally_symmetric lorentz_symmetry_broken conformal_pressure_coupling -->
-At the audit, the operator is only `X^α ∂_α U_μν`. The correct fixed-chart covariant
-rank-two formula adds `U_αν ∂_μ X^α + U_μα ∂_ν X^α`. The finite targets are constant
-translation agreement, `L_x U = 2U` for a constant tensor, and an actual isotropic
-boost residual. PR #48 supplies these (see status above). Further targets need
+The current fixed-chart covariant rank-two operator includes transport and both
+index terms. Current regressions cover translation on constants, dilation,
+nonconstant transport and each index response. However,
+`is_translationally_symmetric` takes an arbitrary vector field, and
+`lorentz_symmetry_broken` takes a scalar residual rather than actual boost
+invariance. The historical boost/regularity bridges are not restored by the
+current replacement suite. Further targets need
 regular dynamic fields, all selected generators, and a chart-change or flow/pullback
 interpretation. **Decision block:** state which transformations and which fields
 are invariant; one directional derivative vanishing does not imply homogeneity.
 Conservation/Noether claims require a separately specified action. Investigate L2/L6.
 
 ### B5. Fluid projections and weak-field ordering
-<!-- declarations: kinematic_accel_f div_T_perp_f geometric_navier_stokes longitudinal_transport_acceleration -->
-Current results rename component derivatives and rearrange an assumed zero sum;
-they do not derive material acceleration. Define physical velocity, density,
+<!-- declarations: kinematic_accel_f div_T_perp_f geometric_navier_stokes longitudinal_transport_acceleration material_acceleration_from_continuity material_derivative_continuity_field_link eulerian_momentum_pde_eq46 kinematic_navier_stokes_clebsch_eq46 -->
+`geometric_navier_stokes` rearranges an assumed zero sum. The newer material
+acceleration and Eulerian momentum identities perform actual algebraic
+cancellation under explicit product-rule, continuity and balance hypotheses.
+The field link packages these relations using `partial_deriv`; the Clebsch
+momentum result additionally assumes pressure/shear partitions. Establish those
+premises for defined regular fields to obtain a stronger dynamical derivation.
+Define physical velocity, density,
 pressure and stress, the constitutive mapping to `U`, and mass continuity. Prove
 `ρ(∂_t v + (v·∇)v)` equals the selected pressure/stress force, with signs and units.
 If using a weak-field approximation, introduce a small parameter, retained orders
@@ -269,8 +320,11 @@ smaller claim, not a substitute for the PDE. Investigate L2/L4 (issues #17/#18).
 
 ### B6. Gauge, exterior calculus, waves and discrete symmetries
 <!-- declarations: Omega dressing_field_invariance transverse_wave_propagation T_symmetry_mass T_symmetry_charge P_symmetry_mass P_symmetry_axial P_symmetry_charge u1_gauge_invariance -->
-`ext_deriv` is an arbitrary function, gauge claims cancel vectors, CPT-related
-lemmas multiply signs, and wave propagation rearranges its assumed PDE. Define
+The abstract-form layer uses linear maps `d0`/`d1` and a bilinear wedge with
+explicit nilpotency/Leibniz assumptions. The concrete coordinate layer constructs
+scalar-field gradients and their exterior wedge. Dressing invariance follows
+from linearity, U(1)-named claims cancel vectors, discrete-symmetry lemmas track
+signs, and wave propagation rearranges its assumed equation. Define
 forms on a chosen flat domain or manifold, exterior derivative, field strength,
 Hodge/codifferential conventions and regularity. First prove `d² = 0`, gauge
 invariance of a constructed field strength and required closure; then derive a
@@ -283,9 +337,10 @@ L2/L4/L6/L7 (issue #19).
 
 ### B7. Spectra, determinants, finite strain and volume
 <!-- declarations: transverse_eigenvalues_are_real_iff_no_spin isochoric_volume_preservation schwinger_limit_eigenvalues transverse_U1_decomposition generalized_cavitation volumetric_admittance_scaling -->
-Current “eigenvalue” results prove scalar square/diagonal identities; determinant
-conclusions assume an expanded expression. Compute the actual aligned determinant
-first, using `α_s ≠ 0`; this is the selected task. Full spectra additionally require
+Current “eigenvalue” results prove scalar square/diagonal identities. The
+source's hand-written `det4x4` and `det3x3` have concrete algebraic results;
+an explicit bridge to Mathlib's `Matrix.det` remains the bounded selected task.
+Use `α_s ≠ 0` for the general aligned determinant. Full spectra additionally require
 complexification, characteristic polynomial, eigenvectors and a proved invariant
 subspace/decoupling condition. Nonzero electric slip can destroy the presumed
 transverse-block eigenvalues. For volume, distinguish `det U`, the symmetric
@@ -297,9 +352,14 @@ alternative model, not a prerequisite for the additive determinant calculation.
 Investigate L1/L5/L8 (issues #20/#21).
 
 ### B8. Singular domains and post-yield phase
-<!-- declarations: metric_is_continuous metric_is_cavitated -->
+<!-- declarations: metric_is_continuous metric_is_cavitated spatial_diagonal_one_sided_divergence polynomial_cavitation_lock -->
 <!-- v3.1: legal_cavitation_collapse, cavitated_determinant_lock removed; v2-only, not in Binyamin's v3.1 drop -->
-Current boundary substitutions use Lean's `1/0 = 0`. The intended analysis requires
+The source distinguishes positive admissibility and zero cavitation, proves
+pointwise reciprocal-parameter growth, and derives a boundary consequence from
+an assumed cleared polynomial relation. `spatial_diagonal_one_sided_divergence`
+proves `U11(1/n) = n²` and a bound for sufficiently large positive `n`; it is not
+a filter/`Tendsto` theorem. `polynomial_cavitation_lock` does not derive its
+boundary premise from a singular determinant. The remaining analysis requires
 admissible positive/nonzero parameters and one-sided limits, for example
 `1/a² → +∞` as `a → 0+`; a totalized value is not that limit. Prove denominator
 bounds on the subcritical domain and state all square-root/logarithm assumptions.
@@ -315,8 +375,9 @@ partitions. Define stored energy separately from signed shear pressure, identify
 inertial/gravitational mass assumptions, and state an acyclic assumption graph for
 `E = ℏω`, `E = mc²`, Compton radius, `κ = h`, and Planck threshold. A 50/50 load
 partition needs a solution/variational argument, not eigenvector normalization.
-For force ratios, prove the exact baseline formula first and explicitly define
-any added coupling. **Decision block:** select energy functional, constitutive
+The current named EM theorem uses the extra coupling and `α³`; replacement
+tests distinguish unscaled `α⁴` and scaled `α⁵` ratios. Those test-local results
+do not choose the physical coupling or restore the old production helpers. **Decision block:** select energy functional, constitutive
 partition and physical coupling; these are not supplied by scalar cancellation.
 Investigate L1/L2/L3; spectral results matter only if that derivation is chosen
 (issues #22/#27).
@@ -343,13 +404,16 @@ baseline speed, and `5 log₁₀((∫ n)/r) > 0`. Issue #26's prepared implement
 supplies that bridge, with PR #47 normalization. **Decision block:** the scale's
 physical meaning and a finite horizon versus an asymptotic limit remain separate;
 choose a consistent ansatz/boundary and distinguish fitted from derived parameters.
-A null-geodesic/Fermat derivation or empirical distance comparison is additional
-work. Investigate L2/L3/L8 (issues #23/#25/#26).
+The historical implementation is not present as a finite-integral API in v4.5.
+Current magnitude identities use natural log; decimal calibration is recovered
+only test-locally. A null-geodesic/Fermat derivation or empirical distance
+comparison is additional work. Investigate L2/L3/L8 (issues #23/#25/#26).
 
 ### B12. Spinorial sign, quantization and scattering
 <!-- declarations: rydberg_energy_quantization dirac_spinor_double_cover mott_scattering_cross_section cp_violation_energy_shift -->
-The source uses a real `n_integer`, cosine identities, a half-angle identity for an
-assumed amplitude, and a sign flip of an assumed scalar energy. A finite spectrum
+The source uses a real `n_integer`, cosine identities, a half-angle identity for
+an assumed amplitude, and a sign flip of a concrete tensor-component product
+identified with `E_CP` by hypothesis. A finite spectrum
 step can use `n : ℕ` with `0 < n` and retain conditional `1/n²` scaling; this still
 does not establish that allowed energies are discrete. A spin-cover target needs
 a group, rotation representation and covering homomorphism with kernel `{±1}`;
@@ -362,9 +426,13 @@ before claiming its observables. Investigate L1/L5/L7/L8.
 
 ### B13. Casimir, interference and integral conservation corollaries
 <!-- declarations: casimir_pressure_scaling wakefield_cavitation_gradient michelson_morley_invariance inertia_conservation action_reaction_equilibrium -->
-The current theorems respectively multiply an assumed pressure by area, rearrange
-an assumed zero pressure gradient, equate two assumed identical travel times,
-return an assumed zero force integral, and rearrange an assumed conserved sum.
+The Casimir result now computes energy, pressure and force coefficients by
+substituting assumed Bernoulli/Euler–Maclaurin factors and energy/pressure/force
+relations. It does not prove an Euler–Maclaurin formula or evaluate a mode sum.
+Wakefield balance rearranges assumed gradient relations; interferometer times
+follow from prescribed geometry and speed; inertia proves equal pressures and
+zero net force from squared-speed symmetry and Bernoulli/net-force hypotheses;
+action–reaction rearranges an assumed conserved scalar sum.
 The intended results require actual boundary stresses/modes and subtraction or
 regularization for Casimir pressure; gradients of defined differentiable pressures
 for wakefield balance; paths, motion and propagation law for interferometer
@@ -379,15 +447,19 @@ independent corollaries need not block each other or the selected finite task.
 <!-- declarations: acoustic_covariance_volume electromagnetic_decoupling_ratio z_pinch_sausage_instability viscoelastic_phase_angle_reduction fourier_curvature_decomposition geometric_deborah_derivation kinematic_crossover_limit phenomenological_energy_scale -->
 Current results substitute a length contraction and fixed area, divide two
 prescribed tensor scalings, solve a pressure budget with zero dynamic pressure,
-rewrite a reciprocal power, derive a stipulated crossover scaling, and prove `k², ω² > 0`. The intended stronger claims
+rewrite a reciprocal power, derive a stipulated crossover scaling, and split a
+specified Fourier multiplier across the tensor decomposition. The Fourier result
+also derives dispersion from an explicit on-shell temporal-component hypothesis
+and nonzero admittance; it does not define or transform a differential operator.
+The intended stronger claims
 need, respectively, a transformation/deformation and volume Jacobian; a field
 coupling law; a cylindrical equilibrium and perturbation evolution; a complex
 response/relaxation model; and actual spatial/time differential operators acting
 on Fourier modes. Intermediate targets are a computed Jacobian, verified component
 ratio, a linearized perturbation operator and growth rate, a derived response phase,
 and the mode identities for those operators. **Decision block:** choose those
-models and domains; pressure algebra does not imply an instability, and positive
-squares do not supply a curvature or dispersion decomposition. Investigate
+models and domains; pressure algebra does not imply an instability, and an
+assumed on-shell multiplier does not supply a curvature/Fourier derivation. Investigate
 L1/L2/L5/L8/L9. These are separate possible tasks, not mandatory prerequisites.
 
 ### B15. Radius identification, scalar constants and no-go claims
@@ -417,24 +489,42 @@ select these laws and clarify whether the target is conditional scaling or a
 dynamical/spectral conclusion; zero of a sine factor alone does not construct
 quantum eigenstates. Investigate L1/L2/L3/L4/L8.
 
-### B17. v3.1 Section 16 additions (dimensional audit corollaries and new cosmology)
-<!-- declarations: unit_section16_corollaries unit_section16_2_antisymmetric_corollaries unit_section16_3_cross_coupled_corollaries lemaitre_tolman_bondi_compliance holographic_bound_area_scaling -->
-v3.1 adds dimensional-audit corollaries for Section 16 (UnitDim layer) and two new
-cosmological results (Lemaître–Tolman–Bondi compliance, holographic bound area
-scaling). These are Binyamin's new Section 16 theorems, inventoried here for the
-roadmap check.
+### B17. Section 16 dimensions and cosmological algebra
+<!-- declarations: unit_section16_corollaries unit_section16_2_antisymmetric_corollaries unit_section16_3_cross_coupled_corollaries lemaitre_tolman_bondi_compliance holographic_bound_area_scaling unit_combinatorial_possibility_space unit_integer_action_closure_and_coulomb_elimination unit_structural_equivalences unit_three_structural_ladders -->
+<!-- v4.5: added four §16.4 combinatorial/structural UnitDim theorems -->
+The dimensional corollaries compare integer exponents in `UnitDim`; v4.5 adds
+28 definitions and four structural/combinatorial theorems. Dimensional equality
+is not a physical law or an existence result. The Lemaître–Tolman–Bondi-named
+statement substitutes an admittance relation into a diagonal; the holographic
+statement substitutes assumed area/entropy relations. Neither constructs the
+named spacetime or derives the entropy law.
+
+<!-- declarations: u_inv_energy u_einstein_kappa u_compliance u_mobility u_source_kappa u_spec_volume u_time_sq u_spacetime_vol u_num_density u_gradient u_hypervolume u_wave_vel u_kin_visc u_freq_sq u_surf_density u_lin_density u_compton_inv u_moment_inertia u_mass_flux_div u_mom_density u_dyn_visc u_line_mom u_charge_tau u_surf_tension u_force_const u_power_density u_poynting_flux u_power -->
+
+### B18. v4.5 Section 16 additions (kinematic charge origin and Coulomb structure)
+<!-- declarations: coulomb_bernoulli_superposition_and_deficit coulomb_phase_flux_and_force_constant dirac_moment_and_magnetic_anomaly kinematic_origin_of_charge -->
+These new results are conditional algebra, not independent derivations of the
+named physical laws. The Bernoulli result assumes flux conservation and spherical
+flux-to-velocity relations; unrestricted flux signs do not establish negativity
+of the expression called a deficit. The phase-flux result assumes a surface-force
+identification with `alpha_em * F_fund` and a definition of its constant. Charge
+scaling assumes transduction balance and a force equality, then derives a squared
+charge and its nonnegative square root. The magnetic-moment result explicitly
+assumes `h_anomaly : a_e = alpha_em / (2 * Real.pi)` and substitutes it into the
+moment formula; it does not derive the Schwinger anomaly.
 
 ## C. Dependencies, alternatives and author decisions
 
 ### True mathematical inputs to the selected finite task
 
-Only the existing `U_hat`, `symPart`, `antiPart`, real matrix determinant/trace,
+Only the existing `U_hat` with explicit spatial Clebsch-gradient witnesses,
+`symPart`, `antiPart`, real matrix determinant/trace,
 and elementary nonzero-denominator algebra are used. The required parameter
 restriction is `a ≠ 0` for the general determinant, and `a > 0` for positive
 volume-density formulas. No unresolved external implementation issue provides
-an input to that proof. Audit the proof dependencies to exclude the baseline's
-universal conservation axiom; its repair is a repository-consistency integration
-concern, not a determinant hypothesis.
+an input to that proof. Audit proof dependencies: the current scoped conservation
+postulate is not a determinant hypothesis, and no universal-field conservation
+law should be added.
 
 ### What must not become invented blockers
 
@@ -526,11 +616,12 @@ and applicability must be checked for each selected implementation.
 
 ## Validation and stopping point
 
-- `python3 tests/check_roadmap.py` checks that every `h_target` declaration and
-  every Section 16 theorem is inventoried, declaration references exist, the
-  candidate library paths exist, and the finite determinant contract passes
-  independent exact-arithmetic regression examples.
-- `lake build` checks the unchanged production source against the pinned setup.
+- `python3 tests/check_roadmap.py` checks the reviewed zero-`h_target` inventory,
+  39 Section 16 theorems and 28 definitions, and current declaration references.
+  It also checks candidate library paths and independently evaluates the finite
+  determinant contract using exact arithmetic.
+- `lake build AsymmetricTensor` checks production source against the pinned setup.
+  It does not run these tests or prove the proposed roadmap targets.
 - `lake env lean tests/RoadmapTargets.lean` checks the proposed target types and
   matrix specialization. It does **not** prove the proposed targets.
 - `lake env lean tests/RoadmapCounterexample.lean` proves the actual zero-electric
@@ -538,6 +629,8 @@ and applicability must be checked for each selected implementation.
   This bounded evidence is separate from the general target specifications.
 - `git diff --check` checks patch whitespace.
 
-This deliverable ends at a concrete mathematical contract and a validated
-inventory. General production determinant proofs, author-approved manuscript correction,
-new issue creation, publication and issue closure are outside this planning patch.
+Actual validation results belong in [verification](verification.md), including
+which commands ran on which candidate. This planning deliverable ends at a
+concrete mathematical contract and a source-checked inventory. General production
+determinant proofs, author-approved manuscript correction, new issue creation,
+publication and issue closure are outside this planning patch.

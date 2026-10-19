@@ -498,7 +498,7 @@ python3 scripts/equation_ledger.py --check --historical
 python3 -m unittest discover -s tests -p "test_equation_ledger.py"
 ```
 
-`--historical` checks the archived source and archived dependency manifest against the original accepted hashes. It still checks the live manuscript, toolchain and audit program against their accepted hashes. It neither installs the archived manifest nor changes the current dependency selection. This is historical evidence only, not current-source coverage. The default live-source `--check` intentionally fails when the current source or manifest differs from the reviewed snapshot.
+`--historical` checks the archived source, dependency manifest and [audit program](equation-baseline-axiom-audit.lean.txt) against the original accepted hashes. It still checks the live manuscript and toolchain against their accepted hashes. It neither installs the archived manifest nor changes the current dependency selection. This is historical evidence only, not current-source coverage. The default live-source `--check` intentionally fails when the current source or manifest differs from the reviewed snapshot.
 
 The current production declarations can be inspected separately with the current committed dependencies:
 

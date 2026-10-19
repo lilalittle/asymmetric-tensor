@@ -5,12 +5,22 @@ Authors: Binyamin Tsadik Bair-Mosheh
 -/
 module
 
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
 public import AsymmetricTensor.Model
+public import AsymmetricTensor.MatrixAlgebra
 
 /-!
-# Continuous field equation, differential geometry, and conformal symmetry
+# Continuous field equation, equation of motion, and conformal symmetry
 
-Module of Binyamin's v3.1 formalization. Declarations retained verbatim
+Module of Binyamin's v4.5 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -23,21 +33,46 @@ set_option linter.unusedSectionVars true
 
 namespace AsymmetricTensor
 
--- ==========================================
--- SECTION 4: The Continuous Field Equation
--- ==========================================
+variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
+variable {Forms_0D : Type} [AddCommGroup Forms_0D] [Module ℝ Forms_0D]
+variable {Forms_1D : Type} [AddCommGroup Forms_1D] [Module ℝ Forms_1D]
+variable (d0 : Forms_0D →ₗ[ℝ] Forms_1D)
+variable (smul_form  : Forms_0D → Forms_1D → Forms_1D)
+variable (v_esc : ℝ)
+variable (v_parallel v_perp_mag v_circ : ℝ)
+
+-- SECTION 4: THE CONTINUOUS FIELD EQUATION
+-- ======================================================================
+-- ----------------------------------------------------------------------
+-- 4.0 Constitutive Cauchy Stress & Hyperelastic Extension (Manuscript Eqs. 9–11)
+-- ----------------------------------------------------------------------
+/-- The Constitutive Asymmetric Cauchy Stress Tensor (Manuscript Eq. 9):
+    `T_μν = P_c (U_μν - η_μν)`. -/
+noncomputable def constitutive_stress (U : T2) : T2 :=
+  Matrix.of (fun μ ν => P_c * (U μ ν - eta_metric μ ν))
+/-- Non-linear Hyperelastic Stress Extension near topological boundaries (Manuscript Eq. 11). -/
+noncomputable def hyperelastic_stress (chi_hyp : ℝ) (U : T2) : T2 :=
+  Matrix.of (fun μ ν =>
+    P_c * (U μ ν - eta_metric μ ν) +
+    chi_hyp * ((∑ α : Fin 4, ∑ β : Fin 4, U μ α * eta_metric α β * U β ν) - eta_metric μ ν))
+/-- Unperturbed Minkowski vacuum second invariant `I_2^(vac) = η_μν η^μν`. -/
 noncomputable def I_2_vac : ℝ :=
   (-1) * (-1) + (1) * (1) + (1) * (1) + (1) * (1)
+-- Theorem 14: Minkowski Baseline Second Invariant (I_2^(vac) = 4, Manuscript Eq. 10)
 theorem I_2_vac_equals_4 : I_2_vac = 4 := by
   dsimp [I_2_vac]
   ring
--- 4.1 Energy Density and Structural Stress
+-- ----------------------------------------------------------------------
+-- 4.1 Energy Density and Structural Stress (Manuscript Eqs. 12–13)
+-- ----------------------------------------------------------------------
 variable (P_static P_shear : ℝ)
+-- Theorem 15: Temporal Stress Energy Density (T_00 = ΔP_macro + P_dyn + P_shear, Manuscript Eq. 12)
 theorem energy_density_proof
     (h_P_static : P_static = P_c - (P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear)) :
     P_c - P_static = P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear := by
   rw [h_P_static]
   ring
+-- Theorem 16: Spatial Structural Cauchy Stress (T_ii, Manuscript Eq. 13)
 theorem spatial_stress_proof
     (h_P_static : P_static = P_c - (P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear)) :
     P_c * ((P_c - P_static) / P_static) =
@@ -46,7 +81,9 @@ theorem spatial_stress_proof
     rw [h_P_static]
     ring
   rw [h1]
--- 4.2 The Cosmological Constant & Metric Density
+-- ----------------------------------------------------------------------
+-- 4.2 The Cosmological Constant & Metric Density (ρ_τ) (Manuscript Eqs. 14–23)
+-- ----------------------------------------------------------------------
 -- Dimensional Audit: Verifies c^7/(hbar G^2) = P_c, c^5/(hbar G^2) = rho_tau, Lambda = 2/R_h^2, and rho_tau * Phi = P_c:
 theorem unit_section4_cosmology_and_density :
     (u_c^(7:ℤ)) / (u_hbar * (u_G^(2:ℤ))) = u_P_c ∧
@@ -61,7 +98,7 @@ lemma reduce_density_algebra (P_val : ℝ) :
   intro h
   have hc2 : c^2 ≠ 0 := pow_ne_zero 2 (ne_of_gt c_pos)
   calc
-    rho_tau = (rho_tau * c^2) / c^2 := by exact (mul_div_cancel_right₀ rho_tau hc2).symm
+    rho_tau = (rho_tau * c^2) / c^2 := (mul_div_cancel_right₀ rho_tau hc2).symm
     _ = (((1 / 2) * rho_tau * c^2) * 2) / c^2 := by ring
     _ = (P_val * 2) / c^2 := by rw [h]
     _ = 2 * P_val / c^2 := by ring
@@ -73,13 +110,15 @@ lemma reduce_c7_c2 :
   have hbar_ne : hbar ≠ 0 := ne_of_gt hbar_pos
   field_simp
   ring
+-- Theorem 17: Baseline Metric Density Derivation (ρ_τ = c^5 / (2π ℏ G^2), Manuscript Eq. 16)
 theorem metric_density_derivation (P_c_val : ℝ)
     (h_P_c : P_c_val = c^7 / (4 * Real.pi * hbar * G^2))
     (h_P_dyn : (1 / 2) * rho_tau * c^2 = P_c_val) :
     rho_tau = (1 / (2 * Real.pi)) * (c^5 / (hbar * G^2)) := by
-  have h1 : rho_tau = 2 * P_c_val / c^2 := by exact reduce_density_algebra P_c_val h_P_dyn
+  have h1 : rho_tau = 2 * P_c_val / c^2 := reduce_density_algebra P_c_val h_P_dyn
   have h2 : rho_tau = 2 * (c^7 / (4 * Real.pi * hbar * G^2)) / c^2 := by rw [h_P_c] at h1; exact h1
-  have h_cancel : 2 * (c^7 / (4 * Real.pi * hbar * G^2)) / c^2 = (1 / (2 * Real.pi)) * (c^5 / (hbar * G^2)) := by exact reduce_c7_c2
+  have h_cancel : 2 * (c^7 / (4 * Real.pi * hbar * G^2)) / c^2 = (1 / (2 * Real.pi)) * (c^5 / (hbar * G^2)) :=
+    reduce_c7_c2
   rw [h_cancel] at h2
   exact h2
 lemma dilate_lambda_algebra (P_m R_val : ℝ) (hR : R_val ≠ 0) :
@@ -92,26 +131,28 @@ lemma dilate_lambda_algebra (P_m R_val : ℝ) (hR : R_val ≠ 0) :
   rw [h]
   field_simp
   ring
+-- Theorem 18: Epoch-Dependent Cosmological Constant Derivation (Λ = 2 / R_h^2, Manuscript Eq. 19)
 theorem cosmological_constant_derivation (R_h P_macro Lambda : ℝ) (hR : R_h ≠ 0)
     (h_P_macro : P_macro = (c^4 / G) / (4 * Real.pi * R_h^2))
     (h_Lambda : Lambda = (8 * Real.pi * G * P_macro) / c^4) :
     Lambda = 2 / R_h^2 := by
   have h1 : Lambda = (8 * Real.pi * G / c^4) * P_macro := by
     calc
-      Lambda = (8 * Real.pi * G * P_macro) / c^4 := by exact h_Lambda
+      Lambda = (8 * Real.pi * G * P_macro) / c^4 := h_Lambda
       _ = (8 * Real.pi * G / c^4) * P_macro := by ring
-  have h2 : (8 * Real.pi * G / c^4) * P_macro = 2 / R_h^2 := by exact dilate_lambda_algebra P_macro R_h hR h_P_macro
+  have h2 : (8 * Real.pi * G / c^4) * P_macro = 2 / R_h^2 :=
+    dilate_lambda_algebra P_macro R_h hR h_P_macro
   rw [h2] at h1
   exact h1
+-- Theorem 19: Weak-Field Poisson Stress Limit (T_ii = -ρ_τ Φ, Manuscript Eq. 23)
 theorem spatial_stress_potential (Phi : ℝ) :
     (((1 / 2) * rho_tau * c^2) * (- (2 * Phi) / c^2)) = - (rho_tau * Phi) := by
   have hc : c ≠ 0 := ne_of_gt c_pos
   field_simp
--- ==========================================
--- 4.3 The Macroscopic Reduction (The Einstein Field Equation)
--- ==========================================
--- The Volumetric Average operator acts as the symmetric spatial projection.
--- Bundled as a LinearMap over ℝ.
+-- ----------------------------------------------------------------------
+-- 4.3 The Macroscopic Reduction (The Einstein Field Equation) (Manuscript Eqs. 24–31)
+-- ----------------------------------------------------------------------
+/-- Volumetric Average operator acting as symmetric spatial coarse-graining (`LinearMap` over `ℝ`). -/
 noncomputable def VolAvg : T2 →ₗ[ℝ] T2 where
   toFun U := symPart U
   map_add' A B := by
@@ -122,83 +163,139 @@ noncomputable def VolAvg : T2 →ₗ[ℝ] T2 where
     ext i j
     change (r_scalar * A i j + r_scalar * A j i) / (2 : ℝ) = r_scalar * ((A i j + A j i) / (2 : ℝ))
     ring
--- The volumetric average of the antisymmetric shear is 0.
-lemma VolAvg_U_anti (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ) :
-    VolAvg (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 0 := by
+lemma VolAvg_U_anti (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ) :
+    VolAvg (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) = 0 := by
   ext i j
   dsimp [VolAvg, U_anti, symPart, antiPart]
   ring
--- The incompatibility operator.
 variable (Inc : T2 →ₗ[ℝ] T2)
-theorem macroscopic_torsion_nullification (alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val : ℝ)
+-- Theorem 20: Macroscopic Torsion Nullification under Coarse-Graining (Manuscript Eqs. 28–30)
+theorem macroscopic_torsion_nullification (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ)
     (h_commute : ∀ (A : T2), Inc (VolAvg A) = VolAvg (Inc A)) :
-    VolAvg (Inc (U_hat alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) =
-    VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) := by
-  have h_decomp := tensor_decomposition_proven alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val
+    VolAvg (Inc (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)) =
+    VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)) := by
+  have h_decomp := tensor_decomposition_proven alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val
   rw [h_decomp]
-  have h2 : Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val +
-                 U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) =
-            Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +
-            Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) := map_add Inc _ _
+  have h2 : Inc (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val +
+                 U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) =
+            Inc (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) +
+            Inc (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) := map_add Inc _ _
   rw [h2]
-  have h3 : VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) +
-                    Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) =
-            VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) +
-            VolAvg (Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) := map_add VolAvg _ _
+  have h3 : VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) +
+                    Inc (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)) =
+            VolAvg (Inc (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)) +
+            VolAvg (Inc (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)) := map_add VolAvg _ _
   rw [h3]
-  have h4 : VolAvg (Inc (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) =
-            Inc (VolAvg (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)) := by
-    exact (h_commute (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val)).symm
+  have h4 : VolAvg (Inc (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)) =
+            Inc (VolAvg (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)) :=
+    (h_commute (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)).symm
   rw [h4]
-  have h5 : VolAvg (U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val) = 0 := by
-    exact VolAvg_U_anti alpha_s alpha v_x v_y v_z Omega_x Omega_y Omega_z t_p_val
+  have h5 : VolAvg (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) = 0 :=
+    VolAvg_U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val
   rw [h5]
   have h6 : Inc (0 : T2) = 0 := map_zero Inc
   rw [h6, add_zero]
 
--- ==========================================
--- SECTION 5: Continuous Differential Geometry & The Equation of Motion (v2.0)
--- ==========================================
--- 5.1 Spacetime Manifold & Continuous Fields
--- We define continuous 4D spacetime natively as a mapping from 4 indices to Reals.
+-- ======================================================================
+-- SECTION 5: THE EQUATION OF MOTION (DIVERGENCE EQUILIBRIUM)
+-- ======================================================================
+-- ----------------------------------------------------------------------
+-- 5.0 Spacetime Manifold, Clebsch Potential Fields & Weak-Field Stress Expansion (Manuscript Eqs. 32–36)
+-- ----------------------------------------------------------------------
 abbrev SpaceTime := Fin 4 → ℝ
--- Physical quantities are promoted from static scalars/tensors to dynamic fields.
 abbrev ScalarField := SpaceTime → ℝ
 abbrev VectorField := SpaceTime → SpaceTime
 abbrev MetricField := SpaceTime → T2
--- 5.2 Partial Derivatives & Covariant Divergence
--- We define a strict Partial Derivative operator (∂_μ).
+/-- Partial derivative operator `∂_μ f(x)` via the Fréchet derivative along basis direction `μ`. -/
 noncomputable def partial_deriv (f : ScalarField) (μ : Fin 4) (x : SpaceTime) : ℝ :=
   (fderiv ℝ f x) (fun i => if i = μ then 1 else 0)
--- Computes ∂_μ U^μν natively by summing the partial derivatives of the matrix components.
+/-- Concrete exterior derivative of a continuous 0-form (`ScalarField`): `(df)_μ = ∂_μ f`. -/
+noncomputable def d_scalar_field (f : ScalarField) (x : SpaceTime) : V4 :=
+  fun μ => partial_deriv f μ x
+/-- Spacetime divergence `∂_μ U^μν(x)`. -/
 noncomputable def metric_divergence (U : MetricField) (x : SpaceTime) : V4 :=
   fun ν => ∑ μ : Fin 4, partial_deriv (fun y => U y μ ν) μ x
--- 5.3 Geometric Conservation (The Fundamental Equation of Motion)
-/-- A metric field is divergence-free at `x` when its covariant divergence vanishes. -/
+/-- A metric field is divergence-free at `x` when `∂_μ U^μν(x) = 0`. -/
 def is_divergence_free (U : MetricField) (x : SpaceTime) : Prop :=
   metric_divergence U x = 0
--- 5.4 The Dynamic Kinematic Fields
-opaque alpha_s_f : ScalarField
-opaque alpha_f : ScalarField
-opaque v_x_f : ScalarField
-opaque v_y_f : ScalarField
-opaque v_z_f : ScalarField
-opaque Omega_x_f : ScalarField
-opaque Omega_y_f : ScalarField
-opaque Omega_z_f : ScalarField
+-- Dynamic Kinematic & Clebsch Scalar Potential Fields on SpaceTime (Zero Standalone Vorticity Fields)
+opaque alpha_s_f      : ScalarField
+opaque alpha_f        : ScalarField
+opaque h_phase_f      : ScalarField
+opaque v_x_f          : ScalarField
+opaque v_y_f          : ScalarField
+opaque v_z_f          : ScalarField
+opaque lambda_Omega_f : ScalarField
+opaque beta_Omega_f   : ScalarField
+/-- Dynamic Clebsch vorticity 2-form field on `SpaceTime` (Manuscript Eq. 2):
+    `Ω_μν(x) = (dλ_Ω(x) ∧ dβ_Ω(x))_μν`. -/
+noncomputable def Omega_clebsch_field (lambda_f beta_f : ScalarField) : MetricField :=
+  fun x => omega_clebsch_2form (d_scalar_field lambda_f x) (d_scalar_field beta_f x)
+/-- Dynamic vorticity components generated directly from `lambda_Omega_f` and `beta_Omega_f`: -/
+noncomputable def Omega_x_f : ScalarField :=
+  fun x => Omega_x_clebsch (d_scalar_field lambda_Omega_f x) (d_scalar_field beta_Omega_f x)
+noncomputable def Omega_y_f : ScalarField :=
+  fun x => Omega_y_clebsch (d_scalar_field lambda_Omega_f x) (d_scalar_field beta_Omega_f x)
+noncomputable def Omega_z_f : ScalarField :=
+  fun x => Omega_z_clebsch (d_scalar_field lambda_Omega_f x) (d_scalar_field beta_Omega_f x)
+/-- Dynamic Asymmetric Metric-Tensor field `U_hat_dynamic`, with vorticity constructed
+    from the Clebsch scalar potentials `lambda_Omega_f` and `beta_Omega_f`. -/
 noncomputable def U_hat_dynamic : MetricField :=
   fun x => U_hat (alpha_s_f x) (alpha_f x) (v_x_f x) (v_y_f x) (v_z_f x)
-                 (Omega_x_f x) (Omega_y_f x) (Omega_z_f x) t_p
--- Physical Postulate: The physical Asymmetric Metric-Tensor `U_hat_dynamic` is divergence-free.
--- (Scoped strictly to `U_hat_dynamic` rather than arbitrary `U : MetricField` to preserve logical consistency).
+                 (d_scalar_field lambda_Omega_f x) (d_scalar_field beta_Omega_f x) t_p
+/-- Moving-frame weak-field 4-velocity covector `u_μ = (-1, v_x/c, v_y/c, v_z/c)`. -/
+noncomputable def u_moving_weak (v_x v_y v_z : ℝ) : V4 :=
+  fun i => if i = 0 then -1 else if i = 1 then v_x / c else if i = 2 then v_y / c else if i = 3 then v_z / c else 0
+-- Theorem 21: Moving-Frame Symmetric Strain Prefactor ((γ^4 - 1) β_i β_j, Manuscript Eqs. 32–34)
+theorem moving_frame_gamma4_factor (gamma_val beta_i beta_j : ℝ) (h_gamma : gamma_val ≠ 0) :
+    (gamma_val^2 - 1 / gamma_val^2) * ((gamma_val * beta_i) * (gamma_val * beta_j)) =
+    (gamma_val^4 - 1) * (beta_i * beta_j) := by
+  field_simp
+-- Theorem 22: Weak-Field Lorentz Factor Taylor Expansions with Remainder (Manuscript Eqs. 33–34)
+theorem weak_field_gamma_expansions_with_remainder (beta_sq : ℝ) (h_sub : beta_sq ≠ 1) :
+    1 / (1 - beta_sq) = 1 + beta_sq + beta_sq^2 + beta_sq^3 / (1 - beta_sq) ∧
+    1 / (1 - beta_sq)^2 - 1 = 2 * beta_sq + 3 * beta_sq^2 + (4 * beta_sq^3 - 3 * beta_sq^4) / (1 - beta_sq)^2 := by
+  have h_denom : 1 - beta_sq ≠ 0 := sub_ne_zero.mpr (Ne.symm h_sub)
+  refine ⟨?_, ?_⟩
+  · field_simp
+    ring
+  · field_simp
+    ring
+-- Theorem 23: O(β^4) Momentum Density Flux and Spatial Stress Perturbation (Manuscript Eqs. 33–36)
+theorem weak_field_order_beta4_stress_consistency
+    (beta_sq P_dyn_local rho_dyn_local v_i v_j delta_ij : ℝ)
+    (h_beta : beta_sq = P_dyn_local / P_c)
+    (h_rho_dyn : rho_dyn_local = P_dyn_local / c^2) :
+    P_c * (2 * beta_sq * (v_i / c)) = 2 * rho_dyn_local * c * v_i ∧
+    P_c * ((beta_sq + beta_sq^2) * delta_ij + 2 * beta_sq * ((v_i * v_j) / c^2)) =
+    (P_dyn_local + P_dyn_local^2 / P_c) * delta_ij + 2 * rho_dyn_local * (v_i * v_j) := by
+  have hPc : P_c ≠ 0 := Pc_non_zero
+  have hc : c ≠ 0 := c_ne_zero
+  rw [h_beta, h_rho_dyn]
+  refine ⟨?_, ?_⟩
+  · field_simp
+  · field_simp
+-- Theorem 24: Moving-Frame Reynolds Convective Momentum Flux (Manuscript Eq. 35)
+theorem moving_frame_reynolds_stress (v_x v_y v_z : ℝ) :
+    P_c * (u_moving_weak v_x v_y v_z 1 * u_moving_weak v_x v_y v_z 2) =
+    (1 / 2) * rho_tau * (v_x * v_y) := by
+  dsimp [u_moving_weak, P_c]
+  have hc : c ≠ 0 := c_ne_zero
+  norm_num
+  field_simp
+-- ----------------------------------------------------------------------
+-- 5.1 The Equation of Motion (Navier-Stokes) (Manuscript Eqs. 37–46)
+-- ----------------------------------------------------------------------
+-- Physical Postulate: The dynamic Asymmetric Metric-Tensor `U_hat_dynamic` is divergence-free.
 axiom covariant_conservation (x : SpaceTime) :
   metric_divergence U_hat_dynamic x = 0
--- Projection into Fluid Dynamics (Bernoulli & Navier-Stokes) for `U_hat_dynamic`:
+-- Theorem 25: Temporal Divergence Equilibrium (Bernoulli Energy Conservation)
 theorem bernoulli_energy_conservation (x : SpaceTime) :
     (metric_divergence U_hat_dynamic x) 0 = 0 := by
   have h := covariant_conservation x
   rw [h]
   rfl
+-- Theorem 26: Spatial Divergence Equilibrium (Navier-Stokes Momentum Conservation)
 theorem navier_stokes_momentum_conservation (x : SpaceTime) (i : Fin 4)
     (_h_spatial : i ≠ 0) :
     (metric_divergence U_hat_dynamic x) i = 0 := by
@@ -209,23 +306,10 @@ theorem divergence_expansion (x : SpaceTime) (ν : Fin 4) :
     (metric_divergence U_hat_dynamic x) ν =
     ∑ μ : Fin 4, partial_deriv (fun y => U_hat_dynamic y μ ν) μ x := by
   rfl
--- ==========================================
--- 5.5 Physical Projections (Pressure & Shear)
--- ==========================================
--- We mathematically prove that the Planck pressure of the vacuum is
--- non-zero from the Section 0 axioms (bypassing ne_of_gt entirely).
-lemma Pc_non_zero : P_c ≠ 0 := by
-  have hc := c_pos
-  have hl := l_p_pos
-  have hh := hbar_pos
-  dsimp [P_c, rho_tau]
-  positivity
--- 1. The Pressure Projection (Diagonal)
--- Instead of an opaque variable, we natively define the dynamic pressure field
--- as the geometric spatial compliance deviation from the vacuum.
+/-- Dynamic pressure field `P_dyn(x) = (1 - α_s(x)^2) P_c`. -/
 noncomputable def P_dyn_f : ScalarField :=
   fun x => (1 - (alpha_s_f x)^2) * P_c
--- We prove the dynamic compliance link natively from the definition!
+-- Theorem 27: Dynamic Spatial Compliance Link and Pressure Gradient Extraction
 theorem dynamic_compliance_link (x : SpaceTime) :
   1 / (alpha_s_f x)^2 = 1 / (1 - (P_dyn_f x) / P_c) := by
   unfold P_dyn_f
@@ -241,16 +325,21 @@ theorem pressure_gradient_extraction (μ : Fin 4) (x : SpaceTime) :
     ext y
     exact dynamic_compliance_link y
   rw [h_field]
--- 2. The Transverse Shear Projection (Off-Diagonal)
--- We define the transverse stress field as the scaled geometric shear.
+/-- Transverse shear stress field `T_⊥(x) = -α(x) (v_x(x)/c) P_c`. -/
 noncomputable def T_perp_f : ScalarField :=
   fun x => - (alpha_f x) * (v_x_f x / c) * P_c
+-- Theorem 28: Constitutive Off-Diagonal Shear Stress Projection and Divergence Link
 theorem transverse_shear_link (x : SpaceTime) :
   - (alpha_f x) * (v_x_f x / c) = (T_perp_f x) / P_c := by
   unfold T_perp_f
   have h_cancel : - (alpha_f x) * (v_x_f x / c) * P_c / P_c = - (alpha_f x) * (v_x_f x / c) :=
     mul_div_cancel_right₀ (- (alpha_f x) * (v_x_f x / c)) Pc_non_zero
   rw [h_cancel]
+theorem constitutive_stress_off_diagonal_link (x : SpaceTime) :
+    constitutive_stress (U_hat_dynamic x) 0 1 = T_perp_f x := by
+  dsimp [constitutive_stress, U_hat_dynamic, U_hat, eta_metric, T_perp_f, Matrix.of_apply]
+  norm_num
+  ring
 theorem shear_divergence_extraction (μ : Fin 4) (x : SpaceTime) :
     partial_deriv (fun y => - (alpha_f y) * (v_x_f y / c)) μ x =
     partial_deriv (fun y => (T_perp_f y) / P_c) μ x := by
@@ -258,35 +347,29 @@ theorem shear_divergence_extraction (μ : Fin 4) (x : SpaceTime) :
     ext y
     exact transverse_shear_link y
   rw [h_field]
--- ==========================================
--- 5.6 The Grand Unification (Geometric Navier-Stokes)
--- ==========================================
 -- Dimensional Audit: Spatial derivative of dimensionless strain (1/L) equals normalized pressure/stress divergence (grad_P / P_c):
 theorem unit_section5_navier_stokes_divergence :
     u_dimless / u_l_p = u_grad_P / u_P_c ∧
     (u_dimless / u_rho_tau) * u_grad_P = u_accel := by
   constructor <;> rfl
--- 1. We define material kinematic acceleration as the
--- temporal derivative of the geometric shear.
 noncomputable def kinematic_accel_f : ScalarField :=
   fun x => - (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c
 theorem acceleration_link (x : SpaceTime) :
   partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x = - (kinematic_accel_f x) / P_c := by
   unfold kinematic_accel_f
-  have h1 : - (- (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c) = (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c := by ring
+  have h1 : - (- (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c) =
+            (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c := by ring
   rw [h1]
-  have h_cancel : (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c / P_c = partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x :=
+  have h_cancel : (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) * P_c / P_c =
+                  partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x :=
     mul_div_cancel_right₀ (partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x) Pc_non_zero
   rw [h_cancel]
--- 2. Because we proved in 5.5 that the diagonal derivative is the nonlinear
--- compliance gradient, we map the diagonal to the compliance field.
 theorem exact_pressure_link (x : SpaceTime) :
-  partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x = partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x := by
+  partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x =
+  partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x := by
   have h_diag : (fun y => U_hat_dynamic y 1 1) = (fun y => 1 / (alpha_s_f y)^2) := by rfl
   rw [h_diag]
   exact pressure_gradient_extraction 1 x
--- 3. We define the transverse stress divergence as the
--- derivative of the transverse geometric off-diagonals.
 noncomputable def div_T_perp_f : ScalarField :=
   fun x => (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
             partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) * P_c
@@ -294,72 +377,55 @@ theorem transverse_divergence_link (x : SpaceTime) :
   partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
   partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x = (div_T_perp_f x) / P_c := by
   unfold div_T_perp_f
-  have h_cancel : (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) * P_c / P_c = partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x :=
-    mul_div_cancel_right₀ (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) Pc_non_zero
+  have h_cancel : (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
+                   partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) * P_c / P_c =
+                  partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
+                  partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x :=
+    mul_div_cancel_right₀ (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
+                          partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) Pc_non_zero
   rw [h_cancel]
--- THEOREM: The Geometric Origin of Fluid Dynamics (Axiom-Free)
--- We prove that the fluid equations exactly map to the continuous geometric divergence.
--- (Upgraded to the exact nonlinear geometric pressure compliance, eliminating all approximations).
+-- Theorem 29: Exact Nonlinear Geometric Navier-Stokes Equation
 theorem geometric_navier_stokes (x : SpaceTime)
     (h_geometric_zero : partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x +
                         partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x +
                         partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
                         partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x = 0) :
-    (kinematic_accel_f x) / P_c = partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x + (div_T_perp_f x) / P_c := by
+    (kinematic_accel_f x) / P_c =
+    partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x + (div_T_perp_f x) / P_c := by
   have h1 := acceleration_link x
   have h2 := exact_pressure_link x
   have h3 := transverse_divergence_link x
-  have h_sum : (- (kinematic_accel_f x) / P_c) + partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x + ((div_T_perp_f x) / P_c) = 0 := by
-    calc (- (kinematic_accel_f x) / P_c) + partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x + ((div_T_perp_f x) / P_c)
-      _ = partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x + partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x + (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) := by rw [h1, h2, h3]
-      _ = partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x + partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x + partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x + partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x := by ring
+  have h_sum : (- (kinematic_accel_f x) / P_c) +
+               partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x +
+               ((div_T_perp_f x) / P_c) = 0 := by
+    calc (- (kinematic_accel_f x) / P_c) +
+         partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x +
+         ((div_T_perp_f x) / P_c)
+      _ = partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x +
+          partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x +
+          (partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
+           partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x) := by rw [h1, h2, h3]
+      _ = partial_deriv (fun y => U_hat_dynamic y 0 1) 0 x +
+          partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x +
+          partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x +
+          partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x := by ring
       _ = 0 := h_geometric_zero
   calc (kinematic_accel_f x) / P_c
     _ = (kinematic_accel_f x) / P_c + 0 := by ring
-    _ = (kinematic_accel_f x) / P_c + ((- (kinematic_accel_f x) / P_c) + partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x + ((div_T_perp_f x) / P_c)) := by rw [h_sum]
+    _ = (kinematic_accel_f x) / P_c +
+        ((- (kinematic_accel_f x) / P_c) +
+         partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x +
+         ((div_T_perp_f x) / P_c)) := by rw [h_sum]
     _ = partial_deriv (fun y => 1 / (1 - (P_dyn_f y) / P_c)) 1 x + (div_T_perp_f x) / P_c := by ring
--- ==========================================
--- 5.6b Constitutive Stress, Moving-Frame Reynolds Flux & Material Derivative PDE (Resolves Issue #18 Criteria 1–3)
--- ==========================================
-/-- Criterion 1 (Issue #18): The Constitutive Cauchy Stress Tensor (Manuscript Eq. 9):
-    T_μν = P_c * (U_μν - η_μν), with hyperelastic extension (Eq. 11) parameterized by `chi_hyp`. -/
-noncomputable def constitutive_stress (U : T2) : T2 :=
-  Matrix.of (fun μ ν => P_c * (U μ ν - eta_metric μ ν))
-noncomputable def hyperelastic_stress (chi_hyp : ℝ) (U : T2) : T2 :=
-  Matrix.of (fun μ ν =>
-    P_c * (U μ ν - eta_metric μ ν) +
-    chi_hyp * ((∑ α : Fin 4, ∑ β : Fin 4, U μ α * eta_metric α β * U β ν) - eta_metric μ ν))
--- Proves that `T_perp_f` in Section 5.5 is the exact (0,1) component of `constitutive_stress (U_hat_dynamic x)`:
-theorem constitutive_stress_off_diagonal_link (x : SpaceTime) :
-    constitutive_stress (U_hat_dynamic x) 0 1 = T_perp_f x := by
-  dsimp [constitutive_stress, U_hat_dynamic, U_hat, eta_metric, T_perp_f, Matrix.of_apply]
-  norm_num
-  ring
-/-- Moving-frame weak-field 4-velocity covector u_μ = (-1, v_x/c, v_y/c, v_z/c). -/
-noncomputable def u_moving_weak (v_x v_y v_z : ℝ) : V4 :=
-  fun i => if i = 0 then -1 else if i = 1 then v_x / c else if i = 2 then v_y / c else if i = 3 then v_z / c else 0
--- Criterion 1 (Issue #18): Proves that in the moving frame, the constitutive stress spatial component
--- from the 4-velocity projector `P_c * u_1 * u_j` recovers the exact Reynolds convective momentum flux
--- `(1/2) * rho_tau * v_x * v_y` (using `P_c = (1/2) * rho_tau * c^2`):
-theorem moving_frame_reynolds_stress (v_x v_y v_z : ℝ) :
-    P_c * (u_moving_weak v_x v_y v_z 1 * u_moving_weak v_x v_y v_z 2) =
-    (1 / 2) * rho_tau * (v_x * v_y) := by
-  dsimp [u_moving_weak, P_c]
-  have hc : c ≠ 0 := c_ne_zero
-  norm_num
-  field_simp
-
-/-- Criterion 2 (Issue #18): 3D Convective Derivative `(v · ∇) f` on a continuous ScalarField. -/
+/-- 3D Convective Derivative `(v · ∇) f` on a continuous `ScalarField`. -/
 noncomputable def convective_deriv (f : ScalarField) (x : SpaceTime) : ℝ :=
   v_x_f x * partial_deriv f 1 x +
   v_y_f x * partial_deriv f 2 x +
   v_z_f x * partial_deriv f 3 x
-/-- Criterion 2 (Issue #18): First-class Eulerian Material Derivative `D_t f = ∂_t f + (v · ∇) f` (Manuscript Eq. 40). -/
+/-- Eulerian Material Derivative `D_t f = ∂_t f + (v · ∇) f` (Manuscript Eq. 40). -/
 noncomputable def material_deriv (f : ScalarField) (x : SpaceTime) : ℝ :=
   partial_deriv f 0 x + convective_deriv f x
--- Criterion 2 (Issue #18): Proves that the divergence of momentum flux `∂_t(ρ v_i) + ∑_j ∂_j(ρ v_j v_i)`
--- reduces via the Leibniz product rule and the Mass Continuity Equation (`∂_t ρ + ∑_j ∂_j(ρ v_j) = 0`)
--- to the exact Eulerian material acceleration `ρ * (∂_t v_i + (v · ∇) v_i)`:
+-- Theorem 30: Eulerian Material Acceleration from Mass Continuity (Manuscript Eqs. 39–40)
 theorem material_acceleration_from_continuity
     (rho v_i dt_rho dt_vi dx_rhovx dy_rhovy dz_rhovz v_x v_y v_z dx_vi dy_vi dz_vi
      flux_t flux_x flux_y flux_z : ℝ)
@@ -377,8 +443,6 @@ theorem material_acceleration_from_continuity
         rho * (dt_vi + (v_x * dx_vi + v_y * dy_vi + v_z * dz_vi)) := by ring
     _ = 0 * v_i + rho * (dt_vi + (v_x * dx_vi + v_y * dy_vi + v_z * dz_vi)) := by rw [h_continuity]
     _ = rho * (dt_vi + (v_x * dx_vi + v_y * dy_vi + v_z * dz_vi)) := by ring
--- Wires the first-class `material_deriv` and `convective_deriv` operators directly into the
--- continuous `ScalarField` momentum-flux and mass-continuity reduction (Manuscript Eq. 40):
 theorem material_derivative_continuity_field_link
     (rho_f v_i_f : ScalarField) (x : SpaceTime)
     (flux_t flux_x flux_y flux_z dx_rhovx dy_rhovy dz_rhovz : ℝ)
@@ -394,10 +458,7 @@ theorem material_derivative_continuity_field_link
     dx_rhovx dy_rhovy dz_rhovz (v_x_f x) (v_y_f x) (v_z_f x)
     (partial_deriv v_i_f 1 x) (partial_deriv v_i_f 2 x) (partial_deriv v_i_f 3 x)
     flux_t flux_x flux_y flux_z h_leibniz_t h_leibniz_x h_leibniz_y h_leibniz_z h_continuity
--- Criterion 3 (Issue #18): Weak-Field Eulerian Momentum PDE (Manuscript Eqs. 40 & 46).
--- Proves that when the momentum flux divergence (`flux_div`), linearized compliance pressure gradient (`grad_P_i`),
--- and transverse stress divergence (`div_T_perp_i`) sum to zero under covariant conservation, and mass continuity holds,
--- the Eulerian material acceleration satisfies `ρ * (∂_t v_i + (v · ∇) v_i) = - ∂_i P_dyn + ∂_j T_⊥^ji`:
+-- Theorem 31: Weak-Field Cauchy Momentum PDE (Manuscript Eq. 40)
 theorem eulerian_momentum_pde_eq46
     (rho v_i dt_rho dt_vi dx_rhovx dy_rhovy dz_rhovz v_x v_y v_z dx_vi dy_vi dz_vi
      flux_t flux_x flux_y flux_z grad_P_i div_T_perp_i : ℝ)
@@ -412,61 +473,42 @@ theorem eulerian_momentum_pde_eq46
     rho v_i dt_rho dt_vi dx_rhovx dy_rhovy dz_rhovz v_x v_y v_z dx_vi dy_vi dz_vi
     flux_t flux_x flux_y flux_z h_leibniz_t h_leibniz_x h_leibniz_y h_leibniz_z h_continuity
   linarith
--- ==========================================
--- 5.6c Weak-Field Asymptotic Expansion & Truncation Consistency (Resolves Issue #17 Criteria 1–3)
--- ==========================================
--- Proves that the moving-frame prefactor (γ^2 - γ^-2) multiplying (γ β_i)(γ β_j)
--- simplifies identically to the manuscript's Eq. (33) factor (γ^4 - 1) β_i β_j:
-theorem moving_frame_gamma4_factor (gamma_val beta_i beta_j : ℝ) (h_gamma : gamma_val ≠ 0) :
-    (gamma_val^2 - 1 / gamma_val^2) * ((gamma_val * beta_i) * (gamma_val * beta_j)) =
-    (gamma_val^4 - 1) * (beta_i * beta_j) := by
-  field_simp
-
--- Criterion 1 (Issue #17): Exact Taylor expansion and explicit remainder for the isotropic factor
--- γ^2 = 1 / (1 - β^2) = 1 + β^2 + β^4 + β^6 / (1 - β^2) and the anisotropic factor
--- γ^4 - 1 = 1 / (1 - β^2)^2 - 1 = 2 β^2 + 3 β^4 + (4 β^6 - 3 β^8) / (1 - β^2)^2:
-theorem weak_field_gamma_expansions_with_remainder (beta_sq : ℝ) (h_sub : beta_sq ≠ 1) :
-    1 / (1 - beta_sq) = 1 + beta_sq + beta_sq^2 + beta_sq^3 / (1 - beta_sq) ∧
-    1 / (1 - beta_sq)^2 - 1 = 2 * beta_sq + 3 * beta_sq^2 + (4 * beta_sq^3 - 3 * beta_sq^4) / (1 - beta_sq)^2 := by
-  have h_denom : 1 - beta_sq ≠ 0 := sub_ne_zero.mpr (Ne.symm h_sub)
-  refine ⟨?_, ?_⟩
-  · field_simp
-    ring
-  · field_simp
-    ring
--- Criterion 2 & 3 (Issue #17): Proves that at O(β^4) truncation, the temporal-spatial momentum flux
--- P_c * (2 * β^2 * (v_i / c)) evaluates to 2 * ρ_dyn * c * v_i (at O(β^3)), while the spatial stress perturbation
--- P_c * ((β^2 + β^4) δ_ij + 2 * β^2 * (v_i * v_j / c^2)) evaluates to the isotropic hyperelastic pressure
--- (P_dyn + P_dyn^2 / P_c) δ_ij plus the retained O(β^4) convective Reynolds flux 2 * ρ_dyn * v_i * v_j:
-theorem weak_field_order_beta4_stress_consistency
-    (beta_sq P_dyn_local rho_dyn_local v_i v_j delta_ij : ℝ)
-    (h_beta : beta_sq = P_dyn_local / P_c)
-    (h_rho_dyn : rho_dyn_local = P_dyn_local / c^2) :
-    P_c * (2 * beta_sq * (v_i / c)) = 2 * rho_dyn_local * c * v_i ∧
-    P_c * ((beta_sq + beta_sq^2) * delta_ij + 2 * beta_sq * ((v_i * v_j) / c^2)) =
-    (P_dyn_local + P_dyn_local^2 / P_c) * delta_ij + 2 * rho_dyn_local * (v_i * v_j) := by
-  have hPc : P_c ≠ 0 := Pc_non_zero
-  have hc : c ≠ 0 := c_ne_zero
-  rw [h_beta, h_rho_dyn]
-  refine ⟨?_, ?_⟩
-  · field_simp
-  · field_simp
-
--- ==========================================
--- 5.7 Continuous Symmetries & Lie Derivatives
--- ==========================================
-/-- Full covariant rank-2 tensor Lie derivative (Resolves Issue #11):
-    (£_X U)_μν = ∑_α (X^α ∂_α U_μν + U_αν ∂_μ X^α + U_μα ∂_ν X^α). -/
-noncomputable def lie_derivative (X : VectorField) (U : MetricField) (x : SpaceTime) : T2 :=
-  fun μ ν => ∑ α : Fin 4, (
-    (X x α) * partial_deriv (fun y => U y μ ν) α x +
-    (U x α ν) * partial_deriv (fun y => X y α) μ x +
-    (U x μ α) * partial_deriv (fun y => X y α) ν x)
-def is_translationally_symmetric (U : MetricField) (X : VectorField) (x : SpaceTime) : Prop :=
-  lie_derivative X U x = 0
--- ==========================================
--- 5.8 The Incompatible Defect (Compliance-Modified Momentum — Resolves Issue #18 Criterion 4)
--- ==========================================
+-- Theorem 32: Admittance-Modified Kinematic Navier-Stokes Equation with Clebsch Wedge Vorticity (Manuscript Eqs. 41–46)
+theorem kinematic_navier_stokes_clebsch_eq46
+    (lambda_f beta_f : ScalarField) (x : SpaceTime) (i : Fin 4)
+    (rho_dyn v_i dt_rho dt_vi dx_rhovx dy_rhovy dz_rhovz v_x v_y v_z dx_vi dy_vi dz_vi
+     flux_t flux_x flux_y flux_z grad_P_total_i div_T_perp_i
+     grad_P_amb_i grad_P_dyn_i div_T_slip_i alpha_val mu_visc : ℝ)
+    (h_leibniz_t : flux_t = dt_rho * v_i + rho_dyn * dt_vi)
+    (h_leibniz_x : flux_x = dx_rhovx * v_i + rho_dyn * (v_x * dx_vi))
+    (h_leibniz_y : flux_y = dy_rhovy * v_i + rho_dyn * (v_y * dy_vi))
+    (h_leibniz_z : flux_z = dz_rhovz * v_i + rho_dyn * (v_z * dz_vi))
+    (h_continuity : dt_rho + dx_rhovx + dy_rhovy + dz_rhovz = 0)
+    (h_conservation : (flux_t + flux_x + flux_y + flux_z) + grad_P_total_i - div_T_perp_i = 0)
+    (h_P_partition : grad_P_total_i = (1 / 2) * grad_P_amb_i + (1 / 2) * grad_P_dyn_i)
+    (h_shear_partition : div_T_perp_i =
+      (1 / 2) * alpha_val * (div_T_slip_i - mu_visc * metric_divergence (Omega_clebsch_field lambda_f beta_f) x i)) :
+    (rho_dyn / rho_tau) * (dt_vi + (v_x * dx_vi + v_y * dy_vi + v_z * dz_vi)) =
+    - (grad_P_amb_i / (2 * rho_tau)) - (grad_P_dyn_i / (2 * rho_tau)) +
+    alpha_val * ((div_T_slip_i / (2 * rho_tau)) -
+      (mu_visc / (2 * rho_tau)) * metric_divergence (Omega_clebsch_field lambda_f beta_f) x i) := by
+  have h_pde := eulerian_momentum_pde_eq46
+    rho_dyn v_i dt_rho dt_vi dx_rhovx dy_rhovy dz_rhovz v_x v_y v_z dx_vi dy_vi dz_vi
+    flux_t flux_x flux_y flux_z grad_P_total_i div_T_perp_i
+    h_leibniz_t h_leibniz_x h_leibniz_y h_leibniz_z h_continuity h_conservation
+  rw [h_P_partition, h_shear_partition] at h_pde
+  have hrho : rho_tau ≠ 0 := rho_tau_ne_zero
+  have h_scale := congrArg (· / rho_tau) h_pde
+  calc (rho_dyn / rho_tau) * (dt_vi + (v_x * dx_vi + v_y * dy_vi + v_z * dz_vi))
+    _ = (rho_dyn * (dt_vi + (v_x * dx_vi + v_y * dy_vi + v_z * dz_vi))) / rho_tau := by ring
+    _ = (- ((1 / 2) * grad_P_amb_i + (1 / 2) * grad_P_dyn_i) +
+         (1 / 2) * alpha_val * (div_T_slip_i - mu_visc * metric_divergence (Omega_clebsch_field lambda_f beta_f) x i)) / rho_tau := h_scale
+    _ = - (grad_P_amb_i / (2 * rho_tau)) - (grad_P_dyn_i / (2 * rho_tau)) +
+        alpha_val * ((div_T_slip_i / (2 * rho_tau)) -
+          (mu_visc / (2 * rho_tau)) * metric_divergence (Omega_clebsch_field lambda_f beta_f) x i) := by ring
+-- ----------------------------------------------------------------------
+-- 5.2 The Incompatible Defect (Compliance-Modified Momentum) (Manuscript Eqs. 47–52)
+-- ----------------------------------------------------------------------
 variable (a_lambda g_lambda F_surf_lambda : V_3D)
 variable (P : ℝ)
 variable (M : ℝ)
@@ -478,22 +520,18 @@ theorem unit_section5_8_defect_inertia :
     (u_l_p^(4:ℤ)) / u_l_p = u_Volume ∧
     u_Volume * (u_Volume^(3:ℤ)) = u_l_p^(12:ℤ) := by
   refine ⟨rfl, rfl, rfl, rfl⟩
-/-- Criterion 4 (Issue #18): Effective relativistic inertial density of an incompatible defect (Manuscript Eq. 52):
-    ρ_eff = ρ_τ + P / c^2. -/
+/-- Effective relativistic inertial density of an incompatible defect (Manuscript Eq. 50):
+    `ρ_eff = ρ_τ + P / c^2`. -/
 noncomputable def rho_defect_eff (P_val : ℝ) : ℝ :=
   rho_tau + P_val / c^2
--- Proves that the compliance-modified inertial factor `ρ_τ + P / c^2` equals `ρ_τ * (1 + P / (2 * P_c))`:
+-- Theorem 33: Relativistic Defect Inertial Density Compliance Factor (ρ_eff = ρ_τ (1 + P / 2P_c))
 theorem defect_inertia_compliance_factor (P_val : ℝ) :
     rho_defect_eff P_val = rho_tau * (1 + P_val / (2 * P_c)) := by
   dsimp [rho_defect_eff, P_c]
   have hc : c ≠ 0 := c_ne_zero
   have hrho : rho_tau ≠ 0 := rho_tau_ne_zero
   field_simp
-
--- Theorem (Manuscript Eq. 52): Compliance-Modified Defect Momentum Balance.
--- Proves that when the total force density equals `(ρ_τ + P/c^2) g_λ + F_surf_λ`,
--- the defect acceleration `a_λ` decomposes into universal gravitational free-fall `g_λ`
--- plus the compliance-attenuated surface force `(1 / (ρ_τ + P/c^2)) • F_surf_λ`:
+-- Theorem 34: Compliance-Modified Defect Momentum Balance (Manuscript Eq. 52)
 theorem incompatible_defect_momentum_eq52 (P_val : ℝ)
     (h_eff_ne : rho_defect_eff P_val ≠ 0)
     (h_balance : (rho_defect_eff P_val) • a_lambda = (rho_defect_eff P_val) • g_lambda + F_surf_lambda) :
@@ -504,17 +542,53 @@ theorem incompatible_defect_momentum_eq52 (P_val : ℝ)
     one_div_mul_cancel h_eff_ne
   rw [h_inv, one_smul, one_smul] at h_scale
   exact h_scale
+-- ----------------------------------------------------------------------
+-- 5.3 The Archimedean Limit of the Geodesic Equation (Manuscript Eqs. 53–63)
+-- ----------------------------------------------------------------------
+-- Theorem 35: Archimedean Geodesic Buoyancy Acceleration & Newtonian Limit (Manuscript Eqs. 54, 63)
+theorem archimedean_buoyancy_and_newtonian_limit
+    (a_buoy grad_P_static_scalar F_g V_eff m_tau M_defect k_defect r_val : ℝ)
+    (h_geodesic : a_buoy = - (c^2 / (2 * P_c)) * grad_P_static_scalar)
+    (h_V_eff : V_eff = m_tau / rho_tau)
+    (h_k : k_defect = rho_tau * G * M_defect)
+    (h_archimedes : F_g = - V_eff * (k_defect / r_val^2)) :
+    a_buoy = - (1 / rho_tau) * grad_P_static_scalar ∧
+    F_g = - (G * M_defect * m_tau) / r_val^2 := by
+  have h_2Pc : 2 * P_c = rho_tau * c^2 := by
+    dsimp [P_c]
+    ring
+  have hc2 : c^2 ≠ 0 := pow_ne_zero 2 c_ne_zero
+  have hrho : rho_tau ≠ 0 := rho_tau_ne_zero
+  have h_ratio : c^2 / (2 * P_c) = 1 / rho_tau := by
+    rw [h_2Pc]
+    calc c^2 / (rho_tau * c^2) = (1 * c^2) / (rho_tau * c^2) := by ring
+      _ = 1 / rho_tau := mul_div_mul_right 1 rho_tau hc2
+  refine ⟨?_, ?_⟩
+  · rw [h_geodesic, h_ratio]
+  · rw [h_archimedes, h_V_eff, h_k]
+    calc - (m_tau / rho_tau) * (rho_tau * G * M_defect / r_val^2)
+      _ = (- (G * M_defect * m_tau) / r_val^2) * (rho_tau / rho_tau) := by ring
+      _ = - (G * M_defect * m_tau) / r_val^2 := by rw [div_self hrho, mul_one]
 
--- ==========================================
--- SECTION 7: Conformal Symmetry & Lie Derivative Constraints
--- ==========================================
--- 7.1 The Poincare Subgroup (10 Generators)
--- The abstract Lie translation and dilation axioms have been replaced by concrete
--- definitions of `lie_derivative` and `is_translationally_symmetric` in Section 5.7.
--- The specific invariance theorems that these axioms once assumed are now statable
--- against `U_hat_dynamic` and remain open.
+-- ======================================================================
+-- SECTION 7: CONFORMAL SYMMETRY & THE LIE DERIVATIVE CONSTRAINTS
+-- ======================================================================
+-- ----------------------------------------------------------------------
+-- 7.0 Covariant Rank-2 Lie Derivative Operator (Manuscript Eq. 90)
+-- ----------------------------------------------------------------------
+/-- Covariant rank-2 tensor Lie derivative (Manuscript Eq. 90):
+    `(£_X U)_μν = ∑_α (X^α ∂_α U_μν + U_αν ∂_μ X^α + U_μα ∂_ν X^α)`. -/
+noncomputable def lie_derivative (X : VectorField) (U : MetricField) (x : SpaceTime) : T2 :=
+  fun μ ν => ∑ α : Fin 4, (
+    (X x α) * partial_deriv (fun y => U y μ ν) α x +
+    (U x α ν) * partial_deriv (fun y => X y α) μ x +
+    (U x μ α) * partial_deriv (fun y => X y α) ν x)
+def is_translationally_symmetric (U : MetricField) (X : VectorField) (x : SpaceTime) : Prop :=
+  lie_derivative X U x = 0
+-- ----------------------------------------------------------------------
+-- 7.1 The Poincare Subgroup (10 Generators) (Manuscript Eqs. 91–96)
+-- ----------------------------------------------------------------------
 variable (alpha_s_val : ℝ)
--- Lemma: Isolation of the Lorentz scalar.
 lemma isolate_lorentz_scalar (omega_0i alpha_val : ℝ) (h_omega : omega_0i ≠ 0) (h_pos : alpha_val > 0) :
   omega_0i * ((1 / alpha_val^2) - alpha_val^2) = 0 → alpha_val = 1 := by
   intro h
@@ -548,20 +622,21 @@ lemma isolate_lorentz_scalar (omega_0i alpha_val : ℝ) (h_omega : omega_0i ≠ 
   cases mul_eq_zero.mp h10 with
   | inl hl => linarith
   | inr hr => linarith
--- Theorem 20: Lorentz Boost Symmetry Limit
+-- Theorem 43: Lorentz Boost Symmetry Breaking Limit (α_s = 1, Manuscript Eq. 95)
 theorem lorentz_symmetry_broken (omega_0i : ℝ) (h_nonzero : omega_0i ≠ 0) (h_pos : alpha_s_val > 0)
     (h_residual : omega_0i * ((1 / alpha_s_val^2) - alpha_s_val^2) = 0) :
     alpha_s_val = 1 := by
   exact isolate_lorentz_scalar omega_0i alpha_s_val h_nonzero h_pos h_residual
--- ==========================================
--- 7.2 Dilation & Special Conformal Transformations
--- ==========================================
+-- ----------------------------------------------------------------------
+-- 7.2 Dilation & Special Conformal Transformations (5 Generators) (Manuscript Eqs. 97–106)
+-- ----------------------------------------------------------------------
 variable (x_i a_i grad_P_dyn : ℝ)
 -- Dimensional Audit: Conformal generator coupling 4 x_i (a_i / c^2) = -(2 / P_c)(x_i grad_P_dyn) is dimensionless on both sides:
 theorem unit_section7_conformal_pressure_coupling :
     u_l_p * (u_accel / (u_c^(2:ℤ))) = u_dimless ∧
     (u_dimless / u_P_c) * (u_l_p * u_grad_P) = u_dimless := by
   constructor <;> rfl
+-- Theorem 44: Special Conformal Generator Pressure Coupling (Manuscript Eq. 103)
 theorem conformal_pressure_coupling (h_a : a_i = - (1 / rho_tau) * grad_P_dyn) :
     4 * (x_i * (a_i / c^2)) = - (2 / P_c) * (x_i * grad_P_dyn) := by
   rw [h_a]
@@ -569,22 +644,87 @@ theorem conformal_pressure_coupling (h_a : a_i = - (1 / rho_tau) * grad_P_dyn) :
   have h1 : 4 * (x_i * ((- (1 / rho_tau) * grad_P_dyn) / c^2)) = - (4 / (rho_tau * c^2)) * (x_i * grad_P_dyn) := by ring
   have h2 : - (4 / (rho_tau * c^2)) * (x_i * grad_P_dyn) = - (2 / ((1 / 2) * rho_tau * c^2)) * (x_i * grad_P_dyn) := by ring
   rw [h1, h2, ←h_Pc_sub]
--- ==========================================
--- 7.3 [Manuscript Section Placeholder]
--- ==========================================
--- ==========================================
--- 7.4 [Manuscript Section Placeholder]
--- ==========================================
--- ==========================================
--- 7.5 The Dressing Field Method (Gauge-Invariant Composites)
--- ==========================================
-variable (chi : V_3D)
-noncomputable def v_perp_g (v_perp_val chi_val : V_3D) : V_3D := v_perp_val - chi_val
-noncomputable def h_g (grad_h_val chi_val : V_3D) : V_3D := grad_h_val + chi_val
--- Theorem 22: Abelian Gauge Invariance (Equation 85)
-theorem dressing_field_invariance (v_perp_val grad_h_val chi_val : V_3D) :
-    (v_perp_g v_perp_val chi_val) + (h_g grad_h_val chi_val) = v_perp_val + grad_h_val := by
-  dsimp [v_perp_g, h_g]
+/-- Gordon Optical Metric (Manuscript Eq. 105):
+    `U^opt_μν = U_μν + (1 - 1/n^2) u_μ u_ν`. -/
+noncomputable def U_optical (U : T2) (n_idx : ℝ) (u : V4) : T2 :=
+  Matrix.of (fun μ ν => U μ ν + (1 - 1 / n_idx^2) * (u μ * u ν))
+-- Theorem 45: Gordon Optical Metric Admittance Substitution (U^opt_μν = U_μν + (1 - α_s^4) u_μ u_ν, Manuscript Eqs. 104–106)
+theorem gordon_optical_metric_admittance (U : T2) (n_idx alpha_s_opt : ℝ) (u : V4)
+    (ha_s : alpha_s_opt ≠ 0)
+    (h_refractive : n_idx = 1 / alpha_s_opt^2) :
+    U_optical U n_idx u =
+    Matrix.of (fun μ ν => U μ ν + (1 - alpha_s_opt^4) * (u μ * u ν)) := by
+  ext μ ν
+  dsimp [U_optical, Matrix.of_apply]
+  rw [h_refractive]
+  have ha4 : alpha_s_opt^4 ≠ 0 := pow_ne_zero 4 ha_s
+  have h_prod : (1 / alpha_s_opt^2)^2 * alpha_s_opt^4 = 1 := by
+    calc (1 / alpha_s_opt^2)^2 * alpha_s_opt^4
+      _ = alpha_s_opt^4 / alpha_s_opt^4 := by ring
+      _ = 1 := div_self ha4
+  have h_inv_sq : 1 / (1 / alpha_s_opt^2)^2 = alpha_s_opt^4 := by
+    have h_ne : (1 / alpha_s_opt^2)^2 ≠ 0 := by
+      intro hz
+      rw [hz, zero_mul] at h_prod
+      exact zero_ne_one h_prod
+    calc 1 / (1 / alpha_s_opt^2)^2
+      _ = ((1 / alpha_s_opt^2)^2 * alpha_s_opt^4) / (1 / alpha_s_opt^2)^2 := by rw [h_prod]
+      _ = alpha_s_opt^4 * ((1 / alpha_s_opt^2)^2 / (1 / alpha_s_opt^2)^2) := by ring
+      _ = alpha_s_opt^4 := by rw [div_self h_ne, mul_one]
+  rw [h_inv_sq]
+-- ----------------------------------------------------------------------
+-- 7.3 Kinematic Implications of Symmetry Breaking
+-- ----------------------------------------------------------------------
+-- [Manuscript Section Placeholder: Connects the non-vanishing Lie derivative residuals
+--  proportional to ∇P_dyn and (1/α_s^2 - α_s^2) to null geodesic deflection in the Gordon metric].
+-- ----------------------------------------------------------------------
+-- 7.4 Conserved Noether Currents (Manuscript Eqs. 107–109)
+-- ----------------------------------------------------------------------
+-- [Manuscript Section Placeholder:
+--  1. Translational Symmetry (∂_μ T^μν = 0, formalized in Section 5.1),
+--  2. Lorentz Symmetry & Internal Clebsch Spin Tensor (J^μ = L^μαβ + Σ^μαβ, ∂_μ M^μαβ = 0)].
+-- ----------------------------------------------------------------------
+-- 7.5 The Dressing Field Method (Gauge-Invariant Composites) (Manuscript Eqs. 110–112)
+-- ----------------------------------------------------------------------
+/-- Bare gauge-transformed transverse slip 1-form: `v_⊥^g = v_⊥ - dχ`. -/
+noncomputable def v_perp_g (v_perp_form : Forms_1D) (chi : Forms_0D) : Forms_1D :=
+  v_perp_form - d0 chi
+/-- Bare gauge-transformed longitudinal scalar phase 0-form: `h^g = h + χ`. -/
+noncomputable def h_g (h chi : Forms_0D) : Forms_0D :=
+  h + chi
+-- Theorem 46: Abelian Dressing Field Gauge Invariance of the Composite Velocity 1-Form (Manuscript Eqs. 110–111)
+theorem dressing_field_invariance (v_perp_form : Forms_1D) (h chi : Forms_0D) :
+    (v_perp_g d0 v_perp_form chi) + grad_h d0 (h_g h chi) = v_perp_form + grad_h d0 h := by
+  dsimp [v_perp_g, h_g, grad_h]
+  rw [map_add]
   abel
+theorem v_macro_dressing_invariance (h chi lambda_Omega beta_Omega : Forms_0D) (v_perp_form : Forms_1D) :
+    v_macro d0 smul_form (h_g h chi) lambda_Omega beta_Omega (v_perp_g d0 v_perp_form chi) =
+    v_macro d0 smul_form h lambda_Omega beta_Omega v_perp_form := by
+  dsimp [v_macro, v_perp_g, h_g, grad_h]
+  rw [map_add]
+  abel
+-- Theorem 47: Relational Spacetime Vorticity Wedge Identity (Ω_μν = (dλ_Ω ∧ dβ_Ω)_μν, Manuscript Eq. 112)
+theorem relational_vorticity_wedge_identity (lambda_f beta_f : ScalarField) (x : SpaceTime) (μ ν : Fin 4) :
+    Omega_clebsch_field lambda_f beta_f x μ ν =
+    partial_deriv lambda_f μ x * partial_deriv beta_f ν x -
+    partial_deriv lambda_f ν x * partial_deriv beta_f μ x := by
+  dsimp [Omega_clebsch_field, omega_clebsch_2form, wedge_covec, d_scalar_field, Matrix.of_apply]
+
+-- ======================================================================
+
+
+-- Moved from MatrixAlgebra (§6) to break the MatrixAlgebra ↔ FieldCalculus import cycle.
+-- Theorem statement and proof unchanged (verbatim from Binyamin's raw v4.5).
+theorem quadratic_gravitational_lagrangian_trace (S_sq G_sq R_sq R_scalar Lambda_val : ℝ)
+    (h_G_sq : G_sq = R_sq - R_scalar^2 + (1 / 4) * R_scalar^2 * I_2_vac)
+    (h_S_sq : S_sq = (1 / Lambda_val^2) * G_sq - (2 / Lambda_val) * R_scalar + I_2_vac) :
+    G_sq = R_sq ∧ S_sq = (1 / Lambda_val^2) * R_sq - (2 / Lambda_val) * R_scalar + 4 := by
+  have h_vac : I_2_vac = 4 := I_2_vac_equals_4
+  have hG : G_sq = R_sq := by
+    rw [h_G_sq, h_vac]
+    ring
+  refine ⟨hG, ?_⟩
+  rw [h_S_sq, hG, h_vac]
 
 end AsymmetricTensor
