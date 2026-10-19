@@ -124,7 +124,8 @@ spinor-field, or gravitational dynamics automatically.
   chain of prerequisites. Investigate L3; no ready contextuality API is claimed.
 
 ### A6. Helicity and orbital arrest
-<!-- declarations: helicity_orbital_arrest -->
+<!-- declarations: -->
+<!-- v4.5: helicity_orbital_arrest removed from Binyamin's drop -->
 - **Current:** assumes and returns positivity of a free scalar.
 - **Intended claim:** a specified helicity-bearing evolution prevents the admittance
   from reaching zero on a specified time interval.
@@ -418,11 +419,19 @@ dynamical/spectral conclusion; zero of a sine factor alone does not construct
 quantum eigenstates. Investigate L1/L2/L3/L4/L8.
 
 ### B17. v3.1 Section 16 additions (dimensional audit corollaries and new cosmology)
-<!-- declarations: unit_section16_corollaries unit_section16_2_antisymmetric_corollaries unit_section16_3_cross_coupled_corollaries lemaitre_tolman_bondi_compliance holographic_bound_area_scaling -->
+<!-- declarations: unit_section16_corollaries unit_section16_2_antisymmetric_corollaries unit_section16_3_cross_coupled_corollaries lemaitre_tolman_bondi_compliance holographic_bound_area_scaling unit_combinatorial_possibility_space unit_integer_action_closure_and_coulomb_elimination unit_structural_equivalences unit_three_structural_ladders -->
+<!-- v4.5: added four §16.4 combinatorial/structural UnitDim theorems -->
 v3.1 adds dimensional-audit corollaries for Section 16 (UnitDim layer) and two new
 cosmological results (Lemaître–Tolman–Bondi compliance, holographic bound area
 scaling). These are Binyamin's new Section 16 theorems, inventoried here for the
 roadmap check.
+
+### B18. v4.5 Section 16 additions (kinematic charge origin and Coulomb structure)
+<!-- declarations: coulomb_bernoulli_superposition_and_deficit coulomb_phase_flux_and_force_constant dirac_moment_and_magnetic_anomaly kinematic_origin_of_charge -->
+v4.5 adds proved corollaries deriving the kinematic origin of charge
+(e_tau from displaced momentum), the Coulomb phase-flux force constant,
+Bernoulli superposition with deficit, and the Dirac magnetic moment with
+Schwinger anomaly.
 
 ## C. Dependencies, alternatives and author decisions
 

@@ -33,9 +33,10 @@ for i, m in enumerate(matches):
     body = source[m.end():matches[i + 1].start() if i + 1 < len(matches) else len(source)]
     if "h_target" in body:
         placeholders.add(m.group(1))
-# v3.1: Binyamin added two new target placeholders (fourier_curvature_decomposition,
-# mott_scattering_cross_section) to the ten from v2.
-assert len(placeholders) == 12, f"Expected twelve h_target declarations: {placeholders}"
+# v4.5: Binyamin resolved all h_target placeholders into proved theorems
+# (the 11 surviving targets are now real proofs; helicity_orbital_arrest was removed).
+# No h_target placeholders remain.
+assert len(placeholders) == 0, f"Expected zero h_target declarations: {placeholders}"
 assert placeholders <= inventory, f"Missing targets: {placeholders - inventory}"
 future = source.split("section FutureWork", 1)[1].split("end FutureWork", 1)[0]
 future_names = set(re.findall(r"^theorem\s+(\w+)", future, re.M))
