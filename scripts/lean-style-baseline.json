@@ -5,6 +5,7 @@
     "         (1 / 2) * alpha_val * (div_T_slip_i - mu_visc * metric_divergence (Omega_clebsch_field lambda_f beta_f) x i)) / rho_tau := h_scale",
     "      (1 / 2) * alpha_val * (div_T_slip_i - mu_visc * metric_divergence (Omega_clebsch_field lambda_f beta_f) x i)) :",
     "    (h_P_static : P_static = P_c - (P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear)) :",
+    "    (h_P_static : P_static = P_c - (P_g v_esc + P_dyn_components v_parallel v_perp_mag v_circ + P_shear)) :",
     "    (h_balance : (rho_defect_eff P_val) \u2022 a_lambda = (rho_defect_eff P_val) \u2022 g_lambda + F_surf_lambda) :",
     "    1 / (1 - beta_sq)^2 - 1 = 2 * beta_sq + 3 * beta_sq^2 + (4 * beta_sq^3 - 3 * beta_sq^4) / (1 - beta_sq)^2 := by",
     "    change (A i j + B i j + (A j i + B j i)) / (2 : \u211d) = (A i j + A j i) / (2 : \u211d) + (B i j + B j i) / (2 : \u211d)",
