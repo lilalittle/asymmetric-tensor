@@ -1,3 +1,40 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
+public import AsymmetricTensor.Model
+
+/-!
+# Asymmetric metric-tensor assembly and unified action
+
+Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
+set_option autoImplicit false
+set_option linter.unusedSectionVars true
+
+namespace AsymmetricTensor
+
+variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
+variable {Forms_2D : Type} [AddCommGroup Forms_2D] [Module ℝ Forms_2D]
+
 -- SECTION 3: ASSEMBLY OF THE ASYMMETRIC METRIC-TENSOR (U_hat_μν)
 -- ======================================================================
 -- Dimensional Audit: Every matrix entry of U_hat (-alpha_s^2, 1/alpha_s^2, alpha*(v/c), alpha*t_p*Omega) is dimensionless:
@@ -382,3 +419,5 @@ theorem unified_wave_propagation (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_b
   exact h1
 
 -- ======================================================================
+
+end AsymmetricTensor

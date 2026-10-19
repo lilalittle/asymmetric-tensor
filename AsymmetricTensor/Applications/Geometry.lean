@@ -1,3 +1,40 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
+public import AsymmetricTensor.Model
+public import AsymmetricTensor.FieldCalculus
+
+/-!
+# Tensor covariance, galactic kinematics, and non-linear affine connection
+
+Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
+set_option autoImplicit false
+set_option linter.unusedSectionVars true
+
+namespace AsymmetricTensor
+
+variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
+
 -- SECTION 10: TENSOR COVARIANCE & NON-INERTIAL REFERENCE FRAMES
 -- ======================================================================
 -- ----------------------------------------------------------------------
@@ -319,3 +356,5 @@ theorem einstein_cartan_lagrangian
   rw [h_L_Tot, h1, ←h_L_EH, ←h_L_Spin]
 
 -- ======================================================================
+
+end AsymmetricTensor

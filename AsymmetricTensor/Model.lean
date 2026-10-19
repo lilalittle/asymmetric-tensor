@@ -1,3 +1,36 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
+
+/-!
+# Fundamental bedrock axioms, dimensional audit layer, kinematics, and thermodynamic relations
+
+Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
+set_option autoImplicit false
+set_option linter.unusedSectionVars true
+
+namespace AsymmetricTensor
+
 -- SECTION 0: FUNDAMENTAL BEDROCK AXIOMS & EMERGENT CONSTANTS
 -- ======================================================================
 -- 0.1 Irreducible Physical Constants (Speed of Light, Planck Length, Reduced Planck Constant)
@@ -279,3 +312,5 @@ theorem nested_ledger_compliance (P_ambient alpha_g_sq v_0 : ℝ)
     _ = P_c * alpha_g_sq := by ring
 
 -- ======================================================================
+
+end AsymmetricTensor

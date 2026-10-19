@@ -1,3 +1,41 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
+public import AsymmetricTensor.Model
+
+/-!
+# Continuous field equation, equation of motion, and conformal symmetry
+
+Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
+set_option autoImplicit false
+set_option linter.unusedSectionVars true
+
+namespace AsymmetricTensor
+
+variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
+variable {Forms_0D : Type} [AddCommGroup Forms_0D] [Module ℝ Forms_0D]
+variable {Forms_1D : Type} [AddCommGroup Forms_1D] [Module ℝ Forms_1D]
+
 -- SECTION 4: THE CONTINUOUS FIELD EQUATION
 -- ======================================================================
 -- ----------------------------------------------------------------------
@@ -669,3 +707,5 @@ theorem relational_vorticity_wedge_identity (lambda_f beta_f : ScalarField) (x :
   dsimp [Omega_clebsch_field, omega_clebsch_2form, wedge_covec, d_scalar_field, Matrix.of_apply]
 
 -- ======================================================================
+
+end AsymmetricTensor

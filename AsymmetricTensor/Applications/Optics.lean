@@ -1,3 +1,37 @@
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
+
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
+public import AsymmetricTensor.Model
+
+/-!
+# Macroscopic lensing (optical pressure gradient)
+
+Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
+set_option autoImplicit false
+set_option linter.unusedSectionVars true
+
+namespace AsymmetricTensor
+
 -- SECTION 15: MACROSCOPIC LENSING (THE OPTICAL PRESSURE GRADIENT)
 -- ======================================================================
 -- Dimensional Audit: Wavelength redshift ratio (lambda_obs / lambda_emit), refractive index (n = c / v_c), and pressure ratio (P_dyn / P_c) are dimensionless:
@@ -93,3 +127,5 @@ theorem magnitude_anomaly_divergence (hr_o : r_opt > 0) (hr_t : r_true > 0) (hz 
   exact logarithmic_magnitude_anomaly mu_obs mu_lin r_opt r_true z_val hr_o hr_t hz h_mu_obs h_mu_lin
 
 -- ======================================================================
+
+end AsymmetricTensor
