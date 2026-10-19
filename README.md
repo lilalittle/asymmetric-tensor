@@ -3,7 +3,7 @@
 Lean 4 research companion to **The Asymmetric Metric-Tensor and the
 Thermodynamic Equation of State**, by Binyamin Tsadik Bair-Mosheh.
 
-The current implementation is the author's **v4.5 formalization**, organized into
+The current implementation is the author's **v4.6 formalization**, organized into
 nine topic modules. It contains real 4×4 matrix algebra, Clebsch-gradient exterior
 products, fixed-chart field operators, Lorentzian contraction identities, and
 conditional statements motivated by the manuscript. Physical names and section
@@ -14,7 +14,7 @@ headings do not establish full manuscript coverage or empirical validity.
 Use the [current API and regression coverage report](docs/regression-coverage.md),
 [module map](docs/modules.md), and [verification contract](docs/verification.md)
 for this revision. The public entry point remains `import AsymmetricTensor`, but
-v4.5 is an API change from the older repaired library.
+v4.6 is an API change from the older repaired library.
 
 - `matrix_decomposition` splits any real 4×4 matrix into symmetric and
   antisymmetric parts. `U_hat` now takes two four-component Clebsch gradients;
@@ -56,7 +56,7 @@ The older [status map](docs/formalization-status.md),
 [force-hierarchy](docs/force-hierarchy.md) notes retain earlier API descriptions
 and validation records. Read them as historical documentation, alongside the
 [current coverage differences](docs/regression-coverage.md), rather than as
-contracts for v4.5. The seven archived Lean test files are preserved but are not
+contracts for v4.6. The seven archived Lean test files are preserved but are not
 executed by the current aggregate verifier.
 
 ## Building the committed version
@@ -118,7 +118,7 @@ field inputs. A source inventory, a dependency audit, and a model-consistency
 proof are different things. In particular, allowing the postulate in the audit
 does not prove it or authorize a universal-field conservation law.
 
-The PR #70 repair preserves the raw v4.5 declaration tokens and docstrings while
+The PR #70 repair preserves the raw v4.6 declaration tokens and docstrings while
 repairing module imports, section context, and a declaration's dependency order.
 Full candidate elaboration, regression checks, comparison with the built author
 reference, and revision-specific hosted CI are separate required evidence. See

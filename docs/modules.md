@@ -1,6 +1,6 @@
 # Modules, naming, and style
 
-This is the modular layout of Binyamin Tsadik Bair-Mosheh's v4.5 formalization.
+This is the modular layout of Binyamin Tsadik Bair-Mosheh's v4.6 formalization.
 The public umbrella and namespace remain `AsymmetricTensor`; preservation of
 that import path does not imply compatibility with the older repaired APIs.
 Section headings follow manuscript topics and do not establish full coverage.
