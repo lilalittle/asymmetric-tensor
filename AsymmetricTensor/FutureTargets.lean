@@ -15,6 +15,9 @@ public import Mathlib.Data.Matrix.Basic
 public import Mathlib.LinearAlgebra.Matrix.BilinearForm
 public import Mathlib.Tactic
 public import AsymmetricTensor.Model
+public import AsymmetricTensor.MatrixAlgebra
+public import AsymmetricTensor.Applications.Electromagnetism
+public import AsymmetricTensor.Applications.WavesForces
 
 /-!
 # Predictive corollaries and future work, including dimensional audit corollaries
