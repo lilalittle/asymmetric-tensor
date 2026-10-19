@@ -24,6 +24,7 @@ PERMITTED = {'AsymmetricTensor.' + x for x in ('c', 'l_p', 'hbar', 'c_pos', 'l_p
 ARCHIVED_FILES = {
     'AsymmetricTensor.lean': 'docs/equation-baseline-source.lean.txt',
     'lake-manifest.json': 'docs/equation-baseline-lake-manifest.json.txt',
+    'tests/EquationAxioms.lean': 'docs/equation-baseline-axiom-audit.lean.txt',
 }
 
 def digest(path):
@@ -287,8 +288,8 @@ def render(mapping, inventory, sections, audit, source):
            'On the current repository, validate the historical archives and deterministic artifacts explicitly:', '',
            '```sh', 'python3 scripts/equation_ledger.py --check --historical',
            'python3 -m unittest discover -s tests -p "test_equation_ledger.py"', '```', '',
-           '`--historical` checks the archived source and archived dependency manifest against the original accepted hashes. '
-           'It still checks the live manuscript, toolchain and audit program against their accepted hashes. '
+           '`--historical` checks the archived source, dependency manifest and [audit program](equation-baseline-axiom-audit.lean.txt) against the original accepted hashes. '
+           'It still checks the live manuscript and toolchain against their accepted hashes. '
            'It neither installs the archived manifest nor changes the current dependency selection. '
            'This is historical evidence only, not current-source coverage. The default live-source `--check` intentionally fails '
            'when the current source or manifest differs from the reviewed snapshot.', '',
@@ -311,7 +312,7 @@ def render(mapping, inventory, sections, audit, source):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--audit-log', type=Path)
-    p.add_argument('--historical', action='store_true', help='Validate archived #9/#33 source and manifest evidence, not current production coverage')
+    p.add_argument('--historical', action='store_true', help='Validate archived #9/#33 source, manifest and audit evidence, not current production coverage')
     mode = p.add_mutually_exclusive_group()
     mode.add_argument('--write', action='store_true')
     mode.add_argument('--check', action='store_true')

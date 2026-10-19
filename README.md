@@ -3,44 +3,61 @@
 Lean 4 research companion to **The Asymmetric Metric-Tensor and the
 Thermodynamic Equation of State**, by Binyamin Tsadik Bair-Mosheh.
 
-The repository contains a real 4×4 coordinate-matrix model, algebraic lemmas,
-a fixed-chart tensor Lie derivative, Lorentzian contraction identities, finite
-optical-path integrals, and conditional statements motivated by the manuscript.
-Its headings follow topics 1–16 of the paper; they do **not** mean those sections
-are fully formalized. Several geometric objects and physical derivations remain
-open, and ten specification targets simply return their assumed conclusions.
+The current implementation is the author's **v4.5 formalization**, organized into
+nine topic modules. It contains real 4×4 matrix algebra, Clebsch-gradient exterior
+products, fixed-chart field operators, Lorentzian contraction identities, and
+conditional statements motivated by the manuscript. Physical names and section
+headings do not establish full manuscript coverage or empirical validity.
 
 ## What is implemented?
 
-Start with the [formalization status map](docs/formalization-status.md):
+Use the [current API and regression coverage report](docs/regression-coverage.md),
+[module map](docs/modules.md), and [verification contract](docs/verification.md)
+for this revision. The public entry point remains `import AsymmetricTensor`, but
+v4.5 is an API change from the older repaired library.
 
-- [Section-by-section coverage, objects, and assumptions](docs/formalization-status.md#section-by-section-status)
-- [Custom assumptions and unspecified model symbols](docs/formalization-status.md#assumptions-and-unspecified-symbols)
-- [All ten assumed targets](docs/formalization-status.md#the-ten-exact-h_target-cases)
-- [Current dispositions of the 22 reviewed findings](docs/formalization-status.md#review-findings-and-dispositions)
-- [Historical v9 equation ledger: 239 equations and 40 unnumbered claims](docs/equation-coverage.md)
-- [Historical #9/#33 declaration types and transitive axiom audit](docs/declaration-audit.json)
+- `matrix_decomposition` splits any real 4×4 matrix into symmetric and
+  antisymmetric parts. `U_hat` now takes two four-component Clebsch gradients;
+  `omega_clebsch_2form` constructs their exterior wedge.
+- `lie_derivative` includes transport and both covariant-index terms in a fixed
+  chart. `is_translationally_symmetric` accepts an arbitrary vector field in this
+  version; its name does not restrict that field to a constant translation.
+- `lorentzian_contract` and `lorentzian_action_separation` give explicit
+  background-Minkowski contraction algebra. They do not construct or vary an
+  action integral.
+- `covariant_conservation` is a physical postulate for `U_hat_dynamic` only.
+  Its temporal and spatial component projections inherit that assumption.
+  Conditional momentum identities additionally take continuity, product-rule,
+  balance, or constitutive relations as hypotheses.
+- `refractive_index_substitution` is pointwise optical algebra. The finite-path
+  integral and strict optical-delay APIs from the older repair are absent.
+  The current magnitude formulas use `Real.log`, the natural logarithm.
+- `interaction_hierarchy_em` includes an extra coupling factor and an `α³`
+  right-hand side. Baseline `α⁴` and scaled `α⁵` force ratios are distinguished
+  in test-local regressions; these do not choose the physical normalization.
 
-The equation ledger preserves the exact reviewed #9/#33 source and dependency
-snapshot. Its 240-declaration audit and equation labels are historical evidence;
-current-source equation remapping remains open. Validate the archive with
-`python3 scripts/equation_ledger.py --check --historical` (requires Poppler
-`pdftotext`). The current proof-audit workflow below checks a different scope.
+Section 16 no longer contains the ten old `h_target` premises. Its replacement
+statements prove particular algebraic conclusions, often under explicit physical
+or constitutive assumptions. Removing `h_target` does not establish the broader
+physical claims suggested by their names.
 
-Useful entry points exposed by [AsymmetricTensor.lean](AsymmetricTensor.lean) are
-`matrix_decomposition` (matrix algebra), `constant_coordinate_conserved`
-(a proved nonempty conservation constraint), `lorentzian_action_separation`
-(an explicit Minkowski contraction), and `optical_distance_gt` (a finite
-integral inequality for a specified ansatz). The [entry-point guide](docs/formalization-status.md#where-to-start)
-explains each result's scope. The [module map](docs/modules.md) locates their
-implementations and describes the unchanged public namespace and import policy.
+### Historical material
 
-The historical universal conservation axiom has been removed; the current
-[coordinate-conservation interface](docs/conservation.md) requires an explicit
-`CoordinateConserved` premise. The [action](docs/lorentzian-action.md),
-[Lie-derivative](docs/lie-derivative.md), [optical-path](docs/optical-path.md), and
-[force-hierarchy](docs/force-hierarchy.md) notes describe the other bounded
-mathematical repairs and the physical questions they leave open.
+The [v9 equation ledger](docs/equation-coverage.md) and
+[declaration audit](docs/declaration-audit.json) preserve the reviewed #9/#33
+source and dependency snapshot. Their 240-declaration audit and equation labels
+are historical evidence; a current-source equation mapping remains open.
+Validate that archive with `python3 scripts/equation_ledger.py --check --historical`
+(requires Poppler `pdftotext`). This is separate from the current proof audit.
+
+The older [status map](docs/formalization-status.md),
+[conservation](docs/conservation.md), [Lie derivative](docs/lie-derivative.md),
+[action](docs/lorentzian-action.md), [optical-path](docs/optical-path.md), and
+[force-hierarchy](docs/force-hierarchy.md) notes retain earlier API descriptions
+and validation records. Read them as historical documentation, alongside the
+[current coverage differences](docs/regression-coverage.md), rather than as
+contracts for v4.5. The seven archived Lean test files are preserved but are not
+executed by the current aggregate verifier.
 
 ## Building the committed version
 
@@ -86,50 +103,41 @@ change and resolve any build failures before committing the new selection.
 For the update behavior, see the
 [Lake manual](https://lean-lang.org/doc/reference/latest/Build-Tools-and-Distribution/Lake/).
 
-The electromagnetic force-hierarchy regression checks run with
-`lake env lean tests/ForceHierarchy.lean` after `lake build`. See
-[the force-hierarchy correspondence](docs/force-hierarchy.md) for the exact
-manuscript baseline, its domain, and the separately named algebraic rescaling.
-
 ## Verification and scope
 
-The checked-in [Lean proof-audit workflow](.github/workflows/lean_action_ci.yml)
-runs on pushes and pull requests. It preserves the dependency pins, obtains the
-Mathlib cache, builds the advertised target, checks all production declarations
-for incomplete proofs, checks eleven general and seventeen action-specific
-theorem axiom sets, and exercises the regressions and failure mutations.
-Existing module-system/style warnings remain visible and nonfatal; proof errors
-and detected `sorryAx` dependencies fail verification independently.
+The [Lean proof-audit workflow](.github/workflows/lean_action_ci.yml) runs the
+aggregate verifier on pushes and pull requests. It builds the library and audit
+support, executes all top-level `tests/*.lean`, checks production proof completeness
+and exact declared axioms, checks selected theorem dependencies, and exercises
+failure mutations. Warnings remain visible and nonfatal; elaboration errors and
+transitive `sorryAx` dependencies fail independently.
 
-The [status map](docs/formalization-status.md#reviewed-snapshot-and-validation)
-records the mathematical source identity, unchanged manuscript hash, and local
-validation of this rebased combination. Historical CI-only head
-`6b667bbc6e3657cc8727bd7565fd3aa0509299b6` passed its
-[hosted proof-audit run](https://github.com/subtleGradient/asymmetric-tensor/actions/runs/38788710791).
-That run does not cover this combined source; no hosted result for the rebased
-combination is recorded here. Local existing-cache validation, clean setup, and
-revision-specific hosted checks are distinct evidence.
+The source has seven explicit axioms: three physical constants, their positivity,
+and the scoped conservation postulate. It also has eight body-less opaque scalar
+field inputs. A source inventory, a dependency audit, and a model-consistency
+proof are different things. In particular, allowing the postulate in the audit
+does not prove it or authorize a universal-field conservation law.
 
-The [verification contract](docs/verification.md) distinguishes whole-production
-proof-completeness checking from the selected exact theorem dependency audits.
-The selected lists are not a whole-library custom-axiom audit. The ten
-`FutureWork` statements returning `h_target` remain target specifications.
+The PR #70 repair preserves the raw v4.5 declaration tokens and docstrings while
+repairing module imports, section context, and a declaration's dependency order.
+Full candidate elaboration, regression checks, comparison with the built author
+reference, and revision-specific hosted CI are separate required evidence. See
+[the current validation boundary](docs/verification.md#current-validation-boundary)
+for the evidence boundary and exact-head PR record; historical green runs do not certify this candidate.
 
-Lean checks formal statements against their hypotheses and dependencies. It
-does not check whether a physical name matches its implemented objects, whether
-an assumed law is empirically true, or whether the manuscript is fully represented.
-The source has six explicit `axiom` declarations for physical constants and their
-positivity, plus nine body-less `opaque` field declarations. Those counts are a
-source inventory, **not** a transitive dependency audit. Removing the historical
-conservation contradiction does not prove consistency of every remaining model
-assumption. The component-projection results do not derive Bernoulli or
-Navier–Stokes PDEs, and the action results do not supply an action variation.
+`lake build` alone does not run the regression suite. For a focused iteration
+after building, run `lake env lean tests/V45FieldCalculus.lean`,
+`lake env lean tests/V45MatrixAction.lean`, or
+`lake env lean tests/V45OpticsForces.lean` as appropriate. Use the aggregate
+verifier before reporting a complete local pass.
 
-## Next mathematical contribution
+## Contributing and API navigation
 
-The [formalization roadmap](docs/formalization-roadmap.md) inventories target
-specifications and simplified models, records open modeling decisions, and selects
-a [bounded finite-determinant task](docs/finite-determinant-task.md).
+Start with [the contributor guide](CONTRIBUTING.md) and the current test files it
+links. Keep scientific assumptions, test-local recovered properties, production
+APIs, and outstanding analytical work distinct. The older
+[formalization roadmap](docs/formalization-roadmap.md) is a revision-pinned
+planning record; recheck current source and upstream work before adopting a task.
 
 ## License
 
@@ -190,10 +198,3 @@ The author's published manuscripts (Zenodo, CC-BY-4.0). The latest version is al
 All versions live at the concept DOI: https://doi.org/10.5281/zenodo.21321264
 
 Copyright Binyamin Tsadik Bair-Mosheh — [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
-
-## Contributing and API navigation
-
-Start with [the contributor guide](CONTRIBUTING.md) and its checked matrix example.
-Core definitions and headline results have declaration docstrings describing
-their mathematical contracts and limitations. The guide links the repaired
-Lie, action, optical, and force interfaces and their focused regression files.

@@ -120,6 +120,16 @@ class LedgerTests(unittest.TestCase):
             self.assertEqual((self.fixture / 'lake-manifest.json').read_bytes(), changed_manifest)
         self.changed_file('lake-manifest.json', check)
 
+    def test_historical_mode_preserves_later_live_audit_program(self):
+        def check():
+            self.assert_cli_failure('--check', contains='Stale reviewed snapshot: tests/EquationAxioms.lean')
+            changed_audit = (self.fixture / 'tests/EquationAxioms.lean').read_bytes()
+            result = self.cli('--check', '--historical')
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue(result.stdout.startswith('HISTORICAL ARCHIVE ONLY:'))
+            self.assertEqual((self.fixture / 'tests/EquationAxioms.lean').read_bytes(), changed_audit)
+        self.changed_file('tests/EquationAxioms.lean', check)
+
     def test_archives_are_guarded_even_when_live_snapshot_matches(self):
         for path, archive in ledger.ARCHIVED_FILES.items():
             with self.subTest(path=path):

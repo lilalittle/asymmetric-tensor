@@ -22,6 +22,7 @@ check_locks() {
 python3 scripts/check_lean_style.py
 python3 scripts/test_lean_style.py
 python3 scripts/test_module_source.py
+python3 scripts/test_module_context.py
 
 # Warnings remain visible but are not fatal; proof completeness is checked below.
 lake build AsymmetricTensor ProofAudit
@@ -31,6 +32,7 @@ for regression in tests/*.lean; do
   echo "Verifying $regression"
   lake env lean "$regression"
 done
+python3 tests/test_roadmap_inventory.py
 python3 tests/check_roadmap.py
 python3 scripts/test_proof_audit.py
 check_locks
