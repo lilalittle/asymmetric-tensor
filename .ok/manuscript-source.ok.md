@@ -1,7 +1,5 @@
 # Manuscript source integrity
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: each manuscript's LaTeX source and required build inputs, including companion manuscripts. Source approval belongs to [authority](authority.ok.md); the output artifact belongs to [paper artifacts](paper-artifacts.ok.md).
 
 ### tex-01

@@ -1,7 +1,5 @@
 # Reader-facing documentation
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: README, contributor guidance, API/scope explanations, examples, citation instructions, and generated documentation. This file owns reader usability and truthful current-versus-historical presentation; mathematical correspondence belongs to [evidence](evidence.ok.md).
 
 ### docs-01

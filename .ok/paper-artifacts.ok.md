@@ -1,7 +1,5 @@
 # Compiled and published paper artifacts
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: checked-in PDFs, review builds, release artifacts and their provenance. These are delivery artifacts, not interchangeable copies of a TeX filename.
 
 ### paper-01
@@ -15,7 +13,7 @@ A PDF claimed to represent repository source is traceable to the exact source/in
 Check: source-to-output manifest or explicit unknown provenance. Byte-identical reproducibility is not assumed when timestamps or nondeterministic PDF metadata vary; content identity and any normalization method remain explicit.
 
 ### paper-03
-A source correction is not reported as published until the intended published artifact is verified to contain it. When the designated current source and designated published PDF differ, the relationship and any advertised currency are truthful. If synchronizing them is an accepted publication goal, the remaining obligation has a visible canonical record; exploratory newer TeX does not by itself create a publication commitment, and an old PDF may remain valid historical evidence.
+Source may advance ahead of the published PDF. A source correction is not reported as published until the intended published artifact is verified to contain it. When the designated current source and designated published PDF differ, the relationship and any advertised currency are truthful. If synchronizing them is an accepted publication goal, the remaining obligation has a visible canonical record; exploratory newer TeX does not by itself create a publication commitment, and an old PDF may remain valid historical evidence.
 
 Check: actual artifact content, version/hash, source comparison and publication-stage acceptance. “Stale” is relative to a claimed source/edition, not merely file age.
 

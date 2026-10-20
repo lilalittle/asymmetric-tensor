@@ -1,7 +1,5 @@
 # Reconciliation integrity
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: the process that compares these ideals to observed repository state. Event definitions and execution steps belong to the companion runbook, not in the ideal-state files.
 
 ### reconcile-01

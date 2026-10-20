@@ -1,7 +1,5 @@
 # Claims, correspondence, and evidence
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: claims made across code, documentation, manuscript sources, paper artifacts, issues, and reviews. This file owns what evidence establishes, not where work lives.
 
 ### evidence-01

@@ -1,7 +1,5 @@
 # An evergreen contract for asymmetric-tensor
 
-Status: a reviewable proposal, not an activated policy, production-code change, automation, or authorization to edit author source.
-
 ## Recommendation
 
 Keep ten small OK files, grouped into three concerns. They contain 45 binary, testable assertions, not a backlog. Each assertion has one owning file; other files link to it.
@@ -26,7 +24,7 @@ The shared PR file answers “may this change be accepted?” The contract file 
 
 ## Scope and DotOK compatibility
 
-FOCUS_ROOT is the root directory of `lilalittle/asymmetric-tensor`, not the user's other projects. OK_DIR is `<FOCUS_ROOT>/.ok`; TASKS_DIR is `<FOCUS_ROOT>/.tasks`. The present draft package is a proposed set of files for that root, not a live reconciliation checkout.
+FOCUS_ROOT is the root directory of `lilalittle/asymmetric-tensor`, not the user's other projects. OK_DIR is `<FOCUS_ROOT>/.ok`; TASKS_DIR is `<FOCUS_ROOT>/.tasks`.
 
 The user explicitly requested Markdown `.ok/*.ok.md`, so DotOK's default-to-canvas capture rule does not apply. DotOK requires binary Markdown assertions but prescribes no Markdown frontmatter schema; these files therefore use ordinary headings and stable heading IDs rather than an invented `.ok` schema.
 
@@ -67,11 +65,14 @@ Currently human-reviewed or only partly automated: whether a theorem matches a m
 
 Proposed new capabilities, not implemented by these files: event-driven reconciliation, canonical gap indexing/dedupe, criterion/evidence tracking, source-to-PDF build manifests, automatic citation/link drift checks, and any new required CI or branch-protection gate. Installing a skill or writing a razor does not create those capabilities.
 
-## Choices worth discussing before activation
+## Accepted policy
 
-1. **Publication promise:** should every accepted manuscript-source correction block a release until a synchronized PDF is published, or may source move ahead with a visible publication gap? Recommendation: allow explicit lag; never claim it is already published.
-2. **Enforcement rollout:** should these begin as advisory reviews using existing checks, then promote reliable automated razors to required gates? Recommendation: yes; scientific/editorial judgments stay explicitly human-reviewed.
-3. **Notification budget:** when work is eventually automated, what cadence is useful for non-urgent drift and consolidated author questions? Recommendation: event-driven material updates, one consolidated human-question digest per day, and no routine “still unchanged” comments. No schedule is installed now.
+**Source/PDF lag:** source may move ahead of the published PDF, as [confirmed in PR #82](https://github.com/lilalittle/asymmetric-tensor/pull/82#issuecomment-6296369344). The artifact relationship must remain explicit, and any accepted publication obligation remains visible. A source correction is not described as published until the intended PDF contains it. See `paper-03`.
+
+## Remaining implementation choices
+
+1. **Enforcement rollout:** should these begin as advisory reviews using existing checks, then promote reliable automated razors to required gates? Recommendation: yes; scientific/editorial judgments stay explicitly human-reviewed.
+2. **Notification budget:** when work is automated, what cadence is useful for non-urgent drift and consolidated author questions? Recommendation: event-driven material updates, one consolidated human-question digest per day, and no routine “still unchanged” comments. No schedule is installed by these files.
 
 There is no need to ask where the canonical tasks live: the user already chose GitHub issues for main and PR threads for PR-local work. Likewise, raw-author edit authority is not being reopened as a new preference.
 

@@ -1,7 +1,5 @@
 # The stable Lean library and its authoring boundary
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: the stable import umbrella, production modules, verification support, tests, and the boundary with raw author uploads. Source authority is owned by [authority](authority.ok.md).
 
 ### lean-01

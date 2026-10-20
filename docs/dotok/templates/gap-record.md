@@ -1,6 +1,6 @@
 # Gap or evidence-goal record template
 
-Draft template. This belongs in the canonical main issue or PR thread, not in an evergreen `.ok` file. Existing issues need not be reformatted if their substance already supplies the fields.
+This belongs in the canonical main issue or PR thread, not in an evergreen `.ok` file. Existing issues need not be reformatted if their substance already supplies the fields.
 
 Identity: <stable gap ID; existing aliases>
 Canonical location: <verified issue or PR-thread permalink>

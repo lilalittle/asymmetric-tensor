@@ -1,7 +1,5 @@
 # Shared pull-request acceptance
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: every proposed repository change. This file owns shared readiness and merge acceptance; [PR contracts](pr-contracts.ok.md) owns the change-specific promise.
 
 ### prs-01
@@ -12,7 +10,7 @@ Check: the PR body or its single linked contract comment. Draft research uploads
 ### prs-02
 A PR reported ready to merge has passing current evidence for its applicable mandatory checks and explicit approvals for its protected changes. Advisory diagnostics and unknown checks are named separately; their success is not used to replace a required gate, and a configured workflow is not treated as a completed run.
 
-Check: exact candidate head, current target/base relevance, required-check results, protected-change approvals, and disposition of blocking findings. This draft does not assert which checks GitHub branch protection currently enforces.
+Check: exact candidate head, current target/base relevance, required-check results, protected-change approvals, and disposition of blocking findings. The applicable checks must be verified against the current repository configuration; this contract does not infer which checks GitHub branch protection enforces.
 
 ### prs-03
 A blocking PR finding identifies an applicable acceptance violation, whether it is introduced, inherited or of unknown origin, its evidence, severity rationale, and a testable remedy or author decision. Inherited main-branch defects are linked to their issue and are not silently added to this PR's scope unless the change depends on fixing them or the reviewer explicitly explains the new risk.

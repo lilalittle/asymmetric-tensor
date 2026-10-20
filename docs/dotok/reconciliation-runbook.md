@@ -1,6 +1,6 @@
-# Proposed reconciliation runbook
+# Reconciliation runbook
 
-This is an execution design for review, not an enabled workflow. The `.ok` files define desired state; this file defines when and how it could be checked. No trigger grants write permission.
+The `.ok` files define desired state; this file defines when and how it is checked. No trigger grants write permission.
 
 ## 1. Start one bounded run
 
@@ -10,7 +10,7 @@ Freeze the spec revision for the run. If two assertions conflict, cite both, pau
 
 A candidate's GitHub head and the tested synthetic merge revision, if any, are different identifiers; record both. Re-check head/base and canonical status immediately before any consequential write or final acceptance claim.
 
-## 2. Proposed events and relevant checks
+## 2. Events and relevant checks
 
 These are logical event definitions, not a promise that a connector/webhook currently supports them. Implementation must verify support before enabling a trigger.
 

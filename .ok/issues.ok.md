@@ -1,7 +1,5 @@
 # GitHub issues as the main-branch work record
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: durable goals and gaps affecting the main branch, plus repository-wide research work. PR-local work is governed by [pull requests](pull-requests.ok.md) and [reconciliation](reconciliation.ok.md).
 
 ### issues-01

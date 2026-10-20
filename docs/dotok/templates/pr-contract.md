@@ -1,6 +1,6 @@
 # PR intent contract template
 
-Draft template. Put the filled instance in the PR body or one linked contract comment; keep its canonical location stable. This template is not itself an evergreen OK source.
+Put the filled instance in the PR body or one linked contract comment; keep its canonical location stable. This template is not itself an evergreen OK source.
 
 PR and contract version: <URL; version>
 Candidate: <head SHA; base/target SHA; synthetic merge SHA if tested>

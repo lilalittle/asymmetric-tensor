@@ -1,7 +1,5 @@
 # Author authority and source preservation
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: the repository root. This file owns permission and author-intent boundaries, not technical acceptance. Evidence rules live in [evidence](evidence.ok.md).
 
 ### authority-01

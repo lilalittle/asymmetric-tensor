@@ -1,7 +1,5 @@
 # The particular promise made by each PR
 
-Draft for discussion. Not an activated policy or authorization to act.
-
 Scope: the live intent contract for each PR. This is the evergreen rule for instances, not an instance itself. Instances live in their PR threads, not in an accumulating directory of per-PR OK files.
 
 ### contract-01
