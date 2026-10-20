@@ -22,7 +22,9 @@ check_locks() {
 python3 scripts/check_lean_style.py
 python3 scripts/test_lean_style.py
 python3 scripts/test_module_source.py
+python3 scripts/check_module_context.py
 python3 scripts/test_module_context.py
+python3 tests/test_v50_inventory.py
 
 # Warnings remain visible but are not fatal; proof completeness is checked below.
 lake build AsymmetricTensor ProofAudit

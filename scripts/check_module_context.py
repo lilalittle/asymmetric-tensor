@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the hand-reviewed v4.5 module import and section-context inventory.
+"""Check the hand-reviewed v5.0 module import and section-context inventory.
 
 This deliberately checks only line-leading, single-line first-party public
 imports and variable/include/omit commands in the nine implementation modules.
@@ -99,5 +99,5 @@ if __name__ == "__main__":
     for failure in failures:
         print(failure, file=sys.stderr)
     if not failures:
-        print("MODULE_CONTEXT_OK: nine reviewed v4.5 module inventories unchanged.")
+        print("MODULE_CONTEXT_OK: nine reviewed v5.0 module inventories unchanged.")
     sys.exit(bool(failures))

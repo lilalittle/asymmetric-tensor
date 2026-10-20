@@ -119,6 +119,16 @@ class ModuleContext(unittest.TestCase):
         (self.root / "AsymmetricTensor/NewModule.lean").write_text("")
         self.assert_rejected("additional module needs a reviewed context inventory")
 
+    def test_raw_upload_is_not_a_module(self):
+        (self.root / "AsymmetricTensor/Asymmetric Tensor v5.0.lean").write_text(
+            "variable (not_production : Nat)\n")
+        self.assertEqual(check(self.root), [])
+
+    def test_missing_chiral_wedge_import(self):
+        self.replace("Applications/WavesForces.lean",
+                     "public import AsymmetricTensor.MatrixAlgebra\n", "")
+        self.assert_rejected("missing first-party public import")
+
 
 if __name__ == "__main__":
     unittest.main()

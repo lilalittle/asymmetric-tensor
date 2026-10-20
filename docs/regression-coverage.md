@@ -1,15 +1,15 @@
-# v4.5 API and regression coverage
+# v5.0 API and regression coverage
 
-This report describes the PR #70 repair against the author's raw v4.5 source
-`5a84e0c52b71295a678dcc1c50f80d430e5475f2`, integrated at
-`10158f3b5336ca15a78d98221c5531dd55a578b5`. The repair preserves the author-source
-declaration tokens and docstrings while fixing module context and dependencies.
-It adds current-API regression checks; it does not restore every older theorem
-or make the older repaired API source-compatible.
+Local integration of [the author's raw v5.0 source](https://github.com/lilalittle/asymmetric-tensor/blob/3778783fd29bd92ff76081caf1abcfc032a4e00f/AsymmetricTensor.lean).
+The nine-module split preserves declaration tokens and docstrings. Tests retain
+their V45 filenames because those APIs and regressions still apply. Exact audit
+lists now exclude the six former foundational axioms; only the dynamic scoped
+conservation postulate remains. The foundation guard checks definitions and
+theorems, not axioms. The v4.6 EM argument/projection repair is retained.
 
-Coverage below describes what the checked-in tests exercise. Execution status
-is recorded separately in [verification](verification.md#current-validation-boundary).
-A test being present is not evidence that the final candidate passed it.
+The 35 added results have source-inventory coverage; they do not yet each have
+independent mathematical regressions. Python checks are not Lean elaboration.
+See [integration evidence](v5.0-integration.md) for this candidate's actual gates.
 
 ## Current interfaces and assumptions
 
@@ -35,7 +35,7 @@ A test being present is not evidence that the final candidate passed it.
 - Optics currently has pointwise refraction and natural-log magnitude formulas.
   `magnitude_anomaly_divergence` proves a conditional logarithm identity, not
   divergence to infinity or a strict positive finite-path anomaly.
-- `interaction_hierarchy_em` proves the scaled `α * F_fund a₀ = α³ m² c³ / ℏ`
+- `interaction_hierarchy_em` takes `L_crit` and returns three conjuncts; its second proves the scaled `α * F_fund a₀ = α³ m² c³ / ℏ`
   expression. The unscaled and scaled ratios have distinct fourth and fifth powers.
 
 ## Seven historical regression files

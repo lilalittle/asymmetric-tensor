@@ -21,7 +21,8 @@ DECL = re.compile(
 
 def inventory(root):
     files = [root / "AsymmetricTensor.lean", *sorted((root / "AsymmetricTensor").rglob("*.lean"))]
-    names = ["AsymmetricTensor." + name for path in files for name in DECL.findall(path.read_text())]
+    names = ["AsymmetricTensor." + name for path in files if " " not in path.name
+             for name in DECL.findall(path.read_text())]
     if len(names) != len(set(names)):
         raise RuntimeError(f"Duplicate source declaration in {root}")
     return set(names)

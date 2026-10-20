@@ -56,8 +56,8 @@ end AsymmetricTensor.RoadmapEvidence
 -- The counterexample must not acquire the U_hat_dynamic conservation postulate or
 -- positivity axioms. Exact transitive sets are reviewed, not merely printed.
 #audit_theorem AsymmetricTensor.RoadmapEvidence.alignedClebsch_vorticity custom []
-#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_eq custom [AsymmetricTensor.c]
-#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_anti_skew custom [AsymmetricTensor.c]
-#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_anti_trace custom [AsymmetricTensor.c]
-#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_det custom [AsymmetricTensor.c]
-#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_not_isochoric custom [AsymmetricTensor.c]
+#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_eq custom []
+#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_anti_skew custom []
+#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_anti_trace custom []
+#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_det custom []
+#audit_theorem AsymmetricTensor.RoadmapEvidence.rotationalExample_not_isochoric custom []

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Reviewed v4.5 imports and section context; bounded lexical guard, supplemented by raw-reference elaborated API comparison.",
+  "description": "Reviewed v5.0 imports and section context: replay v4.6 variables and add MatrixAlgebra to WavesForces for new chiral wedge results. Bounded lexical guard; elaborated API comparison remains separate.",
   "modules": {
     "AsymmetricTensor/Applications/Electromagnetism.lean": {
       "imports": [
@@ -50,7 +50,8 @@
     },
     "AsymmetricTensor/Applications/WavesForces.lean": {
       "imports": [
-        "public import AsymmetricTensor.Model"
+        "public import AsymmetricTensor.Model",
+        "public import AsymmetricTensor.MatrixAlgebra"
       ],
       "context": [
         "variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]",

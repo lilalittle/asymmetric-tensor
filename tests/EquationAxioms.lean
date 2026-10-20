@@ -9,11 +9,9 @@ run_cmd do
   let env ← getEnv
   let root := `AsymmetricTensor
   let logical := #[`propext, `Classical.choice, `Quot.sound]
-  -- Preserve the author's exact seven-axiom inventory. Allowlisting a postulate
+  -- Preserve the author's exact one-axiom inventory. Allowlisting a postulate
   -- records a dependency; it is not a consistency or physical-validity claim.
-  let permitted := #[`AsymmetricTensor.c, `AsymmetricTensor.l_p,
-    `AsymmetricTensor.hbar, `AsymmetricTensor.c_pos, `AsymmetricTensor.l_p_pos,
-    `AsymmetricTensor.hbar_pos, `AsymmetricTensor.covariant_conservation]
+  let permitted := #[`AsymmetricTensor.covariant_conservation]
   let mut count := 0
   let mut declared : Array Name := #[]
   for (name, info) in env.constants.toList.mergeSort (fun a b => Name.lt a.1 b.1) do
