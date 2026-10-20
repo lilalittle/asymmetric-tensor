@@ -15,6 +15,7 @@ public import Mathlib.Data.Matrix.Basic
 public import Mathlib.LinearAlgebra.Matrix.BilinearForm
 public import Mathlib.Tactic
 public import AsymmetricTensor.Model
+public import AsymmetricTensor.MatrixAlgebra
 
 /-!
 # Transverse wave mechanics and continuous pressure dynamics
