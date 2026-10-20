@@ -27,6 +27,10 @@ See [integration evidence](v5.0-integration.md) for this candidate's actual gate
   theorems use the scoped axiom; generic coordinate calculus does not.
 - `lie_derivative` retains transport and both covariant-index terms.
   `is_translationally_symmetric` now takes a general vector field.
+  [`lie_derivative_translation_bridge`](../AsymmetricTensor/FieldCalculus.lean)
+  reduces the operator to transport under a zero-Jacobian hypothesis.
+  [`conformal_dilation_micro_macro_asymmetry`](../AsymmetricTensor/Applications/Geometry.lean)
+  gives transport plus `2σU` under the stipulated dilation Jacobian.
   `lorentz_symmetry_broken` assumes a scalar residual; it does not take actual
   boost invariance as its premise.
 - `lorentzian_contract` is the explicit fixed-Minkowski component pairing;
@@ -58,7 +62,7 @@ executed. Recovered test-local facts are not restored production declarations.
 |---|---|---|
 | `ApiExamples.lean` | `V45MatrixAction` covers the nonsymmetric decomposition and contraction signs; `V45FieldCalculus` covers constant fields and dilation | Old names/signatures involving `CoordinateConserved`, `decimalLog` and `optical_distance_gt` remain absent; base-10 positivity is available through `log10`/`magnitude_anomaly_log10_pos`, and the unscaled EM expression is now the first conjunct of `interaction_hierarchy_em` |
 | `Conservation.lean` | Test-local constant-field divergence and coordinate-field counterexample; exact-type guard for the dynamic postulate; both component projections | No general production admissible-field interface or nonempty-solution-class theorem for that former interface |
-| `LieDerivative.lean` | Constant translation of constant tensors, constant-tensor dilation, varying-field transport and dilation, and independent first/second index responses | Former named transport/translation bridges, generic linear-flow/boost suite, regularity bridge and actual-invariance-to-residual API are not recovered |
+| `LieDerivative.lean` | Constant translation of constant tensors, constant-tensor dilation, varying-field transport and dilation, and independent first/second index responses | Historical helper names/signatures, generic linear-flow/boost suite, regularity bridge and actual-invariance-to-residual API remain absent; current replacement translation/dilation helpers described above are not directly exercised here |
 | `LorentzianAction.lean` | Electric/magnetic/mixed signs, generic raising-to-component bridge, arbitrary symmetric/antisymmetric orthogonality, current action separation, comoving constraints, spatial-gradient restriction, Eq. 123 null/nonunit cases | Old Eq. 121 normalization, dynamic inverse/one-index raising, background-subtracted pressure-normalized action API and the seventeen old exact audits are not restored |
 | `DistanceModulus.lean` | Natural-log tenfold/e-fold/equal-distance behavior and common redshift cancellation; test-local division by `log 10` recovers decimal tenfold calibration | Production `log10` and `magnitude_anomaly_log10_pos` are available, but these regressions do not directly exercise the latter; `decimalLog` is still a historical name, and the retained natural-log tenfold result is `5 * log 10`, not `5` |
 | `ForceHierarchy.lean` | Direct exercise of the named theorem's scaled second conjunct; test-local unscaled/scaled ratios; nonunit coupling distinguishes `1/16` and `1/32`; excluded zero-mass case | The production theorem also supplies the unscaled baseline and `α⁴` ratio as first/third conjuncts, without direct projection-specific regressions here; the old separately named helpers are absent, and the tests do not decide the physical model |
