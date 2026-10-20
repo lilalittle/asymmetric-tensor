@@ -9,25 +9,30 @@ open AsymmetricTensor BigOperators
 namespace V45FieldRegression
 
 -- The inventory alone would accept a stronger axiom under an unchanged name.
--- Pin both declaration kind and definitional type for all six physical constants
--- and positivity assumptions; the seventh postulate is checked immediately below.
+-- v5.0 replaces six axioms with three definitions and three positivity theorems.
+-- Pin their kinds and signatures; the remaining postulate is checked below.
 open Lean Elab Command in
 run_cmd do
-  let checkAxiom (decl : Name) (expectedSyntax : TSyntax `term) : CommandElabM Unit := do
+  let checkFoundation (decl : Name) (isTheorem : Bool)
+      (expectedSyntax : TSyntax `term) : CommandElabM Unit := do
     let info ← getConstInfo decl
-    unless info matches .axiomInfo _ do
-      throwError "FOUNDATIONAL_AXIOM_TYPE: {decl} is no longer an axiom"
+    let correctKind := match info with
+      | .thmInfo _ => isTheorem
+      | .defnInfo _ => !isTheorem
+      | _ => false
+    unless correctKind do
+      throwError "FOUNDATIONAL_KIND: {decl} has the wrong declaration kind"
     liftTermElabM do
       let expected ← Term.elabType expectedSyntax
       unless ← Meta.isDefEq info.type expected do
-        throwError "FOUNDATIONAL_AXIOM_TYPE: {decl} no longer has its reviewed signature"
-  checkAxiom `AsymmetricTensor.c (← `(ℝ))
-  checkAxiom `AsymmetricTensor.l_p (← `(ℝ))
-  checkAxiom `AsymmetricTensor.hbar (← `(ℝ))
-  checkAxiom `AsymmetricTensor.c_pos (← `(0 < AsymmetricTensor.c))
-  checkAxiom `AsymmetricTensor.l_p_pos (← `(0 < AsymmetricTensor.l_p))
-  checkAxiom `AsymmetricTensor.hbar_pos (← `(0 < AsymmetricTensor.hbar))
-  logInfo "FOUNDATIONAL_AXIOM_TYPES_OK: exactly three real constants and three positivity axioms"
+        throwError "FOUNDATIONAL_TYPE: {decl} no longer has its reviewed signature"
+  checkFoundation `AsymmetricTensor.c false (← `(ℝ))
+  checkFoundation `AsymmetricTensor.l_p false (← `(ℝ))
+  checkFoundation `AsymmetricTensor.hbar false (← `(ℝ))
+  checkFoundation `AsymmetricTensor.c_pos true (← `(0 < AsymmetricTensor.c))
+  checkFoundation `AsymmetricTensor.l_p_pos true (← `(0 < AsymmetricTensor.l_p))
+  checkFoundation `AsymmetricTensor.hbar_pos true (← `(0 < AsymmetricTensor.hbar))
+  logInfo "FOUNDATIONAL_TYPES_OK: three real definitions and three positivity theorems"
 
 -- Compare the declaration type itself, so even an implicit general-field binder
 -- cannot silently broaden this postulate while the examples keep compiling.

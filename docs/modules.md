@@ -1,6 +1,6 @@
 # Modules, naming, and style
 
-This is the modular layout of Binyamin Tsadik Bair-Mosheh's v4.6 formalization.
+This is the modular layout of Binyamin Tsadik Bair-Mosheh's v5.0 formalization.
 The public umbrella and namespace remain `AsymmetricTensor`; preservation of
 that import path does not imply compatibility with the older repaired APIs.
 Section headings follow manuscript topics and do not establish full coverage.
@@ -122,3 +122,11 @@ of 304 declarations and 78 docstrings describe the older library only. See
 [verification](verification.md#current-validation-boundary) for the exact-head
 validation boundary and [regression coverage](regression-coverage.md) for semantic changes
 from that older API.
+
+## v5.0 dependency repairs
+
+The §6 quadratic gravitational trace theorem remains in `FieldCalculus` because
+it uses `I_2_vac`. The new §6.2 strain/incompatibility subsection is also there
+because `partial_deriv2` needs §4's `ScalarField`, `SpaceTime` and `partial_deriv`.
+`WavesForces` now imports `MatrixAlgebra` for the new Clebsch-wedge chiral results.
+No reverse import from `MatrixAlgebra` to `FieldCalculus` is introduced.

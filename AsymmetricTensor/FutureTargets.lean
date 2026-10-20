@@ -22,7 +22,7 @@ public import AsymmetricTensor.Applications.WavesForces
 /-!
 # Predictive corollaries and future work, including dimensional audit corollaries
 
-Module of Binyamin's v4.6 formalization. Declarations retained verbatim
+Module of Binyamin's v5.0 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -935,4 +935,5 @@ theorem unit_integer_action_closure_and_coulomb_elimination :
           rfl,
           rfl, rfl, rfl, rfl⟩
 end FutureWork
+
 end AsymmetricTensor

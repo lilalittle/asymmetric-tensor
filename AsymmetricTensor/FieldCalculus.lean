@@ -20,7 +20,7 @@ public import AsymmetricTensor.MatrixAlgebra
 /-!
 # Continuous field equation, equation of motion, and conformal symmetry
 
-Module of Binyamin's v4.6 formalization. Declarations retained verbatim
+Module of Binyamin's v5.0 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -306,9 +306,6 @@ theorem divergence_expansion (x : SpaceTime) (ν : Fin 4) :
     (metric_divergence U_hat_dynamic x) ν =
     ∑ μ : Fin 4, partial_deriv (fun y => U_hat_dynamic y μ ν) μ x := by
   rfl
-/-- Dynamic pressure field `P_dyn(x) = (1 - α_s(x)^2) P_c`. -/
-noncomputable def P_dyn_f : ScalarField :=
-  fun x => (1 - (alpha_s_f x)^2) * P_c
 -- Theorem 26.5 (Resolves Issue #9 Satisfiability Witness):
 -- Proves without axioms that any homogeneous vacuum metric field `fun _ => U_const`
 -- has vanishing partial derivatives and satisfies `is_divergence_free` at every point `x`.
@@ -318,6 +315,9 @@ theorem homogeneous_vacuum_is_divergence_free (U_const : T2) (x : SpaceTime) :
   ext ν
   dsimp [metric_divergence, partial_deriv]
   simp
+/-- Dynamic pressure field `P_dyn(x) = (1 - α_s(x)^2) P_c`. -/
+noncomputable def P_dyn_f : ScalarField :=
+  fun x => (1 - (alpha_s_f x)^2) * P_c
 -- Theorem 27: Dynamic Spatial Compliance Link and Pressure Gradient Extraction
 theorem dynamic_compliance_link (x : SpaceTime) :
   1 / (alpha_s_f x)^2 = 1 / (1 - (P_dyn_f x) / P_c) := by
@@ -579,6 +579,90 @@ theorem archimedean_buoyancy_and_newtonian_limit
       _ = (- (G * M_defect * m_tau) / r_val^2) * (rho_tau / rho_tau) := by ring
       _ = - (G * M_defect * m_tau) / r_val^2 := by rw [div_self hrho, mul_one]
 
+-- v5.0 dependency repair: §6.2 uses eta_metric and partial_deriv.
+-- ----------------------------------------------------------------------
+-- 6.2 Strain Incompatibility & Riemann Curvature (Manuscript Eqs. 70–73)
+-- ----------------------------------------------------------------------
+-- Dimensional Audit: Cauchy strain (P_dyn / (2 P_c α_s^2)) is dimensionless, Burgers vector is length (l_p),
+-- and Saint-Venant Incompatibility / Linearized Riemann Curvature has dimension 1 / L^2 (u_Curvature):
+theorem unit_section6_2_incompatibility :
+    u_P_c / (u_P_c * (u_dimless^(2:ℤ))) = u_dimless ∧
+    u_l_p * u_dimless = u_l_p ∧
+    u_dimless / (u_l_p^(2:ℤ)) = u_Curvature := by
+  refine ⟨rfl, rfl, rfl⟩
+/-- Symmetric Cauchy strain tensor `ε_μν = (1/2) (S_μν - η_μν)` (Manuscript Eq. 70).
+    For spatial indices `i, j ∈ {1, 2, 3}`, `η_ij = δ_ij`, extracting `ε_ij = (1/2)(S_ij - δ_ij)`. -/
+noncomputable def cauchy_strain (S : T2) : T2 :=
+  Matrix.of (fun μ ν => (1 / 2) * (S μ ν - eta_metric μ ν))
+/-- Second-order coordinate partial derivative `∂_i ∂_j f(x)` on `SpaceTime`. -/
+noncomputable def partial_deriv2 (f : ScalarField) (i j : Fin 4) (x : SpaceTime) : ℝ :=
+  partial_deriv (fun y => partial_deriv f j y) i x
+/-- The Saint-Venant Incompatibility Tensor `Inc(ε)_ijkl` (Manuscript Eq. 71):
+    `Inc(ε)_ijkl = ∂_j ∂_l ε_ik + ∂_i ∂_k ε_jl - ∂_j ∂_k ε_il - ∂_i ∂_l ε_jk`. -/
+noncomputable def saint_venant_inc (ε : MetricField) (x : SpaceTime) (i j k l : Fin 4) : ℝ :=
+  partial_deriv2 (fun y => ε y i k) j l x +
+  partial_deriv2 (fun y => ε y j l) i k x -
+  partial_deriv2 (fun y => ε y i l) j k x -
+  partial_deriv2 (fun y => ε y j k) i l x
+/-- Linearized Riemann Curvature Tensor `R_ijkl^(lin) = Inc(ε)_ijkl` (Manuscript Eq. 73). -/
+noncomputable def linearized_riemann (ε : MetricField) (x : SpaceTime) (i j k l : Fin 4) : ℝ :=
+  saint_venant_inc ε x i j k l
+-- Theorem 148: Cauchy Strain Spatial Extraction & Dynamic Pressure Link (Manuscript Eq. 70)
+-- Proves directly from `U_sym` that the spatial diagonal Cauchy strain evaluates to
+-- `(1/2) * (1 / alpha_s^2 - 1) = P_dyn / (2 * P_c * alpha_s^2)` and vanishes in the unperturbed vacuum (`alpha_s = 1`).
+theorem cauchy_strain_spatial_diagonal (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4)
+    (t_p_val P_dyn_local : ℝ) (ha_s : alpha_s ≠ 0)
+    (h_admittance : alpha_s^2 = 1 - P_dyn_local / P_c) :
+    (cauchy_strain (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)) 1 1 =
+      (1 / 2) * (1 / alpha_s^2 - 1) ∧
+    (cauchy_strain (U_sym 1 alpha v_x v_y v_z d_lambda d_beta t_p_val)) 1 1 = 0 ∧
+    (1 / 2) * (1 / alpha_s^2 - 1) = P_dyn_local / (2 * P_c * alpha_s^2) := by
+  have hPc : P_c ≠ 0 := Pc_non_zero
+  have ha2 : alpha_s^2 ≠ 0 := pow_ne_zero 2 ha_s
+  refine ⟨?_, ?_, ?_⟩
+  · dsimp [cauchy_strain, U_sym, symPart, U_hat, eta_metric, Matrix.of_apply]
+    norm_num
+  · dsimp [cauchy_strain, U_sym, symPart, U_hat, eta_metric, Matrix.of_apply]
+    norm_num
+  · have h_sub : 1 - alpha_s^2 = P_dyn_local / P_c := by linarith
+    calc (1 / 2) * (1 / alpha_s^2 - 1)
+      _ = (1 - alpha_s^2) / (2 * alpha_s^2) := by field_simp;
+      _ = (P_dyn_local / P_c) / (2 * alpha_s^2) := by rw [h_sub]
+      _ = P_dyn_local / (2 * P_c * alpha_s^2) := by ring
+-- Theorem 149: Saint-Venant Compatibility of the Homogeneous Euclidean Vacuum (Manuscript Eq. 71)
+-- Proves without axioms that any spatially uniform strain field `fun _ => ε_const` has vanishing
+-- second-order Fréchet derivatives and satisfies the Saint-Venant compatibility condition `Inc(ε)_ijkl = 0`.
+theorem saint_venant_homogeneous_flatness (ε_const : T2) (x : SpaceTime) (i j k l : Fin 4) :
+    saint_venant_inc (fun _ : SpaceTime => ε_const) x i j k l = 0 := by
+  dsimp [saint_venant_inc, partial_deriv2, partial_deriv]
+  simp
+-- Theorem 150: Topological Volterra Dislocation & Burgers Vector Phase Gap (Manuscript Eq. 72)
+-- Proves that when circulation around a rotational Clebsch vortex induces a non-vanishing Burgers
+-- displacement gap `b_i = Area * Inc_flux` (`b_i ≠ 0`), the strain field is structurally incompatible (`Inc_flux ≠ 0`),
+-- whereas an irrotational single-valued displacement (`Inc_flux = 0`) yields a zero Burgers vector (`b_i = 0`).
+theorem burgers_dislocation_incompatibility (contour_du_i b_i Area_core Inc_flux : ℝ)
+    (h_burgers_def : contour_du_i = b_i)
+    (h_stokes_dislocation : b_i = Area_core * Inc_flux) :
+    (Inc_flux = 0 → contour_du_i = 0) ∧
+    (b_i ≠ 0 → Inc_flux ≠ 0) := by
+  refine ⟨?_, ?_⟩
+  · intro h_zero
+    rw [h_burgers_def, h_stokes_dislocation, h_zero, mul_zero]
+  · intro hb_ne h_inc_zero
+    apply hb_ne
+    rw [h_stokes_dislocation, h_inc_zero, mul_zero]
+-- Theorem 151: Linearized Riemann-Kröner Curvature Identities & Skew-Symmetry (Manuscript Eq. 73)
+-- Proves that the linearized Riemann curvature `R_ijkl^(lin) = Inc(ε)_ijkl` satisfies exact index
+-- antisymmetry in `(i, j)` and `(k, l)` and vanishes along repeated index pairs (`R_iikl = 0`, `R_ijkk = 0`).
+theorem linearized_riemann_kroner_identities (ε : MetricField) (x : SpaceTime) (i j k l : Fin 4) :
+    linearized_riemann ε x i j k l = saint_venant_inc ε x i j k l ∧
+    linearized_riemann ε x j i k l = - linearized_riemann ε x i j k l ∧
+    linearized_riemann ε x i j l k = - linearized_riemann ε x i j k l ∧
+    linearized_riemann ε x i i k l = 0 ∧
+    linearized_riemann ε x i j k k = 0 := by
+  refine ⟨rfl, ?_, ?_, ?_, ?_⟩ <;>
+  { dsimp [linearized_riemann, saint_venant_inc]
+    ring }
 -- ======================================================================
 -- SECTION 7: CONFORMAL SYMMETRY & THE LIE DERIVATIVE CONSTRAINTS
 -- ======================================================================
@@ -698,14 +782,106 @@ theorem gordon_optical_metric_admittance (U : T2) (n_idx alpha_s_opt : ℝ) (u :
 -- ----------------------------------------------------------------------
 -- 7.3 Kinematic Implications of Symmetry Breaking
 -- ----------------------------------------------------------------------
--- [Manuscript Section Placeholder: Connects the non-vanishing Lie derivative residuals
---  proportional to ∇P_dyn and (1/α_s^2 - α_s^2) to null geodesic deflection in the Gordon metric].
+-- Dimensional Audit: Capacity variance (1/α_s^2 - α_s^2) and refractive index n are dimensionless,
+-- normalized pressure gradient (∇P_dyn / P_c) has dimension 1/L, and phase velocity (c / n) has dimension u_c:
+theorem unit_section7_3_symmetry_breaking :
+    u_P_c / u_P_c = u_dimless ∧
+    u_grad_P / u_P_c = u_dimless / u_l_p ∧
+    u_c / u_dimless = u_c := by
+  refine ⟨rfl, rfl, rfl⟩
+-- Theorem 152: Symmetry-Breaking Capacity Variance & Gordon Optical Deflection
+-- Proves that the Lorentz boost Lie-derivative residual factor (1 / alpha_s^2 - alpha_s^2)
+-- equals the Gordon optical metric factor (n^2 - 1) / n (for n = 1 / alpha_s^2) and satisfies
+-- (1 / alpha_s^2 - alpha_s^2) * alpha_s^2 = (P_dyn / P_c) * (2 - P_dyn / P_c).
+-- In the unperturbed vacuum (alpha_s = 1) the residual vanishes, whereas under subcritical
+-- kinematic strain (0 < alpha_s < 1) it is strictly positive, driving null geodesic deflection.
+theorem symmetry_breaking_gordon_deflection (alpha_s n_val P_dyn_local : ℝ)
+    (ha_pos : 0 < alpha_s) (ha_lt_one : alpha_s < 1)
+    (h_n : n_val = 1 / alpha_s^2)
+    (h_admittance : alpha_s^2 = 1 - P_dyn_local / P_c) :
+    1 / alpha_s^2 - alpha_s^2 = (n_val^2 - 1) / n_val ∧
+    (1 / alpha_s^2 - alpha_s^2) * alpha_s^2 = (P_dyn_local / P_c) * (2 - P_dyn_local / P_c) ∧
+    1 / (1 : ℝ)^2 - (1 : ℝ)^2 = 0 ∧
+    0 < 1 / alpha_s^2 - alpha_s^2 := by
+  have ha_ne : alpha_s ≠ 0 := ne_of_gt ha_pos
+  refine ⟨?_, ?_, by norm_num, ?_⟩
+  · rw [h_n]
+    field_simp
+  · have h_lhs : (1 / alpha_s^2 - alpha_s^2) * alpha_s^2 = 1 - (alpha_s^2)^2 := by
+      field_simp
+    rw [h_lhs, h_admittance]
+    ring
+  · have h_fact : 1 / alpha_s^2 - alpha_s^2 =
+        (1 - alpha_s) * (1 + alpha_s) * (1 + alpha_s^2) / alpha_s^2 := by
+      field_simp
+      ring
+    have h1 : 0 < 1 - alpha_s := by linarith
+    have h2 : 0 < 1 + alpha_s := by linarith
+    rw [h_fact]
+    positivity
 -- ----------------------------------------------------------------------
 -- 7.4 Conserved Noether Currents (Manuscript Eqs. 107–109)
 -- ----------------------------------------------------------------------
--- [Manuscript Section Placeholder:
---  1. Translational Symmetry (∂_μ T^μν = 0, formalized in Section 5.1),
---  2. Lorentz Symmetry & Internal Clebsch Spin Tensor (J^μ = L^μαβ + Σ^μαβ, ∂_μ M^μαβ = 0)].
+-- Dimensional Audit: Stress-energy divergence (∂_μ T^μν) has dimension u_grad_P (Force / Volume),
+-- and angular momentum current divergence (∂_μ M^μαβ = ∂_μ (x^α T^μβ + Σ^μαβ)) has dimension u_P_c (Torque / Volume):
+theorem unit_section7_4_noether_currents :
+    u_P_c / u_l_p = u_grad_P ∧
+    (u_l_p * u_P_c) / u_l_p = u_P_c ∧
+    (u_P_c * u_dimless) * u_l_p = u_l_p * u_P_c := by
+  refine ⟨rfl, rfl, rfl⟩
+/-- Canonical Noether current density `J^μ = (∂L / ∂(∂_μ U_αβ)) L_ξ U_αβ - ξ^μ L_metric` (Manuscript Eq. 107). -/
+noncomputable def noether_current_density (dL_dU_grad L_xi_U xi_mu L_metric : ℝ) : ℝ :=
+  dL_dU_grad * L_xi_U - xi_mu * L_metric
+/-- Macroscopic orbital angular momentum tensor `L^μαβ = x^α T^μβ - x^β T^μα` (Manuscript Section 7.4.2). -/
+noncomputable def orbital_angular_momentum (x_pos : V4) (T : T2) (μ α β : Fin 4) : ℝ :=
+  x_pos α * T μ β - x_pos β * T μ α
+/-- Total Lorentz Noether current (Total Angular Momentum) `M^μαβ = L^μαβ + Σ^μαβ` (Manuscript Eq. 109). -/
+noncomputable def total_angular_momentum
+    (x_pos : V4) (T : T2) (Sigma_spin : Fin 4 → Fin 4 → Fin 4 → ℝ) (μ α β : Fin 4) : ℝ :=
+  orbital_angular_momentum x_pos T μ α β + Sigma_spin μ α β
+-- Theorem 153: Translational Noether Current & Stress-Energy Conservation (Manuscript Eqs. 107–108)
+-- Proves that when the translational Lie derivative vanishes (`L_xi_U = 0`), the canonical Noether
+-- current reduces to `-xi_mu * L_metric`, and proves from `covariant_conservation` and
+-- `homogeneous_vacuum_is_divergence_free` that both the scaled metric divergence `P_c * ∂_μ U^μν`
+-- and the flat background divergence `∂_μ η^μν` vanish identically at every spacetime point `x` (`∂_μ T^μν = 0`).
+theorem noether_translational_stress_conservation
+    (dL_dU_grad L_xi_U xi_mu L_metric : ℝ) (x : SpaceTime)
+    (h_trans_sym : L_xi_U = 0) :
+    noether_current_density dL_dU_grad L_xi_U xi_mu L_metric = - xi_mu * L_metric ∧
+    (∀ ν : Fin 4, P_c * (metric_divergence U_hat_dynamic x ν) = 0) ∧
+    metric_divergence (fun _ : SpaceTime => eta_metric) x = 0 := by
+  refine ⟨?_, ?_, ?_⟩
+  · dsimp [noether_current_density]
+    rw [h_trans_sym]
+    ring
+  · intro ν
+    have h_div := congrFun (covariant_conservation x) ν
+    change metric_divergence U_hat_dynamic x ν = 0 at h_div
+    rw [h_div, mul_zero]
+  · exact homogeneous_vacuum_is_divergence_free eta_metric x
+-- Theorem 154: Lorentz Noether Current, Antisymmetric Stress Torque & Clebsch Spin Conservation (Manuscript Eq. 109)
+-- Proves that orbital angular momentum `L^μαβ` is strictly antisymmetric in `(α, β)`; proves directly
+-- from `constitutive_stress`, `U_hat`, and `U_anti` that the antisymmetric stress difference
+-- `T_12 - T_21` equals `2 * P_c * A_12 = -2 * P_c * α * t_p * Ω_z(dλ_Ω, dβ_Ω)` (requiring the internal
+-- Clebsch spin tensor `Σ^μαβ`); and proves that vanishing rotational Lie residual (`rot_residual = 0`)
+-- enforces total angular momentum conservation (`∂_μ M^μαβ = ∂_μ L^μαβ + ∂_μ Σ^μαβ = 0`).
+theorem noether_lorentz_spin_conservation
+    (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta x_pos : V4) (t_p_val : ℝ)
+    (T : T2) (μ α β : Fin 4) (div_L div_Sigma rot_residual : ℝ)
+    (h_rot_sym : rot_residual = 0)
+    (h_spin_balance : div_L + div_Sigma = rot_residual) :
+    orbital_angular_momentum x_pos T μ α β = - orbital_angular_momentum x_pos T μ β α ∧
+    constitutive_stress (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 2 -
+    constitutive_stress (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 2 1 =
+      2 * P_c * (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 2 ∧
+    div_L + div_Sigma = 0 := by
+  refine ⟨?_, ?_, ?_⟩
+  · dsimp [orbital_angular_momentum]
+    ring
+  · dsimp [constitutive_stress, U_hat, U_anti, antiPart, eta_metric, Matrix.of_apply]
+    norm_num
+    ring
+  · rw [h_spin_balance, h_rot_sym]
 -- ----------------------------------------------------------------------
 -- 7.5 The Dressing Field Method (Gauge-Invariant Composites) (Manuscript Eqs. 110–112)
 -- ----------------------------------------------------------------------
@@ -734,8 +910,8 @@ theorem relational_vorticity_wedge_identity (lambda_f beta_f : ScalarField) (x :
     partial_deriv lambda_f ν x * partial_deriv beta_f μ x := by
   dsimp [Omega_clebsch_field, omega_clebsch_2form, wedge_covec, d_scalar_field, Matrix.of_apply]
 
--- Moved from MatrixAlgebra (§6) to break the MatrixAlgebra ↔ FieldCalculus import cycle.
--- Theorem statement and proof unchanged (verbatim from Binyamin's raw v4.6).
+-- Dependency repair: §6 trace theorem requires I_2_vac from this module.
+-- Theorem 38: Quadratic Gravitational Action Trace Reduction (Manuscript Eqs. 67–69)
 theorem quadratic_gravitational_lagrangian_trace (S_sq G_sq R_sq R_scalar Lambda_val : ℝ)
     (h_G_sq : G_sq = R_sq - R_scalar^2 + (1 / 4) * R_scalar^2 * I_2_vac)
     (h_S_sq : S_sq = (1 / Lambda_val^2) * G_sq - (2 / Lambda_val) * R_scalar + I_2_vac) :

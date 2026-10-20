@@ -18,7 +18,7 @@ public import Mathlib.Tactic
 /-!
 # Fundamental bedrock axioms, dimensional audit layer, kinematics, and thermodynamic relations
 
-Module of Binyamin's v4.6 formalization. Declarations retained verbatim
+Module of Binyamin's v5.0 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -33,13 +33,16 @@ namespace AsymmetricTensor
 -- ======================================================================
 -- SECTION 0: FUNDAMENTAL BEDROCK AXIOMS & EMERGENT CONSTANTS
 -- ======================================================================
--- 0.1 Irreducible Physical Constants (Speed of Light, Planck Length, Reduced Planck Constant)
-axiom c : ℝ
-axiom l_p : ℝ
-axiom hbar : ℝ
-axiom c_pos : 0 < c
-axiom l_p_pos : 0 < l_p
-axiom hbar_pos : 0 < hbar
+-- 0.1 Concrete positive definitions (SI numerical values; locked as irreducible below)
+noncomputable def c    : ℝ := 299792458 -- m/s per c
+noncomputable def l_p  : ℝ := 1616255 * 10 ^ (-41 : ℤ) -- m per l_p
+noncomputable def hbar : ℝ := 1054571817 * 10 ^ (-43 : ℤ) -- J*s per hbar
+-- Positivity bounds are now proven theorems rather than axioms:
+theorem c_pos    : 0 < c    := by unfold c; positivity
+theorem l_p_pos  : 0 < l_p  := by unfold l_p; positivity
+theorem hbar_pos : 0 < hbar := by unfold hbar; positivity
+-- Lock c, l_p, and hbar as irreducible so they remain purely symbolic in all downstream proofs:
+attribute [irreducible] c l_p hbar
 -- 0.2 Emergent Vacuum Constants (Definitions)
 noncomputable def t_p : ℝ := l_p / c
 noncomputable def M_P : ℝ := hbar / (l_p * c)
@@ -310,4 +313,5 @@ theorem nested_ledger_compliance (P_ambient alpha_g_sq v_0 : ℝ)
   calc P_ambient = (P_ambient / P_c) * P_c := (div_mul_cancel₀ P_ambient Pc_non_zero).symm
     _ = alpha_g_sq * P_c := by rw [h_eq]
     _ = P_c * alpha_g_sq := by ring
+
 end AsymmetricTensor

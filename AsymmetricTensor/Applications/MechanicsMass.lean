@@ -20,7 +20,7 @@ public import AsymmetricTensor.MatrixAlgebra
 /-!
 # Mass mechanism (topological tensor yield)
 
-Module of Binyamin's v4.6 formalization. Declarations retained verbatim
+Module of Binyamin's v5.0 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -86,8 +86,66 @@ theorem tensor_vev_origin
 -- ----------------------------------------------------------------------
 -- 8.2 The Topological Phase Lock (Mass Generation) (Manuscript Eq. 119)
 -- ----------------------------------------------------------------------
--- [Manuscript Section Placeholder: Phase-lock transition at v > v_vev (α_s → 0) locking
---  unresolved kinetic energy into the antisymmetric Clebsch vortex off-diagonals A_μν].
+-- Dimensional Audit: Phase-locked shear energy (P_c * V_τ) has dimension u_Energy,
+-- and dividing by c^2 extracts discrete rest mass (u_M_P = ⟨-1, -1, 1⟩):
+theorem unit_section8_2_phase_lock :
+    u_P_c * u_Volume = u_Energy ∧
+    (u_P_c * u_Volume) / (u_c^(2:ℤ)) = u_M_P ∧
+    (u_P_c / (u_c^(2:ℤ))) * u_Volume = u_M_P := by
+  refine ⟨rfl, rfl, rfl⟩
+-- Theorem 155: Topological Phase-Lock Cavitation Transition (Manuscript Eq. 119)
+-- Proves directly from `U_hat` and `U_anti` that at the VEV cavitation limit (`alpha_s = 0`),
+-- the temporal diagonal collapses (`U_hat 0 ... 0 0 = 0`) and static pressure vanishes (`P_static = 0`),
+-- while the antisymmetric Clebsch vortex off-diagonal `U_anti(2,1) = alpha * (t_p * Omega_z_clebsch d_lambda d_beta)`
+-- remains intact and locks the full vacuum pressure capacity (`P_dyn + P_shear = P_c`).
+theorem topological_phase_lock_cavitation
+    (alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4)
+    (t_p_val P_static P_dyn P_shear alpha_s : ℝ)
+    (h_ledger : P_c = P_static + P_dyn + P_shear)
+    (h_stat_admittance : P_static = alpha_s^2 * P_c)
+    (h_cavitation : alpha_s = 0) :
+    (U_hat 0 alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 = 0 ∧
+    (U_anti 0 alpha v_x v_y v_z d_lambda d_beta t_p_val) 2 1 =
+      alpha * (t_p_val * Omega_z_clebsch d_lambda d_beta) ∧
+    P_static = 0 ∧
+    P_dyn + P_shear = P_c := by
+  have h_stat_zero : P_static = 0 := by
+    rw [h_stat_admittance, h_cavitation]
+    ring
+  refine ⟨?_, ?_, h_stat_zero, ?_⟩
+  · dsimp [U_hat, Matrix.of_apply]
+    norm_num
+  · dsimp [U_anti, antiPart, U_hat, Matrix.of_apply]
+    norm_num
+  · linarith
+-- Theorem 156: Phase-Locked Clebsch Vortex Rest Mass Generation (Manuscript Eq. 119)
+-- Proves that when unresolved kinetic strain locks into a non-vanishing Clebsch vorticity core
+-- (`Omega_z_clebsch d_lambda d_beta ≠ 0`) across a positive defect volume (`0 < V_tau`),
+-- the phase-locked shear energy `E_locked = P_shear * V_tau` generates strictly positive
+-- invariant rest mass `m_0 = E_locked / c^2 > 0`.
+theorem phase_locked_vortex_rest_mass_generation
+    (d_lambda d_beta : V4) (r_c_val V_tau P_shear E_locked m_0 : ℝ)
+    (hr_c : 0 < r_c_val) (hV : 0 < V_tau)
+    (h_omega_ne : Omega_z_clebsch d_lambda d_beta ≠ 0)
+    (h_P_shear : P_shear = (1 / 2) * rho_tau * (r_c_val * Omega_z_clebsch d_lambda d_beta)^2)
+    (h_E_locked : E_locked = P_shear * V_tau)
+    (h_mass : m_0 = E_locked / c^2) :
+    m_0 = (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega_z_clebsch d_lambda d_beta) / c)^2 ∧
+    0 < m_0 := by
+  have hc_pos : 0 < c := c_pos
+  have hrho_pos : 0 < rho_tau := rho_tau_pos
+  have h_om_sq : 0 < (Omega_z_clebsch d_lambda d_beta)^2 := by positivity
+  have h_m0_eq : m_0 = (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega_z_clebsch d_lambda d_beta) / c)^2 := by
+    rw [h_mass, h_E_locked, h_P_shear]
+    ring
+  have h_m0_pos : 0 < (1 / 2) * rho_tau * V_tau * (r_c_val^2 * (Omega_z_clebsch d_lambda d_beta)^2 / c^2) := by
+    positivity
+  have h_alg : (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega_z_clebsch d_lambda d_beta) / c)^2 =
+               (1 / 2) * rho_tau * V_tau * (r_c_val^2 * (Omega_z_clebsch d_lambda d_beta)^2 / c^2) := by
+    ring
+  refine ⟨h_m0_eq, ?_⟩
+  rw [h_m0_eq, h_alg]
+  exact h_m0_pos
 -- ----------------------------------------------------------------------
 -- 8.3 The Kinematic Lagrangian & Orthogonal Mass Extraction (Manuscript Eqs. 120–126)
 -- ----------------------------------------------------------------------
@@ -230,4 +288,5 @@ theorem mass_yield_equivalence (alpha_yield : ℝ)
   rw [div_self h_Mp_ne_zero] at h1
   rw [←h_yield] at h1
   exact h1
+
 end AsymmetricTensor

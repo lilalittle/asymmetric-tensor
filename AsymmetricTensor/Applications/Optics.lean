@@ -19,7 +19,7 @@ public import AsymmetricTensor.Model
 /-!
 # Macroscopic lensing (optical pressure gradient)
 
-Module of Binyamin's v4.6 formalization. Declarations retained verbatim
+Module of Binyamin's v5.0 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -170,4 +170,5 @@ theorem magnitude_anomaly_log10_pos (mu_obs_10 mu_lin_10 : ℝ)
   have h_log_pos : 0 < Real.log (r_opt / r_true) := Real.log_pos h_ratio_gt
   have h_log10_pos : 0 < Real.log 10 := Real.log_pos (by norm_num : (1 : ℝ) < 10)
   exact mul_pos (by norm_num) (div_pos h_log_pos h_log10_pos)
+
 end AsymmetricTensor

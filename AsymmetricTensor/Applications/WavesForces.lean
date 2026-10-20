@@ -15,11 +15,12 @@ public import Mathlib.Data.Matrix.Basic
 public import Mathlib.LinearAlgebra.Matrix.BilinearForm
 public import Mathlib.Tactic
 public import AsymmetricTensor.Model
+public import AsymmetricTensor.MatrixAlgebra
 
 /-!
 # Transverse wave mechanics and continuous pressure dynamics
 
-Module of Binyamin's v4.6 formalization. Declarations retained verbatim
+Module of Binyamin's v5.0 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -69,10 +70,68 @@ theorem transverse_wave_propagation
     v_perp_accel = c^2 • v_perp_laplace := by
   exact wave_equation_algebra c c_pos v_perp_accel v_perp_laplace h_wave
 -- ----------------------------------------------------------------------
--- 13.2 Metric Depletion and Chiral Induction
+-- 13.2 Metric Depletion and Chiral Induction (Manuscript Eqs. 176–177)
 -- ----------------------------------------------------------------------
--- [Manuscript Section Placeholder: Propagation through magnetized plasma with depleted admittance
---  (α_s^2 < 1) and background Clebsch vorticity coupling (Ω_0 · ∂_t v_⊥)].
+-- Dimensional Audit: Both the d'Alembertian wave operator ((1/c^2) ∂_t^2 v_⊥ - ∇^2 v_⊥)
+-- and the chiral vorticity induction term ((1/c^2) (Ω_0 · ∂_t v_⊥)) have dimension u_Laplacian * u_c (⟨-2, 1, 0⟩):
+theorem unit_section13_2_chiral_induction :
+    (u_dimless / (u_c^(2:ℤ))) * (u_c / (u_t_p^(2:ℤ))) = u_Laplacian * u_c ∧
+    (u_dimless / (u_c^(2:ℤ))) * (u_omega * (u_c / u_t_p)) = u_Laplacian * u_c ∧
+    u_omega * (u_c / u_t_p) = u_c / (u_t_p^(2:ℤ)) := by
+  refine ⟨rfl, rfl, rfl⟩
+-- Theorem 166: Plasma Metric Depletion & Chiral Clebsch Wave Coupling (Manuscript Section 13.2)
+-- Proves:
+-- 1. When a transverse wave enters a plasma with depleted scalar admittance (`alpha_s^2 < 1`),
+--    the ambient dynamic pressure `P_dyn = (1 - alpha_s^2) * P_c` is strictly positive (`0 < P_dyn`)
+--    and the static pressure reserve `P_static = alpha_s^2 * P_c` is strictly depleted (`P_static < P_c`),
+-- 2. Contracting the background Clebsch vorticity 2-form `Ω_0 = dλ_0 ∧ dβ_0` (`omega_clebsch_2form`)
+--    against the temporal derivative of the transverse slip `(dt_vx, dt_vy, dt_vz)` extracts the
+--    exact chiral cross-coupling `Ω_0y ∂_t v_z - Ω_0z ∂_t v_y`.
+theorem plasma_metric_depletion_and_chiral_wave_coupling
+    (alpha_s P_dyn P_static dt_vy dt_vz : ℝ) (d_lambda0 d_beta0 : V4)
+    (h_depleted : alpha_s^2 < 1)
+    (h_P_dyn : P_dyn = (1 - alpha_s^2) * P_c)
+    (h_ledger : P_c = P_static + P_dyn) :
+    0 < P_dyn ∧
+    P_static < P_c ∧
+    omega_clebsch_2form d_lambda0 d_beta0 1 2 * dt_vy +
+      omega_clebsch_2form d_lambda0 d_beta0 1 3 * dt_vz =
+    Omega_y_clebsch d_lambda0 d_beta0 * dt_vz -
+      Omega_z_clebsch d_lambda0 d_beta0 * dt_vy := by
+  have hPc : 0 < P_c := by
+    dsimp [P_c]
+    have hrho : 0 < rho_tau := rho_tau_pos
+    have hc : 0 < c := c_pos
+    positivity
+  have h_sub : 0 < 1 - alpha_s^2 := by linarith
+  have h_dyn_pos : 0 < P_dyn := by
+    rw [h_P_dyn]
+    exact mul_pos h_sub hPc
+  refine ⟨h_dyn_pos, by linarith, ?_⟩
+  dsimp [Omega_y_clebsch, Omega_z_clebsch, omega_clebsch_2form, wedge_covec]
+  ring
+-- Theorem 167: Chiral Induction Orthogonality & Polarization Rotation (Manuscript Section 13.2)
+-- Proves directly from `omega_clebsch_2form` that the inner-product contraction of the temporal
+-- velocity derivative 1-form `(dt_vx, dt_vy, dt_vz)` against the antisymmetric background Clebsch
+-- vorticity 2-form `Ω_0 = dλ_0 ∧ dβ_0` is strictly orthogonal to `(dt_vx, dt_vy, dt_vz)`
+-- (`∂_t v_⊥ · (Ω_0 · ∂_t v_⊥) = 0`), rotating the transverse polarization plane without altering
+-- scalar wave energy, and verifies the `1 / c^2` wave-operator scaling.
+theorem chiral_induction_orthogonality
+    (d_lambda0 d_beta0 : V4) (dt_vx dt_vy dt_vz wave_op_i chiral_i : ℝ)
+    (h_wave_eq : wave_op_i = (1 / c^2) * chiral_i) :
+    dt_vx * (omega_clebsch_2form d_lambda0 d_beta0 1 2 * dt_vy +
+             omega_clebsch_2form d_lambda0 d_beta0 1 3 * dt_vz) +
+    dt_vy * (omega_clebsch_2form d_lambda0 d_beta0 2 1 * dt_vx +
+             omega_clebsch_2form d_lambda0 d_beta0 2 3 * dt_vz) +
+    dt_vz * (omega_clebsch_2form d_lambda0 d_beta0 3 1 * dt_vx +
+             omega_clebsch_2form d_lambda0 d_beta0 3 2 * dt_vy) = 0 ∧
+    c^2 * wave_op_i = chiral_i := by
+  have hc : c ≠ 0 := c_ne_zero
+  refine ⟨?_, ?_⟩
+  · dsimp [omega_clebsch_2form, wedge_covec]
+    ring
+  · rw [h_wave_eq]
+    field_simp [hc]
 -- ----------------------------------------------------------------------
 -- 13.3 Macroscopic Measurement Boundaries (Deterministic Eigenstates)
 -- ----------------------------------------------------------------------
@@ -458,4 +517,5 @@ theorem universal_gravitation_limit (hM_P : M_P_val > 0) (_hr : r > 0) (hG : G >
                ((G * M_1 * M_2) / r^2) * 1 := by rw [div_self (pow_ne_zero 2 hM_P_ne)]
   rw [step6, mul_one] at step1
   exact step1
+
 end AsymmetricTensor

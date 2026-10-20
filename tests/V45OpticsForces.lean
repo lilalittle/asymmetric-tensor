@@ -105,17 +105,12 @@ example : F_fund (hbar / ((1 / 2 : ℝ) * 0 * c)) /
 
 #audit_theorem V45OpticsForcesRegression.natural_tenfold_magnitude custom []
 #audit_theorem V45OpticsForcesRegression.decimal_tenfold_calibration custom []
-#audit_theorem V45OpticsForcesRegression.baseline_ratio custom [AsymmetricTensor.c,
-  AsymmetricTensor.hbar, AsymmetricTensor.c_pos, AsymmetricTensor.hbar_pos]
-#audit_theorem V45OpticsForcesRegression.scaled_ratio custom [AsymmetricTensor.c,
-  AsymmetricTensor.hbar, AsymmetricTensor.c_pos, AsymmetricTensor.hbar_pos]
+#audit_theorem V45OpticsForcesRegression.baseline_ratio custom []
+#audit_theorem V45OpticsForcesRegression.scaled_ratio custom []
 #audit_theorem AsymmetricTensor.logarithmic_magnitude_anomaly custom []
 #audit_theorem AsymmetricTensor.magnitude_anomaly_divergence custom []
-#audit_theorem AsymmetricTensor.refractive_index_substitution custom [AsymmetricTensor.c,
-  AsymmetricTensor.l_p, AsymmetricTensor.hbar, AsymmetricTensor.c_pos,
-  AsymmetricTensor.l_p_pos, AsymmetricTensor.hbar_pos]
-#audit_theorem AsymmetricTensor.interaction_hierarchy_em custom [AsymmetricTensor.c,
-  AsymmetricTensor.hbar, AsymmetricTensor.c_pos, AsymmetricTensor.hbar_pos]
+#audit_theorem AsymmetricTensor.refractive_index_substitution custom []
+#audit_theorem AsymmetricTensor.interaction_hierarchy_em custom []
 
 end V45OpticsForcesRegression
 

@@ -3,7 +3,7 @@
 Lean 4 research companion to **The Asymmetric Metric-Tensor and the
 Thermodynamic Equation of State**, by Binyamin Tsadik Bair-Mosheh.
 
-The current implementation is the author's **v4.6 formalization**, organized into
+The current implementation is the author's **v5.0 formalization**, organized into
 nine topic modules. It contains real 4×4 matrix algebra, Clebsch-gradient exterior
 products, fixed-chart field operators, Lorentzian contraction identities, and
 conditional statements motivated by the manuscript. Physical names and section
@@ -15,7 +15,7 @@ Binyamin can freely edit the current single-file draft at
 [`AsymmetricTensor/Asymmetric Tensor v5.0.lean`](AsymmetricTensor/Asymmetric%20Tensor%20v5.0.lean).
 Versioned author uploads have separate **advisory compiler diagnostics** and do
 not alter the stable library or its strict proof checks. A green stable check
-means the integrated v4.6 library passed, not that an uploaded v5.0 draft has
+means the integrated library at that revision passed, not that an uploaded draft has
 been accepted. The root `AsymmetricTensor.lean` remains the stable import umbrella.
 See [the authoring lane and promotion rules](CONTRIBUTING.md#binyamins-single-file-authoring-lane).
 
@@ -24,7 +24,7 @@ See [the authoring lane and promotion rules](CONTRIBUTING.md#binyamins-single-fi
 Use the [current API and regression coverage report](docs/regression-coverage.md),
 [module map](docs/modules.md), and [verification contract](docs/verification.md)
 for this revision. The public entry point remains `import AsymmetricTensor`, but
-v4.6 is an API change from the older repaired library.
+v5.0 is an API change from the older repaired library.
 
 - `matrix_decomposition` splits any real 4×4 matrix into symmetric and
   antisymmetric parts. `U_hat` now takes two four-component Clebsch gradients;
@@ -66,7 +66,7 @@ The older [status map](docs/formalization-status.md),
 [force-hierarchy](docs/force-hierarchy.md) notes retain earlier API descriptions
 and validation records. Read them as historical documentation, alongside the
 [current coverage differences](docs/regression-coverage.md), rather than as
-contracts for v4.6. The seven archived Lean test files are preserved but are not
+contracts for v5.0. The seven archived Lean test files are preserved but are not
 executed by the current aggregate verifier.
 
 ## Building the committed version
@@ -122,18 +122,20 @@ and exact declared axioms, checks selected theorem dependencies, and exercises
 failure mutations. Warnings remain visible and nonfatal; elaboration errors and
 transitive `sorryAx` dependencies fail independently.
 
-The source has seven explicit axioms: three physical constants, their positivity,
-and the scoped conservation postulate. It also has eight body-less opaque scalar
+The v5.0 source has one explicit axiom: the scoped conservation postulate.
+The three physical constants are irreducible noncomputable definitions and
+their positivity bounds are theorems. It also has eight body-less opaque scalar
 field inputs. A source inventory, a dependency audit, and a model-consistency
 proof are different things. In particular, allowing the postulate in the audit
 does not prove it or authorize a universal-field conservation law.
 
-The PR #70 repair preserves the raw v4.6 declaration tokens and docstrings while
+The local v5.0 integration preserves the raw author declaration tokens and docstrings while
 repairing module imports, section context, and a declaration's dependency order.
 Full candidate elaboration, regression checks, comparison with the built author
 reference, and revision-specific hosted CI are separate required evidence. See
 [the current validation boundary](docs/verification.md#current-validation-boundary)
-for the evidence boundary and exact-head PR record; historical green runs do not certify this candidate.
+for historical evidence; [the local v5.0 report](docs/v5.0-integration.md) records
+this candidate's checks. Historical green runs do not certify this candidate.
 
 `lake build` alone does not run the regression suite. For a focused iteration
 after building, run `lake env lean tests/V45FieldCalculus.lean`,

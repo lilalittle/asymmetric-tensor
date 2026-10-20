@@ -20,7 +20,7 @@ public import AsymmetricTensor.MatrixAlgebra
 /-!
 # Electromagnetic gauge and unitary evolution
 
-Module of Binyamin's v4.6 formalization. Declarations retained verbatim
+Module of Binyamin's v5.0 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -347,4 +347,5 @@ theorem phenomenological_energy_scale (De_macro alpha_val : ℝ)
     (h_gamma_def : gamma_val = E_val / (m_val * c^2)) :
     De_macro = alpha_val * (E_val / (m_val * c^2)) := by
   rw [h_De, h_gamma_def]
+
 end AsymmetricTensor

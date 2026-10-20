@@ -1,5 +1,21 @@
 # Verification contract
 
+## v5.0 reconciliation (2026-10-20)
+
+The [v5.0 integration report](v5.0-integration.md#current-main-reconciliation-2026-10-20)
+records the current-main reconciliation of PR #80 with PR #79's author-upload
+isolation. The combined library and independent raw reference both build;
+all 431 source-declared public names match the raw reference's full elaborated
+types and universes. The source comparator also preserves 431 declaration token
+sequences and 67 docstrings. These are distinct evidence boundaries, not a claim
+that the physical interpretation is established.
+
+See the report and [PR #80](https://github.com/lilalittle/asymmetric-tensor/pull/80)
+for the aggregate regression and exact-head hosted check results. Historical green
+runs below do not certify this candidate. The current source declares one custom
+axiom (`covariant_conservation`), not seven and not zero; the six former
+constant/positivity axioms are definitions/theorems.
+
 The [workflow](../.github/workflows/lean_action_ci.yml) installs the committed
 Lean toolchain, obtains the pinned Mathlib cache, and runs
 [`scripts/verify.sh`](../scripts/verify.sh) on pushes, pull requests and manual
@@ -64,29 +80,30 @@ for each archived file, current replacements, and remaining losses.
    `Classical.choice`, and `Quot.sound` are permitted. Each new `V45*` module also
    checks all its retained declarations with `#audit_current_module declared []`.
 4. **Current-source transitive inventory:** `tests/EquationAxioms.lean` examines
-   every first-party declaration, permitting only the seven custom names below
+   every first-party declaration, permitting only the one custom name below
    and those three logical axioms transitively. Its machine-readable output is
    not an equation mapping and must not replace the historical audit JSON.
 
-All names below belong to `AsymmetricTensor`.
+All names below belong to `AsymmetricTensor`. These are the v5.0 expected
+sets, checked by the combined candidate build and `tests/ProofAudit.lean`.
 
 | Selected production theorem | Exact custom axioms in `tests/ProofAudit.lean` |
 |---|---|
 | `matrix_decomposition` | none |
-| `tensor_decomposition_proven` | `c` |
-| `contract_sym_anti_proven` | `c` |
-| `unified_action_separation` | `c` |
-| `bernoulli_energy_conservation` | `c`, `l_p`, `covariant_conservation` |
-| `navier_stokes_momentum_conservation` | `c`, `l_p`, `covariant_conservation` |
-| `divergence_expansion` | `c`, `l_p` |
-| `geometric_navier_stokes` | `c`, `l_p`, `hbar`, `c_pos`, `l_p_pos`, `hbar_pos` |
-| `baryonic_tully_fisher_derivation` | `c`, `l_p`, `hbar`, `c_pos`, `l_p_pos`, `hbar_pos` |
+| `tensor_decomposition_proven` | none |
+| `contract_sym_anti_proven` | none |
+| `unified_action_separation` | none |
+| `bernoulli_energy_conservation` | `covariant_conservation` |
+| `navier_stokes_momentum_conservation` | `covariant_conservation` |
+| `divergence_expansion` | none |
+| `geometric_navier_stokes` | none |
+| `baryonic_tully_fisher_derivation` | none |
 
-The seven explicit axioms are `c`, `l_p`, `hbar`, `c_pos`, `l_p_pos`, `hbar_pos`,
-and `covariant_conservation`. The first six declare constants and positivity.
-The seventh states exactly `∀ x : SpaceTime, metric_divergence U_hat_dynamic x = 0`.
-`V45FieldCalculus.lean` pins the axiom kind and definitional type of all seven
-names. Its scoped-postulate guard rejects broadening conservation to arbitrary
+The sole explicit axiom is `covariant_conservation`, stating exactly
+`∀ x : SpaceTime, metric_divergence U_hat_dynamic x = 0`.
+`V45FieldCalculus.lean` pins the definition/theorem kinds and types of the six
+former foundational axioms, plus the axiom kind and type of this remaining
+postulate. Its scoped-postulate guard rejects broadening conservation to arbitrary
 fields, even if its name remains allowlisted. Eight body-less opaque scalar
 fields are additional unspecified inputs; their regularity and physical laws
 are not established merely by declaring them.
@@ -121,6 +138,9 @@ independent built-reference API comparison. In particular, the context guard
 cannot establish declaration placement or arbitrary Lean semantics.
 
 ## Current validation boundary
+
+For v5.0, use the reconciliation evidence boundary at the top of this page. The retained
+v4.5 repair results and pending gates below are historical, not v5.0 results.
 
 The PR #70 repair targets integration head
 `10158f3b5336ca15a78d98221c5531dd55a578b5`, based on the author's raw v4.5 commit

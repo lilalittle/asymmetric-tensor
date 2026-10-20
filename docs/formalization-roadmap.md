@@ -521,6 +521,23 @@ Boltzmann constant identified with the action quantum. The proof assumes
 nonzero volume, time, and Boltzmann constant, and the first law of
 thermodynamics as a hypothesis.
 
+### B20. v5.0 additions and foundational axiom reduction
+<!-- declarations: bounded_kinematic_baseline_limits burgers_dislocation_incompatibility c_pos cauchy_strain_spatial_diagonal chiral_induction_orthogonality conformal_dilation_micro_macro_asymmetry galactic_shear_pressure_ratio_eq178 hbar_pos kinematic_discrepancy_core_and_plateau l_p_pos linearized_riemann_kroner_identities macroscopic_metric_homogenization macroscopic_torsion_decay_and_levi_civita_limit noether_lorentz_spin_conservation noether_translational_stress_conservation phase_locked_vortex_rest_mass_generation phenomenological_envelope_synthesis plasma_metric_depletion_and_chiral_wave_coupling saint_venant_homogeneous_flatness scalar_translation_gradient_isomorphism symmetric_diagonals_isotropic_strain symmetry_breaking_gordon_deflection tensor_covariance_kinematic_mixing topological_phase_lock_cavitation unit_section10_1_observer_frames unit_section10_4_conformal_scale_variance unit_section11_2_to_11_5_kinematics unit_section12_5_torsion_boundary unit_section13_2_chiral_induction unit_section3_1_symmetric_diagonals unit_section6_2_incompatibility unit_section7_3_symmetry_breaking unit_section7_4_noether_currents unit_section8_2_phase_lock universal_no_go_laplacian_and_btfr -->
+The source has 268 theorem/lemma declarations, 147 definitions and one custom
+axiom. The 35 new theorem/lemma declarations include three positivity proofs.
+The previous 233 theorem/lemma declarations retain their author tokens.
+`c`, `l_p` and `hbar` are concrete noncomputable definitions sealed irreducible;
+their positivity is proved, not assumed. `covariant_conservation` remains an
+axiom scoped to `U_hat_dynamic`. The raw overview's zero-axiom and opaque-state
+claims do not describe the declarations at this revision.
+
+New results cover symmetric strain, incompatibility and linearized curvature,
+symmetry breaking, Noether-named currents, phase locking, observer covariance,
+galactic envelopes, torsion boundaries and chiral wave coupling. These remain
+the precise conditional statements in the source; names alone do not establish
+curved geometry, dynamical conservation, empirical validity or roadmap completion.
+Section 16 remains at 40 theorems and 32 definitions.
+
 ## C. Dependencies, alternatives and author decisions
 
 ### True mathematical inputs to the selected finite task

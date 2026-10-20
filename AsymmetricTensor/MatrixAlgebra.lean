@@ -19,7 +19,7 @@ public import AsymmetricTensor.Model
 /-!
 # Asymmetric metric-tensor assembly and unified action
 
-Module of Binyamin's v4.6 formalization. Declarations retained verbatim
+Module of Binyamin's v5.0 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -111,8 +111,49 @@ theorem comoving_orthogonality_relations (v_x v_y v_z : ℝ) (ν : Fin 4) :
 -- ----------------------------------------------------------------------
 -- 3.1 The Symmetric Diagonals (Isotropic Volumetric Strain)
 -- ----------------------------------------------------------------------
--- [Manuscript Section 3.1: Defines Temporal Component U_00 = -α_s^2 and
---  Spatial Components U_ii = 1 / α_s^2; verified on `U_hat` in Theorem 10 below].
+-- Dimensional Audit: The factorized temporal diagonal (-α_s^2 = -α_g^2 α_a^2),
+-- the inverse spatial diagonal (1 / α_s^2), and their reciprocal product are dimensionless:
+theorem unit_section3_1_symmetric_diagonals :
+    (u_dimless^(2:ℤ)) * (u_dimless^(2:ℤ)) = u_dimless ∧
+    u_dimless / (u_dimless^(2:ℤ)) = u_dimless ∧
+    (u_dimless^(2:ℤ)) * (u_dimless / (u_dimless^(2:ℤ))) = u_dimless := by
+  refine ⟨rfl, rfl, rfl⟩
+/-- Isotropic symmetric diagonal strain matrix `diag(-α_s^2, 1/α_s^2, 1/α_s^2, 1/α_s^2)`
+    representing the bulk volumetric packing of the coordinate grid (Manuscript Section 3.1). -/
+noncomputable def U_isotropic_diag (alpha_s : ℝ) : T2 :=
+  Matrix.of (fun μ ν =>
+    if μ = ν then
+      (if μ = 0 then -alpha_s^2 else 1 / alpha_s^2)
+    else 0)
+-- Theorem 169: Symmetric Diagonals & Isotropic Volumetric Strain (Manuscript Section 3.1)
+-- Proves:
+-- 1. Temporal Component (`U_00`): equates to `-α_s^2 = -(α_g^2 * α_a^2)`, the product of gravitational
+--    and kinematic time dilation,
+-- 2. Spatial Components (`U_ii`): equate isotropically to `1 / α_s^2` across all three spatial axes
+--    (`U_11 = U_22 = U_33 = 1 / α_s^2`),
+-- 3. Reciprocal Invariant: the temporal and spatial diagonals satisfy `U_00 * U_11 = -1` for all `α_s ≠ 0`,
+-- 4. Unperturbed Minkowski Baseline: at full admittance (`α_s = 1`), `U_00 = -1` and `U_11 = 1`.
+theorem symmetric_diagonals_isotropic_strain
+    (alpha_s alpha_g alpha_a : ℝ) (ha_s : alpha_s ≠ 0)
+    (h_factor : alpha_s = alpha_g * alpha_a) :
+    U_isotropic_diag alpha_s 0 0 = - (alpha_g^2 * alpha_a^2) ∧
+    U_isotropic_diag alpha_s 1 1 = 1 / alpha_s^2 ∧
+    U_isotropic_diag alpha_s 2 2 = U_isotropic_diag alpha_s 1 1 ∧
+    U_isotropic_diag alpha_s 3 3 = U_isotropic_diag alpha_s 1 1 ∧
+    U_isotropic_diag alpha_s 0 0 * U_isotropic_diag alpha_s 1 1 = -1 ∧
+    U_isotropic_diag 1 0 0 = -1 ∧
+    U_isotropic_diag 1 1 1 = 1 := by
+  have ha2 : alpha_s^2 ≠ 0 := pow_ne_zero 2 ha_s
+  refine ⟨?_, rfl, rfl, rfl, ?_, ?_, ?_⟩
+  · change -alpha_s^2 = - (alpha_g^2 * alpha_a^2)
+    rw [h_factor]
+    ring
+  · change -alpha_s^2 * (1 / alpha_s^2) = -1
+    field_simp
+  · change -(1 : ℝ)^2 = -1
+    norm_num
+  · change (1 : ℝ) / (1 : ℝ)^2 = 1
+    norm_num
 -- ----------------------------------------------------------------------
 -- 3.2 The Antisymmetric Off-Diagonals (Transverse Shear)
 -- ----------------------------------------------------------------------
@@ -289,14 +330,6 @@ theorem lorentzian_antisymmetric_trace_eq123 (alpha_s alpha v_x v_y v_z : ℝ) (
   norm_num
   ring
 -- ----------------------------------------------------------------------
--- 6.2 Strain Incompatibility & Riemann Curvature (Manuscript Eqs. 70–73)
--- ----------------------------------------------------------------------
--- [Manuscript Section Placeholder:
---  1. Cauchy Strain Extraction: ε_ij = (1/2)(S_ij - δ_ij),
---  2. Saint-Venant Compatibility Operator: Inc(ε)_ijkl,
---  3. Topological Dislocation & Burgers Vector around a Clebsch vortex: ∮_C du_i = b_i,
---  4. Macroscopic Riemann Curvature: R_ijkl^(lin) = Inc(ε)_ijkl].
--- ----------------------------------------------------------------------
 -- 6.3 Volumetric Cavitation & The Metric Lagrangian (Manuscript Eqs. 74–79)
 -- ----------------------------------------------------------------------
 variable (r_c : ℝ)
@@ -409,4 +442,5 @@ theorem unified_wave_propagation (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_b
     exact h_vacuum
   rw [h_linear] at h1
   exact h1
+
 end AsymmetricTensor

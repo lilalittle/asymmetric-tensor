@@ -45,7 +45,7 @@ starting so an already-covered repair is not duplicated.
 `import AsymmetricTensor` is the public umbrella for nine implementation modules.
 Declarations remain in namespace `AsymmetricTensor`; `FutureWork` is a section,
 not a namespace. See the [module map](docs/modules.md). The current source is
-Binyamin Tsadik Bair-Mosheh's v4.5 formalization; earlier API and test results are
+Binyamin Tsadik Bair-Mosheh's v5.0 formalization; earlier API and test results are
 not automatically compatible with it.
 
 ## A path through the current API

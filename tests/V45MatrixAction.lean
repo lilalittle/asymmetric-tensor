@@ -122,15 +122,15 @@ example : lorentzian_contract (U_anti 2 3 c 0 0 zLambda (zBeta 2) 4)
   ring
 
 #audit_theorem V45MatrixRegression.comoving_vorticity_orthogonal custom []
-#audit_theorem V45MatrixRegression.nonspatial_comoving_counterexample custom [AsymmetricTensor.c]
+#audit_theorem V45MatrixRegression.nonspatial_comoving_counterexample custom []
 #audit_theorem V45MatrixRegression.z_vorticity_orientation custom []
 #audit_theorem AsymmetricTensor.comoving_orthogonality_relations custom []
-#audit_theorem AsymmetricTensor.U_hat_eq_comoving_U_covariant custom [AsymmetricTensor.c]
+#audit_theorem AsymmetricTensor.U_hat_eq_comoving_U_covariant custom []
 #audit_theorem V45MatrixRegression.contraction_bridge custom []
 #audit_theorem V45MatrixRegression.arbitrary_sym_anti custom []
-#audit_theorem AsymmetricTensor.lorentzian_contract_sym_anti_proven custom [AsymmetricTensor.c]
-#audit_theorem AsymmetricTensor.lorentzian_action_separation custom [AsymmetricTensor.c]
-#audit_theorem AsymmetricTensor.lorentzian_antisymmetric_trace_eq123 custom [AsymmetricTensor.c]
+#audit_theorem AsymmetricTensor.lorentzian_contract_sym_anti_proven custom []
+#audit_theorem AsymmetricTensor.lorentzian_action_separation custom []
+#audit_theorem AsymmetricTensor.lorentzian_antisymmetric_trace_eq123 custom []
 
 end V45MatrixRegression
 
