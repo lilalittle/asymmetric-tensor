@@ -1,5 +1,40 @@
 # Contributing
 
+## Binyamin's single-file authoring lane
+
+Edit **`AsymmetricTensor/Asymmetric Tensor v5.0.lean`** directly for the current
+single-file draft. Major rewrites, new declarations, incomplete proofs, formatting
+changes, and even syntax errors there do not change the integrated stable library.
+For a new version, add `AsymmetricTensor/Asymmetric Tensor v5.1.lean` (and so on).
+The exact recognized form is `AsymmetricTensor/Asymmetric Tensor v<N>[.<N>...].lean`,
+with numeric version components and no additional directory levels. Existing
+v4.6 and v5.0 author uploads are preserved byte-for-byte by this CI change.
+
+- **Stable `verify` job:** the root `AsymmetricTensor.lean` umbrella, nine topic
+  modules, proof audit, API/context/style checks and regressions remain strict.
+  Do not overwrite the root umbrella with a draft to submit research updates.
+- **Author uploads (advisory diagnostics):** each versioned upload is compiled
+  independently with the pinned toolchain. See its job summary and downloadable
+  `author-diagnostics` artifact for compiler logs and COMPILED / COMPILE_FAILED /
+  TIMEOUT / TOOL_FAILURE outcomes. Draft compilation failures are advisory, not
+  stable verification failures. Toolchain setup, lock-file failures, missing reports and TOOL_FAILURE outcomes
+  are still genuine CI infrastructure failures, not silently swallowed.
+- **COMPILED is not verified:** Lean may accept `sorry` and new axioms. A green
+  stable check certifies only the integrated library, never the newest upload.
+  Existing files, unsupported filenames, and imports into the stable code are
+  not automatically exempted merely because their names contain spaces.
+
+Promoting a draft is a separate reviewed integration: preserve its source,
+mechanically migrate declarations into the topic modules, compare source and
+elaborated APIs, update relevant tests and reviewed baselines deliberately, and
+pass the complete stable verifier. A branch that replaces the root umbrella
+(like the v5.0 review-only #78) crosses that boundary and should still fail until
+properly integrated. There is no automatic promotion or proof-baseline refresh.
+
+Run draft diagnostics locally with `python3 scripts/check_author_drafts.py`.
+It returns nonzero for failed drafts; only its specifically named workflow step
+is advisory. The aggregate `scripts/verify.sh` deliberately does not run drafts.
+
 ## Reproduce, then make one focused change
 
 Use [README → Building the committed version](README.md#building-the-committed-version).
@@ -10,7 +45,7 @@ starting so an already-covered repair is not duplicated.
 `import AsymmetricTensor` is the public umbrella for nine implementation modules.
 Declarations remain in namespace `AsymmetricTensor`; `FutureWork` is a section,
 not a namespace. See the [module map](docs/modules.md). The current source is
-Binyamin Tsadik Bair-Mosheh's v4.5 formalization; earlier API and test results are
+Binyamin Tsadik Bair-Mosheh's v5.0 formalization; earlier API and test results are
 not automatically compatible with it.
 
 ## A path through the current API

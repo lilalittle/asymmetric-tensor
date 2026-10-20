@@ -18,6 +18,9 @@ check_locks() {
   done
 }
 
+python3 scripts/check_source_boundary.py
+python3 scripts/test_source_boundary.py
+
 # Check production module boundaries and reviewed style compatibility exceptions.
 python3 scripts/check_lean_style.py
 python3 scripts/test_lean_style.py
@@ -28,6 +31,7 @@ python3 tests/test_v50_inventory.py
 
 # Warnings remain visible but are not fatal; proof completeness is checked below.
 lake build AsymmetricTensor ProofAudit
+python3 scripts/test_draft_build_isolation.py
 check_locks
 # Include every checked-in Lean regression from the merged mathematical repairs.
 for regression in tests/*.lean; do

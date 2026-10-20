@@ -6,6 +6,8 @@ from pathlib import Path
 import re
 import sys
 
+from source_boundary import production_sources
+
 ROOT = Path(__file__).resolve().parents[1]
 HEADER = """/-
 Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
@@ -21,10 +23,7 @@ LEGACY_INSTANCES = {}
 
 def check(root):
     baseline = json.loads((root / "scripts/lean-style-baseline.json").read_text())
-    files = [root / "AsymmetricTensor.lean", *sorted((root / "AsymmetricTensor").rglob("*.lean"))]
-    # Exclude Binyamin's direct raw uploads (not part of the 9-module production layout).
-    # These are author source files with spaces in the name, not Lean modules.
-    files = [p for p in files if " " not in p.name]
+    files = production_sources(root)
     errors, module_imports, long_count = [], {}, 0
     for path in files:
         relative = path.relative_to(root).as_posix()

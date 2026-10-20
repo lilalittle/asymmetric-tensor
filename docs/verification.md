@@ -1,14 +1,20 @@
 # Verification contract
 
-## Local v5.0 candidate (2026-10-20)
+## v5.0 reconciliation (2026-10-20)
 
-The latest local preparation is documented in [the v5.0 integration report](v5.0-integration.md).
-Its requested Python gates pass, including the roadmap check using pinned Mathlib
-source. It has **not** been pushed or validated by hosted CI. Lean elaboration,
-Lean regressions, transitive dependency audits and built-reference API comparison
-remain unverified for v5.0. Historical results below do not certify this candidate.
-The current source declares one custom axiom (`covariant_conservation`), not seven
-and not zero; the six former constant/positivity axioms are definitions/theorems.
+The [v5.0 integration report](v5.0-integration.md#current-main-reconciliation-2026-10-20)
+records the current-main reconciliation of PR #80 with PR #79's author-upload
+isolation. The combined library and independent raw reference both build;
+all 431 source-declared public names match the raw reference's full elaborated
+types and universes. The source comparator also preserves 431 declaration token
+sequences and 67 docstrings. These are distinct evidence boundaries, not a claim
+that the physical interpretation is established.
+
+See the report and [PR #80](https://github.com/lilalittle/asymmetric-tensor/pull/80)
+for the aggregate regression and exact-head hosted check results. Historical green
+runs below do not certify this candidate. The current source declares one custom
+axiom (`covariant_conservation`), not seven and not zero; the six former
+constant/positivity axioms are definitions/theorems.
 
 The [workflow](../.github/workflows/lean_action_ci.yml) installs the committed
 Lean toolchain, obtains the pinned Mathlib cache, and runs
@@ -78,8 +84,8 @@ for each archived file, current replacements, and remaining losses.
    and those three logical axioms transitively. Its machine-readable output is
    not an equation mapping and must not replace the historical audit JSON.
 
-All names below belong to `AsymmetricTensor`. These are the updated v5.0 expected
-sets; their Lean execution is pending, not a claimed audit result.
+All names below belong to `AsymmetricTensor`. These are the v5.0 expected
+sets, checked by the combined candidate build and `tests/ProofAudit.lean`.
 
 | Selected production theorem | Exact custom axioms in `tests/ProofAudit.lean` |
 |---|---|
@@ -133,7 +139,7 @@ cannot establish declaration placement or arbitrary Lean semantics.
 
 ## Current validation boundary
 
-For v5.0, use the local candidate boundary at the top of this page. The retained
+For v5.0, use the reconciliation evidence boundary at the top of this page. The retained
 v4.5 repair results and pending gates below are historical, not v5.0 results.
 
 The PR #70 repair targets integration head
