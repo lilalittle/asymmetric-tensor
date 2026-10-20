@@ -10,6 +10,8 @@ from pathlib import Path
 import re
 import sys
 
+from source_boundary import production_sources
+
 ROOT = Path(__file__).resolve().parents[1]
 DECL = re.compile(
     r"^(?:@\[[^\]\n]*\][ \t]*)?(?:noncomputable[ \t]+)?"
@@ -68,7 +70,7 @@ def declarations(sources):
 
 
 def source_files(root):
-    return [root / "AsymmetricTensor.lean", *sorted((root / "AsymmetricTensor").rglob("*.lean"))]
+    return production_sources(root)
 
 
 def docstrings(sources):
