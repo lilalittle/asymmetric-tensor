@@ -39,3 +39,41 @@ jobs:
       - name: Check dependency lock files remain unchanged
         if: always()
         run: git diff --exit-code -- lean-toolchain lakefile.toml lake-manifest.json
+
+  author-diagnostics:
+    name: Author uploads (advisory diagnostics)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      LEAN_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install committed toolchain and fetch pinned Mathlib cache
+        uses: leanprover/lean-action@24581d74d674803a25a81b10b059c5c0cdd344c6 # v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: false
+      - name: Compile author uploads independently (not the stable proof audit)
+        id: drafts
+        continue-on-error: true
+        run: python3 scripts/check_author_drafts.py
+      - name: Publish advisory outcomes, including failures
+        if: always()
+        run: python3 scripts/report_author_drafts.py
+      - name: Retain author diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: author-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .lake/author-diagnostics/
+          include-hidden-files: true
+          if-no-files-found: warn
+      - name: Check dependency lock files remain unchanged
+        if: always()
+        run: git diff --exit-code -- lean-toolchain lakefile.toml lake-manifest.json

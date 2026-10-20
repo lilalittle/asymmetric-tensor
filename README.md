@@ -9,6 +9,16 @@ products, fixed-chart field operators, Lorentzian contraction identities, and
 conditional statements motivated by the manuscript. Physical names and section
 headings do not establish full manuscript coverage or empirical validity.
 
+## Author updates versus the verified library
+
+Binyamin can freely edit the current single-file draft at
+[`AsymmetricTensor/Asymmetric Tensor v5.0.lean`](AsymmetricTensor/Asymmetric%20Tensor%20v5.0.lean).
+Versioned author uploads have separate **advisory compiler diagnostics** and do
+not alter the stable library or its strict proof checks. A green stable check
+means the integrated v4.5 library passed, not that an uploaded v5.0 draft has
+been accepted. The root `AsymmetricTensor.lean` remains the stable import umbrella.
+See [the authoring lane and promotion rules](CONTRIBUTING.md#binyamins-single-file-authoring-lane).
+
 ## What is implemented?
 
 Use the [current API and regression coverage report](docs/regression-coverage.md),

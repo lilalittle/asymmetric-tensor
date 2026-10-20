@@ -19,6 +19,7 @@ import re
 import sys
 
 sys.dont_write_bytecode = True
+from source_boundary import production_sources
 from roadmap_inventory import mask_comments, TOKEN
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -77,7 +78,8 @@ def check(root):
         return ["module context baseline: unsupported manifest version"]
     modules = baseline["modules"]
     actual = {path.relative_to(root).as_posix()
-              for path in (root / "AsymmetricTensor").rglob("*.lean")}
+              for path in production_sources(root)
+              if path != root / "AsymmetricTensor.lean"}
     errors = [f"{path}: missing reviewed module" for path in sorted(modules.keys() - actual)]
     errors.extend(f"{path}: additional module needs a reviewed context inventory"
                   for path in sorted(actual - modules.keys()))
