@@ -41,10 +41,16 @@ v5.0 is an API change from the older repaired library.
   balance, or constitutive relations as hypotheses.
 - `refractive_index_substitution` is pointwise optical algebra. The finite-path
   integral and strict optical-delay APIs from the older repair are absent.
-  The current magnitude formulas use `Real.log`, the natural logarithm.
-- `interaction_hierarchy_em` includes an extra coupling factor and an `α³`
-  right-hand side. Baseline `α⁴` and scaled `α⁵` force ratios are distinguished
-  in test-local regressions; these do not choose the physical normalization.
+  `optical_path_retardation` instead assumes an average index greater than one
+  and a distance-product relation. `log10` and `magnitude_anomaly_log10_pos`
+  provide a base-10 magnitude identity and strict positivity under explicit
+  distance, redshift, and modulus hypotheses; the older natural-log identities
+  remain alongside them.
+- `interaction_hierarchy_em` returns the unscaled `α²` force expression, the
+  scaled `α³` expression, and the unscaled `α⁴` strong-force ratio, given the
+  radius formulas and nonzero mass and coupling. The scaled `α⁵` ratio is
+  checked separately in test-local regressions. These are algebraic consequences
+  of the stated formulas, not independent validation of the physical model.
 
 Section 16 no longer contains the ten old `h_target` premises. Its replacement
 statements prove particular algebraic conclusions, often under explicit physical

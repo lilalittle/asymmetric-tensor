@@ -32,11 +32,21 @@ See [integration evidence](v5.0-integration.md) for this candidate's actual gate
 - `lorentzian_contract` is the explicit fixed-Minkowski component pairing;
   `tensor_contract` remains Frobenius. The action-named results are algebraic
   contractions, not integrated/varied actions.
-- Optics currently has pointwise refraction and natural-log magnitude formulas.
-  `magnitude_anomaly_divergence` proves a conditional logarithm identity, not
-  divergence to infinity or a strict positive finite-path anomaly.
-- `interaction_hierarchy_em` takes `L_crit` and returns three conjuncts; its second proves the scaled `α * F_fund a₀ = α³ m² c³ / ℏ`
-  expression. The unscaled and scaled ratios have distinct fourth and fifth powers.
+- [The optics module](../AsymmetricTensor/Applications/Optics.lean) provides
+  pointwise refraction, retained natural-log magnitude identities, and the
+  production definition `log10 x = Real.log x / Real.log 10`.
+  `magnitude_anomaly_log10_pos` proves the base-10 modulus-difference identity
+  and strict positivity, assuming `0 < r_true`, `r_true < r_opt`, `0 < 1 + z`,
+  and the two base-10 modulus prescriptions. The separate
+  `magnitude_anomaly_divergence` still proves only a natural-log identity,
+  despite its base-10/positivity caption; it does not prove divergence to infinity.
+  `optical_path_retardation` proves the distance inequality from `n_avg > 1`
+  and `r_opt = n_avg * r_true` for positive `r_true`, not from a defined integral.
+- [`interaction_hierarchy_em`](../AsymmetricTensor/Applications/WavesForces.lean)
+  takes both radii, their defining formulas, and nonzero mass/coupling hypotheses.
+  Its three conjuncts give the unscaled `F_fund a₀ = α² m² c³ / ℏ`, the scaled
+  `α * F_fund a₀ = α³ m² c³ / ℏ`, and `F_fund a₀ / F_fund L_crit = α⁴`.
+  The scaled `α⁵` ratio remains a separate test-local result, not a fourth conjunct.
 
 ## Seven historical regression files
 
@@ -46,13 +56,13 @@ executed. Recovered test-local facts are not restored production declarations.
 
 | Archived file | Current coverage | Remaining gap or changed contract |
 |---|---|---|
-| `ApiExamples.lean` | `V45MatrixAction` covers the nonsymmetric decomposition and contraction signs; `V45FieldCalculus` covers constant fields and dilation | Old umbrella examples involving `CoordinateConserved`, `decimalLog`, `optical_distance_gt` and the unscaled named EM theorem are not current APIs |
+| `ApiExamples.lean` | `V45MatrixAction` covers the nonsymmetric decomposition and contraction signs; `V45FieldCalculus` covers constant fields and dilation | Old names/signatures involving `CoordinateConserved`, `decimalLog` and `optical_distance_gt` remain absent; base-10 positivity is available through `log10`/`magnitude_anomaly_log10_pos`, and the unscaled EM expression is now the first conjunct of `interaction_hierarchy_em` |
 | `Conservation.lean` | Test-local constant-field divergence and coordinate-field counterexample; exact-type guard for the dynamic postulate; both component projections | No general production admissible-field interface or nonempty-solution-class theorem for that former interface |
 | `LieDerivative.lean` | Constant translation of constant tensors, constant-tensor dilation, varying-field transport and dilation, and independent first/second index responses | Former named transport/translation bridges, generic linear-flow/boost suite, regularity bridge and actual-invariance-to-residual API are not recovered |
 | `LorentzianAction.lean` | Electric/magnetic/mixed signs, generic raising-to-component bridge, arbitrary symmetric/antisymmetric orthogonality, current action separation, comoving constraints, spatial-gradient restriction, Eq. 123 null/nonunit cases | Old Eq. 121 normalization, dynamic inverse/one-index raising, background-subtracted pressure-normalized action API and the seventeen old exact audits are not restored |
-| `DistanceModulus.lean` | Natural-log tenfold/e-fold/equal-distance behavior and common redshift cancellation; test-local division by `log 10` recovers decimal tenfold calibration | No production `decimalLog` or base-10 magnitude theorem; the current natural-log tenfold result is `5 * log 10`, not `5` |
-| `ForceHierarchy.lean` | Scaled named theorem; test-local unscaled/scaled ratios; nonunit coupling distinguishes `1/16` and `1/32`; excluded zero-mass case | Test-local ratio proofs do not restore unscaled named production helpers or decide the physical coupling |
-| `OpticalPath.lean` | Pointwise refraction substitution and the origin value | No finite path/travel-time integral, continuity/integrability proof, strict path/delay inequality, zero-scale boundary theorem, or path-linked positive magnitude anomaly |
+| `DistanceModulus.lean` | Natural-log tenfold/e-fold/equal-distance behavior and common redshift cancellation; test-local division by `log 10` recovers decimal tenfold calibration | Production `log10` and `magnitude_anomaly_log10_pos` are available, but these regressions do not directly exercise the latter; `decimalLog` is still a historical name, and the retained natural-log tenfold result is `5 * log 10`, not `5` |
+| `ForceHierarchy.lean` | Direct exercise of the named theorem's scaled second conjunct; test-local unscaled/scaled ratios; nonunit coupling distinguishes `1/16` and `1/32`; excluded zero-mass case | The production theorem also supplies the unscaled baseline and `α⁴` ratio as first/third conjuncts, without direct projection-specific regressions here; the old separately named helpers are absent, and the tests do not decide the physical model |
+| `OpticalPath.lean` | Pointwise refraction substitution and the origin value; production now also has the conditional average-index result `optical_path_retardation` | No constructed finite path/travel-time integral, continuity/integrability proof, integral-derived strict path/delay inequality, zero-scale boundary theorem, or integral-linked positive magnitude anomaly; the new average-index result is not directly exercised here |
 
 ## Additional v4.5 checks
 

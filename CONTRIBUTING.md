@@ -69,7 +69,9 @@ The nonsymmetric matrix example and electric/magnetic sign tests are in
 nonconserved coordinate-field counterexample are in
 [`tests/V45FieldCalculus.lean`](tests/V45FieldCalculus.lean).
 [`tests/V45OpticsForces.lean`](tests/V45OpticsForces.lean) distinguishes the
-current natural-log and scaled-force statements from the older conventions.
+retained natural-log and scaled-force statements, decimal calibration, and
+unscaled/scaled ratios. It does not yet directly exercise the new base-10
+positivity theorem or the first and third EM theorem conjuncts.
 See [coverage and remaining gaps](docs/regression-coverage.md).
 
 Run from the repository root:
@@ -102,12 +104,15 @@ focused checks from the aggregate and hosted CI.
 - The axial vorticity convention uses wedge entries `(3,2)`, `(1,3)`, `(2,1)`.
   Keep the sign and spatial restriction in tests when migrating scalar vorticity
   examples to gradients.
-- The current optics module provides pointwise algebra and natural-log magnitude
-  identities. Test-local division by `Real.log 10` checks decimal calibration but
-  does not restore a production base-10 API or finite-path integral theorem.
-- The named electromagnetic hierarchy result is the scaled `α³` expression.
-  Keep unscaled `α⁴` and scaled `α⁵` ratios separate, including their nonzero
-  hypotheses and nonunit regression cases.
+- The optics module retains natural-log magnitude identities and also provides
+  `log10` and `magnitude_anomaly_log10_pos`. The latter assumes `0 < r_true`,
+  `r_true < r_opt`, `0 < 1 + z`, and the two base-10 modulus prescriptions.
+  `optical_path_retardation` derives the distance inequality from an assumed
+  average index and product relation, not from a constructed finite-path integral.
+- `interaction_hierarchy_em` returns the unscaled `α²` expression, the scaled
+  `α³` expression, and the unscaled `α⁴` strong-force ratio. Keep that production
+  ratio separate from the test-local scaled `α⁵` ratio, including their nonzero
+  mass/coupling hypotheses and nonunit regression cases.
 
 ## Mathematical and scientific scope
 
