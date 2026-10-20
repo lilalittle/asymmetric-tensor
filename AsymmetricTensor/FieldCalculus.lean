@@ -20,7 +20,7 @@ public import AsymmetricTensor.MatrixAlgebra
 /-!
 # Continuous field equation, equation of motion, and conformal symmetry
 
-Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+Module of Binyamin's v4.6 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -40,7 +40,7 @@ variable (d0 : Forms_0D →ₗ[ℝ] Forms_1D)
 variable (smul_form  : Forms_0D → Forms_1D → Forms_1D)
 variable (v_esc : ℝ)
 variable (v_parallel v_perp_mag v_circ : ℝ)
-
+-- ======================================================================
 -- SECTION 4: THE CONTINUOUS FIELD EQUATION
 -- ======================================================================
 -- ----------------------------------------------------------------------
@@ -309,6 +309,15 @@ theorem divergence_expansion (x : SpaceTime) (ν : Fin 4) :
 /-- Dynamic pressure field `P_dyn(x) = (1 - α_s(x)^2) P_c`. -/
 noncomputable def P_dyn_f : ScalarField :=
   fun x => (1 - (alpha_s_f x)^2) * P_c
+-- Theorem 26.5 (Resolves Issue #9 Satisfiability Witness):
+-- Proves without axioms that any homogeneous vacuum metric field `fun _ => U_const`
+-- has vanishing partial derivatives and satisfies `is_divergence_free` at every point `x`.
+theorem homogeneous_vacuum_is_divergence_free (U_const : T2) (x : SpaceTime) :
+    is_divergence_free (fun _ : SpaceTime => U_const) x := by
+  unfold is_divergence_free
+  ext ν
+  dsimp [metric_divergence, partial_deriv]
+  simp
 -- Theorem 27: Dynamic Spatial Compliance Link and Pressure Gradient Extraction
 theorem dynamic_compliance_link (x : SpaceTime) :
   1 / (alpha_s_f x)^2 = 1 / (1 - (P_dyn_f x) / P_c) := by
@@ -589,6 +598,20 @@ def is_translationally_symmetric (U : MetricField) (X : VectorField) (x : SpaceT
 -- 7.1 The Poincare Subgroup (10 Generators) (Manuscript Eqs. 91–96)
 -- ----------------------------------------------------------------------
 variable (alpha_s_val : ℝ)
+-- Theorem 42.5 (Resolves Issue #11 Operator Bridge — Manuscript Eqs. 90–91):
+-- Proves directly from `lie_derivative` that for any uniform translation field `X`
+-- with vanishing coordinate Jacobian (`partial_deriv (fun y => X y α) = 0`),
+-- the 3-term covariant Lie derivative reduces to the directional gradient `∑_α X^α ∂_α U_μν`.
+theorem lie_derivative_translation_bridge (X : VectorField) (U : MetricField) (x : SpaceTime)
+    (h_const_X : ∀ (α μ : Fin 4), partial_deriv (fun y => X y α) μ x = 0)
+    (μ ν : Fin 4) :
+    lie_derivative X U x μ ν =
+    ∑ α : Fin 4, (X x α) * partial_deriv (fun y => U y μ ν) α x := by
+  dsimp [lie_derivative]
+  apply Finset.sum_congr rfl
+  intro α _
+  rw [h_const_X α μ, h_const_X α ν]
+  ring
 lemma isolate_lorentz_scalar (omega_0i alpha_val : ℝ) (h_omega : omega_0i ≠ 0) (h_pos : alpha_val > 0) :
   omega_0i * ((1 / alpha_val^2) - alpha_val^2) = 0 → alpha_val = 1 := by
   intro h
@@ -711,11 +734,8 @@ theorem relational_vorticity_wedge_identity (lambda_f beta_f : ScalarField) (x :
     partial_deriv lambda_f ν x * partial_deriv beta_f μ x := by
   dsimp [Omega_clebsch_field, omega_clebsch_2form, wedge_covec, d_scalar_field, Matrix.of_apply]
 
--- ======================================================================
-
-
 -- Moved from MatrixAlgebra (§6) to break the MatrixAlgebra ↔ FieldCalculus import cycle.
--- Theorem statement and proof unchanged (verbatim from Binyamin's raw v4.5).
+-- Theorem statement and proof unchanged (verbatim from Binyamin's raw v4.6).
 theorem quadratic_gravitational_lagrangian_trace (S_sq G_sq R_sq R_scalar Lambda_val : ℝ)
     (h_G_sq : G_sq = R_sq - R_scalar^2 + (1 / 4) * R_scalar^2 * I_2_vac)
     (h_S_sq : S_sq = (1 / Lambda_val^2) * G_sq - (2 / Lambda_val) * R_scalar + I_2_vac) :

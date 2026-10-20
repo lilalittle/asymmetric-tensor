@@ -19,7 +19,7 @@ public import AsymmetricTensor.Model
 /-!
 # Transverse wave mechanics and continuous pressure dynamics
 
-Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+Module of Binyamin's v4.6 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -43,7 +43,7 @@ variable (smul_2form : Forms_0D → Forms_2D → Forms_2D)
 variable (wedge : Forms_1D →ₗ[ℝ] Forms_1D →ₗ[ℝ] Forms_2D)
 variable (v_val : ℝ)
 variable (a_0 : ℝ)
-
+-- ======================================================================
 -- SECTION 13: TRANSVERSE WAVE MECHANICS, CHIRAL INDUCTION, AND PLASMA ATTENUATION
 -- ======================================================================
 -- Dimensional Audit: Transverse wave equation ((1 / c^2) * d^2 v_perp / dt^2 = nabla^2 v_perp) balances at ⟨-2, 1, 0⟩:
@@ -351,28 +351,28 @@ theorem interaction_hierarchy_strong (L_crit : ℝ) (_hm_e : m_e ≠ 0) (_h_alph
   have h_final : (hbar * (m_e^2 * c^3)) / (hbar * (alpha_em^2 * hbar)) =
                  ((m_e^2 * c^3) / (alpha_em^2 * hbar)) * (hbar / hbar) := by ring
   rw [h_final, div_self hbar_ne, mul_one]
--- Theorem 98: Interaction Hierarchy IV — Electromagnetism at the Bohr Radius (Manuscript Section 14.4.IV)
-theorem interaction_hierarchy_em (a_0_val : ℝ) (_hm_e : m_e ≠ 0) (_h_alpha : alpha_em ≠ 0)
-    (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c)) :
-    alpha_em * F_fund a_0_val = (alpha_em^3 * m_e^2 * c^3) / hbar := by
+-- Theorem 98: Interaction Hierarchy IV — Electromagnetism at the Bohr Radius & α^4 Strong Ratio
+-- (Resolves Issues #27 & #49, Manuscript Section 14.4.IV)
+theorem interaction_hierarchy_em (a_0_val L_crit : ℝ) (hm_e : m_e ≠ 0) (h_alpha : alpha_em ≠ 0)
+    (h_a_0 : a_0_val = hbar / (alpha_em * m_e * c))
+    (h_L_crit : L_crit = (alpha_em * hbar) / (m_e * c)) :
+    F_fund a_0_val = (alpha_em^2 * m_e^2 * c^3) / hbar ∧
+    alpha_em * F_fund a_0_val = (alpha_em^3 * m_e^2 * c^3) / hbar ∧
+    F_fund a_0_val / F_fund L_crit = alpha_em^4 := by
   have hbar_ne : hbar ≠ 0 := ne_of_gt hbar_pos
-  dsimp [F_fund]
-  rw [h_a_0]
-  have h_pow : (hbar / (alpha_em * m_e * c))^2 = hbar^2 / (alpha_em * m_e * c)^2 := div_pow _ _ _
-  rw [h_pow]
-  have h_pull : (hbar * c) / (hbar^2 / (alpha_em * m_e * c)^2) =
-                (hbar * c * (alpha_em * m_e * c)^2) / hbar^2 := div_div_eq_mul_div _ _ _
-  rw [h_pull]
-  have h_num : alpha_em * ((hbar * c * (alpha_em * m_e * c)^2) / hbar^2) =
-               (hbar * (alpha_em^3 * m_e^2 * c^3)) / (hbar * hbar) := by
-    have step1 : hbar * c * (alpha_em * m_e * c)^2 = hbar * (alpha_em^2 * m_e^2 * c^3) := by ring
-    have step2 : hbar^2 = hbar * hbar := by ring
-    rw [step1, step2]
+  have hc_ne : c ≠ 0 := c_ne_zero
+  have h_em_base : F_fund a_0_val = (alpha_em^2 * m_e^2 * c^3) / hbar := by
+    dsimp [F_fund]
+    rw [h_a_0]
+    field_simp
+  have h_strong : F_fund L_crit = (m_e^2 * c^3) / (alpha_em^2 * hbar) :=
+    interaction_hierarchy_strong m_e alpha_em L_crit hm_e h_alpha h_L_crit
+  refine ⟨h_em_base, ?_, ?_⟩
+  · rw [h_em_base]
     ring
-  rw [h_num]
-  have h_final : (hbar * (alpha_em^3 * m_e^2 * c^3)) / (hbar * hbar) =
-                 ((alpha_em^3 * m_e^2 * c^3) / hbar) * (hbar / hbar) := by ring
-  rw [h_final, div_self hbar_ne, mul_one]
+  · rw [h_em_base, h_strong]
+    field_simp
+
 -- ----------------------------------------------------------------------
 -- 14.5 The Macroscopic Baseline (The Horizon Floor)
 -- ----------------------------------------------------------------------
@@ -458,7 +458,4 @@ theorem universal_gravitation_limit (hM_P : M_P_val > 0) (_hr : r > 0) (hG : G >
                ((G * M_1 * M_2) / r^2) * 1 := by rw [div_self (pow_ne_zero 2 hM_P_ne)]
   rw [step6, mul_one] at step1
   exact step1
-
--- ======================================================================
-
 end AsymmetricTensor

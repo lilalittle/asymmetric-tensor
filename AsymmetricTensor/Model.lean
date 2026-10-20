@@ -18,7 +18,7 @@ public import Mathlib.Tactic
 /-!
 # Fundamental bedrock axioms, dimensional audit layer, kinematics, and thermodynamic relations
 
-Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+Module of Binyamin's v4.6 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -30,7 +30,7 @@ set_option autoImplicit false
 set_option linter.unusedSectionVars true
 
 namespace AsymmetricTensor
-
+-- ======================================================================
 -- SECTION 0: FUNDAMENTAL BEDROCK AXIOMS & EMERGENT CONSTANTS
 -- ======================================================================
 -- 0.1 Irreducible Physical Constants (Speed of Light, Planck Length, Reduced Planck Constant)
@@ -310,7 +310,4 @@ theorem nested_ledger_compliance (P_ambient alpha_g_sq v_0 : ℝ)
   calc P_ambient = (P_ambient / P_c) * P_c := (div_mul_cancel₀ P_ambient Pc_non_zero).symm
     _ = alpha_g_sq * P_c := by rw [h_eq]
     _ = P_c * alpha_g_sq := by ring
-
--- ======================================================================
-
 end AsymmetricTensor

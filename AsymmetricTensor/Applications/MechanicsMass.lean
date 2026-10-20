@@ -20,7 +20,7 @@ public import AsymmetricTensor.MatrixAlgebra
 /-!
 # Mass mechanism (topological tensor yield)
 
-Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+Module of Binyamin's v4.6 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -32,7 +32,7 @@ set_option autoImplicit false
 set_option linter.unusedSectionVars true
 
 namespace AsymmetricTensor
-
+-- ======================================================================
 -- SECTION 8: THE MASS MECHANISM (TOPOLOGICAL TENSOR YIELD)
 -- ======================================================================
 -- ----------------------------------------------------------------------
@@ -230,7 +230,4 @@ theorem mass_yield_equivalence (alpha_yield : ℝ)
   rw [div_self h_Mp_ne_zero] at h1
   rw [←h_yield] at h1
   exact h1
-
--- ======================================================================
-
 end AsymmetricTensor

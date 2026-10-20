@@ -19,7 +19,7 @@ public import AsymmetricTensor.Model
 /-!
 # Asymmetric metric-tensor assembly and unified action
 
-Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+Module of Binyamin's v4.6 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -36,7 +36,8 @@ variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
 variable {Forms_2D : Type} [AddCommGroup Forms_2D] [Module ℝ Forms_2D]
 variable {Forms_1D : Type} [AddCommGroup Forms_1D] [Module ℝ Forms_1D]
 variable (wedge : Forms_1D →ₗ[ℝ] Forms_1D →ₗ[ℝ] Forms_2D)
-
+variable (M : ℝ)
+-- ======================================================================
 -- SECTION 3: ASSEMBLY OF THE ASYMMETRIC METRIC-TENSOR (U_hat_μν)
 -- ======================================================================
 -- Dimensional Audit: Every matrix entry of U_hat (-alpha_s^2, 1/alpha_s^2, alpha*(v/c), alpha*t_p*Omega) is dimensionless:
@@ -275,7 +276,6 @@ theorem lorentzian_action_separation (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda
   dsimp [lorentzian_contract, U_sym, U_anti, symPart, antiPart, U_hat, Matrix.of_apply]
   norm_num
   ring
--- Theorem 38: Quadratic Gravitational Action Trace Reduction (Manuscript Eqs. 67–69)
 -- Theorem 39: Lorentzian Antisymmetric Action Invariant from Clebsch Vorticity (Manuscript Section 6.1 & Eq. 123)
 theorem lorentzian_antisymmetric_trace_eq123 (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ) :
     lorentzian_contract
@@ -299,7 +299,6 @@ theorem lorentzian_antisymmetric_trace_eq123 (alpha_s alpha v_x v_y v_z : ℝ) (
 -- ----------------------------------------------------------------------
 -- 6.3 Volumetric Cavitation & The Metric Lagrangian (Manuscript Eqs. 74–79)
 -- ----------------------------------------------------------------------
-variable (M : ℝ)
 variable (r_c : ℝ)
 -- Dimensional Audit: Gravitational pressure saturation (rho_tau * G * M / r_c = P_c) and Schwarzschild radius (2 G M / c^2 = r_c):
 theorem unit_section6_schwarzschild_cavitation :
@@ -410,7 +409,4 @@ theorem unified_wave_propagation (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_b
     exact h_vacuum
   rw [h_linear] at h1
   exact h1
-
--- ======================================================================
-
 end AsymmetricTensor

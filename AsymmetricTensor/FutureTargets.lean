@@ -22,7 +22,7 @@ public import AsymmetricTensor.Applications.WavesForces
 /-!
 # Predictive corollaries and future work, including dimensional audit corollaries
 
-Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+Module of Binyamin's v4.6 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -34,13 +34,13 @@ set_option autoImplicit false
 set_option linter.unusedSectionVars true
 
 namespace AsymmetricTensor
-
+-- ======================================================================
 -- SECTION 16: DISCUSSION: PREDICTIVE COROLLARIES & FUTURE WORK
 -- ======================================================================
 section FutureWork
 variable {Force3D : Type} [AddCommGroup Force3D] [Module ℝ Force3D]
 -- ----------------------------------------------------------------------
--- 16.1 Symmetric Diagonals (Bulk Strain & Gravitation) (Manuscript Table 16.1, Items 1–11)
+-- 16.1 Symmetric Diagonals (Bulk Strain & Gravitation) (Manuscript Table 16.1, Items 1–12)
 -- ----------------------------------------------------------------------
 -- Theorem 105 (Corollary 16.1.1 — Lemaître-Tolman-Bondi):
 -- Substituting the radial velocity field v_0(r) into the spatial diagonal U_11 = 1 / alpha_s^2
@@ -94,7 +94,7 @@ theorem casimir_pressure_scaling (d_val n_mode B_4 E_M_factor Delta_U P_casimir 
   have hd_ne : d_val ≠ 0 := ne_of_gt hd
   have hpi_ne : Real.pi ≠ 0 := Real.pi_ne_zero
   have h1 : - (1 / 2) * ((2 / 3) * (n_mode * Real.pi / d_val)^3) = - (Real.pi^3 / (3 * d_val^3)) * n_mode^3 := by
-    field_simp
+    ring
   have h2 : E_M_factor = 1 / 120 := by
     rw [h_EM, h_B4]
     norm_num
@@ -226,10 +226,63 @@ theorem action_reaction_equilibrium (rate_T_0i_A rate_T_0i_B rate_T_total : ℝ)
     _ = rate_T_total - rate_T_0i_B := by rw [←h_total]
     _ = 0 - rate_T_0i_B := by rw [h_conserved]
     _ = - rate_T_0i_B := by ring
+-- Theorem 116 (Corollary 16.1.12 — Thermodynamic Vacuum, Particle Entropy & Elimination of the Kelvin):
+-- Proves that combining the First Law of Thermodynamics (T dS = dU + P dV) with the extensive
+-- Euler Equation of State (ρ_e + P = T σ) cancels the volumetric expansion differential dV to yield
+-- T dσ = dρ_e; derives the Unruh-Hawking cosmic temperature floor T_cosmic = ℏ / (2π k_B t) from
+-- horizon acceleration a_h = c / t; proves that a radiation-dominated cavity (P = ρ_e / 3,
+-- ρ_e V = ℏ / t) carries the scale-invariant entropy quantum S_p = (8π / 3) k_B; and proves that
+-- identifying the continuum Boltzmann constant with the action quantum (k_B = ℏ) eliminates the Kelvin,
+-- reducing T_cosmic to pure thermal frequency 1 / (2π t) and S_p to quantized action (8π / 3) ℏ.
+theorem thermodynamic_vacuum_and_particle_entropy
+    (T_val sigma_val rho_e P_val V_val dV d_sigma d_rho a_h t_val k_B T_cosmic P_rad S_p : ℝ)
+    (hV : V_val ≠ 0) (ht : t_val ≠ 0) (hkB : k_B ≠ 0)
+    (h_first_law : T_val * (sigma_val * dV + V_val * d_sigma) = (rho_e * dV + V_val * d_rho) + P_val * dV)
+    (h_euler : rho_e + P_val = T_val * sigma_val)
+    (h_ah : a_h = c / t_val)
+    (h_unruh : T_cosmic = (hbar * a_h) / (2 * Real.pi * k_B * c))
+    (h_Prad : P_rad = rho_e / 3)
+    (h_Evac : rho_e * V_val = hbar / t_val)
+    (h_Sp : S_p = ((rho_e + P_rad) * V_val) / T_cosmic) :
+    T_val * d_sigma = d_rho ∧
+    T_cosmic = hbar / (2 * Real.pi * k_B * t_val) ∧
+    S_p = (8 * Real.pi / 3) * k_B ∧
+    (k_B = hbar → T_cosmic = 1 / (2 * Real.pi * t_val) ∧ S_p = (8 * Real.pi / 3) * hbar) := by
+  have hc : c ≠ 0 := c_ne_zero
+  have hpi : Real.pi ≠ 0 := Real.pi_ne_zero
+  have hbar_ne : hbar ≠ 0 := hbar_ne_zero
+  have h_cancel_dV : V_val * (T_val * d_sigma - d_rho) = 0 := by
+    calc V_val * (T_val * d_sigma - d_rho)
+      _ = (T_val * (sigma_val * dV + V_val * d_sigma) - ((rho_e * dV + V_val * d_rho) + P_val * dV)) +
+          ((rho_e + P_val) - T_val * sigma_val) * dV := by ring
+      _ = 0 + 0 * dV := by rw [sub_eq_zero.mpr h_first_law, sub_eq_zero.mpr h_euler]
+      _ = 0 := by ring
+  have h1 : T_val * d_sigma = d_rho := by
+    cases mul_eq_zero.mp h_cancel_dV with
+    | inl h_bad => exact False.elim (hV h_bad)
+    | inr h_eq => exact sub_eq_zero.mp h_eq
+  have h2 : T_cosmic = hbar / (2 * Real.pi * k_B * t_val) := by
+    rw [h_unruh, h_ah]
+    field_simp
+  have h_num : (rho_e + P_rad) * V_val = (4 / 3) * (hbar / t_val) := by
+    calc (rho_e + P_rad) * V_val
+      _ = (rho_e + rho_e / 3) * V_val := by rw [h_Prad]
+      _ = (4 / 3) * (rho_e * V_val) := by ring
+      _ = (4 / 3) * (hbar / t_val) := by rw [h_Evac]
+  have h3 : S_p = (8 * Real.pi / 3) * k_B := by
+    rw [h_Sp, h_num, h2]
+    field_simp
+    ring
+  refine ⟨h1, h2, h3, ?_⟩
+  intro hk_hbar
+  refine ⟨?_, ?_⟩
+  · rw [h2, hk_hbar]
+    field_simp
+  · rw [h3, hk_hbar]
 -- ----------------------------------------------------------------------
 -- 16.2 Antisymmetric Off-Diagonals (Transverse Shear & Vorticity) (Manuscript Table 16.2, Items 1–9)
 -- ----------------------------------------------------------------------
--- Theorem 116 (Corollary 16.2.1 — Gravitoelectromagnetism):
+-- Theorem 117 (Corollary 16.2.1 — Gravitoelectromagnetism):
 -- Proves directly from `U_anti` that the space-time (0,i) off-diagonals isolate the 3D Gravitoelectric
 -- slip vector `-alpha * (v_i / c)` and the space-space (3,2), (1,3), (2,1) off-diagonals isolate
 -- the 3D Clebsch Gravitomagnetic vorticity vector `alpha * (t_p * Omega_k_clebsch d_lambda d_beta)`.
@@ -250,7 +303,7 @@ theorem gravitoelectromagnetism_mapping (alpha_s alpha v_x v_y v_z : ℝ) (d_lam
   · dsimp [U_anti, antiPart, U_hat, Matrix.of_apply]; norm_num
   · dsimp [U_anti, antiPart, U_hat, Matrix.of_apply]; norm_num
   · dsimp [U_anti, antiPart, U_hat, Matrix.of_apply]; norm_num
--- Theorem 117 (Corollary 16.2.2 — Dirac Equation & Clifford Algebra):
+-- Theorem 118 (Corollary 16.2.2 — Dirac Equation & Clifford Algebra):
 -- Proves the Spin(1,3) double-cover (2π phase inversion vs. 4π restoration).
 theorem dirac_spinor_double_cover (psi_initial : ℝ) :
     Real.cos (2 * Real.pi / 2) * psi_initial = -psi_initial ∧
@@ -260,7 +313,7 @@ theorem dirac_spinor_double_cover (psi_initial : ℝ) :
     ring
   · rw [show 4 * Real.pi / 2 = 2 * Real.pi by ring, Real.cos_two_pi]
     ring
--- Theorem 118 (Corollary 16.2.3 — Mott Scattering & Helicity):
+-- Theorem 119 (Corollary 16.2.3 — Mott Scattering & Helicity):
 -- Captures the cos^2(theta / 2) = (1 + cos(theta)) / 2 spin-dependent Mott scattering limit.
 theorem mott_scattering_cross_section (Mott_Amplitude theta_val : ℝ)
     (h_mott : Mott_Amplitude = (Real.cos (theta_val / 2))^2) :
@@ -271,7 +324,7 @@ theorem mott_scattering_cross_section (Mott_Amplitude theta_val : ℝ)
   have h_cancel : 2 * (theta_val / 2) = theta_val := by ring
   rw [h_cancel] at h_half_angle
   exact h_half_angle
--- Theorem 119 (Corollary 16.2.4 — The Poynting Vector / Convective Lamb Vector Energy Flux):
+-- Theorem 120 (Corollary 16.2.4 — The Poynting Vector / Convective Lamb Vector Energy Flux):
 -- Proves directly from `U_anti` that contracting the space-time electric slip components `U_anti(0,j)`
 -- against the space-space Clebsch magnetic vorticity components `U_anti(j,1)` recovers the exact
 -- x-component of the convective Lamb vector `-(alpha^2 * t_p / c) * (v_y * Omega_z - v_z * Omega_y)`.
@@ -289,7 +342,7 @@ theorem poynting_vector_convection (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d
   { dsimp [U_anti, antiPart, U_hat, Matrix.of_apply]
     norm_num
     ring }
--- Theorem 120 (Corollary 16.2.5 — Quantum Entanglement & Decoherence):
+-- Theorem 121 (Corollary 16.2.5 — Quantum Entanglement & Decoherence):
 -- Proves that rotating a detector boundary frame (`omega ≠ omega_prime`) in the Section 10.3
 -- rotational covariance transformation produces strictly distinct off-diagonal projections
 -- with a non-vanishing contextual shift `(omega - omega_prime) * (Lambda_beta_i * U_phi_beta) ≠ 0`.
@@ -306,7 +359,7 @@ theorem entanglement_contextuality (U_0beta U_phi_beta Lambda_beta_i omega omega
   intro h_eq
   have h_sub : (omega - omega_prime) * (Lambda_beta_i * U_phi_beta) = 0 := by linarith
   exact h_prod_ne h_sub
--- Theorem 121 (Corollary 16.2.6 — CP Violation & Baryogenesis):
+-- Theorem 122 (Corollary 16.2.6 — CP Violation & Baryogenesis):
 -- Proves directly from `U_anti` that under a combined CP transformation of the defect
 -- (v_x -> -v_x) against an un-inverted chiral Clebsch background (`d_lambda`, `d_beta`),
 -- the off-diagonal coupling product `U_anti(0,1) * U_anti(1,2)` inverts sign (`-E_CP`).
@@ -319,7 +372,7 @@ theorem cp_violation_energy_shift (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_
   dsimp [U_anti, antiPart, U_hat, Matrix.of_apply]
   norm_num
   ring
--- Theorem 122 (Corollary 16.2.7a — Coulomb's Law: Spherical Bernoulli Superposition & Helicity Arrest):
+-- Theorem 123 (Corollary 16.2.7a — Coulomb's Law: Spherical Bernoulli Superposition & Helicity Arrest):
 -- Proves Eulerian volumetric flux conservation (Φ_↻ + Φ_∥ + Φ_⊥ = 0), the binomial expansion of
 -- superposed transverse dynamic pressure, the spherical 1 / (16π^2 r^4) interaction pressure deficit,
 -- and the positivity of the inverse volumetric capacity bound 1 / alpha_s^4.
@@ -338,7 +391,7 @@ theorem coulomb_bernoulli_superposition_and_deficit
     ring
   · rw [hv1, hv2]
     ring
--- Theorem 123 (Corollary 16.2.7b — Coulomb's Law: Continuous Volumetric Phase Flux & Kinematic Force Constant):
+-- Theorem 124 (Corollary 16.2.7b — Coulomb's Law: Continuous Volumetric Phase Flux & Kinematic Force Constant):
 -- Proves that equating the α-throttled Bernoulli surface force F_restore = (α ρ_τ Φ_⊥^2) / (8π r^2)
 -- to α F_fund(r) = α ℏ c / r^2 cancels α and r^2, yielding Φ_⊥^2 = 8π ℏ c / ρ_tau = (4π ℏ G / c^2)^2
 -- and isolating the Kinematic Force Constant K_tau = α ℏ c.
@@ -383,7 +436,7 @@ theorem coulomb_phase_flux_and_force_constant (Phi_perp_e K_tau alpha_em r_val :
     rw [h_K_def, h_flux_sq]
     field_simp
   exact ⟨h_flux_sq, h_flux_sq.trans h_planck_flux, h_K⟩
--- Theorem 124 (Corollary 16.2.8 — Atomic Orbital Quantization / The Rydberg Series):
+-- Theorem 125 (Corollary 16.2.8 — Atomic Orbital Quantization / The Rydberg Series):
 -- Derives `v_n = v_0 / n` from quantized circulation (`r_n * v_n = n * (r_1 * v_0)`) and radial shell
 -- scaling (`r_n = n^2 * r_1`), then proves that the n-th shell dynamic pressure scales as `1 / n^2`.
 theorem rydberg_energy_quantization (v_0 v_n r_1 r_n n_integer : ℝ)
@@ -402,7 +455,7 @@ theorem rydberg_energy_quantization (v_0 v_n r_1 r_n n_integer : ℝ)
   rw [h_vn]
   dsimp [P_dyn_scalar]
   ring
--- Theorem 125 (Corollary 16.2.9a — The Kinematic Origin of Charge & Elimination of the Coulomb):
+-- Theorem 126 (Corollary 16.2.9a — The Kinematic Origin of Charge & Elimination of the Coulomb):
 -- Proves shear transduction energy balance ((1/2) ρ_τ v_φ^2 = (1/2) ε_τ |Ω|^2) and derives
 -- continuum charge as displaced momentum e_tau = sqrt(4π ε_tau ℏ c α) from F_e = α F_fund(r).
 theorem kinematic_origin_of_charge (v_phi eps_tau e_tau alpha_em r_val : ℝ) (d_lambda d_beta : V4)
@@ -429,7 +482,7 @@ theorem kinematic_origin_of_charge (v_phi eps_tau e_tau alpha_em r_val : ℝ) (d
   have h_sqrt := congrArg Real.sqrt h_sq
   rw [Real.sqrt_sq he_nonneg] at h_sqrt
   exact ⟨by linarith, h_sq, h_sqrt⟩
--- Theorem 126 (Corollary 16.2.9b — The Dirac Moment & Toroidal Magnetic Anomaly):
+-- Theorem 127 (Corollary 16.2.9b — The Dirac Moment & Toroidal Magnetic Anomaly):
 -- Proves that distributing the transverse viscoelastic coupling α across a 2π Clebsch phase loop
 -- yields the Schwinger magnetic anomaly a_e = α / (2π) and μ_true = (e_tau ℏ / 2m)(1 + α / 2π).
 theorem dirac_moment_and_magnetic_anomaly (mu_B_tau mu_true e_tau m_defect a_e alpha_em : ℝ)
@@ -441,7 +494,7 @@ theorem dirac_moment_and_magnetic_anomaly (mu_B_tau mu_true e_tau m_defect a_e a
 -- ----------------------------------------------------------------------
 -- 16.3 Cross-Coupled & Non-Linear Dynamics (Manuscript Table 16.3, Items 1–10)
 -- ----------------------------------------------------------------------
--- Theorem 127 (Corollary 16.3.1 — Almansi Finite Strain & Cavitation Saturation Bound):
+-- Theorem 128 (Corollary 16.3.1 — Almansi Finite Strain & Cavitation Saturation Bound):
 -- Proves directly from `U_sym` that substituting the spatial diagonal S_11 = 1 / alpha_s^2
 -- into the Eulerian Almansi strain formula (1/2) * (1 - 1 / S_11) yields (1/2) * (1 - alpha_s^2) = P_dyn / (2 P_c),
 -- which remains finite and saturates at 1 / 2 in the cavitation limit (alpha_s = 0).
@@ -467,7 +520,7 @@ theorem almansi_finite_strain (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta
   · rw [h11, h_inv]
   · rw [h_compliance]
     ring
--- Theorem 128 (Corollary 16.3.2 — SU(3) Symmetry, The Strong Interaction & The Mass Gap):
+-- Theorem 129 (Corollary 16.3.2 — SU(3) Symmetry, The Strong Interaction & The Mass Gap):
 -- Proves that the 5 real symmetric deviatoric components and 3 imaginary antisymmetric components
 -- span the 8 generators of su(3) (5 + 3 = 8), and that in the elastic solid-state regime
 -- (0 < U_perp_Im ≤ U_perp_Re), the geometric Deborah number satisfies the mass gap bound 1 ≤ De.
@@ -497,7 +550,7 @@ theorem su3_mass_gap_transition (alpha_s_val alpha_val : ℝ) (d_lambda d_beta :
   refine ⟨rfl, h_ge_one, ?_⟩
   rw [h_De_def]
   exact h_ge_one
--- Theorem 129 (Corollary 16.3.3 — The Lorentz Force / Magnus Vortex Contraction & Zero-Work Orthogonality):
+-- Theorem 130 (Corollary 16.3.3 — The Lorentz Force / Magnus Vortex Contraction & Zero-Work Orthogonality):
 -- Proves directly from `U_anti` that contracting the spatial antisymmetric off-diagonals A_ij = α t_p (dλ_Ω ∧ dβ_Ω)_ij
 -- against a velocity vector (v_x, v_y, v_z) extracts the exact Clebsch wedge contraction
 -- α t_p ((dλ_Ω ∧ dβ_Ω)_12 v_y + (dλ_Ω ∧ dβ_Ω)_13 v_z), and that the resulting Magnus/Lorentz force
@@ -519,14 +572,14 @@ theorem lorentz_force_magnus_mapping (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda
            omega_clebsch_2form, wedge_covec, Matrix.of_apply]
     norm_num
     ring }
--- Theorem 130 (Corollary 16.3.4 — Z-Pinch & Sausage Instability):
+-- Theorem 131 (Corollary 16.3.4 — Z-Pinch & Sausage Instability):
 -- Azimuthal vorticity elevates P_shear, depleting static capacity as P_static = P_c - P_shear.
 theorem z_pinch_sausage_instability (P_static P_c P_dyn P_shear : ℝ)
     (h_conservation : P_c = P_static + P_dyn + P_shear)
     (h_P_dyn_zero : P_dyn = 0) :
     P_static = P_c - P_shear := by
   linarith
--- Theorem 131 (Corollary 16.3.5 — Acoustic Covariance):
+-- Theorem 132 (Corollary 16.3.5 — Acoustic Covariance):
 -- Longitudinal contraction (L = L_0 / gamma) with unexpanded transverse area shrinks total volume as V = V_0 / gamma.
 theorem acoustic_covariance_volume (V V_0 L L_0 Area gamma : ℝ)
     (_h_gamma_ne : gamma ≠ 0)
@@ -538,7 +591,7 @@ theorem acoustic_covariance_volume (V V_0 L L_0 Area gamma : ℝ)
     _ = (L_0 / gamma) * Area := by rw [h_L]
     _ = (L_0 * Area) / gamma := by ring
     _ = V_0 / gamma := by rw [h_V_0]
--- Theorem 132 (Corollary 16.3.6 — Wake Detachment / Bullet Cluster Shear Normalization):
+-- Theorem 133 (Corollary 16.3.6 — Wake Detachment / Bullet Cluster Shear Normalization):
 -- Proves directly from `U_anti` and `U_hat` that normalizing the transverse rotational Clebsch shear component
 -- `U_anti(1,2)` against the temporal admittance `sqrt(-U_00) = alpha_s` yields `- (alpha * (t_p * Omega_z_clebsch d_lambda d_beta)) / alpha_s`.
 theorem wake_detachment_stabilization (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ)
@@ -558,7 +611,7 @@ theorem wake_detachment_stabilization (alpha_s alpha v_x v_y v_z : ℝ) (d_lambd
     norm_num
     ring
   rw [h12]
--- Theorem 133 (Corollary 16.3.7 — U(1) Gauge Invariance):
+-- Theorem 134 (Corollary 16.3.7 — U(1) Gauge Invariance):
 -- Shifting the irrotational phase (grad_h + grad_chi) and transverse potential (A - grad_chi) leaves the total velocity v invariant.
 theorem u1_gauge_invariance (v grad_h A grad_chi : Force3D)
     (h_v : v = grad_h + A) :
@@ -571,7 +624,7 @@ theorem u1_gauge_invariance (v grad_h A grad_chi : Force3D)
       rw [h_comm]
     _ = grad_h + A := by rw [add_sub_cancel_right]
     _ = v := h_v.symm
--- Theorem 134 (Corollary 16.3.8 — Viscoelastic Phase Angle):
+-- Theorem 135 (Corollary 16.3.8 — Viscoelastic Phase Angle):
 -- The ratio of antisymmetric transverse Clebsch shear to symmetric spatial compliance (alpha_s^-2)
 -- outputs tan(delta) = (alpha * t_p * Omega_z_clebsch d_lambda d_beta) * alpha_s^2.
 theorem viscoelastic_phase_angle_reduction (d_lambda d_beta : V4) (alpha alpha_s t_p : ℝ)
@@ -596,7 +649,7 @@ theorem viscoelastic_phase_angle_reduction (d_lambda d_beta : V4) (alpha alpha_s
       rw [hu, div_self ha2_ne, mul_one]
     rw [hs, ht, div_one]
   rw [h_pull]
--- Theorem 135 (Corollary 16.3.9 — Electromagnetic Decoupling / Running Couplings):
+-- Theorem 136 (Corollary 16.3.9 — Electromagnetic Decoupling / Running Couplings):
 -- Raising the index separates electric slip (scaling as 1 / alpha_s^2) from Clebsch magnetic vorticity
 -- (scaling as alpha_s^2) by a factor of 1 / alpha_s^4.
 theorem electromagnetic_decoupling_ratio (A_0i A_ij alpha_s v_perp c t_p : ℝ) (d_lambda d_beta : V4)
@@ -614,7 +667,7 @@ theorem electromagnetic_decoupling_ratio (A_0i A_ij alpha_s v_perp c t_p : ℝ) 
   have h5 : (v_perp / (alpha_s^2 * c)) / (alpha_s^2 * (t_p * Omega_z_clebsch d_lambda d_beta)) =
             (v_perp / (c * t_p * Omega_z_clebsch d_lambda d_beta)) * (1 / alpha_s^4) := by ring
   rw [h4, h5]
--- Theorem 136 (Corollary 16.3.10 — Fourier Curvature Decomposition / QFT Momentum States):
+-- Theorem 137 (Corollary 16.3.10 — Fourier Curvature Decomposition / QFT Momentum States):
 -- Proves that under the Fourier-transformed d'Alembertian multiplier `(k^2 - omega^2 / c^2)`,
 -- the spectral wave operator partitions across `U_sym` and `U_anti`, and any non-vanishing
 -- on-shell temporal mode (`alpha_s ≠ 0`) satisfies the dispersion relation `omega^2 = c^2 * k^2`.
@@ -647,7 +700,7 @@ theorem fourier_curvature_decomposition (alpha_s alpha v_x v_y v_z : ℝ) (d_lam
 -- ----------------------------------------------------------------------
 -- 16.4 Dimensional Audit, Combinatorial Possibility Space, and Lean 4 Parity
 -- ----------------------------------------------------------------------
--- Consolidated Section 16 Corollary Dimensional Verifications (Moved from 16.1, 16.2, 16.3):
+-- Theorem 138: Consolidated Section 16 Corollary Dimensional Audit (16.1, 16.2, 16.3)
 theorem unit_section16_corollaries :
     (u_Area * u_hbar * u_c) / (u_l_p^(4:ℤ)) = u_Force ∧
     u_l_p / u_c = u_t_p ∧
@@ -663,38 +716,69 @@ theorem unit_section16_3_cross_coupled_corollaries :
     u_c / (u_c * u_t_p * u_omega) = u_dimless ∧
     (u_dimless * u_t_p * u_omega) * u_dimless = u_dimless := by
   refine ⟨rfl, rfl, rfl⟩
--- I. Sector S = -1: Vacuum Compliance & Gravitational Coupling (Ordered by S -> V -> L)
-def u_inv_energy     : UnitDim := u_dimless / u_Energy        -- ⟨1, -1, -1⟩  (1 / E, Inverse Energy)
-def u_einstein_kappa : UnitDim := u_G / (u_c^(4:ℤ))           -- ⟨2, -1, -1⟩  (8πG / c^4 = 1 / Force, Inverse Manifold Tension)
-def u_compliance     : UnitDim := u_dimless / u_P_c           -- ⟨4, -1, -1⟩  (1 / P_c, Vacuum Compressibility)
-def u_mobility       : UnitDim := u_dimless / u_Mom           -- ⟨1, 0, -1⟩   (1 / p, Mechanical Mobility)
-def u_source_kappa   : UnitDim := u_G / (u_c^(2:ℤ))           -- ⟨2, 1, -1⟩   (G / c^2 = L / M, Mass-to-Radius Conversion)
-def u_spec_volume    : UnitDim := u_dimless / u_rho_tau       -- ⟨4, 1, -1⟩   (1 / ρ_τ, Specific Volume)
--- II. Sector S = 0: Pure Geometry, Operators & Kinematics (Ordered by S -> V -> L)
-def u_time_sq        : UnitDim := u_t_p^(2:ℤ)                 -- ⟨2, -2, 0⟩   (t_p^2, Squared Relaxation Time)
-def u_spacetime_vol  : UnitDim := u_Volume * u_t_p            -- ⟨4, -1, 0⟩   (dt d^3x, 4D Spacetime Action Volume)
-def u_num_density    : UnitDim := u_dimless / u_Volume        -- ⟨-3, 0, 0⟩   (1 / L^3, Defect Number Density)
-def u_gradient       : UnitDim := u_dimless / u_l_p           -- ⟨-1, 0, 0⟩   (∇, Γ^λ_μν, T^λ_μν, Wavenumber k)
-def u_hypervolume    : UnitDim := u_l_p^(4:ℤ)                 -- ⟨4, 0, 0⟩    (c dt d^3x, 4D Geometric Hypervolume)
-def u_wave_vel       : UnitDim := u_Laplacian * u_c           -- ⟨-2, 1, 0⟩   (□ v_⊥, ∇ · Ω, Wave Operator on Velocity)
-def u_kin_visc       : UnitDim := u_c * u_l_p                 -- ⟨1, 1, 0⟩    (ν = μ / 2ρ_τ, Specific Circulation ℏ / M)
-def u_freq_sq        : UnitDim := u_omega^(2:ℤ)               -- ⟨-2, 2, 0⟩   (ω^2 = 4πG ρ_dyn = ∇^2 Φ)
--- III. Sector S = +1: Mechanics, Continuum Stress & Electromagnetic Momentum Charge (Ordered by S -> V -> L)
-def u_surf_density   : UnitDim := u_M_P / u_Area              -- ⟨-3, -1, 1⟩  (M / L^2, Surface Mass Density)
-def u_lin_density    : UnitDim := u_M_P / u_l_p               -- ⟨-2, -1, 1⟩  (ε_τ = M / L = c^2 / G, 1D Linear Density)
-def u_compton_inv    : UnitDim := u_M_P * u_l_p               -- ⟨0, -1, 1⟩   (M r_c = ℏ / c, Compton Invariant)
-def u_moment_inertia : UnitDim := u_M_P * u_Area              -- ⟨1, -1, 1⟩   (I = M r^2, Moment of Inertia)
-def u_mass_flux_div  : UnitDim := u_rho_tau / u_t_p           -- ⟨-5, 0, 1⟩   (∂_t ρ + ∇·(ρ v), Mass Flux Divergence)
-def u_mom_density    : UnitDim := u_Mom / u_Volume            -- ⟨-4, 0, 1⟩   (ρ v = T^0i / c = P_c / c, Momentum Density)
-def u_dyn_visc       : UnitDim := u_P_c * u_t_p               -- ⟨-3, 0, 1⟩   (μ = P_c t_p = ℏ / V, Dynamic Viscosity & Spin Density)
-def u_line_mom       : UnitDim := u_Mom / u_l_p               -- ⟨-2, 0, 1⟩   (p / L = ℏ / L^2, Linear Momentum Density)
-def u_charge_tau     : UnitDim := u_Mom                       -- ⟨-1, 0, 1⟩   (e_τ = √(4π ε_τ ℏ c α), Charge as Momentum)
-def u_surf_tension   : UnitDim := u_Force / u_l_p             -- ⟨-3, 1, 1⟩   (F / L, Surface Tension, 3D Defect Load k)
-def u_force_const    : UnitDim := u_hbar * u_c                -- ⟨0, 1, 1⟩    (K_τ = α ℏ c, Dirac Moment μ_Bτ = e_τ ℏ / 2m)
-def u_power_density  : UnitDim := u_P_c / u_t_p               -- ⟨-5, 2, 1⟩   (∂_t P = Power / Volume, Power Density)
-def u_poynting_flux  : UnitDim := u_P_c * u_c                 -- ⟨-4, 2, 1⟩   (S = P_c c = Power / Area, Poynting Energy Flux)
-def u_power          : UnitDim := u_Energy / u_t_p            -- ⟨-2, 2, 1⟩   (E / t_p = c^5 / G, Power / Luminosity)
--- Theorem 137: Combinatorial Possibility Space Lattice Coordinates (Ordered by S -> V -> L)
+-- ======================================================================
+-- COMPLETE ORDERED LATTICE OF THE (L, V, S) POSSIBILITY SPACE (48 STATES)
+-- Ordered lexicographically by Action (S) -> Velocity (V) -> Length (L).
+-- Previously defined Section 0.5 units are marked with `-- [Section 0.5]`.
+-- ======================================================================
+-- I. Sector S = -1: Vacuum Compliance & Gravitational Coupling (7 States)
+def u_inv_energy      : UnitDim := u_dimless / u_Energy  -- ⟨1, -1, -1⟩  (1 / E = β = 1 / k_B T, Inverse Energy / Coldness)
+def u_coldness_beta   : UnitDim := u_inv_energy          -- ⟨1, -1, -1⟩  (Thermodynamic Coldness β = 1 / T_E)
+def u_einstein_kappa  : UnitDim := u_G / (u_c^(4:ℤ))     -- ⟨2, -1, -1⟩  (8πG / c^4 = 1 / Force, Inverse Manifold Tension)
+def u_compliance      : UnitDim := u_dimless / u_P_c     -- ⟨4, -1, -1⟩  (1 / P_c, Vacuum Compressibility)
+def u_mobility        : UnitDim := u_dimless / u_Mom     -- ⟨1, 0, -1⟩   (1 / p, Mechanical Mobility)
+def u_source_kappa    : UnitDim := u_G / (u_c^(2:ℤ))     -- ⟨2, 1, -1⟩   (G / c^2 = L / M, Mass-to-Radius Conversion)
+def u_spec_volume     : UnitDim := u_dimless / u_rho_tau -- ⟨4, 1, -1⟩   (1 / ρ_τ, Specific Volume)
+-- [Section 0.5] u_G  : UnitDim := (u_l_p^2 * u_c^3) / u_hbar -- ⟨2, 3, -1⟩ (Gravitational Constant G)
+-- II. Sector S = 0: Pure Geometry, Operators, Entropy & Kinematics (20 States)
+def u_time_sq         : UnitDim := u_t_p^(2:ℤ)           -- ⟨2, -2, 0⟩   (t_p^2, Squared Relaxation Time)
+-- [Section 0.5] u_t_p        : UnitDim := u_l_p / u_c           -- ⟨1, -1, 0⟩ (Relaxation Time / Period t_p)
+def u_spacetime_vol   : UnitDim := u_Volume * u_t_p      -- ⟨4, -1, 0⟩   (dt d^3x, 4D Spacetime Action Volume)
+-- [Section 0.5] u_Biharmonic : UnitDim := u_dimless / u_l_p^4   -- ⟨-4, 0, 0⟩ (Biharmonic Operator ∇^4, R_μν R^μν)
+def u_num_density     : UnitDim := u_dimless / u_Volume  -- ⟨-3, 0, 0⟩   (1 / L^3, Defect Number Density & Entropy Density σ)
+def u_entropy_density : UnitDim := u_num_density         -- ⟨-3, 0, 0⟩   (σ = S / V, Extensive Entropy Density)
+-- [Section 0.5] u_Curvature  : UnitDim := u_dimless / u_l_p^2   -- ⟨-2, 0, 0⟩ (Curvature Λ, R, G_μν, Laplacian ∇^2, □)
+-- [Section 0.5] u_Laplacian  : UnitDim := u_dimless / u_l_p^2   -- ⟨-2, 0, 0⟩ (Laplace Operator ∇^2)
+def u_gradient        : UnitDim := u_dimless / u_l_p     -- ⟨-1, 0, 0⟩   (∇, Γ^λ_μν, T^λ_μν, Wavenumber k)
+-- [Section 0.5] u_dimless    : UnitDim := ⟨0, 0, 0⟩             -- ⟨0, 0, 0⟩  (Dimensionless Strain U_μν, α_s, α, n, De)
+def u_entropy         : UnitDim := u_dimless             -- ⟨0, 0, 0⟩    (S_BH = π r_c^2 / l_p^2, S_p = 8π / 3, Entropy with k_B = 1)
+-- [Section 0.5] u_l_p        : UnitDim := ⟨1, 0, 0⟩             -- ⟨1, 0, 0⟩  (Fundamental Length l_p, r_c, R_h, λ_D)
+-- [Section 0.5] u_Area       : UnitDim := u_l_p^2               -- ⟨2, 0, 0⟩  (Area A = 4π r^2, Cross-Section)
+-- [Section 0.5] u_Volume     : UnitDim := u_l_p^3               -- ⟨3, 0, 0⟩  (3D Volume V, Added-Mass Displacement V_eff)
+def u_hypervolume     : UnitDim := u_l_p^(4:ℤ)           -- ⟨4, 0, 0⟩    (c dt d^3x, 4D Geometric Hypervolume)
+def u_wave_vel        : UnitDim := u_Laplacian * u_c     -- ⟨-2, 1, 0⟩   (□ v_⊥, ∇ · Ω, Wave Operator on Velocity)
+-- [Section 0.5] u_omega      : UnitDim := u_c / u_l_p           -- ⟨-1, 1, 0⟩ (Frequency ω, Vorticity Ω = dλ_Ω ∧ dβ_Ω, H_0, ω_T)
+-- [Section 0.5] u_c          : UnitDim := ⟨0, 1, 0⟩             -- ⟨0, 1, 0⟩  (Fundamental Velocity c, Clebsch 1-Form v)
+def u_kin_visc        : UnitDim := u_c * u_l_p           -- ⟨1, 1, 0⟩    (ν = μ / 2ρ_τ, Specific Circulation ℏ / M)
+-- [Section 0.5] u_C_isochoric: UnitDim := u_c * u_l_p^2         -- ⟨2, 1, 0⟩  (Isochoric Flow Constant C = v r^2, Charge Flux Φ_⊥(e))
+def u_freq_sq         : UnitDim := u_omega^(2:ℤ)         -- ⟨-2, 2, 0⟩   (ω^2 = 4πG ρ_dyn = ∇^2 Φ, Squared Frequency)
+-- [Section 0.5] u_accel      : UnitDim := u_c^2 / u_l_p         -- ⟨-1, 2, 0⟩ (Acceleration a, g, a_0, Lamb Vector v_⊥ · Ω)
+-- [Section 0.5] u_Phi        : UnitDim := u_c^2                 -- ⟨0, 2, 0⟩  (Gravitational Potential Φ, Kinematic Pressure P_dyn/2ρ_τ, Specific Temp T_E/M)
+-- III. Sector S = +1: Mechanics, Continuum Stress, Temperature & Momentum Charge (21 States)
+-- [Section 0.5] u_rho_tau    : UnitDim := u_hbar / (u_l_p^4 * u_c) -- ⟨-4, -1, 1⟩ (Baseline & Defect Mass Density ρ_τ, ρ_dyn)
+def u_surf_density    : UnitDim := u_M_P / u_Area        -- ⟨-3, -1, 1⟩  (M / L^2, Surface Mass Density)
+def u_lin_density     : UnitDim := u_M_P / u_l_p         -- ⟨-2, -1, 1⟩  (ε_τ = M / L = c^2 / G, 1D Linear Metric Density)
+-- [Section 0.5] u_M_P        : UnitDim := u_hbar / (u_l_p * u_c)   -- ⟨-1, -1, 1⟩ (Mass M_P, m, m_τ)
+def u_compton_inv     : UnitDim := u_M_P * u_l_p         -- ⟨0, -1, 1⟩   (M r_c = ℏ / c, Compton Mass-Length Invariant)
+def u_moment_inertia  : UnitDim := u_M_P * u_Area        -- ⟨1, -1, 1⟩   (I = M r^2, Moment of Inertia)
+def u_mass_flux_div   : UnitDim := u_rho_tau / u_t_p     -- ⟨-5, 0, 1⟩   (∂_t ρ + ∇·(ρ v), Mass Flux Divergence)
+def u_mom_density     : UnitDim := u_Mom / u_Volume      -- ⟨-4, 0, 1⟩   (ρ v = T^0i / c = P_c / c, Momentum Density)
+def u_dyn_visc        : UnitDim := u_P_c * u_t_p         -- ⟨-3, 0, 1⟩   (μ = P_c t_p = ℏ / V, Dynamic Viscosity & Spin Density s^λ_μν)
+def u_line_mom        : UnitDim := u_Mom / u_l_p         -- ⟨-2, 0, 1⟩   (p / L = ℏ / L^2, Linear Momentum Density)
+-- [Section 0.5] u_Mom        : UnitDim := u_hbar / u_l_p           -- ⟨-1, 0, 1⟩ (Linear Momentum p = M c)
+def u_charge_tau      : UnitDim := u_Mom                 -- ⟨-1, 0, 1⟩   (e_τ = √(4π ε_τ ℏ c α), Continuum Charge as Momentum)
+-- [Section 0.5] u_hbar       : UnitDim := ⟨0, 0, 1⟩                -- ⟨0, 0, 1⟩  (Fundamental Action ℏ, Circulation Quantum κ = 2πℏ)
+-- [Section 0.5] u_grad_P     : UnitDim := u_P_c / u_l_p            -- ⟨-5, 1, 1⟩ (Pressure Gradient ∇P, Volumetric Force Density)
+-- [Section 0.5] u_P_c        : UnitDim := u_rho_tau * u_c^2        -- ⟨-4, 1, 1⟩ (Critical Pressure P_c, Stress T_μν, Energy Density ρ_e = T σ)
+def u_surf_tension    : UnitDim := u_Force / u_l_p       -- ⟨-3, 1, 1⟩   (F / L, Surface Tension, 3D Defect Load k = ρ_τ G M)
+-- [Section 0.5] u_Force      : UnitDim := (u_hbar * u_c) / u_l_p^2 -- ⟨-2, 1, 1⟩ (Fundamental Force F = ℏ c / r^2, Manifold Tension c^4 / G)
+-- [Section 0.5] u_Energy     : UnitDim := (u_hbar * u_c) / u_l_p   -- ⟨-1, 1, 1⟩ (Energy E = M c^2 = ℏ ω, Work, Torque)
+def u_Temp            : UnitDim := u_Energy              -- ⟨-1, 1, 1⟩   (T_E = k_B T = ∂E/∂S = ℏ / 2πt, Thermodynamic Temperature)
+def u_force_const     : UnitDim := u_hbar * u_c          -- ⟨0, 1, 1⟩    (K_τ = α ℏ c, Dirac Magnetic Moment μ_Bτ = e_τ ℏ / 2m)
+def u_power_density   : UnitDim := u_P_c / u_t_p         -- ⟨-5, 2, 1⟩   (∂_t P = Power / Volume, Power Density)
+def u_poynting_flux   : UnitDim := u_P_c * u_c           -- ⟨-4, 2, 1⟩   (S = P_c c = Power / Area, Poynting Energy Flux)
+def u_power           : UnitDim := u_Energy / u_t_p      -- ⟨-2, 2, 1⟩   (E / t_p = c^5 / G, Power / Luminosity)
+-- Theorem 139: Combinatorial Possibility Space Lattice Coordinates (Ordered by S -> V -> L)
 theorem unit_combinatorial_possibility_space :
     -- Sector S = -1 (Vacuum Compliance & Gravitational Coupling: 7 states)
     u_inv_energy     = ⟨1, -1, -1⟩ ∧
@@ -704,7 +788,7 @@ theorem unit_combinatorial_possibility_space :
     u_source_kappa   = ⟨2, 1, -1⟩  ∧
     u_spec_volume    = ⟨4, 1, -1⟩  ∧
     u_G              = ⟨2, 3, -1⟩  ∧
-    -- Sector S = 0 (Pure Geometry, Operators & Kinematics: 20 states)
+    -- Sector S = 0 (Pure Geometry, Operators, Entropy & Kinematics: 20 states)
     u_time_sq        = ⟨2, -2, 0⟩  ∧
     u_t_p            = ⟨1, -1, 0⟩  ∧
     u_spacetime_vol  = ⟨4, -1, 0⟩  ∧
@@ -725,7 +809,7 @@ theorem unit_combinatorial_possibility_space :
     u_freq_sq        = ⟨-2, 2, 0⟩  ∧
     u_accel          = ⟨-1, 2, 0⟩  ∧
     u_Phi            = ⟨0, 2, 0⟩   ∧
-    -- Sector S = +1 (Mechanics, Continuum Stress & Electromagnetic Momentum Charge: 21 states)
+    -- Sector S = +1 (Mechanics, Continuum Stress, Temperature & Momentum Charge: 21 states)
     u_rho_tau        = ⟨-4, -1, 1⟩ ∧
     u_surf_density   = ⟨-3, -1, 1⟩ ∧
     u_lin_density    = ⟨-2, -1, 1⟩ ∧
@@ -753,7 +837,7 @@ theorem unit_combinatorial_possibility_space :
           rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl,
           rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl,
           rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
--- Theorem 138: Multi-Path Structural Equivalences Across the Possibility Space
+-- Theorem 140: Multi-Path Structural & Thermodynamic Equivalences Across the Possibility Space
 theorem unit_structural_equivalences :
     -- 1. Pressure / Energy Density / Stress Equivalences (6):
     u_P_c = u_Force / u_Area ∧
@@ -779,13 +863,21 @@ theorem unit_structural_equivalences :
     u_mom_density = u_Mom / u_Volume ∧
     u_mom_density = u_rho_tau * u_c ∧
     u_dyn_visc = u_hbar / u_Volume ∧
-    u_dyn_visc = u_Mom / u_Area := by
+    u_dyn_visc = u_Mom / u_Area ∧
+    -- 6. Thermodynamic Temperature, Euler Relation (T σ = ρ_e + P), Unruh-Hawking Floor & Stefan-Boltzmann Pressure (6):
+    u_Temp * u_entropy_density = u_P_c ∧
+    ((u_P_c * u_Volume) / u_Temp) = u_entropy ∧
+    u_hbar / u_t_p = u_Temp ∧
+    (u_hbar * u_accel) / u_c = u_Temp ∧
+    (u_hbar * (u_c^(3:ℤ))) / (u_G * u_M_P) = u_Temp ∧
+    (u_Temp^(4:ℤ)) / (u_force_const^(3:ℤ)) = u_P_c := by
   refine ⟨rfl, rfl, rfl, rfl, rfl, rfl,
           rfl, rfl, rfl,
           rfl, rfl, rfl, rfl,
           rfl, rfl, rfl,
-          rfl, rfl, rfl, rfl⟩
--- Theorem 139: The Three Structural Ladders (Spatial Derivative, Relativistic c-Multiplier, and Kinematic Normalization)
+          rfl, rfl, rfl, rfl,
+          rfl, rfl, rfl, rfl, rfl, rfl⟩
+-- Theorem 141: The Three Structural Ladders (Spatial Derivative, Relativistic c-Multiplier, and Kinematic Normalization)
 theorem unit_three_structural_ladders :
     -- 1. Spatial Derivative Ladder (stepping L from 0 down to -5 at S = 1, V = 1) (5):
     u_force_const / u_l_p  = u_Energy ∧
@@ -807,10 +899,14 @@ theorem unit_three_structural_ladders :
   refine ⟨rfl, rfl, rfl, rfl, rfl,
           rfl, rfl, rfl, rfl,
           rfl, rfl, rfl, rfl, rfl⟩
--- Theorem 140: Integer-Action Closure & Elimination of Fractional √ℏ Exponents (S ∈ ℤ)
+-- Theorem 142: Integer-Action Closure & Elimination of the Coulomb and Kelvin on ℤ^3 (S ∈ ℤ)
 -- Proves that two-body products and quadratic stresses (S = +2) contract via S = -1 compliance
--- factors (G, 1/P_c, 1/ε_τ) back to S = +1, and that continuum charge squared e_τ^2 = 4π ε_τ ℏ c α
--- is a perfect square ⟨-2, 0, 2⟩ = ⟨-1, 0, 1⟩^2 on the integer lattice ℤ^3.
+-- factors (G, 1/P_c, 1/ε_τ) back to S = +1; that continuum charge squared e_τ^2 = 4π ε_τ ℏ c α
+-- is a perfect square ⟨-2, 0, 2⟩ = ⟨-1, 0, 1⟩^2 on ℤ^3 (eliminating the Coulomb); and that
+-- identifying the continuum Boltzmann constant with the action quantum (k_τ = ℏ = ⟨0, 0, 1⟩)
+-- eliminates the Kelvin, reducing temperature to thermal frequency (⟨-1, 1, 0⟩), particle entropy
+-- S_p = (8π/3)ℏ to quantized action (⟨0, 0, 1⟩), and entropy density σ_τ = S_p / V to dynamic
+-- viscosity / spin density (⟨-3, 0, 1⟩) while preserving the Euler identity T_τ σ_τ = ρ_e + P.
 theorem unit_integer_action_closure_and_coulomb_elimination :
     -- 1. Two-Body Gravitational Product (S = 1 + 1 = 2 contracted by u_G with S = -1 -> S = 1) (2):
     (u_M_P * u_M_P).S = 2 ∧
@@ -826,12 +922,17 @@ theorem unit_integer_action_closure_and_coulomb_elimination :
     u_lin_density * u_force_const = u_charge_tau^(2:ℤ) ∧
     (u_charge_tau^(2:ℤ)) / (u_lin_density * u_Area) = u_Force ∧
     -- 5. Dirac Magnetic Moment (μ_Bτ = e_τ ℏ / 2m = ⟨0, 1, 1⟩ = u_force_const) (1):
-    (u_charge_tau * u_hbar) / u_M_P = u_force_const := by
+    (u_charge_tau * u_hbar) / u_M_P = u_force_const ∧
+    -- 6. Elimination of the Kelvin (Action-Frequency Duality: k_τ = ℏ, T_τ = ω, S_p = ℏ, σ_τ = μ) (4):
+    u_hbar * u_omega = u_Energy ∧
+    u_hbar / (u_hbar * u_t_p) = u_omega ∧
+    u_hbar / u_Volume = u_dyn_visc ∧
+    u_omega * u_dyn_visc = u_P_c := by
   refine ⟨rfl, rfl,
           rfl, rfl,
           rfl, rfl,
           rfl, rfl, rfl,
-          rfl⟩
+          rfl,
+          rfl, rfl, rfl, rfl⟩
 end FutureWork
-
 end AsymmetricTensor

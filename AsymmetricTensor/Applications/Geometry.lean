@@ -20,7 +20,7 @@ public import AsymmetricTensor.FieldCalculus
 /-!
 # Tensor covariance, galactic kinematics, and non-linear affine connection
 
-Module of Binyamin's v4.5 formalization. Declarations retained verbatim
+Module of Binyamin's v4.6 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -34,7 +34,7 @@ set_option linter.unusedSectionVars true
 namespace AsymmetricTensor
 
 variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
-
+  -- ======================================================================
 -- SECTION 10: TENSOR COVARIANCE & NON-INERTIAL REFERENCE FRAMES
 -- ======================================================================
 -- ----------------------------------------------------------------------
@@ -354,7 +354,4 @@ theorem einstein_cartan_lagrangian
   have h1 : tension_limit * (R_tilde + K_trace_1 - K_trace_2) =
             tension_limit * R_tilde + tension_limit * (K_trace_1 - K_trace_2) := by ring
   rw [h_L_Tot, h1, ←h_L_EH, ←h_L_Spin]
-
--- ======================================================================
-
 end AsymmetricTensor
