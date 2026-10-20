@@ -79,7 +79,7 @@ A completed technical task does not automatically close its wider gap. Conversel
 If `.tasks` is used, acquire one reconciliation lock per FOCUS_ROOT. Serialize runs at the same root so a main run cannot archive a PR run's active tasks. Coalesce queued events for the same subject to the latest revision while preserving any unresolved material decision.
 
 - `.tasks/artifacts/gaps-snapshot-<UTC timestamp>-<context>.md` contains immutable point-in-time observations, with canonical links and tested identities.
-- `.tasks/artifacts/reconciliation-<UTC timestamp>-<context>.canvas` is an optional generated graph for a full native OODA run, using the installed JSON Canvas skill. It is not a source of new acceptance rules.
+- `.tasks/artifacts/reconciliation-<UTC timestamp>-<context>.canvas` is a required fresh generated graph for every full native OODA run, using the installed JSON Canvas skill. It is not a source of new acceptance rules.
 - `.tasks/*.md` contains only current execution mirrors using native task YAML. Each mirror names its canonical GitHub source in the body.
 - `.tasks/archive/<run>/` keeps stale/completed local execution plans. A new loop archives local plans, rereads GitHub, then regenerates only still-relevant work. Archival is not a GitHub state transition.
 - `.tasks/blocked-by-user/` contains only the consolidated daily view described above.
