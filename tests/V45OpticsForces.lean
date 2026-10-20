@@ -59,13 +59,14 @@ example (L : ℝ) :
 example (m α a₀ : ℝ) (hm : m ≠ 0) (hα : α ≠ 0)
     (ha₀ : a₀ = hbar / (α * m * c)) :
     α * F_fund a₀ = (α^3 * m^2 * c^3) / hbar :=
-  interaction_hierarchy_em m α a₀ hm hα ha₀
+  (interaction_hierarchy_em m α a₀ (α * hbar / (m * c)) hm hα ha₀ rfl).2.1
 
 -- Nonunit alpha catches accidental alpha^2/alpha^3 conflation.
 example : (1 / 2 : ℝ) * F_fund (hbar / ((1 / 2 : ℝ) * 1 * c)) =
     c^3 / (8 * hbar) := by
-  have h := interaction_hierarchy_em 1 (1 / 2)
-    (hbar / ((1 / 2) * 1 * c)) (by norm_num) (by norm_num) rfl
+  have h := (interaction_hierarchy_em 1 (1 / 2)
+    (hbar / ((1 / 2) * 1 * c)) ((1 / 2) * hbar / (1 * c))
+    (by norm_num) (by norm_num) rfl rfl).2.1
   norm_num at h ⊢
   rw [h]
   ring
@@ -114,7 +115,7 @@ example : F_fund (hbar / ((1 / 2 : ℝ) * 0 * c)) /
   AsymmetricTensor.l_p, AsymmetricTensor.hbar, AsymmetricTensor.c_pos,
   AsymmetricTensor.l_p_pos, AsymmetricTensor.hbar_pos]
 #audit_theorem AsymmetricTensor.interaction_hierarchy_em custom [AsymmetricTensor.c,
-  AsymmetricTensor.hbar, AsymmetricTensor.hbar_pos]
+  AsymmetricTensor.hbar, AsymmetricTensor.c_pos, AsymmetricTensor.hbar_pos]
 
 end V45OpticsForcesRegression
 
