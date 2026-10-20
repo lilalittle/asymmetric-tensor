@@ -14,6 +14,7 @@ from source_boundary import production_sources
 
 ROOT = Path(__file__).resolve().parents[1]
 IMPORT = re.compile(r"^\s*(?:(?:public|private|meta)\s+)*import\b(.*)$")
+HEADER = re.compile(r"^\s*(?:module|prelude)\b(.*)$")
 MODULE = re.compile(r"[A-Za-z_][A-Za-z_0-9]*(?:\.[A-Za-z_][A-Za-z_0-9]*)*\Z")
 
 
@@ -30,6 +31,10 @@ def check(root):
             continue
         lines = text.splitlines()
         for index, line in enumerate(lines):
+            header = HEADER.match(line)
+            if header and header[1].strip():
+                errors.append(f"{relative}: module/prelude must be alone on its line; "
+                              "combined headers can hide imports from the stable inventory")
             match = IMPORT.match(line)
             following = next((item for item in lines[index + 1:] if item.strip()), "")
             if match and (following[:1].isspace() or not match[1].strip() or

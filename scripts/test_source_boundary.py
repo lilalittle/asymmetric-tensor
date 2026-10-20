@@ -72,6 +72,15 @@ class SourceBoundary(unittest.TestCase):
                 output.write('\nimport AsymmetricTensor.«Asymmetric Tensor v5.0»\n')
         self.assertEqual(len(boundary(self.root)), 3)
 
+    def test_combined_header_cannot_hide_draft_import(self):
+        root = self.root / "AsymmetricTensor.lean"
+        original = root.read_text()
+        for header in ["prelude", "module"]:
+            root.write_text(original.replace(
+                "module\n",
+                f"module\n{header} import AsymmetricTensor.«Asymmetric Tensor v999»\n", 1))
+            self.assertTrue(boundary(self.root), header)
+
     def test_multiline_draft_import_rejected(self):
         with (self.root / "AsymmetricTensor.lean").open("a") as output:
             output.write('\nimport Mathlib\n  AsymmetricTensor.«Asymmetric Tensor v5.0»\n')
