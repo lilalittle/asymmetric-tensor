@@ -73,7 +73,7 @@ run_cmd do
       `AsymmetricTensor.DynamicClebschFields.lambda_Omega_f,
       `AsymmetricTensor.DynamicClebschFields.beta_Omega_f] do
     checkReviewed decl "definition" (← `(DynamicClebschFields → ScalarField))
-  checkReviewed `AsymmetricTensor.DynamicClebschFields.conservation "definition" (← `(
+  checkReviewed `AsymmetricTensor.DynamicClebschFields.conservation "theorem" (← `(
     ∀ (cfg : DynamicClebschFields) (x : SpaceTime),
       metric_divergence
         (fun y => U_hat (cfg.alpha_s_f y) (cfg.alpha_f y)
