@@ -2,6 +2,13 @@
 
 ## Binyamin's single-file authoring lane
 
+For source review and promotion, follow the canonical
+[binyamin-ingest skill](.agents/skills/binyamin-ingest/SKILL.md). Review each upload
+at its immutable commit/path/blob in one source-pinned PR or issue record, then
+use a separate integration PR after independent source approval. No duplicate
+root-copy review PR is needed. Historical review records and unresolved findings
+remain evidence; a newer upload or successful compilation does not clear them.
+
 Edit **`AsymmetricTensor/Asymmetric Tensor v5.0.lean`** directly for the current
 single-file draft. Major rewrites, new declarations, incomplete proofs, formatting
 changes, and even syntax errors there do not change the integrated stable library.
@@ -139,6 +146,10 @@ For layout-only integrations, retain an exact author-source baseline, use the
 committed dependency pins, and preserve declarations, docstrings, imports, and
 section-variable context. Compare both source tokens and full elaborated types
 against a separately built reference; neither comparison replaces the other.
+The named-declaration comparators do not cover every structure, constructor,
+projection, instance or generated API. Inventory affected APIs explicitly and
+compare their elaborated types and call sites, with migration regressions for
+intentional changes (including changes to structure fields).
 See [module compatibility checks](docs/modules.md#compatibility-checks).
 The import/context guard is deliberately lexical and cannot certify arbitrary
 Lean syntax or declaration placement.
