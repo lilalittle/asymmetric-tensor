@@ -1,22 +1,39 @@
-import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.Analysis.Calculus.FDeriv.Basic
-import Mathlib.Geometry.Manifold.Instances.Real
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
 
-import Mathlib.Basic.Real.Basic
-import Mathlib.Analysis.SpecialFunctions.Sqrt
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.Data.Matrix.Basic
-import Mathlib.LinearAlgebra.Matrix.BilinearForm
-import Mathlib.Tactic
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
+public import AsymmetricTensor.Model
+public import AsymmetricTensor.FieldCalculus
 
-open Real
-open BigOperators
+/-!
+# Tensor covariance, galactic kinematics, and non-linear affine connection
+
+Module of Binyamin's v5.7 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
+set_option autoImplicit false
+set_option linter.unusedSectionVars true
 
 namespace AsymmetricTensor
 
-set_option linter.unusedSectionVars false
-set_option autoImplicit false
-
+variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
 -- ======================================================================
 -- SECTION 10: TENSOR COVARIANCE & NON-INERTIAL REFERENCE FRAMES
 -- ======================================================================

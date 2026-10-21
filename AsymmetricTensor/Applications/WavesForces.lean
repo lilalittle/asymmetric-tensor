@@ -1,22 +1,49 @@
-import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.Analysis.Calculus.FDeriv.Basic
-import Mathlib.Geometry.Manifold.Instances.Real
+/-
+Copyright (c) 2026 Binyamin Tsadik Bair-Mosheh. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Binyamin Tsadik Bair-Mosheh
+-/
+module
 
-import Mathlib.Basic.Real.Basic
-import Mathlib.Analysis.SpecialFunctions.Sqrt
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.Data.Matrix.Basic
-import Mathlib.LinearAlgebra.Matrix.BilinearForm
-import Mathlib.Tactic
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Basic
+public import Mathlib.Geometry.Manifold.Instances.Real
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.Matrix.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.Tactic
+public import AsymmetricTensor.Model
+public import AsymmetricTensor.MatrixAlgebra
 
-open Real
-open BigOperators
+/-!
+# Transverse wave mechanics and continuous pressure dynamics
+
+Module of Binyamin's v5.7 formalization. Declarations retained verbatim
+from the author's single-file development.
+-/
+
+@[expose] public section
+
+open Real BigOperators
+
+set_option autoImplicit false
+set_option linter.unusedSectionVars true
 
 namespace AsymmetricTensor
 
-set_option linter.unusedSectionVars false
-set_option autoImplicit false
-
+variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
+variable {Forms_0D : Type} [AddCommGroup Forms_0D] [Module ℝ Forms_0D]
+variable {Forms_1D : Type} [AddCommGroup Forms_1D] [Module ℝ Forms_1D]
+variable {Forms_2D : Type} [AddCommGroup Forms_2D] [Module ℝ Forms_2D]
+variable (d0 : Forms_0D →ₗ[ℝ] Forms_1D)
+variable (d1 : Forms_1D →ₗ[ℝ] Forms_2D)
+variable (smul_form : Forms_0D → Forms_1D → Forms_1D)
+variable (smul_2form : Forms_0D → Forms_2D → Forms_2D)
+variable (wedge : Forms_1D →ₗ[ℝ] Forms_1D →ₗ[ℝ] Forms_2D)
+variable (v_val : ℝ)
+variable (a_0 : ℝ)
 -- ======================================================================
 -- SECTION 13: TRANSVERSE WAVE MECHANICS, CHIRAL INDUCTION, AND PLASMA ATTENUATION
 -- ======================================================================
