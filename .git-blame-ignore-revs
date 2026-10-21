@@ -1,0 +1,11 @@
+# PR88: preserve the origin of ten inherited scientific/prose lines.
+# Only this existing-line reference repair is ignored; its diff stays available.
+# Binyamin supplied the science. Label/reference tokens restore Tom Aylott's
+# accepted PR83 repair, 0431e690915a8fd8d53311ff4fb03eae958624f1.
+# East performed the restoration; line-level blame cannot assign token authors.
+38bb8da48c6f4cfa0b42a2cce20b7707cf596c0b
+# The separate terminator repair and this metadata remain attributed to East.
+# Never ignore the old mixed candidate d2792fb4d23829054ee9847edd21f3203474ee32.
+# Local use: git blame --ignore-revs-file .git-blame-ignore-revs -- <path>
+# Enable blame.markIgnoredLines and blame.markUnblamableLines to expose guesses.
+# See PR88 for the tested source mappings and the preserved old candidate.
