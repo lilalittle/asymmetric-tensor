@@ -9,3 +9,10 @@
 # Local use: git blame --ignore-revs-file .git-blame-ignore-revs -- <path>
 # Enable blame.markIgnoredLines and blame.markUnblamableLines to expose guesses.
 # See PR88 for the tested source mappings and the preserved old candidate.
+
+# PR90: ten existing-line tag/reference repairs only; science is unchanged.
+# East restores the accepted PR83/PR88 labels and Lie-derivative reference,
+# and corrects Table to Equation for the existing equation target.
+# Verify inherited source at d3c2672d39ed7a866638791a56e02a65daf15a1b.
+# Mixed-line reference tokens remain East repairs, not author-origin tokens.
+a2cbb0ad1559c79ece71ebd6dc75c45111e5a75c
