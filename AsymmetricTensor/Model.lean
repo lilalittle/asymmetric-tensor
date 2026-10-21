@@ -273,7 +273,6 @@ lemma curvature_ceiling_identities :
   · dsimp [M_P, E_P, k_p, Omega_p]
     field_simp
 
-
 -- ======================================================================
 -- SECTION 1: KINEMATIC PARAMETRIZATION (CLEBSCH VARIABLES)
 -- ======================================================================
@@ -353,7 +352,6 @@ theorem macroscopic_vorticity_decomposition (h lambda_Omega beta_Omega : Forms_0
     (clebsch_vorticity_extraction d0 d1 smul_form smul_2form wedge lambda_Omega beta_Omega
       d_squared_zero smul_2form_zero leibniz_rule)
 
-
 -- ======================================================================
 -- SECTION 2: THE THERMODYNAMIC BUDGET (ENERGY CONSERVATION)
 -- ======================================================================
@@ -426,6 +424,5 @@ theorem nested_ledger_compliance (P_ambient alpha_g_sq v_0 : ℝ)
   calc P_ambient = (P_ambient / P_c) * P_c := (div_mul_cancel₀ P_ambient Pc_non_zero).symm
     _ = alpha_g_sq * P_c := by rw [h_eq]
     _ = P_c * alpha_g_sq := by ring
-
 
 end AsymmetricTensor

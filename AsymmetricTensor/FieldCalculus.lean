@@ -194,7 +194,6 @@ theorem macroscopic_torsion_nullification (alpha_s alpha v_x v_y v_z : ℝ) (d_l
   have h6 : Inc (0 : T2) = 0 := map_zero Inc
   rw [h6, add_zero]
 
-
 -- ======================================================================
 -- SECTION 5: THE EQUATION OF MOTION (DIVERGENCE EQUILIBRIUM)
 -- ======================================================================
@@ -677,7 +676,6 @@ theorem archimedean_buoyancy_and_newtonian_limit
       _ = (- (G * M_defect * m_tau) / r_val^2) * (rho_tau / rho_tau) := by ring
       _ = - (G * M_defect * m_tau) / r_val^2 := by rw [div_self hrho, mul_one]
 
-
 -- Theorem 38: Quadratic Gravitational Action Trace Reduction (Manuscript Eqs. 67–69)
 theorem quadratic_gravitational_lagrangian_trace (S_sq G_sq R_sq R_scalar Lambda_val : ℝ)
     (h_G_sq : G_sq = R_sq - R_scalar^2 + (1 / 4) * R_scalar^2 * I_2_vac)
@@ -742,7 +740,7 @@ theorem cauchy_strain_spatial_diagonal (alpha_s alpha v_x v_y v_z : ℝ) (d_lamb
     norm_num
   · have h_sub : 1 - alpha_s^2 = P_dyn_local / P_c := by linarith
     calc (1 / 2) * (1 / alpha_s^2 - 1)
-      _ = (1 - alpha_s^2) / (2 * alpha_s^2) := by field_simp; 
+      _ = (1 - alpha_s^2) / (2 * alpha_s^2) := by field_simp;
       _ = (P_dyn_local / P_c) / (2 * alpha_s^2) := by rw [h_sub]
       _ = P_dyn_local / (2 * P_c * alpha_s^2) := by ring
 
@@ -942,10 +940,10 @@ theorem symmetry_breaking_gordon_deflection (alpha_s n_val P_dyn_local : ℝ)
   refine ⟨?_, ?_, by norm_num, ?_⟩
   · rw [h_n]
     field_simp
-    
+
   · have h_lhs : (1 / alpha_s^2 - alpha_s^2) * alpha_s^2 = 1 - (alpha_s^2)^2 := by
       field_simp
-      
+
     rw [h_lhs, h_admittance]
     ring
   · have h_fact : 1 / alpha_s^2 - alpha_s^2 =
@@ -1059,6 +1057,5 @@ theorem relational_vorticity_wedge_identity (lambda_f beta_f : ScalarField) (x :
     partial_deriv lambda_f μ x * partial_deriv beta_f ν x -
     partial_deriv lambda_f ν x * partial_deriv beta_f μ x := by
   dsimp [Omega_clebsch_field, omega_clebsch_2form, wedge_covec, d_scalar_field, Matrix.of_apply]
-
 
 end AsymmetricTensor

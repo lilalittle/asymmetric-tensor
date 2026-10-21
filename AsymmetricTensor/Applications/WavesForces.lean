@@ -182,7 +182,6 @@ theorem debye_attenuation_length
   have h1 := attenuation_length_algebra L_0 P_c P_dyn_val rho_tau c h_Pc_sub
   rw [h_lambda, h1]
 
-
 -- ======================================================================
 -- SECTION 14: CONTINUOUS PRESSURE DYNAMICS (FUNDAMENTAL FORCES)
 -- ======================================================================
@@ -439,7 +438,6 @@ theorem interaction_hierarchy_em (a_0_val L_crit : ℝ) (hm_e : m_e ≠ 0) (h_al
   · rw [h_em_base, h_strong]
     field_simp
 
-
 -- ----------------------------------------------------------------------
 -- 14.5 The Macroscopic Baseline (The Horizon Floor)
 -- ----------------------------------------------------------------------
@@ -528,6 +526,5 @@ theorem universal_gravitation_limit (hM_P : M_P_val > 0) (_hr : r > 0) (hG : G >
                ((G * M_1 * M_2) / r^2) * 1 := by rw [div_self (pow_ne_zero 2 hM_P_ne)]
   rw [step6, mul_one] at step1
   exact step1
-
 
 end AsymmetricTensor

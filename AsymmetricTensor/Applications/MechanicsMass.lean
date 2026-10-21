@@ -405,5 +405,4 @@ theorem mass_yield_equivalence (alpha_yield : ℝ)
   rw [←h_yield] at h1
   exact h1
 
-
 end AsymmetricTensor

@@ -256,7 +256,6 @@ theorem U_hat_eq_comoving_U_covariant (alpha_s alpha v_x v_y v_z lx ly lz bx by_
     norm_num <;>
     ring
 
-
 -- ======================================================================
 -- SECTION 6: UNIFIED ACTION & SINGULARITY RESOLUTION
 -- ======================================================================
@@ -475,6 +474,5 @@ theorem unified_wave_propagation (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_b
     exact h_vacuum
   rw [h_linear] at h1
   exact h1
-
 
 end AsymmetricTensor

@@ -276,7 +276,6 @@ theorem P_symmetry_axial : (-1 : ℝ) * (-1) * U_ij = U_ij := by ring
 -- Theorem 74: Parity Polar Winding/Charge Inversion (U'_0i = (1)(-1) U_0i = -U_0i, Manuscript Section 10.6 Part II.5)
 theorem P_symmetry_charge : (1 : ℝ) * (-1) * U_0i = - U_0i := by ring
 
-
 -- ======================================================================
 -- SECTION 11: GALACTIC KINEMATICS AND THE COSMOLOGICAL BOUNDARY
 -- ======================================================================
@@ -390,7 +389,7 @@ theorem kinematic_discrepancy_core_and_plateau
   · have h_lhs : (G * ((4 / 3) * Real.pi * r^3 * rho_0)) / r =
                  ((4 / 3) * Real.pi * G * rho_0) * r^2 := by
       field_simp
-      
+
     rw [h_lhs] at h_core_kin
     have h_diff : (((4 / 3) * Real.pi * G * rho_0) - Omega_0^2) * r^2 = 0 := by
       linarith
@@ -401,7 +400,7 @@ theorem kinematic_discrepancy_core_and_plateau
     calc rho_0
       _ = (((4 / 3) * Real.pi * G * rho_0) * 3) / (4 * Real.pi * G) := by
         field_simp
-        
+
       _ = (Omega_0^2 * 3) / (4 * Real.pi * G) := by rw [h_coeff]
       _ = (3 * Omega_0^2) / (4 * Real.pi * G) := by ring
   · rw [h_log_grad]
@@ -736,7 +735,6 @@ theorem galactic_shear_pressure_ratio_eq178
     field_simp
   · rw [div_self hr_ne, Real.log_one, mul_zero]
 
-
 -- ======================================================================
 -- SECTION 12: THE NON-LINEAR AFFINE CONNECTION (EINSTEIN-CARTAN ISOMORPHISM)
 -- ======================================================================
@@ -896,6 +894,5 @@ theorem einstein_cartan_lagrangian
   have h1 : tension_limit * (R_tilde + K_trace_1 - K_trace_2) =
             tension_limit * R_tilde + tension_limit * (K_trace_1 - K_trace_2) := by ring
   rw [h_L_Tot, h1, ←h_L_EH, ←h_L_Spin]
-
 
 end AsymmetricTensor

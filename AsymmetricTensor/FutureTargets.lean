@@ -38,7 +38,6 @@ theorem lemaitre_tolman_bondi_compliance (alpha_s alpha v_0 v_x v_y v_z : ℝ) (
     simp [U_hat]
   rw [h11, h_admittance]
 
-
 -- ----------------------------------------------------------------------
 -- Corollary 16.1.2 — Baryon Acoustic Oscillations (BAO) & Redshift Observables
 -- ----------------------------------------------------------------------
@@ -167,7 +166,6 @@ theorem high_redshift_chronometer_sum_rule
     field_simp
   · rw [h_window]
     positivity
-
 
 -- Theorem 107 (Corollary 16.1.3 — The Holographic Bound):
 -- Bekenstein-Hawking horizon entropy scales with the 2D Dirichlet boundary area (S_BH = π (r_c / l_p)^2).
