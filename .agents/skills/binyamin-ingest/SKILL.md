@@ -17,6 +17,34 @@ scientific contracts. Use the current repository instructions and committed pins
 This skill grants no security/access changes, purchases, or paid actions. Follow
 the task's publication and merge authority; a draft-only task stays draft.
 
+## Work on the newest source
+
+Keep at most one active integration. Check the available author drops and existing
+integration state; select and pin the newest author source revision, including a
+revision of the same version. Use author version/revision provenance, not file
+timestamps or delayed arrival of an older upload. Only the active candidate
+receives further integration writes, expensive gates or merge; older PRs may
+remain as superseded evidence. Do not queue intermediate versions for serial
+integration or combine their contents into an assumed final source. Start from
+the latest available drop without an arbitrary waiting or debounce period.
+
+A newer drop supersedes unfinished older integration work. Reconcile in-flight
+writes and uncertain merge outcomes against remote state before retiring the old
+candidate or starting its replacement. Stop or safely cancel obsolete work, then
+focus on the newest source. Preserve uploads, commits and review evidence;
+truthfully mark the old candidate superseded and link its
+replacement within existing authority. Carry forward useful fixes, source/line
+provenance and unresolved findings, reassessing each against the new snapshot.
+Prior approval or green CI does not approve new bytes. If the newest source has
+a scientific blocker, stop promotion rather than silently integrating an older
+version or skipping review.
+
+Recheck for a newer drop before expensive review/build/CI work and immediately
+before merge. If one arrives, apply the same supersession rule. A completed merge
+is history, not unfinished work: do not undo it or abandon its post-merge safety
+verification. Reconcile its outcome and finish that verification while selecting
+the next candidate from the resulting current main.
+
 ## Anchor the source once
 
 Review an existing versioned author upload **in place at an immutable commit**.
@@ -77,8 +105,9 @@ neither clears unrelated semantic blockers nor makes an unchanged PDF verified.
 
 ## Integrate the approved source faithfully
 
-Start a separate integration branch/PR from freshly fetched main. Pin the approved
-source and compare it with both the preceding source and current stable library.
+Start the single active integration on a separate branch/PR from freshly fetched
+main. Pin the approved newest source and compare it with both the preceding source
+and current stable library, even when intermediate versions were never integrated.
 Reassess previous repairs against current code; preserve their purpose without
 blindly replaying patches or rebuilding an obsolete fixed module layout.
 
@@ -117,9 +146,10 @@ completeness, API compatibility nor empirical validation.
 
 Obtain **independent Astra final integration review** of the exact candidate
 head/tree, source mapping, approved changes and full verification evidence. Before
-any authorized merge, re-fetch base and head, reconcile concurrent work without
-discarding it, rerun affected checks plus the full stable gate on the reconciled
-candidate, and renew final review when the reviewed candidate changes. Require
+any authorized merge, recheck the latest author drop and re-fetch base and head,
+reconcile concurrent work without discarding it, rerun affected checks plus the
+full stable gate on the reconciled candidate, and renew final review when the
+reviewed candidate changes. Require
 successful hosted CI for that exact head with no failing required checks and
 valid visible diagnostics; older-head results do not transfer.
 
