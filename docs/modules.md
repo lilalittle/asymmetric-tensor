@@ -83,9 +83,27 @@ through their acceptance/rejection tests as well as the actual build.
 The [v5.7 integration record](v5.7-integration.md) pins the exact author source,
 intentional migration from v5.0, summary-only correction and current verification
 status. The strict reference build compares 466 bounded named declarations and
-74 declaration docstrings, and separately compares full elaborated types,
-universes and kinds for the public namespace, including generated structure
-APIs and instances. Do not treat the bounded source count as a full API count.
+74 declaration docstrings. It retains both complete compiled namespace inventories
+and their differences, then separately compares the public/generated API's full
+elaborated types, universes and kinds. Structures, constructors, projections,
+instances and equation declarations remain in that comparison. Do not treat the
+bounded source count as a full API count.
+
+The observed raw/integrated inventories have 723/552 entries, with 180 removed,
+9 added and 5 changed entries. These differences are retained as evidence. The
+public comparison classifies only terminal theorem-valued `_simp_N[_N]`,
+`_abel_N[_N]` and `_proof_N[_N]` helpers; a source-declared name can never enter
+that helper class. This leaves 525 public/generated entries on each side.
+Helper-shaped non-theorems and all unknown differences remain strict failures.
+
+Besides binder hygiene and metadata, the only type normalization allowed is a
+proof-helper constant reference with zero universe parameters whose actual
+kind is theorem and whose full type and universes match its counterpart.
+The full surrounding type remains compared. An actual public equation type
+changed by this normalization additionally requires a kernel-checked certificate;
+it is not accepted merely by deleting a type difference. See the
+[verification contract](verification.md#exact-source-reference-and-api-fidelity).
+The revised comparator and certificate still require exact-head hosted execution.
 
 `UnitDim` now exposes `K`, `Omega` and `E`; `DynamicClebschFields` adds field and
 conservation projections plus generated constructor/recursor interfaces.

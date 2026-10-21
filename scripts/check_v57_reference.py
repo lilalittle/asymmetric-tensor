@@ -148,7 +148,8 @@ def main():
     for name in ("manifest.json", "reference-build.log", "source-comparison.log",
                  "api-comparison.log", "reference-api.log", "integrated-api.log",
                  "api-comparison.json", "stable-v50-build.log", "stable-v50-api.log",
-                 "stable-v50-migration.json"):
+                 "stable-v50-migration.json", "ApiCertificates.lean",
+                 "kernel-type-certificates.log"):
         (output / name).unlink(missing_ok=True)
     evidence = {"source_commit": SOURCE_COMMIT, "source_path": SOURCE_PATH,
                 "source_blob": SOURCE_BLOB, "source_sha256": SOURCE_SHA256,

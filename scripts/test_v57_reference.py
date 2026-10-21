@@ -5,7 +5,9 @@ import subprocess
 import tempfile
 import unittest
 
-from check_public_api import differences, parse_snapshot
+from check_public_api import (
+    certificate_source, differences, parse_snapshot, public_comparison,
+)
 from check_v57_reference import (
     LOCK_FILES, ROOT, SOURCE_COMMIT, SOURCE_PATH, SUMMARY_AFTER, SUMMARY_BEFORE,
     check_locks, migration_inventory, prepare_reference, prepare_stable_reference,
@@ -89,6 +91,53 @@ class V57ReferenceTests(unittest.TestCase):
             parse_snapshot("no declarations")
         with self.assertRaises(RuntimeError):
             parse_snapshot(line + "\n" + line)
+
+    def test_auxiliary_class_requires_theorem_kind_and_not_source_name(self):
+        helper = "AsymmetricTensor.f._proof_1"
+        for kind in ("definition", "axiom", "opaque", "constructor", "recursor", "inductive"):
+            entry = {helper: (kind, "[]", "proposition")}
+            report = public_comparison(set(), set(), entry, {})
+            self.assertEqual(report["differences"]["Removed compiled declaration"], [helper])
+        theorem = {helper: ("theorem", "[]", "proposition")}
+        report = public_comparison({helper}, {helper}, theorem, {})
+        self.assertIn(helper, report["differences"]["Removed compiled declaration"])
+        for name in ("AsymmetricTensor.f.eq_1", "AsymmetricTensor.f._proof_x",
+                     "AsymmetricTensor.f._proof_1.nested", "AsymmetricTensor.UnitDim.mk"):
+            report = public_comparison(set(), set(), {name: ("theorem", "[]", "P")}, {})
+            self.assertEqual(report["differences"]["Removed compiled declaration"], [name])
+
+    def test_proof_reference_normalization_requires_exact_proposition_and_universes(self):
+        old_helper = "AsymmetricTensor.a._proof_1"
+        new_helper = "AsymmetricTensor.b._proof_1"
+        equation = "AsymmetricTensor.f.eq_1"
+        def fixture(helper, proposition="P", kind="theorem", levels="[]"):
+            return {helper: (kind, levels, proposition), equation: ("theorem", "[]",
+                    f"full type (Lean.Expr.const `{helper} [])")}
+        before, after = fixture(old_helper), fixture(new_helper)
+        report = public_comparison(set(), set(), before, after)
+        self.assertFalse(any(report["differences"].values()))
+        self.assertEqual(report["kernel_certificates_required"], [equation])
+        for mutated in (fixture(new_helper, proposition="Q"),
+                        fixture(new_helper, kind="axiom"),
+                        fixture(new_helper, kind="definition"),
+                        fixture(new_helper, levels="[u]")):
+            report = public_comparison(set(), set(), before, mutated)
+            self.assertIn(equation, report["differences"]["Changed kind/type/universes"])
+        after[equation] = ("theorem", "[]", after[equation][2] + " genuine type change")
+        report = public_comparison(set(), set(), before, after)
+        self.assertIn(equation, report["differences"]["Changed kind/type/universes"])
+
+    def test_equation_certificate_uses_unmodified_raw_type_and_actual_constant(self):
+        name = "AsymmetricTensor.f.eq_1"
+        raw = "Lean.Expr.app\\n  (Lean.Expr.const `AsymmetricTensor.a [])\\n  (Lean.Expr.const `True [])"
+        text = certificate_source([name], {name: ("theorem", "[]", raw)})
+        self.assertIn("let rawType : Expr :=\n    Lean.Expr.app\n"
+                      "      (Lean.Expr.const `AsymmetricTensor.a [])\n"
+                      "      (Lean.Expr.const `True [])", text)
+        self.assertIn(f"value := mkConst `{name} (levelParams.map Level.param)", text)
+        self.assertIn("toKernelEnv.addDecl options declaration", text)
+        self.assertIn("setBool `debug.skipKernelTC false", text)
+        self.assertNotIn("PROOF_OF_EXACT_RECORDED_TYPE", text)
 
     def test_stable_baseline_is_immutable_modules_with_independent_outputs(self):
         sources = stable_sources(ROOT)

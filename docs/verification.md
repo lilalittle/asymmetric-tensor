@@ -68,17 +68,33 @@ The checks establish different contracts:
 - The bounded source comparator checks **466 named declaration token sequences**
   and **74 declaration docstrings** against the immutable raw source. It does
   not inventory structures, generated declarations or arbitrary Lean commands.
-- The elaborated API comparison checks all constants in the `AsymmetricTensor`
-  namespace, including the affected structure constructors, projections and
-  instances. It compares declaration kind, full normalized type and universe
-  parameters. Only binder hygiene and elaborator metadata are normalized.
+- Both complete compiled `AsymmetricTensor` namespace snapshots and their
+  unfiltered differences are retained. The observed raw/integrated snapshots
+  contain 723/552 entries, with 180 removed, 9 added and 5 changed entries;
+  a successful public API comparison must not conceal those raw differences.
+- The public comparison classifies only terminal `_simp_N[_N]`, `_abel_N[_N]`
+  and `_proof_N[_N]` helper names whose actual declaration kind is theorem.
+  Source-declared names are never classified as helpers, even when their names
+  match that pattern. The resulting public/generated inventories have 525
+  entries each. Structures, constructors, recursors, projections, instances
+  and equation declarations remain included; unknown or missing entries and
+  unaccounted kind/type/universe differences fail.
+- Full elaborated types and universe parameters remain compared. In addition
+  to binder hygiene and elaborator metadata, proof-helper constant references
+  may be normalized only when they have zero universe parameters and the actual
+  helper declarations have identical theorem kind, full type and universes.
+  This uses proof irrelevance rather than erasing a proof-bearing type argument.
+  The actual changed public equation type must also have a kernel-checked
+  equivalence certificate; a textual normalization alone is insufficient.
+  Negative regressions include helper-shaped non-theorems and changed helper
+  propositions. The revised comparison and certificate remain pending hosted CI.
 - A separate build of the stable v5.0 umbrella and nine modules at
   `5be4d7101a1ab28624872a8f7e5001ea8ebb8449` produces the complete compiled
   `AsymmetricTensor` namespace migration inventory. It records every added,
   removed or changed entry, including generated APIs, with full normalized
   types, universes and declaration kinds on both sides. The expected nonempty
   v5.0-to-v5.7 delta is review evidence, not a compatibility claim and not an
-  exception to the strict raw-v5.7-to-candidate zero-difference gate.
+  exception to the strict raw-v5.7-to-candidate public API gate described above.
 - `V57Migration.lean` exercises the intentional prior-stable-to-v5.7 changes,
   including `UnitDim.L/V/S` becoming `K/Omega/E`. These call sites complement the
   complete compiled delta; neither proves backward compatibility with v5.0.
