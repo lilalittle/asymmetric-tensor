@@ -9,3 +9,11 @@
 # Local use: git blame --ignore-revs-file .git-blame-ignore-revs -- <path>
 # Enable blame.markIgnoredLines and blame.markUnblamableLines to expose guesses.
 # See PR88 for the tested source mappings and the preserved old candidate.
+
+# v5.7: pure whitespace normalization and author-line wrapping only.
+# Full default/copy-aware origin-content and scaffold-invariance checks:
+# docs/v5.7-provenance.md and docs/v5.7-source-map.json.
+6717bf0bb7be3a6ab867b3c241d84dd0f4276395
+74d2bb4de6532bf82ae63c90cc40a6d1e15f7c67
+# Keep the deletion-only split visible: ignoring it guesses wrong source lines.
+# Keep scaffolding, summary repair, tests and documentation attributed normally.
