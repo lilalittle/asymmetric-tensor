@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Reviewed v5.0 imports and section context: replay v4.6 variables and add MatrixAlgebra to WavesForces for new chiral wedge results. Bounded lexical guard; elaborated API comparison remains separate.",
+  "description": "Reviewed v5.7 imports and section context: retain prior dependency/variable repairs; add MatrixAlgebra to Optics for tensor_four_effects_unification. Full elaborated reference API comparison remains separate.",
   "modules": {
     "AsymmetricTensor/Applications/Electromagnetism.lean": {
       "imports": [
@@ -42,7 +42,8 @@
     },
     "AsymmetricTensor/Applications/Optics.lean": {
       "imports": [
-        "public import AsymmetricTensor.Model"
+        "public import AsymmetricTensor.Model",
+        "public import AsymmetricTensor.MatrixAlgebra"
       ],
       "context": [
         "variable (mu_obs mu_lin r_opt r_true z_val : ℝ)"

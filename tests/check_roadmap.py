@@ -30,7 +30,7 @@ for names in re.findall(r"<!-- declarations: (.*?) -->", roadmap):
     inventory.update(names.split())
 assert inventory <= known, f"Unknown declarations: {sorted(inventory - known)}"
 placeholders = target_binder_declarations(sources)
-# The author's v4.5 source has no binder named h_target. This syntactic fact
+# The author's reviewed v5.7 source has no binder named h_target. This syntactic fact
 # does not establish the physical interpretations: h_wkb, h_on_shell and other
 # substantive model premises remain, checked separately by the scope regressions.
 assert placeholders == set(), f"Unexpected h_target declarations: {placeholders}"
@@ -39,8 +39,10 @@ assert source.count("end FutureWork") == 1
 future = source.split("section FutureWork", 1)[1].split("end FutureWork", 1)[0]
 future_names = set(re.findall(r"^theorem\s+(\w+)", future, re.M))
 future_defs = set(re.findall(r"^(?:noncomputable )?def\s+(\w+)", future, re.M))
-assert len(future_names) == 40, f"Review changed Section 16 theorem inventory: {future_names}"
-assert len(future_defs) == 32, f"Review changed Section 16 definition inventory: {future_defs}"
+# v5.7 adds four redshift/BAO conditional theorems and r_opt_closed_form to
+# the prior stable inventory of 40 theorems and 32 definitions.
+assert len(future_names) == 44, f"Review changed Section 16 theorem inventory: {future_names}"
+assert len(future_defs) == 33, f"Review changed Section 16 definition inventory: {future_defs}"
 assert future_names <= inventory, f"Missing Section 16 results: {future_names - inventory}"
 assert len(re.findall(r"^def \w+Target : Prop", spec, re.M)) == 9
 assert not re.search(r"^\s*(?:axiom|theorem|lemma)\b|\b(?:sorry|admit)\b", spec, re.M)

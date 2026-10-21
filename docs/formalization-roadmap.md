@@ -2,15 +2,16 @@
 
 This planning document addresses [issue #39](https://github.com/lilalittle/asymmetric-tensor/issues/39).
 Its original inventory was pinned to [revision 9f69988](https://github.com/lilalittle/asymmetric-tensor/tree/9f69988d17c9fb86f35a563eb6466be9dbf4e524)
-and manuscript v9. Current-scope paragraphs and declaration markers below are
-updated for the author's raw v4.5 source
-`5a84e0c52b71295a678dcc1c50f80d430e5475f2` and the PR #70 repair. The older
-planning decisions are retained where still relevant; historical progress records
-are not current PR status or validation evidence.
+and manuscript v9. The declaration inventory is updated for the author's v5.7
+source at `5be4d7101a1ab28624872a8f7e5001ea8ebb8449`, blob
+`e03381d54d82fcfde0577ec33aa5f4923a2f0788`. Earlier version-specific planning
+decisions are retained where still relevant; historical progress records are
+not current PR status or validation evidence. This inventory update is not a
+new scientific review of every planning entry.
 
-Section 16 currently contains **40 theorems, 32 definitions, and zero `h_target`
-binders**. The bounded inventory identifies **28 conditional declarations** there;
-these include substantive physical assumptions as well as domain conditions.
+Section 16 currently contains **44 theorems, 33 definitions, and zero `h_target`
+binders**. The statements retain substantive physical assumptions as well as
+domain conditions; the four added conditional theorems are recorded in B21.
 Removing the old target binders does not derive every formerly named physical
 claim. Some targets were replaced by narrower algebra, some assumptions were
 renamed, and `helicity_orbital_arrest` was removed. This roadmap separates those
@@ -522,21 +523,37 @@ nonzero volume, time, and Boltzmann constant, and the first law of
 thermodynamics as a hypothesis.
 
 ### B20. v5.0 additions and foundational axiom reduction
-<!-- declarations: bounded_kinematic_baseline_limits burgers_dislocation_incompatibility c_pos cauchy_strain_spatial_diagonal chiral_induction_orthogonality conformal_dilation_micro_macro_asymmetry galactic_shear_pressure_ratio_eq178 hbar_pos kinematic_discrepancy_core_and_plateau l_p_pos linearized_riemann_kroner_identities macroscopic_metric_homogenization macroscopic_torsion_decay_and_levi_civita_limit noether_lorentz_spin_conservation noether_translational_stress_conservation phase_locked_vortex_rest_mass_generation phenomenological_envelope_synthesis plasma_metric_depletion_and_chiral_wave_coupling saint_venant_homogeneous_flatness scalar_translation_gradient_isomorphism symmetric_diagonals_isotropic_strain symmetry_breaking_gordon_deflection tensor_covariance_kinematic_mixing topological_phase_lock_cavitation unit_section10_1_observer_frames unit_section10_4_conformal_scale_variance unit_section11_2_to_11_5_kinematics unit_section12_5_torsion_boundary unit_section13_2_chiral_induction unit_section3_1_symmetric_diagonals unit_section6_2_incompatibility unit_section7_3_symmetry_breaking unit_section7_4_noether_currents unit_section8_2_phase_lock universal_no_go_laplacian_and_btfr -->
-The source has 268 theorem/lemma declarations, 147 definitions and one custom
-axiom. The 35 new theorem/lemma declarations include three positivity proofs.
-The previous 233 theorem/lemma declarations retain their author tokens.
+<!-- declarations: bounded_kinematic_baseline_limits burgers_dislocation_incompatibility c_pos cauchy_strain_spatial_diagonal chiral_induction_orthogonality conformal_dilation_micro_macro_asymmetry galactic_shear_pressure_ratio_eq178 hbar_pos kinematic_discrepancy_core_and_plateau l_p_pos linearized_riemann_kroner_identities macroscopic_metric_homogenization macroscopic_torsion_decay_and_levi_civita_limit noether_lorentz_spin_conservation noether_translational_stress_conservation phenomenological_envelope_synthesis plasma_metric_depletion_and_chiral_wave_coupling saint_venant_homogeneous_flatness scalar_translation_gradient_isomorphism symmetric_diagonals_isotropic_strain symmetry_breaking_gordon_deflection tensor_covariance_kinematic_mixing topological_phase_lock_cavitation unit_section10_1_observer_frames unit_section10_4_conformal_scale_variance unit_section11_2_to_11_5_kinematics unit_section12_5_torsion_boundary unit_section13_2_chiral_induction unit_section3_1_symmetric_diagonals unit_section6_2_incompatibility unit_section7_3_symmetry_breaking unit_section7_4_noether_currents unit_section8_2_phase_lock universal_no_go_laplacian_and_btfr -->
+The v5.0 source had 268 theorem/lemma declarations, 147 definitions and one custom
+axiom. Its 35 new theorem/lemma declarations included three positivity proofs.
+The preceding 233 theorem/lemma declarations retained their author tokens.
 `c`, `l_p` and `hbar` are concrete noncomputable definitions sealed irreducible;
-their positivity is proved, not assumed. `covariant_conservation` remains an
-axiom scoped to `U_hat_dynamic`. The raw overview's zero-axiom and opaque-state
-claims do not describe the declarations at this revision.
+their positivity is proved, not assumed. At v5.0, `covariant_conservation` remained
+an axiom scoped to `U_hat_dynamic`. That revision's raw overview's zero-axiom and
+opaque-state claims did not describe its declarations; v5.7 replaces the axiom
+with a theorem through an inhabited on-shell bundle.
 
 New results cover symmetric strain, incompatibility and linearized curvature,
 symmetry breaking, Noether-named currents, phase locking, observer covariance,
 galactic envelopes, torsion boundaries and chiral wave coupling. These remain
 the precise conditional statements in the source; names alone do not establish
 curved geometry, dynamical conservation, empirical validity or roadmap completion.
-Section 16 remains at 40 theorems and 32 definitions.
+Section 16 had 40 theorems and 32 definitions at v5.0.
+
+### B21. v5.7 inventory additions and replacement
+<!-- declarations: r_opt_closed_form redshift_refractive_index_and_integrand_decomposition hubble_tension_dual_observables alcock_paczynski_parameter_free_ratio high_redshift_chronometer_sum_rule phase_locked_frobenius_rest_mass_pos -->
+Compared with the preceding stable v5.0 library, Section 16 adds the definition
+`r_opt_closed_form` and four theorems, with no Section 16 declaration removed.
+They establish a redshift substitution and partial-fraction identity, a ratio
+between stipulated Hubble observables, cancellation of the horizon scale in a
+stipulated distance ratio, and chronometer identities and positivity under the
+listed assumptions. The closed-form definition alone is not an integration proof
+or empirical validation. The exact reviewed Section 16 inventory is now 44
+theorems and 33 definitions.
+
+Outside Section 16, `phase_locked_frobenius_rest_mass_pos` replaces the previous
+`phase_locked_vortex_rest_mass_generation` API. Its declaration marker records
+the current name; the replacement must not be read as retaining the old contract.
 
 ## C. Dependencies, alternatives and author decisions
 
@@ -642,7 +659,7 @@ and applicability must be checked for each selected implementation.
 ## Validation and stopping point
 
 - `python3 tests/check_roadmap.py` checks the reviewed zero-`h_target` inventory,
-  40 Section 16 theorems and 32 definitions, and current declaration references.
+  44 Section 16 theorems and 33 definitions, and current declaration references.
   It also checks candidate library paths and independently evaluates the finite
   determinant contract using exact arithmetic.
 - `lake build AsymmetricTensor` checks production source against the pinned setup.

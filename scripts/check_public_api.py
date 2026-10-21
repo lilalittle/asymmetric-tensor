@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Compare this library's source-declared API with a built baseline checkout.
+"""Compare the full public namespace API with a built baseline checkout.
 
 Run both builds first, then: python3 scripts/check_public_api.py BASELINE_DIRECTORY
 This is a migration check, not an assertion that definition bodies are unchanged.
-The declaration inventory matches this project's single public namespace and
-its current declaration syntax, including attributes and aliases, not arbitrary Lean syntax.
+The lexical inventory is an additional missing-target guard, not the comparison
+boundary. Every compiled AsymmetricTensor namespace declaration is compared,
+including structures, constructors, recursors, projections and instances.
 """
+import argparse
+import json
 from pathlib import Path
 import re
 import subprocess
@@ -29,40 +32,72 @@ def inventory(root):
     return set(names)
 
 
-def snapshot(root):
-    result = subprocess.run(
-        ["lake", "env", "lean", str(ROOT / "tests/ApiSnapshot.lean")],
-        cwd=root, text=True, capture_output=True, check=True,
-    )
+def parse_snapshot(output):
     entries = {}
-    for line in result.stdout.splitlines():
+    for line in output.splitlines():
         if line.startswith("API|"):
-            _, name, levels, expression = line.split("|", 3)
-            entries[name] = (levels, expression)
+            _, name, kind, levels, expression = line.split("|", 4)
+            if name in entries:
+                raise RuntimeError(f"Duplicate elaborated declaration: {name}")
+            entries[name] = (kind, levels, expression)
     if not entries:
-        raise RuntimeError(f"No elaborated API snapshot from {root}")
+        raise RuntimeError("No elaborated API snapshot")
     return entries
 
 
+def snapshot(root, log=None):
+    result = subprocess.run(
+        ["lake", "env", "lean", str(ROOT / "tests/ApiSnapshot.lean")],
+        cwd=root, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        check=False,
+    )
+    if log is not None:
+        log.write_text(result.stdout)
+    if result.returncode:
+        raise RuntimeError(f"API snapshot failed for {root}: exit {result.returncode}\n"
+                           + result.stdout)
+    return parse_snapshot(result.stdout)
+
+
+def differences(before_names, after_names, before, after):
+    return {
+        "Removed source declaration": sorted(before_names - after_names),
+        "Added source declaration": sorted(after_names - before_names),
+        "Missing elaborated source declaration": sorted(
+            (before_names - before.keys()) | (after_names - after.keys())),
+        "Removed compiled declaration": sorted(before.keys() - after.keys()),
+        "Added compiled declaration": sorted(after.keys() - before.keys()),
+        "Changed kind/type/universes": sorted(
+            name for name in before.keys() & after.keys() if before[name] != after[name]),
+    }
+
+
 def main():
-    if len(sys.argv) != 2:
-        sys.exit("Usage: python3 scripts/check_public_api.py BUILT_BASELINE_DIRECTORY")
-    baseline = Path(sys.argv[1]).resolve()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("baseline", type=Path)
+    parser.add_argument("--output", type=Path,
+                        help="retain raw snapshots and machine-readable comparison")
+    args = parser.parse_args()
+    baseline = args.baseline.resolve()
+    if args.output:
+        args.output.mkdir(parents=True, exist_ok=True)
     before_names, after_names = inventory(baseline), inventory(ROOT)
-    removed, added = before_names - after_names, after_names - before_names
-    before, after = snapshot(baseline), snapshot(ROOT)
-    missing = (before_names - before.keys()) | (after_names - after.keys())
-    changed = {name for name in before_names & after_names
-               if name in before and name in after and before[name] != after[name]}
-    for label, names in [("Removed", removed), ("Added", added),
-                         ("Missing elaborated declaration", missing), ("Changed type", changed)]:
+    before = snapshot(baseline, args.output / "reference-api.log" if args.output else None)
+    after = snapshot(ROOT, args.output / "integrated-api.log" if args.output else None)
+    delta = differences(before_names, after_names, before, after)
+    if args.output:
+        report = {"source_names": len(before_names), "reference": before,
+                  "integrated": after, "differences": delta}
+        (args.output / "api-comparison.json").write_text(json.dumps(report, indent=2) + "\n")
+    for label, names in delta.items():
         for name in sorted(names):
             print(f"{label}: {name}")
-    if removed or added or missing or changed:
+    if any(delta.values()):
         sys.exit(1)
-    print(f"API_COMPATIBLE: {len(before_names)} source-declared public names; "
-          "identical full elaborated types and universe parameters "
-          "after binder-hygiene normalization.")
+    print(f"API_COMPATIBLE: {len(before_names)} source-declared names and "
+          f"all {len(before)} compiled AsymmetricTensor namespace declarations; "
+          "identical declaration kinds, full elaborated types and universe parameters "
+          "after binder-hygiene normalization (including generated APIs and instances).")
 
 
 if __name__ == "__main__":

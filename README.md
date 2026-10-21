@@ -3,7 +3,7 @@
 Lean 4 research companion to **The Asymmetric Metric-Tensor and the
 Thermodynamic Equation of State**, by Binyamin Tsadik Bair-Mosheh.
 
-The current implementation is the author's **v5.0 formalization**, organized into
+The current implementation is the author's **v5.7 formalization**, organized into
 nine topic modules. It contains real 4×4 matrix algebra, Clebsch-gradient exterior
 products, fixed-chart field operators, Lorentzian contraction identities, and
 conditional statements motivated by the manuscript. Physical names and section
@@ -12,7 +12,7 @@ headings do not establish full manuscript coverage or empirical validity.
 ## Author updates versus the verified library
 
 Binyamin can freely edit the current single-file draft at
-[`AsymmetricTensor/Asymmetric Tensor v5.0.lean`](AsymmetricTensor/Asymmetric%20Tensor%20v5.0.lean).
+[`AsymmetricTensor/Asymmetric Tensor v5.7.lean`](AsymmetricTensor/Asymmetric%20Tensor%20v5.7.lean).
 Versioned author uploads have separate **advisory compiler diagnostics** and do
 not alter the stable library or its strict proof checks. A green stable check
 means the integrated library at that revision passed, not that an uploaded draft has
@@ -24,7 +24,8 @@ See [the authoring lane and promotion rules](CONTRIBUTING.md#binyamins-single-fi
 Use the [current API and regression coverage report](docs/regression-coverage.md),
 [module map](docs/modules.md), and [verification contract](docs/verification.md)
 for this revision. The public entry point remains `import AsymmetricTensor`, but
-v5.0 is an API change from the older repaired library.
+v5.7 changes the v5.0 dimensional and dynamic-field APIs. See the
+[migration and source record](docs/v5.7-integration.md).
 
 - `matrix_decomposition` splits any real 4×4 matrix into symmetric and
   antisymmetric parts. `U_hat` now takes two four-component Clebsch gradients;
@@ -35,10 +36,17 @@ v5.0 is an API change from the older repaired library.
 - `lorentzian_contract` and `lorentzian_action_separation` give explicit
   background-Minkowski contraction algebra. They do not construct or vary an
   action integral.
-- `covariant_conservation` is a physical postulate for `U_hat_dynamic` only.
-  Its temporal and spatial component projections inherit that assumption.
-  Conditional momentum identities additionally take continuity, product-rule,
-  balance, or constitutive relations as hypotheses.
+- `covariant_conservation` is a theorem about the selected `U_hat_dynamic`.
+  `DynamicClebschFields` bundles fields with a conservation condition; a
+  homogeneous vacuum witnesses that this structure is inhabited, and opaque
+  `dyn_state` supplies the active configuration. This does not prove conservation
+  for arbitrary fields or establish a nontrivial physical solution. Conditional
+  momentum identities still take continuity, product-rule, balance, or
+  constitutive relations as hypotheses.
+- `UnitDim` uses the integer exponents `K`, `Omega`, and `E` in place of
+  `L`, `V`, and `S`. The Schwinger eigenvector bridge requires explicit zero slip
+  and axial alignment; the four-effects optical theorem distinguishes
+  pressure-only refraction from the combined-admittance tensor.
 - `refractive_index_substitution` is pointwise optical algebra. The finite-path
   integral and strict optical-delay APIs from the older repair are absent.
   `optical_path_retardation` instead assumes an average index greater than one
@@ -72,7 +80,7 @@ The older [status map](docs/formalization-status.md),
 [force-hierarchy](docs/force-hierarchy.md) notes retain earlier API descriptions
 and validation records. Read them as historical documentation, alongside the
 [current coverage differences](docs/regression-coverage.md), rather than as
-contracts for v5.0. The seven archived Lean test files are preserved but are not
+contracts for v5.7. The seven archived Lean test files are preserved but are not
 executed by the current aggregate verifier.
 
 ## Building the committed version
@@ -128,20 +136,22 @@ and exact declared axioms, checks selected theorem dependencies, and exercises
 failure mutations. Warnings remain visible and nonfatal; elaboration errors and
 transitive `sorryAx` dependencies fail independently.
 
-The v5.0 source has one explicit axiom: the scoped conservation postulate.
-The three physical constants are irreducible noncomputable definitions and
-their positivity bounds are theorems. It also has eight body-less opaque scalar
-field inputs. A source inventory, a dependency audit, and a model-consistency
-proof are different things. In particular, allowing the postulate in the audit
-does not prove it or authorize a universal-field conservation law.
+The v5.7 source declares no custom axioms or `sorry`/`admit` holes. The
+three physical constants remain irreducible noncomputable definitions with
+proved positivity bounds. Eight scalar-field definitions now project from the
+witness-backed opaque `dyn_state`. The strict declared and transitive custom-axiom
+policies are empty; the ordinary logical axioms `propext`, `Classical.choice`,
+and `Quot.sound` remain permitted. These checks do not establish empirical
+validity or a universal-field conservation law.
 
-The local v5.0 integration preserves the raw author declaration tokens and docstrings while
-repairing module imports, section context, and a declaration's dependency order.
-Full candidate elaboration, regression checks, comparison with the built author
-reference, and revision-specific hosted CI are separate required evidence. See
-[the current validation boundary](docs/verification.md#current-validation-boundary)
-for historical evidence; [the local v5.0 report](docs/v5.0-integration.md) records
-this candidate's checks. Historical green runs do not certify this candidate.
+The [v5.7 integration record](docs/v5.7-integration.md) identifies the exact
+author source, approved changes and current validation status. The aggregate
+also builds an independent monolithic reference and compares source tokens,
+docstrings and elaborated APIs, including the changed structure and instance
+interfaces. Reference fidelity and intentional migration from v5.0 are separate
+checks. Local Lean was unavailable during preparation; hosted results must be
+recorded for the exact candidate before claiming verification. Historical green
+runs do not certify this candidate.
 
 `lake build` alone does not run the regression suite. For a focused iteration
 after building, run `lake env lean tests/V45FieldCalculus.lean`,

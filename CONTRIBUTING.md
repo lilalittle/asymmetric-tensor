@@ -9,13 +9,14 @@ use a separate integration PR after independent source approval. No duplicate
 root-copy review PR is needed. Historical review records and unresolved findings
 remain evidence; a newer upload or successful compilation does not clear them.
 
-Edit **`AsymmetricTensor/Asymmetric Tensor v5.0.lean`** directly for the current
+Edit **`AsymmetricTensor/Asymmetric Tensor v5.7.lean`** directly for the current
 single-file draft. Major rewrites, new declarations, incomplete proofs, formatting
 changes, and even syntax errors there do not change the integrated stable library.
-For a new version, add `AsymmetricTensor/Asymmetric Tensor v5.1.lean` (and so on).
+For a new version, add `AsymmetricTensor/Asymmetric Tensor v5.8.lean` (and so on).
 The exact recognized form is `AsymmetricTensor/Asymmetric Tensor v<N>[.<N>...].lean`,
 with numeric version components and no additional directory levels. Existing
-v4.6 and v5.0 author uploads are preserved byte-for-byte by this CI change.
+versioned author uploads remain source history; a reviewed snapshot is pinned
+by commit and blob even if the authoring lane later changes.
 
 - **Stable `verify` job:** the root `AsymmetricTensor.lean` umbrella, nine topic
   modules, proof audit, API/context/style checks and regressions remain strict.
@@ -52,7 +53,7 @@ starting so an already-covered repair is not duplicated.
 `import AsymmetricTensor` is the public umbrella for nine implementation modules.
 Declarations remain in namespace `AsymmetricTensor`; `FutureWork` is a section,
 not a namespace. See the [module map](docs/modules.md). The current source is
-Binyamin Tsadik Bair-Mosheh's v5.0 formalization; earlier API and test results are
+Binyamin Tsadik Bair-Mosheh's v5.7 formalization; earlier API and test results are
 not automatically compatible with it.
 
 ## A path through the current API
@@ -98,9 +99,20 @@ focused checks from the aggregate and hosted CI.
 
 ## Contracts that need particular care
 
-- Conservation is postulated only for `U_hat_dynamic`. The old
-  `CoordinateConserved` production interface is absent. Do not generalize the
-  postulate to arbitrary fields; a coordinate field has nonzero divergence.
+- Conservation is proved for the active `U_hat_dynamic` through the
+  `DynamicClebschFields.conservation` field of opaque `dyn_state`. The vacuum
+  witness establishes that this on-shell structure is inhabited. The old
+  `CoordinateConserved` interface remains absent, and arbitrary fields are not
+  thereby conserved; a coordinate field has nonzero divergence.
+- `UnitDim` uses `K`, `Omega`, and `E` projections in v5.7. Its old `L`, `V`,
+  and `S` projections are not compatibility aliases. Follow the explicit basis
+  map in `unit_basis_isomorphism_LVS_KOE` and the
+  [migration tests](tests/V57Migration.lean), including constructor and instance
+  behavior. The source/reference API check must retain generated structure APIs.
+- `schwinger_zero_slip_aligned_bridge` requires zero velocity slip, zero x/y
+  vorticity and the stated saturation premises. `tensor_four_effects_unification`
+  now takes total `alpha_s` and its product relation to `alpha_g`/`alpha_a`; keep
+  its pressure-only refraction specialization distinct from the combined tensor.
 - `lie_derivative` contains both lower-index terms, but
   `is_translationally_symmetric` takes a general `VectorField`. The current
   `lorentz_symmetry_broken` theorem assumes a scalar residual equation; the older
