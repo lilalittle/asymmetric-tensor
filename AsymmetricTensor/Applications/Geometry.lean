@@ -5,7 +5,8 @@ Authors: Binyamin Tsadik Bair-Mosheh
 -/
 module
 
-public import Mathlib.Analysis.Calculus.Deriv.Basic Mathlib.Analysis.Calculus.Deriv.Add
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.Deriv.Add
 public import Mathlib.Analysis.Calculus.FDeriv.Basic
 public import Mathlib.Geometry.Manifold.Instances.Real
 public import Mathlib.Basic.Real.Basic
