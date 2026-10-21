@@ -680,7 +680,7 @@ Macroscopic curvature of the metric is derived via the continuous deformation of
 \textbf{1. Cauchy Strain Extraction:} \\
 The symmetric spatial components of the tensor ($S_{ij} = \delta_{ij}/\alpha_s^2$) constrain the effective volumetric packing. The symmetric Cauchy strain tensor ($\varepsilon_{ij}$) maps to the deviation of these spatial diagonals from the flat unperturbed background ($\delta_{ij}$): 
 \begin{equation}
-    \varepsilon_{ij} = \frac{1}{2}\left( S_{ij} - \delta_{ij} \right) = \frac{1}{2}\left( \frac{1}{\alpha_s^2} - 1 \right)\delta_{ij} = \frac{P_{dyn}}{2 P_c \alpha_s^2}\delta_{ij} \tag{70} % :::LLM_EDIT::: Explicitly link Cauchy strain to scalar admittance and dynamic pressure ratio
+    \varepsilon_{ij} = \frac{1}{2}\left( S_{ij} - \delta_{ij} \right) = \frac{1}{2}\left( \frac{1}{\alpha_s^2} - 1 \right)\delta_{ij} = \frac{P_{dyn}}{2 P_c \alpha_s^2}\delta_{ij} \label{eq:cauchy_strain_extraction} % :::LLM_EDIT::: Explicitly link Cauchy strain to scalar admittance and dynamic pressure ratio
 \end{equation}
 In the weak-field limit ($\alpha_s^2 \to 1$), this reduces to the linear gravitational strain $\varepsilon_{ij} \approx \frac{P_{dyn}}{2P_c}\delta_{ij}$.
 
@@ -689,7 +689,7 @@ An arbitrary strain field ($\varepsilon_{ij}$) is constrained within a continuou
 
 The Incompatibility Tensor measures the failure of the continuum to satisfy this closure. It is constructed as the linear combination of the second-order spatial derivatives of the strain field: 
 \begin{equation}
-    \text{Inc}(\boldsymbol{\varepsilon})_{ijkl} = \partial_j \partial_l \varepsilon_{ik} + \partial_i \partial_k \varepsilon_{jl} - \partial_j \partial_k \varepsilon_{il} - \partial_i \partial_l \varepsilon_{jk} \tag{71}
+    \text{Inc}(\boldsymbol{\varepsilon})_{ijkl} = \partial_j \partial_l \varepsilon_{ik} + \partial_i \partial_k \varepsilon_{jl} - \partial_j \partial_k \varepsilon_{il} - \partial_i \partial_l \varepsilon_{jk} \label{eq:saint_venant_incompatibility}
 \end{equation}
 
 \textbf{3. Topological Dislocation \& The Burgers Vector:} \\
@@ -697,7 +697,7 @@ In an unperturbed vacuum, the Clebsch vorticity is zero ($\boldsymbol{\Omega} = 
 
 The generation of discrete mass corresponds to the formation of a rotational Clebsch vortex. Because the metric circulates around the topological core, the displacement field ($u_i$) becomes multi-valued. Integrating the spatial displacement around a closed contour ($C$) of the vortex core produces a phase gap, defined as the Burgers vector ($b_i$) \cite{Nye1953}: 
 \begin{equation}
-    \oint_C d u_i = b_i \tag{72}
+    \oint_C d u_i = b_i \label{eq:burgers_vector}
 \end{equation}
 This functions physically as a Volterra dislocation. Because the continuous streamlines cannot close around the rotational core without a phase shift ($b_i \neq 0$), the strain field is structurally incompatible ($\text{Inc}(\boldsymbol{\varepsilon}) \neq 0$).
 
@@ -706,7 +706,7 @@ To conserve continuum stability across this dislocation, the surrounding spatial
 
 In the weak-field limit of infinitesimal strain, the Saint-Venant incompatibility tensor ($\text{Inc}(\boldsymbol{\varepsilon})_{ijkl}$) generates the combination of second-order spatial derivatives comprising the spatial components of the linearized Riemann Curvature Tensor ($R_{ijkl}$) \cite{Kroner1958}:  
 \begin{equation} 
-    R_{ijkl}^{(lin)} = \text{Inc}(\boldsymbol{\varepsilon})_{ijkl} \tag{73}
+    R_{ijkl}^{(lin)} = \text{Inc}(\boldsymbol{\varepsilon})_{ijkl} \label{eq:linearized_riemann_incompatibility}
 \end{equation}
 As structural loads approach the cavitation boundary from the subcritical elastic domain ($r \to r_c^+$, $\alpha_s \in (0, 1]$), the Eulerian Almansi strain ($e_{ij} = \frac{1}{2}[1 - \alpha_s^2]\delta_{ij}$) remains bounded while the Lagrangian Cauchy compliance ($S_{ij} = \alpha_s^{-2}\delta_{ij}$) diverges. Evaluating this non-linear regime maps the continuous deformation to the Kröner incompatibility tensor \cite{Kroner1958}. The fully non-linear Riemann curvature, including the self-interacting connection terms ($\Gamma \Gamma$), recovers the finite strain incompatibility required to resolve the topological rotational defect. % :::LLM_EDIT::: Clarify subcritical limit r -> r_c^+ and Almansi vs Cauchy strain behavior
 
@@ -955,7 +955,7 @@ By Noether's theorem, the invariances of the Poincar\'e Lie derivatives determin
 
 For a continuous unified Lagrangian action ($\mathcal{L}_{metric}$) invariant under a generalized coordinate transformation ($\delta x^\mu = \xi^\mu$), the conserved Noether current density ($J^\mu$) expands as:
 \begin{equation}
-    J^\mu = \frac{\partial \mathcal{L}_{metric}}{\partial (\partial_\mu \hat{U}_{\alpha\beta})} \mathcal{L}_\xi \hat{U}_{\alpha\beta} - \xi^\mu \mathcal{L}_{metric} \tag{107}
+    J^\mu = \frac{\partial \mathcal{L}_{metric}}{\partial (\partial_\mu \hat{U}_{\alpha\beta})} \mathcal{L}_\xi \hat{U}_{\alpha\beta} - \xi^\mu \mathcal{L}_{metric} \label{eq:noether_current}
 \end{equation}
 
 Substituting the zero-residual Lie symmetries from Section 7.1 isolates the orthogonal conserved currents of the asymmetric metric:
@@ -963,14 +963,14 @@ Substituting the zero-residual Lie symmetries from Section 7.1 isolates the orth
 \textbf{1. Translational Symmetry (Energy-Momentum Conservation):} \\
 Under uniform spacetime translation ($\xi^\mu = \epsilon^\mu$), the Lie derivative yields zero gradient ($\partial_\alpha \hat{U}_{\mu\nu} = 0$). The Noether current equates to the macroscopic continuous stress-energy tensor ($\hat{T}^{\mu}_{\phantom{\mu}\nu} = P_c(\hat{U}^{\mu}_{\phantom{\mu}\nu} - \eta^{\mu}_{\phantom{\mu}\nu})$). The continuity equation constrains the 4-divergence to zero:
 \begin{equation}
-    \partial_\mu \hat{T}^{\mu\nu} = P_c \partial_\mu \hat{U}^{\mu\nu} = 0 \tag{108}
+    \partial_\mu \hat{T}^{\mu\nu} = P_c \partial_\mu \hat{U}^{\mu\nu} = 0 \label{eq:energy_momentum_conservation}
 \end{equation}
 This operation conserves continuous energy and linear momentum.
 
 \textbf{2. Lorentz Symmetry (Total Angular Momentum \& Spin):} \\
 Under spatial rotation ($\xi^\mu = \omega^\mu_{\phantom{\mu}\alpha} x^\alpha$), the macroscopic energy-momentum tensor defines orbital angular momentum ($L^{\mu\alpha\beta} = x^\alpha \hat{T}^{\mu\beta} - x^\beta \hat{T}^{\mu\alpha} = -L^{\mu\beta\alpha}$). Because the constitutive stress tensor incorporates an antisymmetric transverse sector ($\hat{T}^{\alpha\beta} - \hat{T}^{\beta\alpha} = 2 P_c A^{\alpha\beta}$), orbital angular momentum is not conserved in isolation ($\partial_\mu L^{\mu\alpha\beta} = 2 P_c A^{\alpha\beta}$), and the Noether current generates an internal Clebsch spin tensor ($\Sigma^{\mu\alpha\beta}$):
 \begin{equation}
-    J^\mu_{(Lorentz)} = M^{\mu\alpha\beta} = L^{\mu\alpha\beta} + \Sigma^{\mu\alpha\beta} \tag{109} % :::LLM_EDIT::: Clarify antisymmetric stress torque 2 P_c A^{\alpha\beta} balanced by internal Clebsch spin tensor
+    J^\mu_{(Lorentz)} = M^{\mu\alpha\beta} = L^{\mu\alpha\beta} + \Sigma^{\mu\alpha\beta} \label{eq:total_angular_momentum} % :::LLM_EDIT::: Clarify antisymmetric stress torque 2 P_c A^{\alpha\beta} balanced by internal Clebsch spin tensor
 \end{equation}
 Because the antisymmetric rotational couplings resolve the Lie residual ($A_{\mu\alpha}\omega^\alpha_{\phantom{\alpha}\nu} - \omega_{\mu\alpha}A^\alpha_{\phantom{\alpha}\nu} = 0$), the internal spin divergence balances the antisymmetric shear torque ($\partial_\mu \Sigma^{\mu\alpha\beta} = -\partial_\mu L^{\mu\alpha\beta}$), and the divergence of the total angular momentum converges to zero ($\partial_\mu M^{\mu\alpha\beta} = 0$). 
 Internal Clebsch vorticity ($A_{ij} = \alpha t_p (d\lambda_\Omega \wedge d\beta_\Omega)_{ij}$) recovers conserved quantum spin.
@@ -1074,7 +1074,7 @@ When the kinematic strain crosses the VEV threshold ($v \to v_{vev}$, $\alpha_s 
 
 Continuous phase conservation locks the unresolved kinetic energy into the antisymmetric Clebsch vorticity off-diagonals ($A_{ij} = \alpha t_p [d\lambda_\Omega \wedge d\beta_\Omega]_{ij}$), which remain finite and independent of $\alpha_s$. The metric transitions from a compliant acoustic medium into a phase-locked rotational boundary (a Clebsch vortex) of volume $V_\tau$ and invariant rest mass $m_0$: 
 \begin{equation}
-    \alpha_s \to 0^+ \implies P_{static} = 0 \implies m_0 = \frac{E_{locked}}{c^2} = \frac{P_{shear} V_\tau}{c^2} = \frac{1}{2}\rho_\tau V_\tau \left(\frac{r_c \Omega}{c}\right)^2 > 0 \tag{119} % :::LLM_EDIT::: Explicitly link cavitation phase lock to Clebsch vorticity off-diagonals and positive rest mass m_0
+    \alpha_s \to 0^+ \implies P_{static} = 0 \implies m_0 = \frac{E_{locked}}{c^2} = \frac{P_{shear} V_\tau}{c^2} = \frac{1}{2}\rho_\tau V_\tau \left(\frac{r_c \Omega}{c}\right)^2 > 0 \label{eq:phase_lock_mass} % :::LLM_EDIT::: Explicitly link cavitation phase lock to Clebsch vorticity off-diagonals and positive rest mass m_0
 \end{equation}
 This topological yield converts the continuous metric strain into discrete invariant mass.
 
@@ -1396,7 +1396,7 @@ The transformation causes the space-space off-diagonals (vorticity, $\hat{U}_{\p
 \subsection*{10.4 Conformal Scale Variance (The Micro-Macro Asymmetry)}
 The physical structure of the continuum breaks scale invariance. While the metric appears identical across arbitrary macroscopic scales, the generation of discrete topological mass (Section 8) sets a fixed physical boundary dimension ($r_c = \hbar/mc > 0$).
 
-Applying the dilation vector field ($\xi^\mu = \sigma x^\mu, \; \partial_\mu \xi^\alpha = \sigma \delta^\alpha_\mu$) to compare a microscopic rest frame to a macroscopic observer exposes the broken symmetry. Evaluating the full three-term Lie derivative (Equation 90) decomposes the dilation response into an Eulerian directional gradient and a homogeneous conformal weight:
+Applying the dilation vector field ($\xi^\mu = \sigma x^\mu, \; \partial_\mu \xi^\alpha = \sigma \delta^\alpha_\mu$) to compare a microscopic rest frame to a macroscopic observer exposes the broken symmetry. Evaluating the full three-term Lie derivative (Equation \ref{eq:lie_derivative_base}) decomposes the dilation response into an Eulerian directional gradient and a homogeneous conformal weight:
 \begin{equation}
     \mathcal{L}_\xi \hat{U}_{\mu\nu} = \sigma x^\alpha \partial_\alpha \hat{U}_{\mu\nu} + 2\sigma \hat{U}_{\mu\nu} % :::LLM_EDIT::: Include full dilation Lie derivative decomposition (transport gradient + 2\sigma conformal weight)
 \end{equation}
@@ -1405,7 +1405,7 @@ Applying the dilation vector field ($\xi^\mu = \sigma x^\mu, \; \partial_\mu \xi
     \item \textbf{The Microscopic Observer:} Across the topological defect boundary ($r \sim r_c$), discrete spatial incompatibility generates a non-vanishing radial strain gradient ($\sigma x^\alpha \partial_\alpha \hat{U}_{\mu\nu} \neq 0$), so $\mathcal{L}_\xi \hat{U}_{\mu\nu} \neq 2\sigma \hat{U}_{\mu\nu}$, breaking conformal scale invariance. 
     \item \textbf{The Macroscopic Observer:} Integrating the metric across a macroscopic volume ($V \gg r_c^3$) causes the counter-circulating transverse shear components ($A_{\mu\nu}$) and local boundary gradients to average to zero ($\iiint_V \partial_\alpha \hat{U}_{\mu\nu} \, dV = 0$), homogenizing the tensor to its symmetric bulk sector and recovering macroscopic conformal scaling ($\mathcal{L}_\xi \langle \hat{U}_{\mu\nu} \rangle_V = 2\sigma \langle S_{\mu\nu} \rangle_V$): 
     \begin{equation}
-        \iiint_V A_{\mu\nu} \, dV = 0 \implies \langle \hat{U}_{\mu\nu} \rangle_V = \langle S_{\mu\nu} \rangle_V \implies \text{Metric Homogenization} \tag{152} % :::LLM_EDIT::: Link antisymmetric volume cancellation to symmetric GR metric homogenization
+        \iiint_V A_{\mu\nu} \, dV = 0 \implies \langle \hat{U}_{\mu\nu} \rangle_V = \langle S_{\mu\nu} \rangle_V \implies \text{Metric Homogenization} \label{eq:metric_homogenization} % :::LLM_EDIT::: Link antisymmetric volume cancellation to symmetric GR metric homogenization
     \end{equation}
 \end{itemize}
 The phase rotations of the microscopic tensor homogenize over expanded integration volumes, recovering the macroscopic dynamics of General Relativity. This distinguishes macroscopic scale invariance from the topological scale variance at the defect boundary.
