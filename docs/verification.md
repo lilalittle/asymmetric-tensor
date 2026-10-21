@@ -72,17 +72,31 @@ The checks establish different contracts:
   namespace, including the affected structure constructors, projections and
   instances. It compares declaration kind, full normalized type and universe
   parameters. Only binder hygiene and elaborator metadata are normalized.
+- A separate build of the stable v5.0 umbrella and nine modules at
+  `5be4d7101a1ab28624872a8f7e5001ea8ebb8449` produces the complete compiled
+  `AsymmetricTensor` namespace migration inventory. It records every added,
+  removed or changed entry, including generated APIs, with full normalized
+  types, universes and declaration kinds on both sides. The expected nonempty
+  v5.0-to-v5.7 delta is review evidence, not a compatibility claim and not an
+  exception to the strict raw-v5.7-to-candidate zero-difference gate.
 - `V57Migration.lean` exercises the intentional prior-stable-to-v5.7 changes,
-  including `UnitDim.L/V/S` becoming `K/Omega/E`. A passing source/reference
-  comparison does not claim backward compatibility with v5.0.
+  including `UnitDim.L/V/S` becoming `K/Omega/E`. These call sites complement the
+  complete compiled delta; neither proves backward compatibility with v5.0.
 - The context/import guard, actual build and source provenance audit cover
   separate module-placement and origin concerns.
 
 Reference build logs, snapshots, comparisons and a manifest are retained under
 `.lake/v57-reference-evidence/` and by the hosted `v57-reference` artifact. The
-exact candidate run remains the evidence of success or failure. The source's
-one separately approved overview correction is recorded in the integration
-report; the raw reference is not silently repaired.
+exact candidate run remains the evidence of success or failure. The stable
+migration evidence is `stable-v50-build.log`, `stable-v50-api.log` and
+`stable-v50-migration.json` in that same artifact. The JSON retains both complete
+namespace snapshots, the added/removed/changed lists, source-name counts and the
+baseline module blob map. The baseline tree is
+`577e12209448e02fe6b60c5b946240a5e17736bb`; its versioned uploads are excluded from
+that stable build. Missing identity, build, snapshot or source-target evidence
+fails the strict job. Actual migration output remains pending hosted execution.
+The source's one separately approved overview correction is recorded in the
+integration report; the raw v5.7 reference is not silently repaired.
 
 ## Completeness and axiom policy
 

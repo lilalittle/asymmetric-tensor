@@ -8,7 +8,8 @@ import unittest
 from check_public_api import differences, parse_snapshot
 from check_v57_reference import (
     LOCK_FILES, ROOT, SOURCE_COMMIT, SOURCE_PATH, SUMMARY_AFTER, SUMMARY_BEFORE,
-    check_locks, prepare_reference, validate_source, validate_upload,
+    check_locks, migration_inventory, prepare_reference, prepare_stable_reference,
+    stable_sources, validate_source, validate_upload,
 )
 
 
@@ -88,6 +89,46 @@ class V57ReferenceTests(unittest.TestCase):
             parse_snapshot("no declarations")
         with self.assertRaises(RuntimeError):
             parse_snapshot(line + "\n" + line)
+
+    def test_stable_baseline_is_immutable_modules_with_independent_outputs(self):
+        sources = stable_sources(ROOT)
+        self.assertEqual(len(sources), 10)
+        self.assertIn("AsymmetricTensor/Model.lean", sources)
+        self.assertNotIn(SOURCE_PATH, sources)
+        with tempfile.TemporaryDirectory() as directory:
+            root, stable = Path(directory) / "candidate", Path(directory) / "stable"
+            root.mkdir()
+            stable.mkdir()
+            for name in LOCK_FILES:
+                (root / name).write_bytes(f"fixture {name}\n".encode())
+            (root / ".lake/packages").mkdir(parents=True)
+            (root / ".lake/build").mkdir()
+            (root / ".lake/build/AsymmetricTensor.olean").write_bytes(b"candidate cache")
+            prepare_stable_reference(root, stable, sources)
+            for name, contents in sources.items():
+                self.assertEqual((stable / name).read_bytes(), contents)
+            self.assertFalse((stable / ".lake/build").exists())
+            self.assertEqual((stable / ".lake/packages").resolve(),
+                             (root / ".lake/packages").resolve())
+
+    def test_migration_records_generated_deltas_but_rejects_missing_evidence(self):
+        old = {"AsymmetricTensor.UnitDim.L": ("definition", "[]", "UnitDim -> Int"),
+               "AsymmetricTensor.conservation": ("axiom", "[]", "conserved")}
+        new = {"AsymmetricTensor.UnitDim.K": ("definition", "[]", "UnitDim -> Int"),
+               "AsymmetricTensor.conservation": ("theorem", "[]", "conserved"),
+               "AsymmetricTensor.DynamicClebschFields.mk": ("constructor", "[]", "full fields")}
+        named = {"AsymmetricTensor.conservation"}
+        report = migration_inventory(named, named, old, new)
+        self.assertEqual(report["stable"], old)
+        self.assertEqual(report["integrated"], new)
+        self.assertEqual(report["differences"]["Removed compiled declaration"],
+                         ["AsymmetricTensor.UnitDim.L"])
+        self.assertEqual(report["differences"]["Changed kind/type/universes"],
+                         ["AsymmetricTensor.conservation"])
+        with self.assertRaises(RuntimeError):
+            migration_inventory(named, named, {}, new)
+        with self.assertRaises(RuntimeError):
+            migration_inventory(named | {"AsymmetricTensor.missing"}, named, old, new)
 
 
 if __name__ == "__main__":

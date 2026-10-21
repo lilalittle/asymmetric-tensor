@@ -12,12 +12,19 @@ import subprocess
 import sys
 import tempfile
 
+from check_public_api import differences, inventory, parse_snapshot, snapshot
+from source_boundary import is_author_draft
+
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_COMMIT = "5be4d7101a1ab28624872a8f7e5001ea8ebb8449"
 SOURCE_PATH = "AsymmetricTensor/Asymmetric Tensor v5.7.lean"
 SOURCE_BLOB = "e03381d54d82fcfde0577ec33aa5f4923a2f0788"
 SOURCE_SHA256 = "2c39b9ad9a6c75314b6fccf39157962588e58620b0beebe5dd54e6456a12c558"
 REVIEW_URL = "https://github.com/lilalittle/asymmetric-tensor/issues/4#issuecomment-6319297490"
+# This commit contains the unchanged integrated v5.0 modules plus the new upload.
+# Build those modules separately; the v5.0 monolithic upload is not this baseline.
+STABLE_COMMIT = SOURCE_COMMIT
+STABLE_TREE = "577e12209448e02fe6b60c5b946240a5e17736bb"
 LOCK_FILES = ("lean-toolchain", "lakefile.toml", "lake-manifest.json")
 SUMMARY_BEFORE = "Lorentz boost symmetry breaking (`α_s = √(1 - β^2)`)".encode()
 SUMMARY_AFTER = (
@@ -41,9 +48,8 @@ def validate_upload(source, candidate):
         raise RuntimeError("Candidate author upload differs beyond the approved overview correction")
 
 
-def prepare_reference(root, reference, source):
-    """Copy only configuration and the monolith; share only dependency packages."""
-    (reference / "AsymmetricTensor.lean").write_bytes(source)
+def prepare_dependency_workspace(root, reference):
+    """Share only existing dependency packages, never first-party build outputs."""
     for name in LOCK_FILES:
         (reference / name).write_bytes((root / name).read_bytes())
     packages = root / ".lake" / "packages"
@@ -51,8 +57,52 @@ def prepare_reference(root, reference, source):
         raise RuntimeError("Pinned dependency packages are absent; provision the existing CI cache first")
     (reference / ".lake").mkdir()
     (reference / ".lake" / "packages").symlink_to(packages.resolve(), target_is_directory=True)
+    if (reference / ".lake" / "build").exists():
+        raise RuntimeError("Reference must start without first-party build artifacts")
+
+
+def prepare_reference(root, reference, source):
+    """Copy only configuration and the monolith; share only dependency packages."""
+    (reference / "AsymmetricTensor.lean").write_bytes(source)
+    prepare_dependency_workspace(root, reference)
     if (reference / "AsymmetricTensor").exists() or (reference / ".lake" / "build").exists():
         raise RuntimeError("Reference must start without split source or first-party build artifacts")
+
+
+def stable_sources(root):
+    tree = subprocess.check_output(["git", "rev-parse", f"{STABLE_COMMIT}^{{tree}}"],
+                                   cwd=root, text=True).strip()
+    if tree != STABLE_TREE:
+        raise RuntimeError("Stable v5.0 baseline tree differs from its pinned identity")
+    paths = subprocess.check_output(["git", "ls-tree", "-r", "--name-only", STABLE_COMMIT],
+                                    cwd=root, text=True).splitlines()
+    selected = [p for p in paths if p == "AsymmetricTensor.lean" or (
+        p.startswith("AsymmetricTensor/") and p.endswith(".lean") and not is_author_draft(p))]
+    if "AsymmetricTensor.lean" not in selected or len(selected) != 10:
+        raise RuntimeError("Expected the pinned stable v5.0 umbrella and nine modules")
+    return {p: subprocess.check_output(["git", "show", f"{STABLE_COMMIT}:{p}"], cwd=root)
+            for p in selected}
+
+
+def prepare_stable_reference(root, reference, sources):
+    prepare_dependency_workspace(root, reference)
+    for relative, source in sources.items():
+        target = reference / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(source)
+
+
+def migration_inventory(before_names, after_names, before, after):
+    """Record an intentionally nonempty migration; missing snapshots still fail."""
+    if not before or not after:
+        raise RuntimeError("Stable migration inventory requires both compiled API snapshots")
+    delta = differences(before_names, after_names, before, after)
+    if delta["Missing elaborated source declaration"]:
+        raise RuntimeError("Stable migration inventory is missing elaborated source targets: "
+                           + ", ".join(delta["Missing elaborated source declaration"]))
+    return {"stable_source_names": len(before_names), "integrated_source_names": len(after_names),
+            "stable_compiled_count": len(before), "integrated_compiled_count": len(after),
+            "stable": before, "integrated": after, "differences": delta}
 
 
 def dependency_revisions(root):
@@ -97,7 +147,8 @@ def main():
     # A run must not inherit a previous successful status or old API snapshots.
     for name in ("manifest.json", "reference-build.log", "source-comparison.log",
                  "api-comparison.log", "reference-api.log", "integrated-api.log",
-                 "api-comparison.json"):
+                 "api-comparison.json", "stable-v50-build.log", "stable-v50-api.log",
+                 "stable-v50-migration.json"):
         (output / name).unlink(missing_ok=True)
     evidence = {"source_commit": SOURCE_COMMIT, "source_path": SOURCE_PATH,
                 "source_blob": SOURCE_BLOB, "source_sha256": SOURCE_SHA256,
@@ -136,12 +187,38 @@ def main():
                            output / "api-comparison.log")
             finally:
                 check_locks(ROOT, reference, locks)
+        # Deliberately separate from the strict zero-difference v5.7 comparison.
+        # Preserve every old/new compiled API entry, including generated entries,
+        # so intentional migration changes cannot disappear behind scanner counts.
+        sources = stable_sources(ROOT)
+        evidence["stable_baseline"] = {
+            "commit": STABLE_COMMIT, "tree": STABLE_TREE,
+            "source_blobs": {name: git_blob(contents) for name, contents in sources.items()}}
+        with tempfile.TemporaryDirectory(prefix="v50-stable-", dir=ROOT / ".lake") as directory:
+            stable = Path(directory)
+            prepare_stable_reference(ROOT, stable, sources)
+            try:
+                run_logged(["lake", "build", "AsymmetricTensor"], stable,
+                           output / "stable-v50-build.log")
+                before = snapshot(stable, output / "stable-v50-api.log")
+                # This exact integrated snapshot has already passed the strict
+                # raw-v5.7 comparison above; reuse it rather than resampling.
+                after = parse_snapshot((output / "integrated-api.log").read_text())
+                migration = migration_inventory(inventory(stable), inventory(ROOT), before, after)
+                migration["baseline"] = evidence["stable_baseline"]
+                (output / "stable-v50-migration.json").write_text(
+                    json.dumps(migration, indent=2) + "\n")
+                evidence["stable_migration_counts"] = {
+                    name: len(values) for name, values in migration["differences"].items()}
+            finally:
+                check_locks(ROOT, stable, locks)
         # Also reject unexpected checkout-revision drift in shared dependencies.
         if dependency_revisions(ROOT) != evidence["dependency_revisions"]:
             raise RuntimeError("Dependency revisions changed during reference verification")
         evidence["status"] = "passed"
         print("V57_REFERENCE_VERIFIED: immutable author build, source tokens/docstrings, "
-              "full compiled namespace API and unchanged dependency pins")
+              "full compiled namespace API, complete stable-v5.0 migration inventory "
+              "and unchanged dependency pins")
         return 0
     except (OSError, RuntimeError, subprocess.SubprocessError) as exc:
         evidence["status"] = "failed"
