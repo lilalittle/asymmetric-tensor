@@ -1,6 +1,6 @@
 # Modules, naming, and style
 
-This is the modular layout of Binyamin Tsadik Bair-Mosheh's v5.0 formalization.
+This is the modular layout of Binyamin Tsadik Bair-Mosheh's v5.7 formalization.
 The public umbrella and namespace remain `AsymmetricTensor`; preservation of
 that import path does not imply compatibility with the older repaired APIs.
 Section headings follow manuscript topics and do not establish full coverage.
@@ -13,14 +13,14 @@ section inside `AsymmetricTensor`, not a namespace.
 
 | Module below `AsymmetricTensor` | Main contents | Direct first-party dependencies |
 |---|---|---|
-| `Model` | Six constant/positivity axioms, dimensions, `V4`/`T2`, abstract forms and scalar budgets | none |
+| `Model` | Defined constants with proved positivity, `K/Omega/E` dimensions, `V4`/`T2`, abstract forms and scalar budgets | none |
 | `MatrixAlgebra` | Matrix assembly, Clebsch wedge, comoving frame, Frobenius and Lorentzian contractions, cavitation and conditional scalar-operator relations | `Model` |
-| `FieldCalculus` | Stress, `VolAvg`, fixed-chart derivatives, dynamic Clebsch fields, scoped conservation axiom, conditional momentum identities, Lie derivative and dressing | `Model`, `MatrixAlgebra` |
+| `FieldCalculus` | Stress, `VolAvg`, fixed-chart derivatives, witnessed dynamic Clebsch state and conservation theorem, conditional momentum identities, Lie derivative and dressing | `Model`, `MatrixAlgebra` |
 | `Applications.MechanicsMass` | Spatial compliance, conditional Lagrangian, defect and mass relations | `Model`, `MatrixAlgebra` |
-| `Applications.Electromagnetism` | Electromagnetic component identities, planar scalar eigenvalue relations and cavitation limits | `Model`, `MatrixAlgebra` |
+| `Applications.Electromagnetism` | Electromagnetic component identities, aligned determinant and explicit zero-slip eigenpair bridge, cavitation limits | `Model`, `MatrixAlgebra` |
 | `Applications.Geometry` | Frame relations, galactic algebra and conditional connection identities | `Model`, `FieldCalculus` |
-| `Applications.WavesForces` | Wave/abstract-form identities, pressure and scaled force relations | `Model` |
-| `Applications.Optics` | Redshift and pointwise refraction, natural-log magnitude identities | `Model` |
+| `Applications.WavesForces` | Wave/abstract-form identities, pressure and scaled force relations | `Model`, `MatrixAlgebra` |
+| `Applications.Optics` | Redshift, pressure-only/combined-admittance distinction, pointwise refraction and magnitude identities | `Model`, `MatrixAlgebra` |
 | `FutureTargets` | Section 16 algebraic corollaries and additional dimensional identities | `Model`, `MatrixAlgebra`, `Applications.Electromagnetism`, `Applications.WavesForces` |
 
 For example:
@@ -79,6 +79,44 @@ source or type preservation. The aggregate runs the context and style guards
 through their acceptance/rejection tests as well as the actual build.
 
 ## Compatibility checks
+
+The [v5.7 integration record](v5.7-integration.md) pins the exact author source,
+intentional migration from v5.0, summary-only correction and current verification
+status. The strict reference build compares 466 bounded named declarations and
+74 declaration docstrings. It retains both complete compiled namespace inventories
+and their differences, then separately compares the public/generated API's full
+elaborated types, universes and kinds. Structures, constructors, projections,
+instances and equation declarations remain in that comparison. Do not treat the
+bounded source count as a full API count.
+
+The observed raw/integrated inventories have 723/552 entries, with 180 removed,
+9 added and 5 changed entries. These differences are retained as evidence. The
+public comparison classifies only terminal theorem-valued `_simp_N[_N]`,
+`_abel_N[_N]` and `_proof_N[_N]` helpers; a source-declared name can never enter
+that helper class. This leaves 525 public/generated entries on each side.
+Helper-shaped non-theorems and all unknown differences remain strict failures.
+
+Besides binder hygiene and metadata, the only type normalization allowed is a
+proof-helper constant reference with zero universe parameters whose actual
+kind is theorem and whose full type and universes match its counterpart.
+The full surrounding type remains compared. An actual public equation type
+changed by this normalization additionally requires a kernel-checked certificate;
+it is not accepted merely by deleting a type difference. See the
+[verification contract](verification.md#exact-source-reference-and-api-fidelity).
+The revised comparator and certificate still require exact-head hosted execution.
+
+`UnitDim` now exposes `K`, `Omega` and `E`; `DynamicClebschFields` adds field and
+conservation projections plus generated constructor/recursor interfaces.
+[`V57Migration.lean`](../tests/V57Migration.lean) exercises the intended API
+migration. Source-to-candidate fidelity is a different question from backward
+compatibility with v5.0.
+
+The [source map](v5.7-source-map.json) and [provenance audit](v5.7-provenance.md)
+record original paths/lines and attribution exceptions. Formatting and new
+module wrappers must not be mistaken for new mathematical authorship. See
+[the verification contract](verification.md) for exact-head acceptance gates.
+
+### Historical v4.5 compatibility checks
 
 This repair targets PR #70's `integrate/v4.5` branch at integration head
 `10158f3b5336ca15a78d98221c5531dd55a578b5`. The author baseline is raw v4.5 commit

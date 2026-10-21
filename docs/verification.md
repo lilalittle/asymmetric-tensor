@@ -1,26 +1,18 @@
 # Verification contract
 
-## v5.0 reconciliation (2026-10-20)
+## v5.7 candidate and source review
 
-The [v5.0 integration report](v5.0-integration.md#current-main-reconciliation-2026-10-20)
-records the current-main reconciliation of PR #80 with PR #79's author-upload
-isolation. The combined library and independent raw reference both build;
-all 431 source-declared public names match the raw reference's full elaborated
-types and universes. The source comparator also preserves 431 declaration token
-sequences and 67 docstrings. These are distinct evidence boundaries, not a claim
-that the physical interpretation is established.
+The [v5.7 integration record](v5.7-integration.md) pins the author upload and
+[independent Astra source approval](https://github.com/lilalittle/asymmetric-tensor/issues/4#issuecomment-6319297490).
+Source approval permits faithful integration; it is not a passing integration
+build or final candidate review. The candidate retains the nine-module layout
+and changes the reviewed production policy from one custom axiom to zero.
 
-See the report and [PR #80](https://github.com/lilalittle/asymmetric-tensor/pull/80)
-for the aggregate regression and exact-head hosted check results. Historical green
-runs below do not certify this candidate. The current source declares one custom
-axiom (`covariant_conservation`), not seven and not zero; the six former
-constant/positivity axioms are definitions/theorems.
-
-The [workflow](../.github/workflows/lean_action_ci.yml) installs the committed
-Lean toolchain, obtains the pinned Mathlib cache, and runs
-[`scripts/verify.sh`](../scripts/verify.sh) on pushes, pull requests and manual
-runs. GitHub actions are pinned to commits, and GitHub first-party build caching
-is disabled. A configured workflow is not evidence that a revision passed.
+The [workflow](../.github/workflows/lean_action_ci.yml) uses Lean `v4.35.0` and
+Mathlib `aa35a481e5f0cdb3b04a899ead15d6ca7305a624`, runs the strict aggregate,
+and keeps versioned-upload diagnostics in a separate advisory job. Actions remain
+pinned and first-party GitHub build caching remains disabled. A configured
+workflow is not evidence that a revision passed.
 
 ## Reproduction without upgrading dependencies
 
@@ -32,169 +24,161 @@ bash scripts/verify.sh
 git diff --exit-code -- lean-toolchain lakefile.toml lake-manifest.json
 ```
 
-Lean is pinned to 4.35.0 and Mathlib to
-`aa35a481e5f0cdb3b04a899ead15d6ca7305a624`. Keep all transitive revisions in the
-committed manifest. Do not delete it or run `lake update` for reproduction.
-The script compares configuration-file bytes with its entry state; CI also
-checks for changes relative to the checkout. Intentional upgrades need a separate
-review of dependency/toolchain changes.
+Keep every committed dependency revision. Do not run `lake update`, delete the
+manifest or change pins to repair a build. The aggregate compares lock bytes with
+its entry state; CI also checks them against the checkout. Intentional upgrades
+require separate review.
 
 ## What the aggregate executes
 
-The aggregate runs production style/source-parser regressions and the bounded
-import/context guard, builds `AsymmetricTensor` and `ProofAudit`, executes every
-top-level `tests/*.lean`, checks the roadmap inventory and its regressions, and
-runs proof-audit acceptance/rejection fixtures. A build alone does not run the
-regressions. Warnings stay visible and nonfatal; elaboration errors or failed
-checks stop the script. Transitive `sorryAx` checking is independent of warnings.
+The aggregate checks the author/stable source boundary, style and context,
+source-parser and inventory regressions, then builds `AsymmetricTensor` and
+`ProofAudit`. It executes every top-level `tests/*.lean`, roadmap checks and
+proof-audit acceptance/rejection fixtures. Warnings remain visible; elaboration
+errors, failed checks and transitive `sorryAx` dependencies fail the strict job.
+`lake build` alone does not execute this contract.
 
-The current top-level Lean files are:
+The top-level Lean regressions include:
 
-- `ApiSnapshot.lean`: elaborated signatures used by the separate reference comparison
-- `EquationAxioms.lean`: complete first-party transitive custom-axiom policy
-- `ProofAudit.lean`: production completeness/inventory and selected exact dependencies
-- `RoadmapCounterexample.lean`: finite matrix counterexample and Clebsch orientation
-- `RoadmapTargets.lean`: proposed determinant/volume proposition types, not their proofs
-- `V45FieldCalculus.lean`: coordinate calculus, scoped conservation, Lie and continuity checks
+- `ApiSnapshot.lean`: full elaborated public types, universes and kinds for reference comparison
+- `EquationAxioms.lean`: every first-party declaration's transitive custom-axiom policy
+- `ProofAudit.lean`: production completeness, declared axioms and selected exact dependencies
+- `RoadmapCounterexample.lean` and `RoadmapTargets.lean`: counterexample and bounded target contracts
+- `V45FieldCalculus.lean`: coordinate calculus, witnessed conservation, Lie and continuity checks
 - `V45MatrixAction.lean`: contraction signs, Clebsch/frame restrictions and action algebra
 - `V45OpticsForces.lean`: natural-log/scaled-force contracts and test-local recovered algebra
+- `V57Migration.lean`: changed dimensional, state, spectral, optical and mass interfaces
 
 The glob is nonrecursive. Seven files in
-[`tests/archive/v2`](../tests/archive/v2/README.md) are preserved but not executed.
-Their historical results, including seventeen action-specific dependency checks,
-are not current coverage. [The coverage report](regression-coverage.md) accounts
-for each archived file, current replacements, and remaining losses.
+[`tests/archive/v2`](../tests/archive/v2/README.md) remain historical and are not
+executed. [Regression coverage](regression-coverage.md) distinguishes their
+replacement checks and remaining gaps.
 
-## Distinct proof checks
+## Exact-source reference and API fidelity
 
-1. **Build:** Lean elaborates definitions and proofs. Success alone does not
-   exclude admitted proofs or custom axioms.
-2. **Production completeness and declared axioms:** `#audit_root AsymmetricTensor`
-   examines declarations owned by the umbrella and its first-party modules,
-   including private/generated declarations, regardless of namespace. It rejects
-   transitive `sorryAx` and any change to the exact declared-axiom inventory. This
-   command alone is not a whole-library imported custom-axiom allowlist.
-3. **Selective exact dependencies:** `tests/ProofAudit.lean` and the `V45*` tests
-   pin reviewed custom-axiom sets for selected results. Missing/extra dependencies
-   or missing declarations fail. The ordinary logical axioms `propext`,
-   `Classical.choice`, and `Quot.sound` are permitted. Each new `V45*` module also
-   checks all its retained declarations with `#audit_current_module declared []`.
-4. **Current-source transitive inventory:** `tests/EquationAxioms.lean` examines
-   every first-party declaration, permitting only the one custom name below
-   and those three logical axioms transitively. Its machine-readable output is
-   not an equation mapping and must not replace the historical audit JSON.
+The aggregate invokes `python3 scripts/check_v57_reference.py`. It retrieves the
+monolith at source commit `5be4d7101a1ab28624872a8f7e5001ea8ebb8449`, verifies its
+Git blob and SHA-256, and builds it separately as `AsymmetricTensor.lean` using
+the same dependency pins. The disposable reference shares the pinned dependency
+packages but has separate first-party build outputs; it cannot reuse a compiled
+integrated library as its reference.
 
-All names below belong to `AsymmetricTensor`. These are the v5.0 expected
-sets, checked by the combined candidate build and `tests/ProofAudit.lean`.
+The checks establish different contracts:
 
-| Selected production theorem | Exact custom axioms in `tests/ProofAudit.lean` |
-|---|---|
-| `matrix_decomposition` | none |
-| `tensor_decomposition_proven` | none |
-| `contract_sym_anti_proven` | none |
-| `unified_action_separation` | none |
-| `bernoulli_energy_conservation` | `covariant_conservation` |
-| `navier_stokes_momentum_conservation` | `covariant_conservation` |
-| `divergence_expansion` | none |
-| `geometric_navier_stokes` | none |
-| `baryonic_tully_fisher_derivation` | none |
+- The bounded source comparator checks **466 named declaration token sequences**
+  and **74 declaration docstrings** against the immutable raw source. It does
+  not inventory structures, generated declarations or arbitrary Lean commands.
+- Both complete compiled `AsymmetricTensor` namespace snapshots and their
+  unfiltered differences are retained. The observed raw/integrated snapshots
+  contain 723/552 entries, with 180 removed, 9 added and 5 changed entries;
+  a successful public API comparison must not conceal those raw differences.
+- The public comparison classifies only terminal `_simp_N[_N]`, `_abel_N[_N]`
+  and `_proof_N[_N]` helper names whose actual declaration kind is theorem.
+  Source-declared names are never classified as helpers, even when their names
+  match that pattern. The resulting public/generated inventories have 525
+  entries each. Structures, constructors, recursors, projections, instances
+  and equation declarations remain included; unknown or missing entries and
+  unaccounted kind/type/universe differences fail.
+- Full elaborated types and universe parameters remain compared. In addition
+  to binder hygiene and elaborator metadata, proof-helper constant references
+  may be normalized only when they have zero universe parameters and the actual
+  helper declarations have identical theorem kind, full type and universes.
+  This uses proof irrelevance rather than erasing a proof-bearing type argument.
+  The actual changed public equation type must also have a kernel-checked
+  equivalence certificate; a textual normalization alone is insufficient.
+  Negative regressions include helper-shaped non-theorems and changed helper
+  propositions. The revised comparison and certificate remain pending hosted CI.
+- A separate build of the stable v5.0 umbrella and nine modules at
+  `5be4d7101a1ab28624872a8f7e5001ea8ebb8449` produces the complete compiled
+  `AsymmetricTensor` namespace migration inventory. It records every added,
+  removed or changed entry, including generated APIs, with full normalized
+  types, universes and declaration kinds on both sides. The expected nonempty
+  v5.0-to-v5.7 delta is review evidence, not a compatibility claim and not an
+  exception to the strict raw-v5.7-to-candidate public API gate described above.
+- `V57Migration.lean` exercises the intentional prior-stable-to-v5.7 changes,
+  including `UnitDim.L/V/S` becoming `K/Omega/E`. These call sites complement the
+  complete compiled delta; neither proves backward compatibility with v5.0.
+- The context/import guard, actual build and source provenance audit cover
+  separate module-placement and origin concerns.
 
-The sole explicit axiom is `covariant_conservation`, stating exactly
+Reference build logs, snapshots, comparisons and a manifest are retained under
+`.lake/v57-reference-evidence/` and by the hosted `v57-reference` artifact. The
+exact candidate run remains the evidence of success or failure. The stable
+migration evidence is `stable-v50-build.log`, `stable-v50-api.log` and
+`stable-v50-migration.json` in that same artifact. The JSON retains both complete
+namespace snapshots, the added/removed/changed lists, source-name counts and the
+baseline module blob map. The baseline tree is
+`577e12209448e02fe6b60c5b946240a5e17736bb`; its versioned uploads are excluded from
+that stable build. Missing identity, build, snapshot or source-target evidence
+fails the strict job. Actual migration output remains pending hosted execution.
+The source's one separately approved overview correction is recorded in the
+integration report; the raw v5.7 reference is not silently repaired.
+
+## Completeness and axiom policy
+
+`#audit_root AsymmetricTensor declared []` audits declarations owned by the
+umbrella and its first-party modules, including private/generated declarations
+and names outside the public namespace. It rejects transitive `sorryAx` and any
+custom declared axiom. `tests/EquationAxioms.lean` independently checks the
+whole production transitive custom-axiom inventory, also expecting none.
+Ordinary logical axioms `propext`, `Classical.choice` and `Quot.sound` remain
+permitted; zero custom axioms is not the absence of all kernel assumptions.
+
+Selected exact dependency checks retain empty custom-axiom sets for the
+foundation, matrix, field and application results. In v5.7,
+`covariant_conservation`, `bernoulli_energy_conservation` and
+`navier_stokes_momentum_conservation` no longer depend on a custom conservation
+axiom. The field regression pins the changed theorem kind and its exact scope:
 `∀ x : SpaceTime, metric_divergence U_hat_dynamic x = 0`.
-`V45FieldCalculus.lean` pins the definition/theorem kinds and types of the six
-former foundational axioms, plus the axiom kind and type of this remaining
-postulate. Its scoped-postulate guard rejects broadening conservation to arbitrary
-fields, even if its name remains allowlisted. Eight body-less opaque scalar
-fields are additional unspecified inputs; their regularity and physical laws
-are not established merely by declaring them.
 
-The temporal/spatial projections inherit the scoped postulate. Generic coordinate
-calculus and its nonconserved-field counterexample do not. The conditional
-material-acceleration, field-continuity, and Eulerian-balance identities have no
-custom axioms in their selected audits, but still assume the displayed
-product-rule, continuity, or balance hypotheses. `geometric_navier_stokes`
-assumes its zero-divergence sum and does not inherit the postulate.
+`DynamicClebschFields` bundles eight scalar fields and their conservation
+condition. `vacuum_clebsch_witness` constructs an inhabitant; opaque `dyn_state`
+selects the active configuration; the named scalar fields project from it.
+This conservative witness construction does not derive conservation for arbitrary
+fields or establish a nontrivial physical solution. The coordinate-field
+counterexample remains in the regressions. Conditional material-acceleration,
+continuity and Eulerian-balance identities retain their explicit premises.
 
-Expected sets are reviewed policy, not automatically learned from output.
-An allowlist does not establish consistency or empirical validity.
-`ProofAudit.lean` uses Lean's `collectAxioms`, including dependencies through
-bodies, types and imports. It is not independent kernel certification or an
-audit of every Mathlib declaration. See
-[Lean's proof-validation guide](https://lean-lang.org/doc/reference/latest/ValidatingProofs/).
+Expected audit sets are reviewed policy, not automatically learned from output.
+`collectAxioms` follows bodies, types and imports; these checks are not independent
+kernel certification or empirical validation.
 
 ## Failure regressions
 
-`scripts/test_proof_audit.py` creates temporary fixtures under `.lake`, compiles
-imported dependencies, and requires the intended diagnostic and a nonzero exit.
-A malformed fixture or unrelated missing import does not count as rejection
-coverage. Cases include completed-proof acceptance; direct `sorry` and `admit`;
-unfinished imported/private proofs; unexpected imported or unreferenced
-first-party axioms; and missing theorem/module targets. Temporary fixtures and
-compiled files are removed afterward.
+`scripts/test_proof_audit.py` creates disposable fixtures and requires the
+intended diagnostic plus a nonzero exit. Coverage includes direct `sorry` and
+`admit`, incomplete imported/private proofs, unexpected imported or unreferenced
+first-party axioms, and missing theorem/module targets. A malformed fixture or
+unrelated missing dependency does not count as successful rejection.
 
-Style, source-token parser, context-inventory and roadmap regressions exercise
-their own bounded contracts. None substitutes for complete elaboration and the
-independent built-reference API comparison. In particular, the context guard
-cannot establish declaration placement or arbitrary Lean semantics.
+Style, source-token, context, source-boundary and roadmap tests retain their
+acceptance/rejection cases. They do not replace compilation, exact dependency
+audits or comparison with the independently built source reference.
 
 ## Current validation boundary
 
-For v5.0, use the reconciliation evidence boundary at the top of this page. The retained
-v4.5 repair results and pending gates below are historical, not v5.0 results.
+Local preparation has no Lean/Lake/elan toolchain or Mathlib cache. Available
+static/Python checks and actual hosted outcomes must be recorded separately in
+[the v5.7 integration report](v5.7-integration.md) and its PR. The existing hosted
+pipeline provides the pinned build environment; no new deployment, permission
+or dependency upgrade is part of this integration.
 
-The PR #70 repair targets integration head
-`10158f3b5336ca15a78d98221c5531dd55a578b5`, based on the author's raw v4.5 commit
-`5a84e0c52b71295a678dcc1c50f80d430e5475f2`. It preserves the preceding import
-fixes and trace-theorem relocation, restores twelve remaining section-context
-identifiers in ten production lines, and migrates meaningful regressions without
-restoring the whole historical API. [Module evidence](modules.md#compatibility-checks)
-records the baseline source hash and the source-comparison limits.
+The author-upload run at `5be4d710` reports v5.7 COMPILED with exit 0 and a passing
+unchanged stable library. It does not certify this integration candidate. Final
+acceptance requires the complete strict gate, raw-reference comparison,
+provenance checks, independent Astra review and hosted CI for the exact candidate
+head/tree. A changed head requires renewed applicable evidence.
 
-Fresh local checks on 2026-10-19 for this repaired source/test tree established:
+The [v5.0 reconciliation report](v5.0-integration.md#current-main-reconciliation-2026-10-20)
+and [PR #80](https://github.com/lilalittle/asymmetric-tensor/pull/80) retain the
+previous 431-name/67-docstring source/API comparison and one-axiom policy as
+historical evidence. The older records below do not certify v5.7.
 
-- Both the raw v4.5 reference and repaired production library build.
-- Source comparison retains 377 inventoried named declaration token sequences
-  and 54 declaration docstrings. Full built-reference API comparison retains
-  all 377 elaborated types, universes and binder order.
-- The root audit checks 517 compiled production declarations, exactly seven
-  declared axioms and no transitive `sorryAx`; nine root-result exact dependency
-  checks pass. This compiled count includes generated declarations and differs
-  from the bounded 377-name source inventory.
-- The focused field, matrix and optics/force files pass, with respectively
-  12, 10 and 8 exact dependency checks and completeness checks over their
-  16, 23 and 12 retained test declarations. All seven axiom kinds/types are pinned.
-- The roadmap counterexample and its six exact dependency checks pass.
-
-These focused results are not a final aggregate or hosted result. Final aggregate
-and hosted status belong to the exact-head evidence on
-[PR #70](https://github.com/lilalittle/asymmetric-tensor/pull/70), identifying the
-tested revision and outcome. This document records the bounded checks above;
-an older successful run does not certify a later commit.
-
-A completed validation record should identify the exact candidate revision/tree,
-reference revision, commands and outcomes for:
-
-- The aggregate, including every current top-level Lean regression and negative fixture
-- All production declarations, the seven-axiom inventory and transitive dependency checks
-- The seven axiom kind/type guards and test-module completeness checks
-- Source-token/docstring and full elaborated API comparisons with the built raw reference
-- Preservation of toolchain, dependency files and archived ledger evidence
-- Hosted CI for the exact published repair commit
-
-Existing-cache local validation, fresh setup and hosted execution are separate
-evidence. The historical ledger checks require Poppler and remain separate:
+The [historical equation ledger](equation-coverage.md) keeps its original source,
+PDF hashes and audit. Its Poppler-dependent checks remain separate:
 `python3 scripts/equation_ledger.py --check --historical` and
-`python3 tests/test_equation_ledger.py`. The ledger concerns the reviewed #9/#33
-snapshot; current `EquationAxioms.lean` output has a different source and policy.
-The separate historical check and all 23 ledger regression/mutation tests passed
-locally on 2026-10-19 with accepted archive hashes retained. These results do not
-add Poppler-dependent checks to the hosted aggregate.
-
-No current Section 16 declaration has an `h_target` binder. Its algebraic
-corollaries still contain physical hypotheses. For example, exponential WKB
-transmission is assumed, and positive kinetic energy does not prove an optimal
-transport minimum. Neither proof completeness nor a restricted dependency set
-turns these statements into the broader physical theories named in their titles.
+`python3 tests/test_equation_ledger.py`. Current production axiom output is not a
+replacement equation mapping or permission to rewrite that archive.
 
 ## Historical validation records
 

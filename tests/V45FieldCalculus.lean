@@ -1,16 +1,16 @@
 import AsymmetricTensor
 import ProofAudit
 
-/-! Regression migration for the v4.5 field APIs. These checks do not reinstate
-v2's removed admissible-field API or strengthen the physical postulate. -/
+/-! Regression migration for the v4.5 field APIs and v5.7 on-shell bundle.
+The active tensor's conservation does not imply conservation of arbitrary fields. -/
 
 open AsymmetricTensor BigOperators
 
 namespace V45FieldRegression
 
--- The inventory alone would accept a stronger axiom under an unchanged name.
+-- An inventory alone cannot pin a declaration's kind or complete signature.
 -- v5.0 replaces six axioms with three definitions and three positivity theorems.
--- Pin their kinds and signatures; the remaining postulate is checked below.
+-- Pin their kinds and signatures; v5.7's conservation bundle is checked below.
 open Lean Elab Command in
 run_cmd do
   let checkFoundation (decl : Name) (isTheorem : Bool)
@@ -34,21 +34,68 @@ run_cmd do
   checkFoundation `AsymmetricTensor.hbar_pos true (← `(0 < AsymmetricTensor.hbar))
   logInfo "FOUNDATIONAL_TYPES_OK: three real definitions and three positivity theorems"
 
--- Compare the declaration type itself, so even an implicit general-field binder
--- cannot silently broaden this postulate while the examples keep compiling.
+-- Compare the declarations themselves, so an added implicit field binder,
+-- changed constructor, axiom, or transparent active state cannot pass merely
+-- because the call-site examples still elaborate. The reference API comparison
+-- separately covers the full generated structure API.
 open Lean Elab Command in
 run_cmd do
-  let info ← getConstInfo `AsymmetricTensor.covariant_conservation
-  unless info matches .axiomInfo _ do
-    throwError "CONSERVATION_SCOPE: expected the reviewed physical postulate"
-  liftTermElabM do
-    let expected ← Term.elabType (← `(∀ x : SpaceTime,
-      metric_divergence U_hat_dynamic x = 0))
-    unless ← Meta.isDefEq info.type expected do
-      throwError "CONSERVATION_SCOPE: postulate is no longer scoped to U_hat_dynamic"
-  logInfo "CONSERVATION_SCOPE_OK: exactly U_hat_dynamic"
+  let checkReviewed (decl : Name) (expectedKind : String)
+      (expectedSyntax : TSyntax `term) : CommandElabM Unit := do
+    let info ← getConstInfo decl
+    let kind := match info with
+      | .thmInfo _ => "theorem"
+      | .defnInfo _ => "definition"
+      | .opaqueInfo _ => "opaque"
+      | .inductInfo _ => "structure"
+      | .ctorInfo _ => "constructor"
+      | _ => "other"
+    unless kind == expectedKind do
+      throwError "CONSERVATION_KIND: {decl} expected {expectedKind}, found {kind}"
+    liftTermElabM do
+      let expected ← Term.elabType expectedSyntax
+      unless ← Meta.isDefEq info.type expected do
+        throwError "CONSERVATION_TYPE: {decl} no longer has its reviewed signature"
+  checkReviewed `AsymmetricTensor.DynamicClebschFields "structure" (← `(Type))
+  checkReviewed `AsymmetricTensor.DynamicClebschFields.mk "constructor" (← `(
+    ∀ (alpha_s alpha h_phase v_x v_y v_z lambda_Omega beta_Omega : ScalarField),
+      (∀ x : SpaceTime,
+        metric_divergence
+          (fun y => U_hat (alpha_s y) (alpha y) (v_x y) (v_y y) (v_z y)
+            (d_scalar_field lambda_Omega y) (d_scalar_field beta_Omega y) t_p) x = 0) →
+      DynamicClebschFields))
+  for decl in #[`AsymmetricTensor.DynamicClebschFields.alpha_s_f,
+      `AsymmetricTensor.DynamicClebschFields.alpha_f,
+      `AsymmetricTensor.DynamicClebschFields.h_phase_f,
+      `AsymmetricTensor.DynamicClebschFields.v_x_f,
+      `AsymmetricTensor.DynamicClebschFields.v_y_f,
+      `AsymmetricTensor.DynamicClebschFields.v_z_f,
+      `AsymmetricTensor.DynamicClebschFields.lambda_Omega_f,
+      `AsymmetricTensor.DynamicClebschFields.beta_Omega_f] do
+    checkReviewed decl "definition" (← `(DynamicClebschFields → ScalarField))
+  checkReviewed `AsymmetricTensor.DynamicClebschFields.conservation "theorem" (← `(
+    ∀ (cfg : DynamicClebschFields) (x : SpaceTime),
+      metric_divergence
+        (fun y => U_hat (cfg.alpha_s_f y) (cfg.alpha_f y)
+          (cfg.v_x_f y) (cfg.v_y_f y) (cfg.v_z_f y)
+          (d_scalar_field cfg.lambda_Omega_f y)
+          (d_scalar_field cfg.beta_Omega_f y) t_p) x = 0))
+  checkReviewed `AsymmetricTensor.vacuum_clebsch_witness "definition"
+    (← `(DynamicClebschFields))
+  checkReviewed `AsymmetricTensor.dyn_state "opaque" (← `(DynamicClebschFields))
+  for decl in #[`AsymmetricTensor.alpha_s_f, `AsymmetricTensor.alpha_f,
+      `AsymmetricTensor.h_phase_f, `AsymmetricTensor.v_x_f,
+      `AsymmetricTensor.v_y_f, `AsymmetricTensor.v_z_f,
+      `AsymmetricTensor.lambda_Omega_f, `AsymmetricTensor.beta_Omega_f] do
+    checkReviewed decl "definition" (← `(ScalarField))
+  checkReviewed `AsymmetricTensor.covariant_conservation "theorem"
+    (← `(∀ x : SpaceTime, metric_divergence U_hat_dynamic x = 0))
+  logInfo "CONSERVATION_SCOPE_OK: on-shell bundle, explicit witness, opaque state, projected fields"
 
--- This ascription pins the postulate to U_hat_dynamic, not an arbitrary field.
+-- V57Migration checks constructor round trips, the witness's field values, and
+-- the definitional links between public scalar fields and the opaque state.
+
+-- The conservation theorem remains scoped to U_hat_dynamic.
 example : ∀ x : SpaceTime, metric_divergence U_hat_dynamic x = 0 :=
   covariant_conservation
 
@@ -59,7 +106,7 @@ example (x : SpaceTime) (i : Fin 4) (hi : i ≠ 0) :
     metric_divergence U_hat_dynamic x i = 0 :=
   navier_stokes_momentum_conservation x i hi
 
--- Generic coordinate calculus remains independent of the physical postulate.
+-- Generic coordinate calculus remains independent of the on-shell bundle.
 theorem constant_partial (r : ℝ) (μ : Fin 4) (x : SpaceTime) :
     partial_deriv (fun _ => r) μ x = 0 := by
   simp [partial_deriv]

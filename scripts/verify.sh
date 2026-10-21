@@ -25,9 +25,10 @@ python3 scripts/test_source_boundary.py
 python3 scripts/check_lean_style.py
 python3 scripts/test_lean_style.py
 python3 scripts/test_module_source.py
+python3 scripts/test_v57_reference.py
 python3 scripts/check_module_context.py
 python3 scripts/test_module_context.py
-python3 tests/test_v50_inventory.py
+python3 tests/test_v57_inventory.py
 
 # Warnings remain visible but are not fatal; proof completeness is checked below.
 lake build AsymmetricTensor ProofAudit
@@ -41,4 +42,5 @@ done
 python3 tests/test_roadmap_inventory.py
 python3 tests/check_roadmap.py
 python3 scripts/test_proof_audit.py
+python3 scripts/check_v57_reference.py
 check_locks

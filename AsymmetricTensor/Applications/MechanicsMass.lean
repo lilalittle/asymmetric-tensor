@@ -20,7 +20,7 @@ public import AsymmetricTensor.MatrixAlgebra
 /-!
 # Mass mechanism (topological tensor yield)
 
-Module of Binyamin's v5.0 formalization. Declarations retained verbatim
+Module of Binyamin's v5.7 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -35,16 +35,19 @@ namespace AsymmetricTensor
 -- ======================================================================
 -- SECTION 8: THE MASS MECHANISM (TOPOLOGICAL TENSOR YIELD)
 -- ======================================================================
+
 -- ----------------------------------------------------------------------
 -- 8.1 The Tensor Yield Criterion (The VEV Origin) (Manuscript Eqs. 113–118)
 -- ----------------------------------------------------------------------
 variable (S_ii P_static P_dyn_val v_val : ℝ)
 variable (v_vev P_ambient : ℝ)
+
 -- Dimensional Audit: VEV squared velocity (2 P_ambient / rho_tau = v_vev^2) and Lagrangian density (P_c * dimensionless = P_c):
 theorem unit_section8_vev_and_lagrangian :
     u_P_c / u_rho_tau = u_c^(2:ℤ) ∧
     u_P_c * u_dimless = u_P_c := by
   constructor <;> rfl
+
 -- Theorem 48: Spatial Diagonal Lorentz Compliance Expansion (S_ii = 1 / (1 - v^2/c^2), Manuscript Eq. 115)
 lemma spatial_diagonal_lorentz_derivation
     (h_S_ii : S_ii = P_c / P_static)
@@ -73,6 +76,7 @@ lemma spatial_diagonal_lorentz_derivation
     rw [mul_div_mul_left]
     exact hc2
   rw [h_final]
+
 -- Theorem 49: Vacuum Expectation Value Origin (v_vev^2 = 2 P_ambient / ρ_τ, Manuscript Eq. 117)
 theorem tensor_vev_origin
     (h_yield : P_ambient = (1 / 2) * rho_tau * v_vev^2) :
@@ -83,9 +87,11 @@ theorem tensor_vev_origin
     have h_c : (rho_tau * v_vev^2) / rho_tau = v_vev^2 * (rho_tau / rho_tau) := by ring
     rw [h_c, div_self hrho, mul_one]
   rw [h2, ←h1]
+
 -- ----------------------------------------------------------------------
 -- 8.2 The Topological Phase Lock (Mass Generation) (Manuscript Eq. 119)
 -- ----------------------------------------------------------------------
+
 -- Dimensional Audit: Phase-locked shear energy (P_c * V_τ) has dimension u_Energy,
 -- and dividing by c^2 extracts discrete rest mass (u_M_P = ⟨-1, -1, 1⟩):
 theorem unit_section8_2_phase_lock :
@@ -93,6 +99,7 @@ theorem unit_section8_2_phase_lock :
     (u_P_c * u_Volume) / (u_c^(2:ℤ)) = u_M_P ∧
     (u_P_c / (u_c^(2:ℤ))) * u_Volume = u_M_P := by
   refine ⟨rfl, rfl, rfl⟩
+
 -- Theorem 155: Topological Phase-Lock Cavitation Transition (Manuscript Eq. 119)
 -- Proves directly from `U_hat` and `U_anti` that at the VEV cavitation limit (`alpha_s = 0`),
 -- the temporal diagonal collapses (`U_hat 0 ... 0 0 = 0`) and static pressure vanishes (`P_static = 0`),
@@ -118,44 +125,167 @@ theorem topological_phase_lock_cavitation
   · dsimp [U_anti, antiPart, U_hat, Matrix.of_apply]
     norm_num
   · linarith
--- Theorem 156: Phase-Locked Clebsch Vortex Rest Mass Generation (Manuscript Eq. 119)
--- Proves that when unresolved kinetic strain locks into a non-vanishing Clebsch vorticity core
--- (`Omega_z_clebsch d_lambda d_beta ≠ 0`) across a positive defect volume (`0 < V_tau`),
--- the phase-locked shear energy `E_locked = P_shear * V_tau` generates strictly positive
--- invariant rest mass `m_0 = E_locked / c^2 > 0`.
-theorem phase_locked_vortex_rest_mass_generation
-    (d_lambda d_beta : V4) (r_c_val V_tau P_shear E_locked m_0 : ℝ)
-    (hr_c : 0 < r_c_val) (hV : 0 < V_tau)
+
+-- Theorem 156a: Phase-Locked Frobenius Shear Rest Mass & Strict Positivity (Manuscript Section 8.2,
+-- Part 1)
+-- Proves:
+-- 1. Frobenius Shear Mass Formula: From `P_shear = (1 / 2) * P_c * alpha^2 * (v_perp^2 / c^2 +
+-- t_p^2 * Omega^2)`,
+--    `E_locked = P_shear * V_tau`, and `m_0 = E_locked / c^2`, the invariant rest mass evaluates to
+--    `m_0 = (rho_tau * V_tau * alpha^2 / 4) * (v_perp^2 / c^2 + t_p^2 * Omega^2)`,
+-- 2. Strict Positivity: For `0 < V_tau`, `alpha ≠ 0`, and non-vanishing Clebsch vorticity
+-- `Omega_z_clebsch d_lambda d_beta ≠ 0`, the generated rest mass is strictly positive (`0 < m_0`).
+theorem phase_locked_frobenius_rest_mass_pos
+    (d_lambda d_beta : V4) (alpha v_perp V_tau P_shear E_locked m_0 : ℝ)
+    (hV : 0 < V_tau) (h_alpha_ne : alpha ≠ 0)
     (h_omega_ne : Omega_z_clebsch d_lambda d_beta ≠ 0)
-    (h_P_shear : P_shear = (1 / 2) * rho_tau * (r_c_val * Omega_z_clebsch d_lambda d_beta)^2)
+    (h_P_shear : P_shear = (1 / 2) * P_c * alpha^2 *
+      (v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2))
     (h_E_locked : E_locked = P_shear * V_tau)
     (h_mass : m_0 = E_locked / c^2) :
-    m_0 = (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega_z_clebsch d_lambda d_beta) / c)^2 ∧
+    m_0 = (rho_tau * V_tau * alpha^2 / 4) *
+      (v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2) ∧
     0 < m_0 := by
   have hc_pos : 0 < c := c_pos
+  have hc_ne : c ≠ 0 := c_ne_zero
   have hrho_pos : 0 < rho_tau := rho_tau_pos
-  have h_om_sq : 0 < (Omega_z_clebsch d_lambda d_beta)^2 := by positivity
-  have h_m0_eq : m_0 = (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega_z_clebsch d_lambda d_beta) / c)^2 := by
+  have h_tp_pos : 0 < t_p := by
+    dsimp [t_p]
+    exact div_pos l_p_pos c_pos
+  have h_m0_frob : m_0 = (rho_tau * V_tau * alpha^2 / 4) *
+      (v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2) := by
     rw [h_mass, h_E_locked, h_P_shear]
+    dsimp [P_c]
+    calc (1 / 2 * (1 / 2 * rho_tau * c^2) * alpha^2 *
+          (v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2) * V_tau) / c^2
+      _ = ((rho_tau * V_tau * alpha^2 / 4) *
+          (v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2) * c^2) / c^2 := by ring
+      _ = (rho_tau * V_tau * alpha^2 / 4) *
+          (v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2) :=
+        mul_div_cancel_right₀ _ (pow_ne_zero 2 hc_ne)
+  have h_alpha_sq : 0 < alpha^2 := sq_pos_of_ne_zero h_alpha_ne
+  have h_om_sq : 0 < (Omega_z_clebsch d_lambda d_beta)^2 := sq_pos_of_ne_zero h_omega_ne
+  have h_term2_pos : 0 < t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2 := by positivity
+  have h_term1_nonneg : 0 ≤ v_perp^2 / c^2 := by positivity
+  have h_sum_pos : 0 < v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2 := by linarith
+  have h_pref_pos : 0 < rho_tau * V_tau * alpha^2 / 4 := by positivity
+  refine ⟨h_m0_frob, ?_⟩
+  rw [h_m0_frob]
+  exact mul_pos h_pref_pos h_sum_pos
+
+-- Theorem 156b: Tangential Phase-Lock (`v_vortex = r_c * Omega = c`) & Vortex Core Equivalence
+-- (Manuscript Section 8.2, Part 2)
+-- Proves:
+-- 1. Tangential Phase-Lock: Deflecting the core velocity into tangential circulation at the
+-- cavitation
+-- radius (`v_vortex = r_c_val * Omega`) equates the Bernoulli dynamic pressure to the vortex core
+-- energy density `P_vortex = (1 / 2) * rho_tau * (r_c_val * Omega)^2 = (1 / 2) * rho_tau *
+-- v_vortex^2`,
+-- 2. Equipartition Boundary Matching: Under `2 * r_c_val^2 * Omega^2 = alpha^2 * (v_perp^2 + c^2 *
+-- t_p^2 * Omega^2)`,
+--    the tangential vortex pressure equals the Frobenius shear pressure (`P_vortex = P_shear`),
+-- 3. Universal Cavitation Speed (`v_vortex = c`): At `r_c_val * Omega = c`, `P_vortex = P_c` and
+-- the
+-- rest mass simplifies from `m_0 = (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega) / c)^2` to `(1 /
+-- 2) * rho_tau * V_tau`.
+theorem tangential_phase_lock_vortex_equivalence
+    (d_lambda d_beta : V4) (alpha v_vortex v_perp r_c_val V_tau P_shear P_vortex E_locked m_0 : ℝ)
+    (h_v_lock : v_vortex = r_c_val * Omega_z_clebsch d_lambda d_beta)
+    (h_cav_c : r_c_val * Omega_z_clebsch d_lambda d_beta = c)
+    (h_P_shear : P_shear = (1 / 2) * P_c * alpha^2 *
+      (v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2))
+    (h_P_vortex : P_vortex = (1 / 2) * rho_tau * (r_c_val * Omega_z_clebsch d_lambda d_beta)^2)
+    (h_match : 2 * r_c_val^2 * (Omega_z_clebsch d_lambda d_beta)^2 =
+      alpha^2 * (v_perp^2 + c^2 * t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2))
+    (h_E_locked : E_locked = P_shear * V_tau)
+    (h_mass : m_0 = E_locked / c^2) :
+    P_vortex = (1 / 2) * rho_tau * v_vortex^2 ∧
+    P_vortex = P_shear ∧
+    P_vortex = P_c ∧
+    m_0 = (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega_z_clebsch d_lambda d_beta) / c)^2 ∧
+    m_0 = (1 / 2) * rho_tau * V_tau := by
+  have hc_ne : c ≠ 0 := c_ne_zero
+  have h_pv_v0 : P_vortex = (1 / 2) * rho_tau * v_vortex^2 := by
+    rw [h_P_vortex, ← h_v_lock]
+  have h_pv_eq_ps : P_vortex = P_shear := by
+    rw [h_P_vortex, h_P_shear]
+    dsimp [P_c]
+    have h_rhs : 1 / 2 * (1 / 2 * rho_tau * c^2) * alpha^2 *
+        (v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2) =
+        (1 / 4 * rho_tau) * (alpha^2 * ((v_perp^2 / c^2) * c^2 + c^2 * t_p^2 * (Omega_z_clebsch
+          d_lambda d_beta)^2)) := by
+      ring
+    rw [h_rhs, div_mul_cancel₀ _ (pow_ne_zero 2 hc_ne), ← h_match]
     ring
-  have h_m0_pos : 0 < (1 / 2) * rho_tau * V_tau * (r_c_val^2 * (Omega_z_clebsch d_lambda d_beta)^2 / c^2) := by
-    positivity
-  have h_alg : (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega_z_clebsch d_lambda d_beta) / c)^2 =
-               (1 / 2) * rho_tau * V_tau * (r_c_val^2 * (Omega_z_clebsch d_lambda d_beta)^2 / c^2) := by
+  have h_pv_pc : P_vortex = P_c := by
+    rw [h_P_vortex, h_cav_c]
+    rfl
+  have h_m0_rc : m_0 = (1 / 2) * rho_tau * V_tau *
+      ((r_c_val * Omega_z_clebsch d_lambda d_beta) / c)^2 := by
+    rw [h_mass, h_E_locked, ← h_pv_eq_ps, h_P_vortex]
     ring
-  refine ⟨h_m0_eq, ?_⟩
-  rw [h_m0_eq, h_alg]
-  exact h_m0_pos
+  refine ⟨h_pv_v0, h_pv_eq_ps, h_pv_pc, h_m0_rc, ?_⟩
+  rw [h_m0_rc, h_cav_c, div_self hc_ne]
+  ring
+
+-- Theorem 156c: The Micro–Macro Horizon Duality (`r_c * Omega_core = c ↔ R_h * H_0 = R_h *
+-- Omega_max = c`)
+-- (Manuscript Section 8.2 Table Equivalence & Section 11.6 Galactic Capture)
+theorem micro_macro_horizon_duality
+    (r_c m_0 Omega_core R_h H_0 R_max v_rot Omega_max a_0 r : ℝ)
+    (h_rc_ne : r_c ≠ 0) (h_Rh_ne : R_h ≠ 0) (h_Rmax_ne : R_max ≠ 0)
+    (h_rc_def : r_c = hbar / (m_0 * c))
+    (h_om_core : Omega_core = c / r_c)
+    (h_H0_def : H_0 = c / R_h)
+    (h_capture : v_rot = H_0 * R_max)
+    (h_om_max : Omega_max = v_rot / R_max)
+    (h_a0 : a_0 = (c * H_0) / (2 * Real.pi)) :
+    u_c / u_l_p = u_omega ∧
+    r_c * Omega_core = c ∧
+    Omega_core = (m_0 * c^2) / hbar ∧
+    (1 - ((r_c * Omega_core) / c)^2) * P_c = 0 ∧
+    Omega_max = H_0 ∧
+    R_h * Omega_max = c ∧
+    R_h * H_0 = c ∧
+    r_c * Omega_core = R_h * Omega_max ∧
+    a_0 = c^2 / (2 * Real.pi * R_h) ∧
+    (R_h * Omega_max) * (1 - Real.exp (-r / R_h)) = c * (1 - Real.exp (-r / R_h)) := by
+  have hc_ne : c ≠ 0 := c_ne_zero
+  have h_inner_lock : r_c * Omega_core = c := by
+    rw [h_om_core, mul_div_cancel₀ _ h_rc_ne]
+  have h_compton_freq : Omega_core = (m_0 * c^2) / hbar := by
+    rw [h_om_core, h_rc_def, div_div_eq_mul_div]
+    ring
+  have h_pstatic_zero : (1 - ((r_c * Omega_core) / c)^2) * P_c = 0 := by
+    rw [h_inner_lock, div_self hc_ne]
+    ring
+  have h_om_eq_H0 : Omega_max = H_0 := by
+    rw [h_om_max, h_capture, mul_div_cancel_right₀ _ h_Rmax_ne]
+  have h_outer_H0 : R_h * H_0 = c := by
+    rw [h_H0_def, mul_div_cancel₀ _ h_Rh_ne]
+  have h_outer_max : R_h * Omega_max = c := by
+    rw [h_om_eq_H0, h_outer_H0]
+  have h_duality : r_c * Omega_core = R_h * Omega_max := by
+    rw [h_inner_lock, h_outer_max]
+  have h_a0_eq : a_0 = c^2 / (2 * Real.pi * R_h) := by
+    rw [h_a0, h_H0_def]
+    ring
+  refine ⟨rfl, h_inner_lock, h_compton_freq, h_pstatic_zero, h_om_eq_H0,
+          h_outer_max, h_outer_H0, h_duality, h_a0_eq, ?_⟩
+  rw [h_outer_max]
+
 -- ----------------------------------------------------------------------
 -- 8.3 The Kinematic Lagrangian & Orthogonal Mass Extraction (Manuscript Eqs. 120–126)
 -- ----------------------------------------------------------------------
 variable (L_kin P_shear_val A_anti_trace : ℝ)
 variable (v_macro_scalar : ℝ)
+
 /-- Positive-definite Frobenius norm of `U_anti`, quantifying the stored transverse Clebsch shear load `P_shear` (Manuscript Eq. 125). -/
 noncomputable def P_shear_hamiltonian (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ) : ℝ :=
   (1 / 4) * P_c * tensor_contract
     (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)
     (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val)
+
 lemma tensor_contract_self_nonneg (A : T2) : 0 ≤ tensor_contract A A := by
   have h_sq : tensor_contract A A =
     (A 0 0)^2 + (A 0 1)^2 + (A 0 2)^2 + (A 0 3)^2 +
@@ -166,6 +296,7 @@ lemma tensor_contract_self_nonneg (A : T2) : 0 ≤ tensor_contract A A := by
     ring
   rw [h_sq]
   positivity
+
 -- Theorem 50: Nonnegativity of Stored Frobenius Shear Load (P_shear ≥ 0, Manuscript Eq. 125)
 theorem P_shear_hamiltonian_nonneg (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ) :
     0 ≤ P_shear_hamiltonian alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val := by
@@ -176,6 +307,7 @@ theorem P_shear_hamiltonian_nonneg (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d
     (U_anti alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) :=
     tensor_contract_self_nonneg _
   positivity
+
 theorem P_shear_pure_electric_limit (alpha_s alpha v_x t_p_val : ℝ) :
     P_shear_hamiltonian alpha_s alpha v_x 0 0 0 0 t_p_val =
     (1 / 2) * P_c * alpha^2 * (v_x / c)^2 := by
@@ -190,6 +322,7 @@ theorem P_shear_pure_electric_limit (alpha_s alpha v_x t_p_val : ℝ) :
   dsimp [P_shear_hamiltonian]
   rw [h_anti]
   ring
+
 -- Theorem 51: Kinematic Lagrangian Trace Decomposition (L_kin = P_dyn + L_shear, Manuscript Eq. 124)
 theorem orthogonal_mass_extraction
     (h_L_kin : L_kin = (1 / 4) * P_c * (4 * (v_macro_scalar^2 / c^2) + A_anti_trace))
@@ -207,16 +340,19 @@ theorem orthogonal_mass_extraction
   have h3 : ((1 / 2) * rho_tau * v_macro_scalar^2 * c^2) / c^2 =
             ((1 / 2) * rho_tau * v_macro_scalar^2) * (c^2 / c^2) := by ring
   rw [h3, div_self hc2, mul_one, ←h_P_dyn]
+
 -- ----------------------------------------------------------------------
 -- 8.4 The Topological Yield Transition (Planck Mass) (Manuscript Eqs. 127–129)
 -- ----------------------------------------------------------------------
 variable (M_val : ℝ)
+
 -- Dimensional Audit: Compton radius (hbar / M c) and Schwarzschild radius (2 G M / c^2) both evaluate to Length ⟨1, 0, 0⟩:
 theorem unit_section8_compton_schwarzschild_intersection :
     u_hbar / (u_M_P * u_c) = u_l_p ∧
     (u_G * u_M_P) / (u_c^(2:ℤ)) = u_l_p ∧
     (u_M_P / u_M_P)^(2:ℤ) = u_dimless := by
   refine ⟨rfl, rfl, rfl⟩
+
 lemma isolate_planck_yield_algebra (m_var : ℝ) (hm : m_var ≠ 0) :
   hbar / (m_var * c) = 2 * G * m_var / c^2 →
   m_var^2 = (M_P)^2 / 2 := by
@@ -240,6 +376,7 @@ lemma isolate_planck_yield_algebra (m_var : ℝ) (hm : m_var ≠ 0) :
   rw [h3_part3, div_self G_ne_zero, mul_one] at h3_part1
   have h4 : m_var^2 = (2 * m_var^2) / 2 := by ring
   rw [h4, ←h3_part1, ←h_Mp]
+
 lemma positive_sqrt_reduction (m_var : ℝ) (hm_pos : m_var > 0) :
   m_var^2 = (M_P)^2 / 2 → m_var = M_P / Real.sqrt 2 := by
   intro h
@@ -251,12 +388,14 @@ lemma positive_sqrt_reduction (m_var : ℝ) (hm_pos : m_var > 0) :
   have hMp_nonneg : 0 ≤ M_P := le_of_lt M_P_pos
   rw [Real.sqrt_sq hMp_nonneg] at h2
   exact h2
+
 -- Theorem 52: The Topological Yield Mass Limit (M = M_P / √2, Manuscript Eq. 127)
 theorem topological_yield_limit (hm : M_val ≠ 0) (hm_pos : M_val > 0)
     (h_intersection : hbar / (M_val * c) = 2 * G * M_val / c^2) :
     M_val = M_P / Real.sqrt 2 := by
   have h1 : M_val^2 = (M_P)^2 / 2 := isolate_planck_yield_algebra M_val hm h_intersection
   exact positive_sqrt_reduction M_val hm_pos h1
+
 -- Theorem 53: Derived 50/50 Capacity Partition ((M / M_P)^2 = 1/2, Manuscript Eq. 127)
 theorem derived_half_capacity_partition (hm : M_val ≠ 0)
     (h_intersection : hbar / (M_val * c) = 2 * G * M_val / c^2) :
@@ -268,6 +407,7 @@ theorem derived_half_capacity_partition (hm : M_val ≠ 0)
     _ = (M_P^2 / 2) / M_P^2 := by rw [h1]
     _ = (M_P^2 / M_P^2) / 2 := by ring
     _ = 1 / 2 := by rw [div_self hMp2]
+
 -- Theorem 54: Structural Yield Partition & Mass-Yield Equivalence (α_yield = 1/√2, Manuscript Eq. 129)
 theorem yield_partition (alpha_yield : ℝ)
     (h_yield : alpha_yield = Real.sqrt (1 - 1 / 2)) :
@@ -276,6 +416,7 @@ theorem yield_partition (alpha_yield : ℝ)
   have h1 : Real.sqrt (1 - 1 / 2) = Real.sqrt (1 / 2) := by norm_num
   have h2 : Real.sqrt (1 / 2) = Real.sqrt 1 / Real.sqrt 2 := by rw [Real.sqrt_div h_one_pos]
   rw [h_yield, h1, h2, Real.sqrt_one]
+
 theorem mass_yield_equivalence (alpha_yield : ℝ)
     (h_mass : M_val = M_P / Real.sqrt 2)
     (h_yield : alpha_yield = 1 / Real.sqrt 2) :

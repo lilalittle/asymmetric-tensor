@@ -9,9 +9,10 @@ run_cmd do
   let env ← getEnv
   let root := `AsymmetricTensor
   let logical := #[`propext, `Classical.choice, `Quot.sound]
-  -- Preserve the author's exact one-axiom inventory. Allowlisting a postulate
-  -- records a dependency; it is not a consistency or physical-validity claim.
-  let permitted := #[`AsymmetricTensor.covariant_conservation]
+  -- The reviewed v5.7 source declares no custom axioms. Check every owned
+  -- declaration, including opaque values and generated structure declarations,
+  -- for transitive dependencies beyond the three logical axioms above.
+  let permitted : Array Name := #[]
   let mut count := 0
   let mut declared : Array Name := #[]
   for (name, info) in env.constants.toList.mergeSort (fun a b => Name.lt a.1 b.1) do

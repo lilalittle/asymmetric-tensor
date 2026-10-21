@@ -6,6 +6,7 @@ Authors: Binyamin Tsadik Bair-Mosheh
 module
 
 public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Calculus.Deriv.Add
 public import Mathlib.Analysis.Calculus.FDeriv.Basic
 public import Mathlib.Geometry.Manifold.Instances.Real
 public import Mathlib.Basic.Real.Basic
@@ -20,7 +21,7 @@ public import AsymmetricTensor.FieldCalculus
 /-!
 # Tensor covariance, galactic kinematics, and non-linear affine connection
 
-Module of Binyamin's v5.0 formalization. Declarations retained verbatim
+Module of Binyamin's v5.7 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -37,9 +38,11 @@ variable {V_3D : Type} [AddCommGroup V_3D] [Module ℝ V_3D]
 -- ======================================================================
 -- SECTION 10: TENSOR COVARIANCE & NON-INERTIAL REFERENCE FRAMES
 -- ======================================================================
+
 -- ----------------------------------------------------------------------
 -- 10.1 Kinematic Classification of Observer Frames (Manuscript Eq. 142)
 -- ----------------------------------------------------------------------
+
 -- Dimensional Audit: The Lorentz-Jacobian matrix (Λ^μ_α = ∂x^μ / ∂x'^α), the transformed
 -- strain tensor (U'_{αβ} = Λ^μ_α Λ^ν_β U_{μν}), and stationary admittance ratios are dimensionless:
 theorem unit_section10_1_observer_frames :
@@ -47,13 +50,16 @@ theorem unit_section10_1_observer_frames :
     (u_dimless * u_dimless) * u_dimless = u_dimless ∧
     (u_dimless^(2:ℤ)) / (u_dimless^(2:ℤ)) = u_dimless := by
   refine ⟨rfl, rfl, rfl⟩
+
 /-- Bilinear Lorentz-Jacobian tensor covariance transformation
     `U'_{αβ} = ∑_μ ∑_ν Λ^μ_α Λ^ν_β U_{μν}` (Manuscript Eq. `eq:tensor_transformation`). -/
 noncomputable def covariant_transform (Λ U : T2) : T2 :=
   Matrix.of (fun α β => ∑ μ : Fin 4, ∑ ν : Fin 4, Λ μ α * Λ ν β * U μ ν)
+
 /-- Kronecker delta transformation matrix `δ^μ_α` for stationary scalar translation frames. -/
 def kronecker_delta : T2 :=
   Matrix.of (fun μ α => if μ = α then 1 else 0)
+
 -- Theorem 157: Scalar Translation & Stationary Gradient Isomorphism (Manuscript Section 10.1.1)
 theorem scalar_translation_gradient_isomorphism
     (U : T2) (α β : Fin 4)
@@ -83,6 +89,7 @@ theorem scalar_translation_gradient_isomorphism
     field_simp
   · dsimp [U_hat, Matrix.of_apply]
     field_simp
+
 -- Theorem 158: Tensor Covariance & Symmetric-Antisymmetric Kinematic Mixing (Manuscript Section 10.1.2)
 -- Proves that the bilinear Lorentz-Jacobian transformation `covariant_transform Λ` distributes
 -- across `U_sym + U_anti`, and that in a boost/shear frame (`Λ_00, Λ_01, Λ_10, Λ_11`),
@@ -117,14 +124,17 @@ theorem tensor_covariance_kinematic_mixing
   · dsimp [U_hat, Matrix.of_apply]
     norm_num
     ring
+
 -- ----------------------------------------------------------------------
 -- 10.2 Active Kinematic Strain & The Invariant Phase Limit
 -- ----------------------------------------------------------------------
+
 -- Dimensional Audit: Active kinematic contraction ratio (P_static / P_c = 1 - v_rel^2 / c^2) is dimensionless:
 theorem unit_section10_active_strain :
     u_P_c / u_P_c = (u_c^(2:ℤ)) / (u_c^(2:ℤ)) ∧
     (u_c^(2:ℤ)) / (u_c^(2:ℤ)) = u_dimless := by
   constructor <;> rfl
+
 lemma temporal_diagonal_collapse (P_static_val P_c_val P_dyn_val rho_t v_rel c_val : ℝ)
     (hc : c_val ≠ 0) (hrho : rho_t ≠ 0)
     (h_static : P_static_val = P_c_val - P_dyn_val)
@@ -143,6 +153,7 @@ lemma temporal_diagonal_collapse (P_static_val P_c_val P_dyn_val rho_t v_rel c_v
   have h3 : (((1 / 2) * rho_t * v_rel^2) / ((1 / 2) * rho_t * c_val^2)) = v_rel^2 / c_val^2 := by
     rw [mul_div_mul_left (v_rel^2) (c_val^2) (mul_ne_zero (by norm_num) hrho)]
   rw [h3]
+
 -- Theorem 67: Active Kinematic Contraction (U'_00 = -(1 - v_rel^2 / c^2), Manuscript Section 10.2)
 theorem active_kinematic_contraction (U_00_prime P_static_val P_dyn_val v_rel : ℝ)
     (h_U : U_00_prime = - (P_static_val / P_c))
@@ -153,9 +164,11 @@ theorem active_kinematic_contraction (U_00_prime P_static_val P_dyn_val v_rel : 
     have h_Pc_sub : P_c = (1 / 2) * rho_tau * c^2 := emergent_critical_pressure
     exact temporal_diagonal_collapse P_static_val P_c P_dyn_val rho_tau v_rel c c_ne_zero rho_tau_ne_zero h_Bernoulli h_Pc_sub h_P_dyn
   rw [h_U, h_collapse]
+
 -- ----------------------------------------------------------------------
 -- 10.3 Rotational Covariance & Transverse Leakage
 -- ----------------------------------------------------------------------
+
 -- Theorem 68: Rotational Transverse Leakage (U'_0i = Λ^β_i U_0β + ω Λ^β_i U_φβ, Manuscript Section 10.3)
 theorem rotational_covariance_leakage (U_0i_prime U_0beta U_phi_beta Lambda_beta_i omega Lambda_0_0 Lambda_phi_0 : ℝ)
     (h_Lambda0 : Lambda_0_0 = 1)
@@ -166,9 +179,11 @@ theorem rotational_covariance_leakage (U_0i_prime U_0beta U_phi_beta Lambda_beta
   have h1 : (1 * Lambda_beta_i * U_0beta) + (omega * Lambda_beta_i * U_phi_beta) =
             Lambda_beta_i * U_0beta + omega * Lambda_beta_i * U_phi_beta := by ring
   rw [←h1, ←h_U_prime]
+
 -- ----------------------------------------------------------------------
 -- 10.4 Conformal Scale Variance (The Micro-Macro Asymmetry) (Manuscript Eq. 152)
 -- ----------------------------------------------------------------------
+
 -- Dimensional Audit: The Compton boundary radius (r_c = ℏ / mc) has dimension u_l_p,
 -- the Eulerian dilation operator (σ x^α ∂_α) is dimensionless, and the macroscopic
 -- volumetric integral (∭_V A_ij dV) has dimension u_Volume:
@@ -177,6 +192,7 @@ theorem unit_section10_4_conformal_scale_variance :
     (u_dimless * u_l_p) * (u_dimless / u_l_p) = u_dimless ∧
     u_dimless * u_Volume = u_Volume := by
   refine ⟨rfl, rfl, rfl⟩
+
 -- Theorem 159: Conformal Dilation Lie Derivative & Microscopic Boundary Asymmetry
 -- Proves directly from `lie_derivative` that under a conformal dilation field `X` with Jacobian
 -- `∂_μ X^α = σ δ^α_μ`, the Lie derivative expands into the sum of the Eulerian directional
@@ -212,6 +228,7 @@ theorem conformal_dilation_micro_macro_asymmetry
   · have hh : 0 < hbar := hbar_pos
     have hc : 0 < c := c_pos
     positivity
+
 -- Theorem 160: Macroscopic Volumetric Homogenization of Antisymmetric Shear (Manuscript Eq. 152)
 -- Proves that when the macroscopic volumetric integral (`VolAvg : T2 →ₗ[ℝ] T2`) over a domain V ≫ r_c^3
 -- averages the antisymmetric transverse shear tensor to zero (`VolAvg (U_anti ...) = 0`),
@@ -243,10 +260,12 @@ theorem macroscopic_metric_homogenization
   · dsimp [U_anti, antiPart, U_hat, Omega_z_clebsch, omega_clebsch_2form, wedge_covec, Matrix.of_apply]
     norm_num
     ring
+
 -- ----------------------------------------------------------------------
 -- 10.5 The Equivalence Principle (Acceleration Isomorphism)
 -- ----------------------------------------------------------------------
 variable (a_grav a_kin grad_P_static grad_P_dyn : V_3D)
+
 -- Theorem 69: Equivalence Principle Acceleration Isomorphism (a_grav = -a_kin, Manuscript Section 10.5)
 theorem equivalence_principle_gradients
     (h_conservation : grad_P_static = - grad_P_dyn)
@@ -254,43 +273,55 @@ theorem equivalence_principle_gradients
     (h_a_kin : a_kin = grad_P_dyn) :
     a_grav = - a_kin := by
   rw [h_a_grav, h_conservation, ←h_a_kin]
+
 -- ----------------------------------------------------------------------
 -- 10.6 Discrete Frame Inversion (CPT Symmetry & Antimatter)
 -- ----------------------------------------------------------------------
 variable (U_00 U_ii U_0i U_ij : ℝ)
+
 -- Theorem 70: Time-Reversal Mass Invariance (U'_00 = (-1)(-1) U_00 = U_00, Manuscript Section 10.6 Part I.1)
 theorem T_symmetry_mass : (-1 : ℝ) * (-1) * U_00 = U_00 := by ring
+
 -- Theorem 71: Time-Reversal Charge Inversion (U'_0i = (-1)(1) U_0i = -U_0i, Manuscript Section 10.6 Part I.2)
 theorem T_symmetry_charge : (-1 : ℝ) * (1) * U_0i = - U_0i := by ring
+
 -- Theorem 72: Parity Volumetric Mass Invariance (U'_ii = (-1)(-1) U_ii = U_ii, Manuscript Section 10.6 Part II.3)
 theorem P_symmetry_mass : (-1 : ℝ) * (-1) * U_ii = U_ii := by ring
+
 -- Theorem 73: Parity Axial Vorticity Invariance (U'_ij = (-1)(-1) U_ij = U_ij, Manuscript Section 10.6 Part II.4)
 theorem P_symmetry_axial : (-1 : ℝ) * (-1) * U_ij = U_ij := by ring
+
 -- Theorem 74: Parity Polar Winding/Charge Inversion (U'_0i = (1)(-1) U_0i = -U_0i, Manuscript Section 10.6 Part II.5)
 theorem P_symmetry_charge : (1 : ℝ) * (-1) * U_0i = - U_0i := by ring
 
 -- ======================================================================
 -- SECTION 11: GALACTIC KINEMATICS AND THE COSMOLOGICAL BOUNDARY
 -- ======================================================================
+
 -- Dimensional Audit: Centripetal acceleration (v_rot^2 / r = (c^2 / 2 P_c) * (k_shear / r)) and Baryonic Tully-Fisher (v_rot^4 = a_0 G M_bar):
 theorem unit_section11_galactic_kinematics :
     (u_c^(2:ℤ)) / u_l_p = ((u_c^(2:ℤ)) / u_P_c) * (u_P_c / u_l_p) ∧
     u_c^(4:ℤ) = u_accel * u_G * u_M_P := by
   constructor <;> rfl
+
 -- ----------------------------------------------------------------------
 -- 11.1 The Total Dynamic Pressure State
 -- ----------------------------------------------------------------------
 variable (Phi_r R_h : ℝ)
+
 /-- Cosmological background expansion pressure `P_cosmo(r) = (1/2) ρ_τ c^2 (1 - exp(-r/R_h))^2`. -/
 noncomputable def P_cosmo (r_val R_h_val rho_val c_val : ℝ) : ℝ :=
   (1 / 2) * rho_val * c_val^2 * (1 - Real.exp (-r_val / R_h_val))^2
+
 /-- Total dynamic pressure state (Manuscript Section 11.1):
     `P_dyn(r) = -ρ_τ Φ(r) + (1/2) ρ_τ c^2 (1 - exp(-r/R_h))^2`. -/
 noncomputable def P_dyn_total (r_val R_h_val rho_val c_val Phi_val : ℝ) : ℝ :=
   - rho_val * Phi_val + P_cosmo r_val R_h_val rho_val c_val
+
 -- ----------------------------------------------------------------------
 -- 11.2 The Bounded Kinematic Baseline
 -- ----------------------------------------------------------------------
+
 -- Dimensional Audit (Sections 11.2–11.5):
 -- 1. Centripetal radial operator (-r * (1 / ρ_τ) * ∂_r P_dyn) has dimension u_Phi (v^2),
 -- 2. Cosmological SdS advection term ((c^2 * r / R_h) * exp(-r/R_h) * (1 - exp(-r/R_h))) has dimension u_Phi (v^2),
@@ -302,10 +333,12 @@ theorem unit_section11_2_to_11_5_kinematics :
     u_Laplacian * u_dimless = u_Curvature ∧
     u_accel * u_G * u_M_P = u_c^(4:ℤ) := by
   refine ⟨rfl, rfl, rfl, rfl⟩
+
 /-- Bounded kinematic baseline velocity squared `v_base^2(r)` (Manuscript Eq. `eq:v_base_corrected`):
     `v_base^2(r) = r ∂_r Φ - (c^2 r / R_h) exp(-r / R_h) (1 - exp(-r / R_h))`. -/
 noncomputable def v_base_sq (r dPhi_dr R_h : ℝ) : ℝ :=
   r * dPhi_dr - (c^2 * r / R_h) * Real.exp (-r / R_h) * (1 - Real.exp (-r / R_h))
+
 -- Theorem 161: The Bounded Kinematic Baseline, Core Regularity, Hill Sphere & Asymptote (Manuscript Section 11.2)
 -- Proves:
 -- 1. Applying the centripetal operator `-r * (1 / ρ_τ) * ∂_r P_dyn` to the radial derivative of the
@@ -339,13 +372,16 @@ theorem bounded_kinematic_baseline_limits
   · intro h_hill
     dsimp [v_base_sq]
     linarith
+
 -- ----------------------------------------------------------------------
 -- 11.3 Isolating the Kinematic Discrepancy
 -- ----------------------------------------------------------------------
+
 /-- Empirical kinematic discrepancy ansatz `Γ_anom(r)` (Manuscript Section 11.3):
     `Γ_anom(r) = v_obs^2(r) - [G M_bar(r) / r - (c^2 r / R_h) exp(-r / R_h) (1 - exp(-r / R_h))]`. -/
 noncomputable def Gamma_anom (v_obs_sq M_bar r R_h : ℝ) : ℝ :=
   v_obs_sq - ((G * M_bar) / r - (c^2 * r / R_h) * Real.exp (-r / R_h) * (1 - Real.exp (-r / R_h)))
+
 -- Theorem 162: Kinematic Discrepancy Isolation, Flat-Cored Density & Logarithmic Plateau (Manuscript Section 11.3)
 -- Proves:
 -- 1. In the exterior Newtonian baryonic regime (`dPhi_dr = G * M_bar / r^2`), `Gamma_anom` equals `v_obs^2 - v_base^2`,
@@ -371,6 +407,7 @@ theorem kinematic_discrepancy_core_and_plateau
   · have h_lhs : (G * ((4 / 3) * Real.pi * r^3 * rho_0)) / r =
                  ((4 / 3) * Real.pi * G * rho_0) * r^2 := by
       field_simp
+
     rw [h_lhs] at h_core_kin
     have h_diff : (((4 / 3) * Real.pi * G * rho_0) - Omega_0^2) * r^2 = 0 := by
       linarith
@@ -381,13 +418,16 @@ theorem kinematic_discrepancy_core_and_plateau
     calc rho_0
       _ = (((4 / 3) * Real.pi * G * rho_0) * 3) / (4 * Real.pi * G) := by
         field_simp
+
       _ = (Omega_0^2 * 3) / (4 * Real.pi * G) := by rw [h_coeff]
       _ = (3 * Omega_0^2) / (4 * Real.pi * G) := by ring
   · rw [h_log_grad]
     field_simp
+
 -- ----------------------------------------------------------------------
 -- 11.4 The Universal No-Go Theorem
 -- ----------------------------------------------------------------------
+
 -- Theorem 163: The Universal No-Go Theorem — Geometric Falsification of 3D Modified Gravity
 -- & Causal Falsification of Uncoupled Halos (Manuscript Section 11.4)
 -- Proves:
@@ -427,9 +467,11 @@ theorem universal_no_go_laplacian_and_btfr
       _ = (k_halo / rho_tau)^2 * rho_tau^2 := by field_simp
       _ = (a_0 * G * M_bar) * rho_tau^2 := by rw [h_btfr]
       _ = (rho_tau^2 * a_0 * G) * M_bar := by ring
+
 -- ----------------------------------------------------------------------
 -- 11.5 The Phenomenological Envelope
 -- ----------------------------------------------------------------------
+
 -- Theorem 164: The Phenomenological Envelope — Logarithmic Gradient, Baryonic Coupling
 -- & Ballistic Inertial Decoupling (Manuscript Section 11.5)
 -- Proves that a supplementary dynamic pressure gradient `∂_r P_anom = -k / r` simultaneously satisfies
@@ -472,19 +514,93 @@ theorem phenomenological_envelope_synthesis
     exact Real.sq_sqrt ha0_M
   · rw [h_offset, ha_env, sub_zero]
     positivity
+
 -- ----------------------------------------------------------------------
 -- 11.6 Proposed Resolution: Elastic Metric Tension (Scale-Invariant Vorticity Coupling)
 -- ----------------------------------------------------------------------
 variable (k_shear R_max : ℝ)
 variable (a_0 M_bar : ℝ)
+
 /-- 2D polarized logarithmic shear pressure field `P_shear^2D(r) = k ln(R_max / r)` (Manuscript Section 11.6.3). -/
 noncomputable def P_shear_2D (r_val : ℝ) : ℝ := k_shear * Real.log (R_max / r_val)
+
 -- Theorem 75: Elastic Metric Tension Modified Temporal Diagonal (S_00, Manuscript Section 11.6.4)
 theorem temporal_diagonal_admittance (P_dyn_3D r S_00 : ℝ)
     (h : S_00 = - (1 - (P_dyn_3D + P_shear_2D k_shear R_max r) / P_c)) :
     S_00 = - (1 - (P_dyn_3D + k_shear * Real.log (R_max / r)) / P_c) := by
   dsimp [P_shear_2D] at h
   exact h
+
+-- Theorem 75a: Equatorial Reflection Symmetry & Plane-Stress Dimensional Reduction (Issue #24)
+-- Explicitly separates equatorial midplane reflection anti-symmetry (`A_xz(-z) = -A_xz(z)` and
+-- `A_yz(-z) = -A_yz(z)` at `z = 0`) and plane-stress vertical traction (`sigma_zz = 0`) from axial
+-- translational invariance, proving that the out-of-plane shear components vanish at `z = 0` and
+-- reducing the 3D spatial Frobenius shear norm to the 2D azimuthal plane (`2 * A_rphi^2`).
+theorem equatorial_reflection_and_plane_stress_reduction
+    (A_xz A_yz : ℝ → ℝ) (A_rphi sigma_rr sigma_phiphi sigma_zz : ℝ)
+    (h_refl_xz : ∀ z, A_xz (-z) = -A_xz z)
+    (h_refl_yz : ∀ z, A_yz (-z) = -A_yz z)
+    (h_plane_stress : sigma_zz = 0) :
+    A_xz 0 = 0 ∧
+    A_yz 0 = 0 ∧
+    2 * (A_rphi^2 + (A_xz 0)^2 + (A_yz 0)^2) = 2 * A_rphi^2 ∧
+    sigma_rr + sigma_phiphi + sigma_zz = sigma_rr + sigma_phiphi := by
+  have hxz0 : A_xz 0 = 0 := by
+    have h := h_refl_xz 0
+    rw [neg_zero] at h
+    linarith
+  have hyz0 : A_yz 0 = 0 := by
+    have h := h_refl_yz 0
+    rw [neg_zero] at h
+    linarith
+  refine ⟨hxz0, hyz0, ?_, ?_⟩
+  · rw [hxz0, hyz0]; ring
+  · rw [h_plane_stress]; ring
+
+-- Theorem 75b: Bounded-Annulus 2D Harmonic Logarithmic Shear & Radial Derivative (Issue #24)
+-- Proves on the bounded galactic annulus `0 < r_t ≤ r ≤ R_max`:
+-- 1. Nonnegativity: `0 ≤ P_shear_2D k_shear R_max r` for `0 ≤ k_shear`,
+-- 2. Outer Boundary Vanishing: `P_shear_2D k_shear R_max R_max = 0`,
+-- 3. Logarithmic Decomposition: `P_shear_2D k_shear R_max r = k_shear * (ln R_max - ln r)`,
+-- 4. Radial Stress Gradient via `HasDerivAt`: `d/dr [ln R_max - ln r] = -1 / r` and
+--    `k_shear * (-1 / r) = -k_shear / r`,
+-- 5. 2D Cylindrical Harmonicity: `r * (-k_shear / r) = -k_shear` and `d/dr [-k_shear] = 0`.
+theorem bounded_annulus_logarithmic_shear_calculus (r_t r : ℝ)
+    (hrt_pos : 0 < r_t) (hr_ge : r_t ≤ r) (hr_le : r ≤ R_max) (hk : 0 ≤ k_shear)
+    (h_dlog : HasDerivAt Real.log (r⁻¹) r) :
+    0 ≤ P_shear_2D k_shear R_max r ∧
+    P_shear_2D k_shear R_max R_max = 0 ∧
+    P_shear_2D k_shear R_max r = k_shear * (Real.log R_max - Real.log r) ∧
+    HasDerivAt (fun x => Real.log R_max - Real.log x) (-1 / r) r ∧
+    k_shear * (-1 / r) = -k_shear / r ∧
+    r * (-k_shear / r) = -k_shear ∧
+    HasDerivAt (fun _ : ℝ => -k_shear) 0 r := by
+  have hr_pos : 0 < r := lt_of_lt_of_le hrt_pos hr_ge
+  have hR_pos : 0 < R_max := lt_of_lt_of_le hr_pos hr_le
+  have hr_ne : r ≠ 0 := ne_of_gt hr_pos
+  have hR_ne : R_max ≠ 0 := ne_of_gt hR_pos
+  have h_nonneg : 0 ≤ P_shear_2D k_shear R_max r := by
+    dsimp [P_shear_2D]
+    have h_one_le : 1 ≤ R_max / r := (one_le_div hr_pos).mpr hr_le
+    exact mul_nonneg hk (Real.log_nonneg h_one_le)
+  have h_vanish : P_shear_2D k_shear R_max R_max = 0 := by
+    dsimp [P_shear_2D]
+    rw [div_self hR_ne, Real.log_one, mul_zero]
+  have h_log_split : P_shear_2D k_shear R_max r = k_shear * (Real.log R_max - Real.log r) := by
+    dsimp [P_shear_2D]
+    rw [Real.log_div hR_ne hr_ne]
+  have h_deriv : HasDerivAt (fun x => Real.log R_max - Real.log x) (-1 / r) r := by
+    have hd1 : HasDerivAt (fun x => Real.log R_max - Real.log x) (0 - r⁻¹) r :=
+      (hasDerivAt_const r (Real.log R_max)).sub h_dlog
+    have h_eq : (0 : ℝ) - r⁻¹ = -1 / r := by ring
+    rwa [h_eq] at hd1
+  have h_scale : k_shear * (-1 / r) = -k_shear / r := by ring
+  have h_flux : r * (-k_shear / r) = -k_shear := by
+    calc r * (-k_shear / r) = -k_shear * (r / r) := by ring
+      _ = -k_shear * 1 := by rw [div_self hr_ne]
+      _ = -k_shear := by ring
+  refine ⟨h_nonneg, h_vanish, h_log_split, h_deriv, h_scale, h_flux, hasDerivAt_const r (-k_shear)⟩
+
 lemma plug_flow_algebra (v_rot r_val c_val P_c_val k_val : ℝ)
     (hr : r_val ≠ 0) (_hPc : P_c_val > 0) (_hk : k_val ≥ 0) (hv : v_rot ≥ 0) (hc : c_val > 0)
     (h_accel : v_rot^2 / r_val = (c_val^2 / (2 * P_c_val)) * (k_val / r_val)) :
@@ -505,12 +621,14 @@ lemma plug_flow_algebra (v_rot r_val c_val P_c_val k_val : ℝ)
     Real.sqrt_mul (sq_nonneg c_val) (k_val / (2 * P_c_val))
   rw [h5, Real.sqrt_sq (le_of_lt hc)] at h4
   exact h4
+
 -- Theorem 76: Macroscopic Bingham Plug Flow Plateau (v_rot = c √(k / 2P_c), Manuscript Section 11.6.6)
 theorem kinematic_plateau_extraction (v_rot r : ℝ)
     (hr : r ≠ 0) (hk : k_shear ≥ 0) (hv : v_rot ≥ 0)
     (h_accel : v_rot^2 / r = (c^2 / (2 * P_c)) * (k_shear / r)) :
     v_rot = c * Real.sqrt (k_shear / (2 * P_c)) := by
   exact plug_flow_algebra v_rot r c P_c k_shear hr P_c_pos hk hv c_pos h_accel
+
 -- Theorem 77: 2D Shear Amplitude from Transition-Radius Boundary Matching (Manuscript Section 11.6.7)
 theorem shear_amplitude_from_boundary_matching (v_rot : ℝ)
     (h_plug : v_rot^2 = (c^2 / (2 * P_c)) * k_shear)
@@ -528,6 +646,7 @@ theorem shear_amplitude_from_boundary_matching (v_rot : ℝ)
   rw [hk1]
   dsimp [P_c]
   field_simp
+
 lemma tully_fisher_algebra (v_rot a_0 G_val M_bar : ℝ)
     (ha : a_0 > 0) (hG : G_val > 0) (hM : M_bar ≥ 0) (_hv : v_rot ≥ 0)
     (h : v_rot^2 = a_0 * Real.sqrt (G_val * M_bar / a_0)) :
@@ -545,12 +664,77 @@ lemma tully_fisher_algebra (v_rot a_0 G_val M_bar : ℝ)
       _ = a_0 * G_val * M_bar := by rw [div_self (ne_of_gt ha), mul_one]
   rw [h4] at h1
   exact h1
+
 -- Theorem 78: Derivation of the Baryonic Tully-Fisher Relation (v_rot^4 = a_0 G M_bar, Manuscript Section 11.6.7)
 theorem baryonic_tully_fisher_derivation (v_rot : ℝ)
     (ha : a_0 > 0) (hM : M_bar ≥ 0) (_hv : v_rot ≥ 0)
     (h_plateau : v_rot^2 = a_0 * Real.sqrt (G * M_bar / a_0)) :
     v_rot^4 = a_0 * G * M_bar := by
   exact tully_fisher_algebra v_rot a_0 G M_bar ha G_pos hM _hv h_plateau
+
+-- Theorem 78a: End-to-End Boundary-Value Derivation of `r_t`, `k_shear`, and BTFR on the Annulus
+-- (Issue #24)
+-- Derives `r_t`, `k_shear`, `v_rot^2`, and `v_rot^4 = a_0 * G * M_bar` without assuming `h_plateau`
+-- or `h_match`:
+-- 1. Inner Yield Boundary (`r = r_t`): Newtonian acceleration `G * M_bar / r_t^2 = a_0` fixes `r_t
+-- = √(G * M_bar / a_0)`,
+-- 2. Annulus Force Balance (`r ∈ [r_t, R_max]`): Centripetal balance `ρ_τ * (v_rot^2 / r) = k_shear
+-- / r`
+--    (from `-dP_shear_2D / dr = k_shear / r`) fixes `v_rot^2 = k_shear / ρ_τ`,
+-- 3. Acceleration Continuity at `r_t`: Matching the plug-flow radial acceleration `k_shear / (ρ_τ *
+-- r_t)`
+--    to the Newtonian yield acceleration `a_0` at `r = r_t` uniquely determines
+-- `k_shear = ρ_τ * a_0 * r_t = (2 * P_c / c^2) * a_0 * √(G * M_bar / a_0)` and derives `v_rot^4 =
+-- a_0 * G * M_bar`.
+theorem galactic_annulus_boundary_value_btfr (r_t r v_rot : ℝ)
+    (ha : 0 < a_0) (hM : 0 ≤ M_bar) (hrt : 0 < r_t) (hr : r ≠ 0) (hv : 0 ≤ v_rot)
+    (h_yield_boundary : (G * M_bar) / r_t^2 = a_0)
+    (h_annulus_balance : rho_tau * (v_rot^2 / r) = k_shear / r)
+    (h_accel_continuity : k_shear / (rho_tau * r_t) = a_0) :
+    r_t = Real.sqrt (G * M_bar / a_0) ∧
+    k_shear = rho_tau * a_0 * Real.sqrt (G * M_bar / a_0) ∧
+    k_shear = (2 * P_c / c^2) * a_0 * Real.sqrt (G * M_bar / a_0) ∧
+    v_rot^2 = a_0 * Real.sqrt (G * M_bar / a_0) ∧
+    v_rot^4 = a_0 * G * M_bar := by
+  have ha_ne : a_0 ≠ 0 := ne_of_gt ha
+  have hrt_ne : r_t ≠ 0 := ne_of_gt hrt
+  have hrho_ne : rho_tau ≠ 0 := rho_tau_ne_zero
+  have hc_ne : c ≠ 0 := c_ne_zero
+  have h_rt_sq : r_t^2 = G * M_bar / a_0 := by
+    have h1 : (G * M_bar / r_t^2) * r_t^2 = a_0 * r_t^2 := congrArg (· * r_t^2) h_yield_boundary
+    rw [div_mul_cancel₀ _ (pow_ne_zero 2 hrt_ne)] at h1
+    calc r_t^2 = (a_0 * r_t^2) / a_0 := by rw [mul_div_cancel_left₀ _ ha_ne]
+      _ = G * M_bar / a_0 := by rw [← h1]
+  have h_rt_eq : r_t = Real.sqrt (G * M_bar / a_0) := by
+    rw [← h_rt_sq, Real.sqrt_sq (le_of_lt hrt)]
+  have h_k_rt : k_shear = rho_tau * a_0 * r_t := by
+    have h1 : (k_shear / (rho_tau * r_t)) * (rho_tau * r_t) = a_0 * (rho_tau * r_t) :=
+      congrArg (· * (rho_tau * r_t)) h_accel_continuity
+    rw [div_mul_cancel₀ _ (mul_ne_zero hrho_ne hrt_ne)] at h1
+    linarith
+  have h_k_rho : k_shear = rho_tau * a_0 * Real.sqrt (G * M_bar / a_0) := by
+    rw [h_k_rt, h_rt_eq]
+  have h_k_Pc : k_shear = (2 * P_c / c^2) * a_0 * Real.sqrt (G * M_bar / a_0) := by
+    rw [h_k_rho]
+    dsimp [P_c]
+    field_simp
+  have h_vrot_sq : v_rot^2 = a_0 * Real.sqrt (G * M_bar / a_0) := by
+    have h1 : (rho_tau * (v_rot^2 / r)) * r = (k_shear / r) * r := congrArg (· * r)
+      h_annulus_balance
+    have h2 : (rho_tau * (v_rot^2 / r)) * r = rho_tau * v_rot^2 := by
+      calc (rho_tau * (v_rot^2 / r)) * r = rho_tau * ((v_rot^2 / r) * r) := by ring
+        _ = rho_tau * v_rot^2 := by rw [div_mul_cancel₀ _ hr]
+    rw [h2, div_mul_cancel₀ _ hr, h_k_rho] at h1
+    have h3 : (rho_tau * v_rot^2) / rho_tau = (rho_tau * a_0 * Real.sqrt (G * M_bar / a_0)) /
+      rho_tau :=
+      congrArg (· / rho_tau) h1
+    have h4 : (rho_tau * a_0 * Real.sqrt (G * M_bar / a_0)) / rho_tau =
+        (rho_tau * (a_0 * Real.sqrt (G * M_bar / a_0))) / rho_tau := by ring
+    rw [mul_div_cancel_left₀ _ hrho_ne, h4, mul_div_cancel_left₀ _ hrho_ne] at h3
+    exact h3
+  refine ⟨h_rt_eq, h_k_rho, h_k_Pc, h_vrot_sq, ?_⟩
+  exact tully_fisher_algebra v_rot a_0 G M_bar ha G_pos hM hv h_vrot_sq
+
 -- Theorem 79: Radial Shear Pressure Ratio Profile (P_shear^2D(r) / P_c = 2(v_rot^2/c^2) ln(R_max/r), Manuscript Section 11.6.8)
 theorem shear_pressure_ratio_profile (v_rot r : ℝ)
     (h_k : k_shear = 2 * P_c * (v_rot^2 / c^2)) :
@@ -560,16 +744,15 @@ theorem shear_pressure_ratio_profile (v_rot r : ℝ)
   have h1 : (2 * P_c * (v_rot^2 / c^2) * Real.log (R_max / r)) / P_c =
             (2 * (v_rot^2 / c^2) * Real.log (R_max / r)) * (P_c / P_c) := by ring
   rw [h1, div_self Pc_non_zero, mul_one]
-  -- Theorem 168: Dimensionless Galactic 2D Shear Pressure Ratio (Manuscript Section 11.6, Item 8 / Issue #44)
--- Proves that substituting the plug-flow plateau relation `v_rot^2 = (c^2 * k) / (2 * P_c)` into the
--- 2D logarithmic shear pressure `P_shear_2D = k * ln(R_max / r)` yields the exact dimensionless
--- pressure ratio `P_shear_2D / P_c = 2 * (v_rot^2 / c^2) * ln(R_max / r)`, which vanishes at `r = R_max`.
+
+-- Theorem 168: Dimensionless Galactic 2D Shear Pressure Ratio (Manuscript Section 11.6, Item 8 /
+-- Issue #44)
 theorem galactic_shear_pressure_ratio_eq178
-    (P_shear_2D k v_rot R_max r : ℝ)
+    (P_shear_2D_val k v_rot R_max r : ℝ)
     (hr_pos : 0 < r)
-    (h_log_shear : P_shear_2D = k * Real.log (R_max / r))
+    (h_log_shear : P_shear_2D_val = k * Real.log (R_max / r))
     (h_plug_flow : v_rot^2 = (c^2 * k) / (2 * P_c)) :
-    P_shear_2D / P_c = 2 * (v_rot^2 / c^2) * Real.log (R_max / r) ∧
+    P_shear_2D_val / P_c = 2 * (v_rot^2 / c^2) * Real.log (R_max / r) ∧
     2 * (v_rot^2 / c^2) * Real.log (r / r) = 0 := by
   have hPc : P_c ≠ 0 := Pc_non_zero
   have hc : c ≠ 0 := c_ne_zero
@@ -582,37 +765,46 @@ theorem galactic_shear_pressure_ratio_eq178
 -- ======================================================================
 -- SECTION 12: THE NON-LINEAR AFFINE CONNECTION (EINSTEIN-CARTAN ISOMORPHISM)
 -- ======================================================================
+
 -- Dimensional Audit: Longitudinal acceleration ((1 / rho_tau) * grad_P = a_coord) and Einstein-Cartan Lagrangian density (Force * Curvature = Pressure):
 theorem unit_section12_affine_connection_and_cartan :
     (u_dimless / u_rho_tau) * u_grad_P = u_accel ∧
     u_Force * u_Curvature = u_P_c := by
   constructor <;> rfl
+
 -- ----------------------------------------------------------------------
 -- 12.1 Connection Decomposition
 -- ----------------------------------------------------------------------
+
 /-- General spacetime affine connection `Γ^λ_μν`. -/
 abbrev AffineConnection := SpaceTime → Fin 4 → Fin 4 → Fin 4 → ℝ
+
 /-- Symmetric (Levi-Civita / Christoffel) part of an affine connection: `Γ^λ_(μν)`. -/
 noncomputable def symConnection (Gamma : AffineConnection) : AffineConnection :=
   fun x lam μ ν => (Gamma x lam μ ν + Gamma x lam ν μ) / 2
+
 /-- Antisymmetric Torsion tensor of an affine connection: `T^λ_μν = Γ^λ_μν - Γ^λ_νμ`. -/
 noncomputable def torsionTensor (Gamma : AffineConnection) : AffineConnection :=
   fun x lam μ ν => Gamma x lam μ ν - Gamma x lam ν μ
+
 -- Theorem 80: Affine Connection Symmetric-Torsion Decomposition (Γ^λ_μν = Γ^λ_(μν) + 1/2 T^λ_μν, Manuscript Section 12.1)
 theorem connection_torsion_decomposition (Gamma : AffineConnection) (x : SpaceTime) (lam μ ν : Fin 4) :
     Gamma x lam μ ν = symConnection Gamma x lam μ ν + (1 / 2) * torsionTensor Gamma x lam μ ν := by
   dsimp [symConnection, torsionTensor]
   ring
+
 -- Theorem 81: Torsion-Free Reduction to the Symmetric Levi-Civita Connection (Manuscript Section 12.1)
 theorem torsion_free_iff_symmetric_connection (Gamma : AffineConnection) (x : SpaceTime) (lam μ ν : Fin 4) :
     torsionTensor Gamma x lam μ ν = 0 ↔ Gamma x lam μ ν = symConnection Gamma x lam μ ν := by
   dsimp [torsionTensor, symConnection]
   constructor <;> intro h <;> linarith
+
 /-- Full covariant divergence of a contravariant rank-2 tensor field:
     `∇_μ U^μν = ∂_μ U^μν + Γ^μ_μλ U^λν + Γ^ν_μλ U^μλ`. -/
 noncomputable def covariant_metric_divergence (Gamma : AffineConnection) (U : MetricField) (x : SpaceTime) : V4 :=
   fun ν => metric_divergence U x ν +
     ∑ μ : Fin 4, ∑ lam : Fin 4, (Gamma x μ μ lam * U x lam ν + Gamma x ν μ lam * U x μ lam)
+
 -- Theorem 82: Weak-Field Flat-Connection Divergence Reduction (Manuscript Sections 5.0 & 12.1)
 theorem flat_connection_divergence_limit (Gamma : AffineConnection) (U : MetricField) (x : SpaceTime)
     (h_flat : ∀ lam μ ν, Gamma x lam μ ν = 0) :
@@ -627,9 +819,11 @@ theorem flat_connection_divergence_limit (Gamma : AffineConnection) (U : MetricF
     rw [h_flat μ μ lam, h_flat ν μ lam]
     ring
   rw [h_sum_zero, add_zero]
+
 -- ----------------------------------------------------------------------
 -- 12.2 The Symmetric Connection (Gravitational Acceleration)
 -- ----------------------------------------------------------------------
+
 -- Theorem 83: Longitudinal Transport Acceleration (a_grav = (1 / ρ_τ) ∇P_dyn, Manuscript Section 12.2)
 theorem longitudinal_transport_acceleration (a_coord : V_3D)
     (h_grad : grad_P_static = - grad_P_dyn)
@@ -643,19 +837,24 @@ theorem longitudinal_transport_acceleration (a_coord : V_3D)
     have h_scalar : (- (1 / rho_tau) * -1) = 1 / rho_tau := by ring
     rw [h_scalar]
   rw [h_a, h1, h2, h3]
+
 -- ----------------------------------------------------------------------
 -- 12.3 Spacetime Torsion
 -- ----------------------------------------------------------------------
+
 /-- Spacetime torsion generated by the gradient of the Clebsch vorticity 2-form (Manuscript Section 12.3):
     `T^λ_μν = α t_p ∂^λ (dλ_Ω ∧ dβ_Ω)_μν`. -/
 noncomputable def clebsch_torsion_tensor (alpha_val t_p_val : ℝ) (lambda_f beta_f : ScalarField) : AffineConnection :=
   fun x lam μ ν => alpha_val * t_p_val * partial_deriv (fun y => Omega_clebsch_field lambda_f beta_f y μ ν) lam x
+
 -- ----------------------------------------------------------------------
 -- 12.4 Mapping Clebsch Vorticity to Torsion
 -- ----------------------------------------------------------------------
+
 /-- Spin angular momentum density tensor `s^λ_μν = (c^4 / 8πG) T^λ_μν` (Manuscript Section 12.4). -/
 noncomputable def spin_angular_momentum_density (T_torsion : AffineConnection) : AffineConnection :=
   fun x lam μ ν => (c^4 / (8 * Real.pi * G)) * T_torsion x lam μ ν
+
 -- Theorem 84: Mapping Clebsch Wedge Vorticity to Spin Angular Momentum Density (Manuscript Section 12.4)
 theorem clebsch_vorticity_to_torsion_spin_density
     (alpha_val : ℝ) (lambda_f beta_f : ScalarField) (x : SpaceTime) (lam μ ν : Fin 4) :
@@ -664,9 +863,11 @@ theorem clebsch_vorticity_to_torsion_spin_density
       partial_deriv (fun y => wedge_covec (d_scalar_field lambda_f y) (d_scalar_field beta_f y) μ ν) lam x := by
   dsimp [spin_angular_momentum_density, clebsch_torsion_tensor, Omega_clebsch_field, omega_clebsch_2form]
   ring
+
 -- ----------------------------------------------------------------------
 -- 12.5 The Macroscopic Torsion Boundary (Decay Limit)
 -- ----------------------------------------------------------------------
+
 -- Dimensional Audit: The radial confinement ratio (r / r_c) is dimensionless, the Compton
 -- boundary radius (r_c = ℏ / mc) has dimension u_l_p, and the exponentially attenuated
 -- torsion tensor (T^λ_μν * exp(-r / r_c)) has inverse-length dimension (u_dimless / u_l_p):
@@ -675,6 +876,7 @@ theorem unit_section12_5_torsion_boundary :
     u_hbar / (u_M_P * u_c) = u_l_p ∧
     (u_dimless / u_l_p) * u_dimless = u_dimless / u_l_p := by
   refine ⟨rfl, rfl, rfl⟩
+
 -- Theorem 165: Macroscopic Torsion Confinement & Levi-Civita Reduction (Manuscript Section 12.5)
 -- Proves:
 -- 1. For a confined torsion mode `T_r = T_0 * exp(-r / r_c)`, the exponential factor is strictly
@@ -704,10 +906,12 @@ theorem macroscopic_torsion_decay_and_levi_civita_limit
   · simp
   · rw [h_torsion_zero, mul_zero]
   · linarith
+
 -- ----------------------------------------------------------------------
 -- 12.6 The Riemann Curvature Expansion
 -- ----------------------------------------------------------------------
 variable (L_Tot L_EH L_Spin tension_limit R_tilde K_trace_1 K_trace_2 : ℝ)
+
 -- Theorem 85: The Einstein-Cartan Lagrangian Partition (L_Tot = L_EH + L_spin, Manuscript Section 12.6)
 theorem einstein_cartan_lagrangian
     (h_L_Tot : L_Tot = tension_limit * (R_tilde + K_trace_1 - K_trace_2))
