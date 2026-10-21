@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Exercise author line provenance in real, temporary Git histories (no Lean build)."""
+import json
 import os
 from pathlib import Path
 import subprocess
@@ -142,6 +143,49 @@ class ProvenanceTest(unittest.TestCase):
         self.assertEqual(self.origin_text(line), NOVEL.rstrip("\n"))
         self.assertNotIn("ignored", line)
         self.assertNotIn("unblamable", line)
+
+    def test_reference_repair_reports_actual_trace_or_exception(self):
+        before_text = self.target.read_text()
+        self.assertEqual(before_text.count("balnace"), 1)
+        self.target.write_text(before_text.replace("balnace", "balance"))
+        reference_repair = self.commit("Repair reference spelling only", STEWARD)
+        before = self.blame("Balance.lean", ignore=False)[0]
+        self.assertEqual(before["commit"], reference_repair)
+        self.assertEqual(before["author"], STEWARD)
+
+        with (self.root / ".git-blame-ignore-revs").open("a") as output:
+            output.write("# Reviewed reference spelling repair.\n" + reference_repair + "\n")
+        self.commit("Record reference repair exclusion", STEWARD)
+        after = self.blame("Balance.lean")[0]
+        # Unlike whitespace, this repair cannot disappear merely because of -w.
+        # Require evidence that ignoring the revision actually affected blame.
+        self.assertTrue(after["commit"] != before["commit"] or "ignored" in after
+                        or "unblamable" in after,
+                        "Ignoring the reference repair had no observable effect")
+        self.assertEqual(after["text"], before["text"])
+        self.assertEqual(self.source.read_text(), AUTHORED + OTHER)
+        self.assertEqual(self.git("rev-parse", "HEAD:author-v1.lean").strip(),
+                         self.author_blob)
+        self.git("merge-base", "--is-ancestor", self.author_commit, "HEAD")
+
+        expected = {"commit": self.author_commit, "path": "author-v1.lean",
+                    "line": 1, "text": AUTHORED.splitlines()[0], "author": AUTHOR}
+        actual = {"commit": after["commit"], "path": after["filename"],
+                  "line": after["original_line"], "text": self.origin_text(after),
+                  "author": after["author"]}
+        # A test pass means this audit ran, not that Git recovered the author.
+        # Git versions may improve the trace; never require a particular failure.
+        print("REFERENCE_REPAIR_TRACE: " + json.dumps({
+            "outcome": "SUPPORTED_TRACE" if actual == expected else "EXCEPTION",
+            "reported_origin": actual, "immutable_author_mapping": expected,
+            "source_blob": self.author_blob,
+        }, sort_keys=True))
+        novel = self.blame("Balance.lean")[-1]
+        self.assertEqual(novel["commit"], self.novel_commit)
+        self.assertEqual(novel["author"], STEWARD)
+        self.assertEqual(novel["filename"], "Balance.lean")
+        self.assertEqual(novel["original_line"], 3)
+        self.assertEqual(self.origin_text(novel), NOVEL.rstrip("\n"))
 
 
 if __name__ == "__main__":

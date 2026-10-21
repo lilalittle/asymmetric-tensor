@@ -92,8 +92,11 @@ Run `python3 scripts/test_ingest_provenance.py`. It creates temporary repositori
 with synthetic author/steward identities and checks that the original source
 commit and blob survive a two-module split, file move, mechanical whitespace
 change and separately committed steward explanation. It compares plain,
-copy-aware and ignore-aware blame: original lines reach the original author,
-while the novel explanation remains with the steward. It changes no project
-author files and performs no Lean or scientific verification. Repeat provenance
-checks on the real integration; this small fixture does not certify arbitrary
-rewrites.
+copy-aware and ignore-aware blame: copied and whitespace-repaired lines reach the
+original author, while the novel explanation remains with the steward. A separate
+non-whitespace reference-spelling repair exercises revision ignoring itself. Its
+result distinguishes a verified original trace from an explicit tracing exception
+with a retained source mapping; a passing test must not turn that exception into
+a successful provenance claim. It changes no project author files and performs no
+Lean or scientific verification. Repeat provenance checks on the real integration;
+this small fixture does not certify arbitrary rewrites.
