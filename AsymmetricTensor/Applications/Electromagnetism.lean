@@ -171,7 +171,8 @@ theorem isochoric_volume_preservation (v_perp lx ly bx by_val alpha_val t_p_val 
 -- 9.5 Non-Linear Vacuum Polarization (The Schwinger Limit) (Manuscript Eq. 138)
 -- ----------------------------------------------------------------------
 
-/-- Explicit 4×4 Laplace cofactor determinant over `ℂ` for spectral and characteristic polynomial analysis. -/
+/-- Explicit 4×4 Laplace cofactor determinant over `ℂ` for spectral and characteristic polynomial
+  analysis. -/
 def det4x4_complex (M : Matrix (Fin 4) (Fin 4) ℂ) : ℂ :=
   M 0 0 * (M 1 1 * (M 2 2 * M 3 3 - M 2 3 * M 3 2) -
            M 1 2 * (M 2 1 * M 3 3 - M 2 3 * M 3 1) +
@@ -209,12 +210,15 @@ lemma matrix_det_eq_det4x4_aligned (alpha_s E_x B_z mu : ℂ) :
   dsimp [U_aligned_char_matrix, det4x4_complex, Fin.succAbove, Fin.castSucc, Fin.succ]
   ring
 
--- Theorem 60a: Aligned 4×4 Characteristic Polynomial & Zero-Slip Invariant-Subspace Factorization (Issue #20)
+-- Theorem 60a: Aligned 4×4 Characteristic Polynomial & Zero-Slip Invariant-Subspace Factorization
+-- (Issue #20)
 -- Proves:
 -- 1. General Aligned Characteristic Polynomial:
---    `det(U - μ I) = (1/α_s^2 - μ) * [(-α_s^2 - μ) * ((1/α_s^2 - μ)^2 + B_z^2) + E_x^2 * (1/α_s^2 - μ)]`,
--- 2. Zero-Slip Decoupling (`E_x = 0`): When electric slip vanishes, the 4×4 characteristic polynomial
---    factors into the longitudinal roots `(-α_s^2 - μ)(1/α_s^2 - μ)` and the 2×2 transverse vorticity
+-- `det(U - μ I) = (1/α_s^2 - μ) * [(-α_s^2 - μ) * ((1/α_s^2 - μ)^2 + B_z^2) + E_x^2 * (1/α_s^2 -
+-- μ)]`,
+-- 2. Zero-Slip Decoupling (`E_x = 0`): When electric slip vanishes, the 4×4 characteristic
+-- polynomial
+-- factors into the longitudinal roots `(-α_s^2 - μ)(1/α_s^2 - μ)` and the 2×2 transverse vorticity
 --    block `((1/α_s^2 - μ)^2 + B_z^2)`,
 -- 3. Unshifted Determinant (`μ = 0`, `α_s ≠ 0`): Evaluates to `(E_x^2 - 1) / α_s^4 - B_z^2`.
 theorem aligned_charpoly_factorization (alpha_s E_x B_z mu : ℂ) (has : alpha_s ≠ 0) :
@@ -245,9 +249,11 @@ theorem aligned_charpoly_factorization (alpha_s E_x B_z mu : ℂ) (has : alpha_s
 
 -- Theorem 60b: Nonzero-Slip Counterexample & Zero-Slip Necessity for `1 ± i` Roots (Issue #20)
 -- Proves that at `α_s = 1` and `B_z = 1`:
--- 1. For general electric slip `E_x`, `det(U - (1 + i)I) = -E_x^2` and `det(U - (1 - i)I) = -E_x^2`,
+-- 1. For general electric slip `E_x`, `det(U - (1 + i)I) = -E_x^2` and `det(U - (1 - i)I) =
+-- -E_x^2`,
 -- 2. For the benchmark nonzero-slip counterexample `E_x = 1/2`, `det(U - (1 + i)I) = -1/4 ≠ 0`,
--- 3. Consequently, `1 + i` is an eigenvalue of the full 4×4 tensor (`det(U - (1 + i)I) = 0`) iff `E_x = 0`.
+-- 3. Consequently, `1 + i` is an eigenvalue of the full 4×4 tensor (`det(U - (1 + i)I) = 0`) iff
+-- `E_x = 0`.
 theorem nonzero_slip_schwinger_counterexample (E_x : ℂ) :
     Matrix.det (U_aligned_char_matrix 1 E_x 1 (1 + Complex.I)) = -E_x^2 ∧
     Matrix.det (U_aligned_char_matrix 1 E_x 1 (1 - Complex.I)) = -E_x^2 ∧
@@ -285,7 +291,8 @@ theorem nonzero_slip_schwinger_counterexample (E_x : ℂ) :
     h_plus_all E_x
   have h_minus : Matrix.det (U_aligned_char_matrix 1 E_x 1 (1 - Complex.I)) = -E_x^2 :=
     h_minus_all E_x
-  have h_quarter : Matrix.det (U_aligned_char_matrix 1 (1 / 2 : ℂ) 1 (1 + Complex.I)) = -(1 / 4 : ℂ) := by
+  have h_quarter : Matrix.det (U_aligned_char_matrix 1 (1 / 2 : ℂ) 1 (1 + Complex.I)) = -(1 / 4 : ℂ)
+    := by
     rw [h_plus_all (1 / 2 : ℂ)]
     ring
   have h_quarter_ne : Matrix.det (U_aligned_char_matrix 1 (1 / 2 : ℂ) 1 (1 + Complex.I)) ≠ 0 := by
@@ -294,12 +301,15 @@ theorem nonzero_slip_schwinger_counterexample (E_x : ℂ) :
   refine ⟨h_plus, h_minus, h_quarter, h_quarter_ne, ?_⟩
   rw [h_plus, neg_eq_zero, sq_eq_zero_iff]
 
--- Theorem 60: Schwinger Limit Transverse 2×2 Block Entries & Aligned Zero-Slip Roots (Manuscript Section 9.5 / Issue #20)
+-- Theorem 60: Schwinger Limit Transverse 2×2 Block Entries & Aligned Zero-Slip Roots (Manuscript
+-- Section 9.5 / Issue #20)
 -- Proves:
--- 1. Real `U_hat` Transverse 2×2 Block Evaluation: At `alpha_s = 1` and `alpha * t_p_val * Omega_z = 1`,
+-- 1. Real `U_hat` Transverse 2×2 Block Evaluation: At `alpha_s = 1` and `alpha * t_p_val * Omega_z
+-- = 1`,
 --    the spatial block entries evaluate to `U_11 = 1`, `U_22 = 1`, `U_12 = -1`, and `U_21 = 1`,
 -- 2. Aligned Zero-Slip Characteristic Roots: `det(U_aligned_char_matrix 1 0 1 (1 ± i)) = 0`,
--- 3. Transverse 2×2 Scalar Eigen-Identities: The 2×2 block equations for `(1, ∓i)` at `λ_± = 1 ± i`.
+-- 3. Transverse 2×2 Scalar Eigen-Identities: The 2×2 block equations for `(1, ∓i)` at `λ_± = 1 ±
+-- i`.
 theorem schwinger_limit_eigenvalues (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ)
     (h_alpha_s : alpha_s = 1)
     (h_Omega : alpha * t_p_val * Omega_z_clebsch d_lambda d_beta = 1) :
@@ -316,10 +326,12 @@ theorem schwinger_limit_eigenvalues (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda 
      (1 : ℂ) * 1 + (1 : ℂ) * Complex.I = (1 - Complex.I) * Complex.I) := by
   have hI : Complex.I ^ 2 = -1 := Complex.I_sq
   have h11 : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = 1 := by
-    have h : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = 1 / alpha_s^2 := by simp [U_hat]
+    have h : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = 1 / alpha_s^2 := by
+      simp [U_hat]
     rw [h, h_alpha_s]; norm_num
   have h22 : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 2 2 = 1 := by
-    have h : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 2 2 = 1 / alpha_s^2 := by simp [U_hat]
+    have h : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 2 2 = 1 / alpha_s^2 := by
+      simp [U_hat]
     rw [h, h_alpha_s]; norm_num
   have h12 : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 2 = -1 := by
     have h : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 2 =
@@ -353,8 +365,10 @@ def schwinger_eigvec_plus : Fin 4 → ℂ :=
 def schwinger_eigvec_minus : Fin 4 → ℂ :=
   fun j => if j = 1 then 1 else if j = 2 then Complex.I else 0
 
--- Theorem 60c: Explicit Zero-Slip `U_hat` Alignment Bridge & 4-Component Complex Eigenvector Equations (Issue #20)
--- Under explicit zero-slip (`v_x = v_y = v_z = 0`) and axial vorticity alignment (`Omega_x = Omega_y = 0`),
+-- Theorem 60c: Explicit Zero-Slip `U_hat` Alignment Bridge & 4-Component Complex Eigenvector
+-- Equations (Issue #20)
+-- Under explicit zero-slip (`v_x = v_y = v_z = 0`) and axial vorticity alignment (`Omega_x =
+-- Omega_y = 0`),
 -- bridges the complexified shifted `U_hat` matrix entry-by-entry across all `i, j : Fin 4` to
 -- `U_aligned_char_matrix 1 0 1 mu` and proves the 4-component matrix-vector equations
 -- `(U_aligned_char_matrix 1 0 1 (1 ± i)).mulVec ψ_± = 0`.

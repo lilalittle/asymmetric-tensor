@@ -126,13 +126,15 @@ theorem topological_phase_lock_cavitation
     norm_num
   · linarith
 
--- Theorem 156a: Phase-Locked Frobenius Shear Rest Mass & Strict Positivity (Manuscript Section 8.2, Part 1)
+-- Theorem 156a: Phase-Locked Frobenius Shear Rest Mass & Strict Positivity (Manuscript Section 8.2,
+-- Part 1)
 -- Proves:
--- 1. Frobenius Shear Mass Formula: From `P_shear = (1 / 2) * P_c * alpha^2 * (v_perp^2 / c^2 + t_p^2 * Omega^2)`,
+-- 1. Frobenius Shear Mass Formula: From `P_shear = (1 / 2) * P_c * alpha^2 * (v_perp^2 / c^2 +
+-- t_p^2 * Omega^2)`,
 --    `E_locked = P_shear * V_tau`, and `m_0 = E_locked / c^2`, the invariant rest mass evaluates to
 --    `m_0 = (rho_tau * V_tau * alpha^2 / 4) * (v_perp^2 / c^2 + t_p^2 * Omega^2)`,
 -- 2. Strict Positivity: For `0 < V_tau`, `alpha ≠ 0`, and non-vanishing Clebsch vorticity
---    `Omega_z_clebsch d_lambda d_beta ≠ 0`, the generated rest mass is strictly positive (`0 < m_0`).
+-- `Omega_z_clebsch d_lambda d_beta ≠ 0`, the generated rest mass is strictly positive (`0 < m_0`).
 theorem phase_locked_frobenius_rest_mass_pos
     (d_lambda d_beta : V4) (alpha v_perp V_tau P_shear E_locked m_0 : ℝ)
     (hV : 0 < V_tau) (h_alpha_ne : alpha ≠ 0)
@@ -171,15 +173,21 @@ theorem phase_locked_frobenius_rest_mass_pos
   rw [h_m0_frob]
   exact mul_pos h_pref_pos h_sum_pos
 
--- Theorem 156b: Tangential Phase-Lock (`v_vortex = r_c * Omega = c`) & Vortex Core Equivalence (Manuscript Section 8.2, Part 2)
+-- Theorem 156b: Tangential Phase-Lock (`v_vortex = r_c * Omega = c`) & Vortex Core Equivalence
+-- (Manuscript Section 8.2, Part 2)
 -- Proves:
--- 1. Tangential Phase-Lock: Deflecting the core velocity into tangential circulation at the cavitation
---    radius (`v_vortex = r_c_val * Omega`) equates the Bernoulli dynamic pressure to the vortex core
---    energy density `P_vortex = (1 / 2) * rho_tau * (r_c_val * Omega)^2 = (1 / 2) * rho_tau * v_vortex^2`,
--- 2. Equipartition Boundary Matching: Under `2 * r_c_val^2 * Omega^2 = alpha^2 * (v_perp^2 + c^2 * t_p^2 * Omega^2)`,
+-- 1. Tangential Phase-Lock: Deflecting the core velocity into tangential circulation at the
+-- cavitation
+-- radius (`v_vortex = r_c_val * Omega`) equates the Bernoulli dynamic pressure to the vortex core
+-- energy density `P_vortex = (1 / 2) * rho_tau * (r_c_val * Omega)^2 = (1 / 2) * rho_tau *
+-- v_vortex^2`,
+-- 2. Equipartition Boundary Matching: Under `2 * r_c_val^2 * Omega^2 = alpha^2 * (v_perp^2 + c^2 *
+-- t_p^2 * Omega^2)`,
 --    the tangential vortex pressure equals the Frobenius shear pressure (`P_vortex = P_shear`),
--- 3. Universal Cavitation Speed (`v_vortex = c`): At `r_c_val * Omega = c`, `P_vortex = P_c` and the
---    rest mass simplifies from `m_0 = (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega) / c)^2` to `(1 / 2) * rho_tau * V_tau`.
+-- 3. Universal Cavitation Speed (`v_vortex = c`): At `r_c_val * Omega = c`, `P_vortex = P_c` and
+-- the
+-- rest mass simplifies from `m_0 = (1 / 2) * rho_tau * V_tau * ((r_c_val * Omega) / c)^2` to `(1 /
+-- 2) * rho_tau * V_tau`.
 theorem tangential_phase_lock_vortex_equivalence
     (d_lambda d_beta : V4) (alpha v_vortex v_perp r_c_val V_tau P_shear P_vortex E_locked m_0 : ℝ)
     (h_v_lock : v_vortex = r_c_val * Omega_z_clebsch d_lambda d_beta)
@@ -204,7 +212,8 @@ theorem tangential_phase_lock_vortex_equivalence
     dsimp [P_c]
     have h_rhs : 1 / 2 * (1 / 2 * rho_tau * c^2) * alpha^2 *
         (v_perp^2 / c^2 + t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2) =
-        (1 / 4 * rho_tau) * (alpha^2 * ((v_perp^2 / c^2) * c^2 + c^2 * t_p^2 * (Omega_z_clebsch d_lambda d_beta)^2)) := by
+        (1 / 4 * rho_tau) * (alpha^2 * ((v_perp^2 / c^2) * c^2 + c^2 * t_p^2 * (Omega_z_clebsch
+          d_lambda d_beta)^2)) := by
       ring
     rw [h_rhs, div_mul_cancel₀ _ (pow_ne_zero 2 hc_ne), ← h_match]
     ring
@@ -219,7 +228,8 @@ theorem tangential_phase_lock_vortex_equivalence
   rw [h_m0_rc, h_cav_c, div_self hc_ne]
   ring
 
--- Theorem 156c: The Micro–Macro Horizon Duality (`r_c * Omega_core = c ↔ R_h * H_0 = R_h * Omega_max = c`)
+-- Theorem 156c: The Micro–Macro Horizon Duality (`r_c * Omega_core = c ↔ R_h * H_0 = R_h *
+-- Omega_max = c`)
 -- (Manuscript Section 8.2 Table Equivalence & Section 11.6 Galactic Capture)
 theorem micro_macro_horizon_duality
     (r_c m_0 Omega_core R_h H_0 R_max v_rot Omega_max a_0 r : ℝ)

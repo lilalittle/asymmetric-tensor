@@ -671,14 +671,20 @@ theorem baryonic_tully_fisher_derivation (v_rot : ℝ)
     v_rot^4 = a_0 * G * M_bar := by
   exact tully_fisher_algebra v_rot a_0 G M_bar ha G_pos hM _hv h_plateau
 
--- Theorem 78a: End-to-End Boundary-Value Derivation of `r_t`, `k_shear`, and BTFR on the Annulus (Issue #24)
--- Derives `r_t`, `k_shear`, `v_rot^2`, and `v_rot^4 = a_0 * G * M_bar` without assuming `h_plateau` or `h_match`:
--- 1. Inner Yield Boundary (`r = r_t`): Newtonian acceleration `G * M_bar / r_t^2 = a_0` fixes `r_t = √(G * M_bar / a_0)`,
--- 2. Annulus Force Balance (`r ∈ [r_t, R_max]`): Centripetal balance `ρ_τ * (v_rot^2 / r) = k_shear / r`
+-- Theorem 78a: End-to-End Boundary-Value Derivation of `r_t`, `k_shear`, and BTFR on the Annulus
+-- (Issue #24)
+-- Derives `r_t`, `k_shear`, `v_rot^2`, and `v_rot^4 = a_0 * G * M_bar` without assuming `h_plateau`
+-- or `h_match`:
+-- 1. Inner Yield Boundary (`r = r_t`): Newtonian acceleration `G * M_bar / r_t^2 = a_0` fixes `r_t
+-- = √(G * M_bar / a_0)`,
+-- 2. Annulus Force Balance (`r ∈ [r_t, R_max]`): Centripetal balance `ρ_τ * (v_rot^2 / r) = k_shear
+-- / r`
 --    (from `-dP_shear_2D / dr = k_shear / r`) fixes `v_rot^2 = k_shear / ρ_τ`,
--- 3. Acceleration Continuity at `r_t`: Matching the plug-flow radial acceleration `k_shear / (ρ_τ * r_t)`
+-- 3. Acceleration Continuity at `r_t`: Matching the plug-flow radial acceleration `k_shear / (ρ_τ *
+-- r_t)`
 --    to the Newtonian yield acceleration `a_0` at `r = r_t` uniquely determines
---    `k_shear = ρ_τ * a_0 * r_t = (2 * P_c / c^2) * a_0 * √(G * M_bar / a_0)` and derives `v_rot^4 = a_0 * G * M_bar`.
+-- `k_shear = ρ_τ * a_0 * r_t = (2 * P_c / c^2) * a_0 * √(G * M_bar / a_0)` and derives `v_rot^4 =
+-- a_0 * G * M_bar`.
 theorem galactic_annulus_boundary_value_btfr (r_t r v_rot : ℝ)
     (ha : 0 < a_0) (hM : 0 ≤ M_bar) (hrt : 0 < r_t) (hr : r ≠ 0) (hv : 0 ≤ v_rot)
     (h_yield_boundary : (G * M_bar) / r_t^2 = a_0)
@@ -712,12 +718,14 @@ theorem galactic_annulus_boundary_value_btfr (r_t r v_rot : ℝ)
     dsimp [P_c]
     field_simp
   have h_vrot_sq : v_rot^2 = a_0 * Real.sqrt (G * M_bar / a_0) := by
-    have h1 : (rho_tau * (v_rot^2 / r)) * r = (k_shear / r) * r := congrArg (· * r) h_annulus_balance
+    have h1 : (rho_tau * (v_rot^2 / r)) * r = (k_shear / r) * r := congrArg (· * r)
+      h_annulus_balance
     have h2 : (rho_tau * (v_rot^2 / r)) * r = rho_tau * v_rot^2 := by
       calc (rho_tau * (v_rot^2 / r)) * r = rho_tau * ((v_rot^2 / r) * r) := by ring
         _ = rho_tau * v_rot^2 := by rw [div_mul_cancel₀ _ hr]
     rw [h2, div_mul_cancel₀ _ hr, h_k_rho] at h1
-    have h3 : (rho_tau * v_rot^2) / rho_tau = (rho_tau * a_0 * Real.sqrt (G * M_bar / a_0)) / rho_tau :=
+    have h3 : (rho_tau * v_rot^2) / rho_tau = (rho_tau * a_0 * Real.sqrt (G * M_bar / a_0)) /
+      rho_tau :=
       congrArg (· / rho_tau) h1
     have h4 : (rho_tau * a_0 * Real.sqrt (G * M_bar / a_0)) / rho_tau =
         (rho_tau * (a_0 * Real.sqrt (G * M_bar / a_0))) / rho_tau := by ring
@@ -736,7 +744,8 @@ theorem shear_pressure_ratio_profile (v_rot r : ℝ)
             (2 * (v_rot^2 / c^2) * Real.log (R_max / r)) * (P_c / P_c) := by ring
   rw [h1, div_self Pc_non_zero, mul_one]
 
--- Theorem 168: Dimensionless Galactic 2D Shear Pressure Ratio (Manuscript Section 11.6, Item 8 / Issue #44)
+-- Theorem 168: Dimensionless Galactic 2D Shear Pressure Ratio (Manuscript Section 11.6, Item 8 /
+-- Issue #44)
 theorem galactic_shear_pressure_ratio_eq178
     (P_shear_2D_val k v_rot R_max r : ℝ)
     (hr_pos : 0 < r)

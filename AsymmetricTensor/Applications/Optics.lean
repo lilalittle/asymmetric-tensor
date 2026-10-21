@@ -102,7 +102,8 @@ theorem refractive_index_substitution (r_val ct_val : ℝ) :
 
 -- Theorem 174: Unification of the Four Cosmological Tensor Effects
 -- Explicitly distinguishes:
--- 1. The pressure-only background metric specialization `U_hat alpha_g ...` (`α_a = 1`, `α_s = α_g`),
+-- 1. The pressure-only background metric specialization `U_hat alpha_g ...` (`α_a = 1`, `α_s =
+-- α_g`),
 --    whose diagonals `U_00 = -α_g^2` and `U_11 = 1/α_g^2` govern null-geodesic refraction
 --    (`U_00 c^2 + U_11 v_c^2 = 0` and `n_idx = c / v_c = 1 / α_g^2`), and
 -- 2. The combined total-admittance tensor `U_hat alpha_s ...` (`α_s = α_g * α_a`), whose temporal
@@ -134,8 +135,10 @@ theorem tensor_four_effects_unification
   have hc : c ≠ 0 := c_ne_zero
   have hPc : P_c ≠ 0 := Pc_non_zero
   have hag2 : alpha_g^2 ≠ 0 := pow_ne_zero 2 hag
-  have h00_comb : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 = -(alpha_g^2 * alpha_a^2) := by
-    have h0 : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 = -alpha_s^2 := by simp [U_hat]
+  have h00_comb : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 = -(alpha_g^2 *
+    alpha_a^2) := by
+    have h0 : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 = -alpha_s^2 := by simp
+      [U_hat]
     rw [h0, h_as]
     ring
   have h_inv_as : (1 / alpha_g) * (1 / alpha_a) = 1 / alpha_s := by

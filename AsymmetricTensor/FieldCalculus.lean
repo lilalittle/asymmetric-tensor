@@ -271,7 +271,8 @@ structure DynamicClebschFields where
       (fun y => U_hat (alpha_s_f y) (alpha_f y) (v_x_f y) (v_y_f y) (v_z_f y)
                       (d_scalar_field lambda_Omega_f y) (d_scalar_field beta_Omega_f y) t_p) x = 0
 
-/-- Constructive homogeneous vacuum witness proving `DynamicClebschFields` is non-empty without axioms. -/
+/-- Constructive homogeneous vacuum witness proving `DynamicClebschFields` is non-empty without
+  axioms. -/
 noncomputable def vacuum_clebsch_witness : DynamicClebschFields where
   alpha_s_f      := fun _ => 1
   alpha_f        := fun _ => 0

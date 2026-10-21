@@ -74,11 +74,13 @@ theorem volumetric_admittance_scaling (alpha_s : ℝ) (h_alpha_s : alpha_s > 0) 
     have h_pos : 0 ≤ 1 / alpha_s^3 := le_of_lt (div_pos (by norm_num : (0:ℝ) < 1) h_a3_pos)
     rw [Real.sqrt_sq h_pos]
 
-/-- Closed-form transverse BAO optical distance expression `r_opt(z) = R_h * (z / 2 + (1 / 4) * ln(2z + 1))`. -/
+/-- Closed-form transverse BAO optical distance expression `r_opt(z) = R_h * (z / 2 + (1 / 4) *
+  ln(2z + 1))`. -/
 noncomputable def r_opt_closed_form (R_h z : ℝ) : ℝ :=
   R_h * (z / 2 + (1 / 4) * Real.log (2 * z + 1))
 
--- Theorem 170 (Corollary 16.1.2b — BAO Redshift-Space Spatial Diagonal U_11(z) & Partial-Fraction Decomposition):
+-- Theorem 170 (Corollary 16.1.2b — BAO Redshift-Space Spatial Diagonal U_11(z) & Partial-Fraction
+-- Decomposition):
 -- Proves directly from `U_hat` that substituting the Section 15.2 redshift inversion
 -- `v_0 / c = z / (1 + z)` into the spatial compliance diagonal `U_11 = 1 / alpha_s^2` yields
 -- `U_11(z) = (1 + z)^2 / (2z + 1)`, that multiplying by the physical-distance factor
@@ -102,14 +104,16 @@ theorem redshift_refractive_index_and_integrand_decomposition
     ring
   · field_simp
   · calc R_h * ((1 + z) / (2 * z + 1))
-      _ = R_h * ((1 / 2) * ((2 * z + 1) * (1 / (2 * z + 1))) + (1 / 2) * (1 / (2 * z + 1))) := by ring
+      _ = R_h * ((1 / 2) * ((2 * z + 1) * (1 / (2 * z + 1))) + (1 / 2) * (1 / (2 * z + 1))) := by
+        ring
       _ = R_h * ((1 / 2) * 1 + (1 / 2) * (1 / (2 * z + 1))) := by rw [mul_one_div_cancel hz2]
       _ = R_h * (1 / 2 + (1 / 2) * (1 / (2 * z + 1))) := by ring
   · dsimp [r_opt_closed_form]
     norm_num
 
 -- Theorem 171 (Corollary 16.1.2c — Algebraic Ratio of BAO vs. Velocity-Slope Hubble Observables):
--- Proves from the stated exponential factor `exp_neg_r_Rh = 1 / (1 + z)`, horizon rate `H_0 = c / R_h`,
+-- Proves from the stated exponential factor `exp_neg_r_Rh = 1 / (1 + z)`, horizon rate `H_0 = c /
+-- R_h`,
 -- and observable definitions `H_slope = (c / R_h) * exp_neg_r_Rh` and `H_BAO = c / D_H` that
 -- `H_slope = H_0 / (1 + z)` and `H_BAO = H_0 * (1 + z)`, which coincide at `z = 0`
 -- and satisfy the algebraic ratio `H_BAO / H_slope = (1 + z)^2`.
@@ -136,9 +140,12 @@ theorem hubble_tension_dual_observables
   rw [h1, h2]
   field_simp
 
--- Theorem 172 (Corollary 16.1.2d — Parameter-Free Alcock-Paczyński Sphericity Ratio F_AP = D_M / D_H):
--- Proves that dividing the transverse optical BAO distance `D_M(z) = r_opt_closed_form R_h z` by the
--- longitudinal physical BAO depth `D_H(z) = R_h / (1 + z)` cancels the horizon scale `R_h` completely,
+-- Theorem 172 (Corollary 16.1.2d — Parameter-Free Alcock-Paczyński Sphericity Ratio F_AP = D_M /
+-- D_H):
+-- Proves that dividing the transverse optical BAO distance `D_M(z) = r_opt_closed_form R_h z` by
+-- the
+-- longitudinal physical BAO depth `D_H(z) = R_h / (1 + z)` cancels the horizon scale `R_h`
+-- completely,
 -- yielding the parameter-free function `F_AP(z) = (1 + z) * (z / 2 + (1 / 4) * ln(2z + 1))`.
 theorem alcock_paczynski_parameter_free_ratio
     (R_h z D_M D_H F_AP : ℝ)
@@ -152,10 +159,12 @@ theorem alcock_paczynski_parameter_free_ratio
   field_simp
 
 -- Theorem 173 (Corollary 16.1.2e — High-Redshift Proper Chronometer Sum Rule):
--- Proves that for the proper age at emission `τ(z) = τ_0 / (1 + z)` and chronological look-back time
+-- Proves that for the proper age at emission `τ(z) = τ_0 / (1 + z)` and chronological look-back
+-- time
 -- `τ_lookback(z) = τ_0 * (z / (1 + z))` with `τ_0 = R_h / c`, the exact chronological sum rule
 -- `τ(z) + τ_lookback(z) = τ_0` holds for all `z`, and the proper evolutionary window between two
--- redshifts `z_1 < z_2` evaluates to `τ(z_1) - τ(z_2) = τ_0 * (z_2 - z_1) / ((1 + z_1) * (1 + z_2)) > 0`.
+-- redshifts `z_1 < z_2` evaluates to `τ(z_1) - τ(z_2) = τ_0 * (z_2 - z_1) / ((1 + z_1) * (1 + z_2))
+-- > 0`.
 theorem high_redshift_chronometer_sum_rule
     (R_h tau_0 z z_1 z_2 tau_z tau_lookback tau_z1 tau_z2 : ℝ)
     (hRh_pos : 0 < R_h) (hz : 1 + z ≠ 0)
@@ -879,64 +888,116 @@ theorem unit_section16_3_cross_coupled_corollaries :
 -- ======================================================================
 
 -- I. Sector E = -1: Vacuum Compliance & Gravitational Susceptibility (7 States)
-def u_inv_energy      : UnitDim := u_dimless / u_Energy  -- ⟨0, 0, -1⟩   (1 / E = β = 1 / k_B T, Inverse Energy / Coldness)
-def u_coldness_beta   : UnitDim := u_inv_energy          -- ⟨0, 0, -1⟩   (Thermodynamic Coldness β = 1 / T_E)
-def u_einstein_kappa  : UnitDim := u_G / (u_c^(4:ℤ))     -- ⟨-1, 0, -1⟩  (8πG / c^4 = 1 / Force, Inverse Manifold Tension)
-def u_compliance      : UnitDim := u_dimless / u_P_c     -- ⟨-3, 0, -1⟩  (1 / P_c, Vacuum Compressibility)
-def u_mobility        : UnitDim := u_dimless / u_Mom     -- ⟨-1, 1, -1⟩  (1 / p, Mechanical Mobility)
-def u_source_kappa    : UnitDim := u_G / (u_c^(2:ℤ))     -- ⟨-3, 2, -1⟩  (G / c^2 = L / M, Mass-to-Radius Conversion)
+def u_inv_energy      : UnitDim := u_dimless / u_Energy
+-- ⟨0, 0, -1⟩   (1 / E = β = 1 / k_B T, Inverse Energy / Coldness)
+def u_coldness_beta   : UnitDim := u_inv_energy
+-- ⟨0, 0, -1⟩   (Thermodynamic Coldness β = 1 / T_E)
+def u_einstein_kappa  : UnitDim := u_G / (u_c^(4:ℤ))
+-- ⟨-1, 0, -1⟩  (8πG / c^4 = 1 / Force, Inverse Manifold Tension)
+def u_compliance      : UnitDim := u_dimless / u_P_c
+-- ⟨-3, 0, -1⟩  (1 / P_c, Vacuum Compressibility)
+def u_mobility        : UnitDim := u_dimless / u_Mom
+-- ⟨-1, 1, -1⟩  (1 / p, Mechanical Mobility)
+def u_source_kappa    : UnitDim := u_G / (u_c^(2:ℤ))
+-- ⟨-3, 2, -1⟩  (G / c^2 = L / M, Mass-to-Radius Conversion)
 def u_spec_volume     : UnitDim := u_dimless / u_rho_tau -- ⟨-5, 2, -1⟩  (1 / ρ_τ, Specific Volume)
--- [Section 0.3] u_G  : UnitDim := (u_l_p^2 * u_c^3) / u_hbar -- ⟨-5, 4, -1⟩ (Gravitational Constant G)
+-- [Section 0.3] u_G  : UnitDim := (u_l_p^2 * u_c^3) / u_hbar -- ⟨-5, 4, -1⟩ (Gravitational Constant
+-- G)
 
 -- II. Sector E = 0: Unweighted Curvature, Geometry, Operators & Kinematics (20 States)
-def u_time_sq         : UnitDim := u_t_p^(2:ℤ)           -- ⟨0, -2, 0⟩   (t_p^2 = Ω_p^-2, Squared Relaxation Time)
--- [Section 0.3] u_t_p         : UnitDim := u_dimless / u_omega   -- ⟨0, -1, 0⟩  (Relaxation Time / Period t_p = 1 / Ω_p)
-def u_spacetime_vol   : UnitDim := u_Volume * u_t_p      -- ⟨-3, -1, 0⟩  (dt d^3x, 4D Spacetime Action Volume)
--- [Section 0.3] u_Biharmonic  : UnitDim := u_dimless / u_l_p^4   -- ⟨4, 0, 0⟩   (Biharmonic Operator ∇^4, R_μν R^μν)
-def u_num_density     : UnitDim := u_dimless / u_Volume  -- ⟨3, 0, 0⟩    (k_p^3 = 1 / L^3, Defect Number & Entropy Density σ)
-def u_entropy_density : UnitDim := u_num_density         -- ⟨3, 0, 0⟩    (σ = S / V, Extensive Entropy Density)
--- [Section 0.3] u_Curvature   : UnitDim := u_dimless / u_l_p^2   -- ⟨2, 0, 0⟩   (2D Gaussian Curvature Λ, R, G_μν, Laplacian ∇^2, □)
--- [Section 0.3] u_Laplacian   : UnitDim := u_dimless / u_l_p^2   -- ⟨2, 0, 0⟩   (Laplace Operator ∇^2)
-def u_gradient        : UnitDim := u_dimless / u_l_p     -- ⟨1, 0, 0⟩    (1D Spatial Curvature ∇, Γ^λ_μν, T^λ_μν, Wavenumber k_p)
--- [Section 0.3] u_dimless     : UnitDim := ⟨0, 0, 0⟩             -- ⟨0, 0, 0⟩   (Dimensionless Strain U_μν, α_s, α, n, De)
+def u_time_sq         : UnitDim := u_t_p^(2:ℤ)
+-- ⟨0, -2, 0⟩   (t_p^2 = Ω_p^-2, Squared Relaxation Time)
+-- [Section 0.3] u_t_p         : UnitDim := u_dimless / u_omega   -- ⟨0, -1, 0⟩  (Relaxation Time /
+-- Period t_p = 1 / Ω_p)
+def u_spacetime_vol   : UnitDim := u_Volume * u_t_p
+-- ⟨-3, -1, 0⟩  (dt d^3x, 4D Spacetime Action Volume)
+-- [Section 0.3] u_Biharmonic  : UnitDim := u_dimless / u_l_p^4   -- ⟨4, 0, 0⟩   (Biharmonic
+-- Operator ∇^4, R_μν R^μν)
+def u_num_density     : UnitDim := u_dimless / u_Volume
+-- ⟨3, 0, 0⟩    (k_p^3 = 1 / L^3, Defect Number & Entropy Density σ)
+def u_entropy_density : UnitDim := u_num_density
+-- ⟨3, 0, 0⟩    (σ = S / V, Extensive Entropy Density)
+-- [Section 0.3] u_Curvature   : UnitDim := u_dimless / u_l_p^2   -- ⟨2, 0, 0⟩   (2D Gaussian
+-- Curvature Λ, R, G_μν, Laplacian ∇^2, □)
+-- [Section 0.3] u_Laplacian   : UnitDim := u_dimless / u_l_p^2   -- ⟨2, 0, 0⟩   (Laplace Operator
+-- ∇^2)
+def u_gradient        : UnitDim := u_dimless / u_l_p
+-- ⟨1, 0, 0⟩    (1D Spatial Curvature ∇, Γ^λ_μν, T^λ_μν, Wavenumber k_p)
+-- [Section 0.3] u_dimless     : UnitDim := ⟨0, 0, 0⟩             -- ⟨0, 0, 0⟩   (Dimensionless
+-- Strain U_μν, α_s, α, n, De)
 def u_entropy         : UnitDim := u_dimless             -- ⟨0, 0, 0⟩    (S_BH = π r_c^2 / l_p^2, S_p = 8π / 3, Entropy with k_B = 1)
--- [Section 0.3] u_l_p         : UnitDim := u_dimless / u_k_p     -- ⟨-1, 0, 0⟩  (Extensive Length l_p = 1 / k_p, r_c, R_h, λ_D)
--- [Section 0.3] u_Area        : UnitDim := u_l_p^2               -- ⟨-2, 0, 0⟩  (2D Area A = 4π r^2, Cross-Section)
--- [Section 0.3] u_Volume      : UnitDim := u_l_p^3               -- ⟨-3, 0, 0⟩  (3D Volume V, Added-Mass Displacement V_eff)
-def u_hypervolume     : UnitDim := u_l_p^(4:ℤ)           -- ⟨-4, 0, 0⟩   (c dt d^3x, 4D Geometric Hypervolume)
-def u_wave_vel        : UnitDim := u_Laplacian * u_c     -- ⟨1, 1, 0⟩    (□ v_⊥, ∇ · Ω, Wave Operator on Velocity)
--- [Section 0.3] u_omega       : UnitDim := ⟨0, 1, 0⟩             -- ⟨0, 1, 0⟩   (Temporal Curvature ω, Vorticity Ω = dλ_Ω ∧ dβ_Ω, H_0)
--- [Section 0.3] u_c           : UnitDim := u_omega / u_k_p       -- ⟨-1, 1, 0⟩  (Phase Velocity c = Ω_p / k_p, Clebsch 1-Form v)
-def u_kin_visc        : UnitDim := u_c * u_l_p           -- ⟨-2, 1, 0⟩   (ν = μ / 2ρ_τ, Specific Circulation ℏ / M)
--- [Section 0.3] u_C_isochoric : UnitDim := u_c * u_l_p^2         -- ⟨-3, 1, 0⟩  (Isochoric Flow Constant C = v r^2, Charge Flux Φ_⊥(e))
-def u_freq_sq         : UnitDim := u_omega^(2:ℤ)         -- ⟨0, 2, 0⟩    (ω^2 = 4πG ρ_dyn = ∇^2 Φ, Squared Temporal Curvature)
--- [Section 0.3] u_accel       : UnitDim := u_c^2 / u_l_p         -- ⟨-1, 2, 0⟩  (Acceleration a, g, a_0, Lamb Vector v_⊥ · Ω)
--- [Section 0.3] u_Phi         : UnitDim := u_c^2                 -- ⟨-2, 2, 0⟩  (Gravitational Potential Φ, Kinematic Pressure P_dyn/2ρ_τ)
+-- [Section 0.3] u_l_p         : UnitDim := u_dimless / u_k_p     -- ⟨-1, 0, 0⟩  (Extensive Length
+-- l_p = 1 / k_p, r_c, R_h, λ_D)
+-- [Section 0.3] u_Area        : UnitDim := u_l_p^2               -- ⟨-2, 0, 0⟩  (2D Area A = 4π
+-- r^2, Cross-Section)
+-- [Section 0.3] u_Volume      : UnitDim := u_l_p^3               -- ⟨-3, 0, 0⟩  (3D Volume V,
+-- Added-Mass Displacement V_eff)
+def u_hypervolume     : UnitDim := u_l_p^(4:ℤ)
+-- ⟨-4, 0, 0⟩   (c dt d^3x, 4D Geometric Hypervolume)
+def u_wave_vel        : UnitDim := u_Laplacian * u_c
+-- ⟨1, 1, 0⟩    (□ v_⊥, ∇ · Ω, Wave Operator on Velocity)
+-- [Section 0.3] u_omega       : UnitDim := ⟨0, 1, 0⟩             -- ⟨0, 1, 0⟩   (Temporal Curvature
+-- ω, Vorticity Ω = dλ_Ω ∧ dβ_Ω, H_0)
+-- [Section 0.3] u_c           : UnitDim := u_omega / u_k_p       -- ⟨-1, 1, 0⟩  (Phase Velocity c =
+-- Ω_p / k_p, Clebsch 1-Form v)
+def u_kin_visc        : UnitDim := u_c * u_l_p
+-- ⟨-2, 1, 0⟩   (ν = μ / 2ρ_τ, Specific Circulation ℏ / M)
+-- [Section 0.3] u_C_isochoric : UnitDim := u_c * u_l_p^2         -- ⟨-3, 1, 0⟩  (Isochoric Flow
+-- Constant C = v r^2, Charge Flux Φ_⊥(e))
+def u_freq_sq         : UnitDim := u_omega^(2:ℤ)
+-- ⟨0, 2, 0⟩    (ω^2 = 4πG ρ_dyn = ∇^2 Φ, Squared Temporal Curvature)
+-- [Section 0.3] u_accel       : UnitDim := u_c^2 / u_l_p         -- ⟨-1, 2, 0⟩  (Acceleration a, g,
+-- a_0, Lamb Vector v_⊥ · Ω)
+-- [Section 0.3] u_Phi         : UnitDim := u_c^2                 -- ⟨-2, 2, 0⟩  (Gravitational
+-- Potential Φ, Kinematic Pressure P_dyn/2ρ_τ)
 
 -- III. Sector E = +1: Constitutive Energy Stiffness, Stress & Defect Mass (21 States)
--- [Section 0.3] u_rho_tau     : UnitDim := u_hbar / (u_l_p^4 * u_c) -- ⟨5, -2, 1⟩ (3D Mass Density ρ_τ = P_c / c^2, ρ_dyn)
-def u_surf_density    : UnitDim := u_M_P / u_Area        -- ⟨4, -2, 1⟩   (M / L^2, 2D Surface Mass Density)
-def u_lin_density     : UnitDim := u_M_P / u_l_p         -- ⟨3, -2, 1⟩   (ε_τ = M / L = c^2 / G, 1D Linear Metric Density)
--- [Section 0.3] u_M_P         : UnitDim := u_hbar / (u_l_p * u_c)   -- ⟨2, -2, 1⟩ (0D Defect Mass M_P, m_0 = E / c^2)
-def u_compton_inv     : UnitDim := u_M_P * u_l_p         -- ⟨1, -2, 1⟩   (M r_c = ℏ / c, Compton Mass-Length Invariant)
-def u_moment_inertia  : UnitDim := u_M_P * u_Area        -- ⟨0, -2, 1⟩   (I = M r^2 = E_P / Ω_p^2, Moment of Inertia)
-def u_mass_flux_div   : UnitDim := u_rho_tau / u_t_p     -- ⟨5, -1, 1⟩   (∂_t ρ + ∇·(ρ v), Mass Flux Divergence)
-def u_mom_density     : UnitDim := u_Mom / u_Volume      -- ⟨4, -1, 1⟩   (ρ v = T^0i / c = P_c / c, 3D Momentum Density)
-def u_dyn_visc        : UnitDim := u_P_c * u_t_p         -- ⟨3, -1, 1⟩   (μ = P_c t_p = P_c / Ω_p, Dynamic Viscosity & Spin Density s^λ_μν)
-def u_line_mom        : UnitDim := u_Mom / u_l_p         -- ⟨2, -1, 1⟩   (p / L = ℏ k_p^2, 2D Action / Linear Momentum Density)
--- [Section 0.3] u_Mom         : UnitDim := u_hbar / u_l_p           -- ⟨1, -1, 1⟩ (0D Linear Momentum p = ℏ k_p = E / c)
-def u_charge_tau      : UnitDim := u_Mom                 -- ⟨1, -1, 1⟩   (e_τ = √(4π ε_τ ℏ c α), Continuum Charge as Momentum)
--- [Section 0.3] u_hbar        : UnitDim := u_Energy / u_omega       -- ⟨0, -1, 1⟩ (Action Quantum ℏ = E_P / Ω_p, Circulation κ = 2πℏ)
--- [Section 0.3] u_grad_P      : UnitDim := u_P_c / u_l_p            -- ⟨4, 0, 1⟩  (3D Force Density -∇P = E_P k_p^4)
--- [Section 0.3] u_P_c         : UnitDim := u_rho_tau * u_c^2        -- ⟨3, 0, 1⟩  (3D Critical Pressure P_c = E_P k_p^3, Stress T_μν)
-def u_surf_tension    : UnitDim := u_Force / u_l_p       -- ⟨2, 0, 1⟩    (2D Surface Tension σ_surf = E_P k_p^2, Defect Load k = ρ_τ G M)
--- [Section 0.3] u_Force       : UnitDim := (u_hbar * u_c) / u_l_p^2 -- ⟨1, 0, 1⟩  (1D Force F = E_P k_p = c^4 / G)
--- [Section 0.3] u_Energy      : UnitDim := ⟨0, 0, 1⟩                -- ⟨0, 0, 1⟩  (0D Constitutive Energy E_P, E = M c^2 = ℏ Ω)
-def u_Temp            : UnitDim := u_Energy              -- ⟨0, 0, 1⟩    (T_E = k_B T = ∂E/∂S, Thermodynamic Temperature)
-def u_force_const     : UnitDim := u_hbar * u_c          -- ⟨-1, 0, 1⟩   (Bending Stiffness ℏ c = E_P l_p, K_τ = α ℏ c, Dirac Moment μ_Bτ)
-def u_power_density   : UnitDim := u_P_c / u_t_p         -- ⟨3, 1, 1⟩    (∂_t P = P_c Ω_p, 3D Power Density)
-def u_poynting_flux   : UnitDim := u_P_c * u_c           -- ⟨2, 1, 1⟩    (S = P_c c = E_P k_p^2 Ω_p, 2D Poynting Energy Flux)
-def u_power           : UnitDim := u_Energy / u_t_p      -- ⟨0, 1, 1⟩    (P_pow = E_P Ω_p = c^5 / G, 0D Power / Luminosity)
+-- [Section 0.3] u_rho_tau     : UnitDim := u_hbar / (u_l_p^4 * u_c) -- ⟨5, -2, 1⟩ (3D Mass Density
+-- ρ_τ = P_c / c^2, ρ_dyn)
+def u_surf_density    : UnitDim := u_M_P / u_Area
+-- ⟨4, -2, 1⟩   (M / L^2, 2D Surface Mass Density)
+def u_lin_density     : UnitDim := u_M_P / u_l_p
+-- ⟨3, -2, 1⟩   (ε_τ = M / L = c^2 / G, 1D Linear Metric Density)
+-- [Section 0.3] u_M_P         : UnitDim := u_hbar / (u_l_p * u_c)   -- ⟨2, -2, 1⟩ (0D Defect Mass
+-- M_P, m_0 = E / c^2)
+def u_compton_inv     : UnitDim := u_M_P * u_l_p
+-- ⟨1, -2, 1⟩   (M r_c = ℏ / c, Compton Mass-Length Invariant)
+def u_moment_inertia  : UnitDim := u_M_P * u_Area
+-- ⟨0, -2, 1⟩   (I = M r^2 = E_P / Ω_p^2, Moment of Inertia)
+def u_mass_flux_div   : UnitDim := u_rho_tau / u_t_p
+-- ⟨5, -1, 1⟩   (∂_t ρ + ∇·(ρ v), Mass Flux Divergence)
+def u_mom_density     : UnitDim := u_Mom / u_Volume
+-- ⟨4, -1, 1⟩   (ρ v = T^0i / c = P_c / c, 3D Momentum Density)
+def u_dyn_visc        : UnitDim := u_P_c * u_t_p
+-- ⟨3, -1, 1⟩   (μ = P_c t_p = P_c / Ω_p, Dynamic Viscosity & Spin Density s^λ_μν)
+def u_line_mom        : UnitDim := u_Mom / u_l_p
+-- ⟨2, -1, 1⟩   (p / L = ℏ k_p^2, 2D Action / Linear Momentum Density)
+-- [Section 0.3] u_Mom         : UnitDim := u_hbar / u_l_p           -- ⟨1, -1, 1⟩ (0D Linear
+-- Momentum p = ℏ k_p = E / c)
+def u_charge_tau      : UnitDim := u_Mom
+-- ⟨1, -1, 1⟩   (e_τ = √(4π ε_τ ℏ c α), Continuum Charge as Momentum)
+-- [Section 0.3] u_hbar        : UnitDim := u_Energy / u_omega       -- ⟨0, -1, 1⟩ (Action Quantum ℏ
+-- = E_P / Ω_p, Circulation κ = 2πℏ)
+-- [Section 0.3] u_grad_P      : UnitDim := u_P_c / u_l_p            -- ⟨4, 0, 1⟩  (3D Force Density
+-- -∇P = E_P k_p^4)
+-- [Section 0.3] u_P_c         : UnitDim := u_rho_tau * u_c^2        -- ⟨3, 0, 1⟩  (3D Critical
+-- Pressure P_c = E_P k_p^3, Stress T_μν)
+def u_surf_tension    : UnitDim := u_Force / u_l_p
+-- ⟨2, 0, 1⟩    (2D Surface Tension σ_surf = E_P k_p^2, Defect Load k = ρ_τ G M)
+-- [Section 0.3] u_Force       : UnitDim := (u_hbar * u_c) / u_l_p^2 -- ⟨1, 0, 1⟩  (1D Force F = E_P
+-- k_p = c^4 / G)
+-- [Section 0.3] u_Energy      : UnitDim := ⟨0, 0, 1⟩                -- ⟨0, 0, 1⟩  (0D Constitutive
+-- Energy E_P, E = M c^2 = ℏ Ω)
+def u_Temp            : UnitDim := u_Energy
+-- ⟨0, 0, 1⟩    (T_E = k_B T = ∂E/∂S, Thermodynamic Temperature)
+def u_force_const     : UnitDim := u_hbar * u_c
+-- ⟨-1, 0, 1⟩   (Bending Stiffness ℏ c = E_P l_p, K_τ = α ℏ c, Dirac Moment μ_Bτ)
+def u_power_density   : UnitDim := u_P_c / u_t_p
+-- ⟨3, 1, 1⟩    (∂_t P = P_c Ω_p, 3D Power Density)
+def u_poynting_flux   : UnitDim := u_P_c * u_c
+-- ⟨2, 1, 1⟩    (S = P_c c = E_P k_p^2 Ω_p, 2D Poynting Energy Flux)
+def u_power           : UnitDim := u_Energy / u_t_p
+-- ⟨0, 1, 1⟩    (P_pow = E_P Ω_p = c^5 / G, 0D Power / Luminosity)
 
 -- Theorem 139: Combinatorial Possibility Space Lattice Coordinates on ⟨K, Omega, E⟩
 theorem unit_combinatorial_possibility_space :
@@ -1039,7 +1100,8 @@ theorem unit_structural_equivalences :
           rfl, rfl, rfl, rfl,
           rfl, rfl, rfl, rfl, rfl, rfl⟩
 
--- Theorem 141: The Three Structural Ladders (Spatial Curvature, Relativistic c-Multiplier, and Kinematic Normalization)
+-- Theorem 141: The Three Structural Ladders (Spatial Curvature, Relativistic c-Multiplier, and
+-- Kinematic Normalization)
 theorem unit_three_structural_ladders :
     -- 1. Spatial Curvature Ladder (stepping K from -1 up to +4 at E = 1, Omega = 0) (5):
     u_force_const / u_l_p  = u_Energy ∧
@@ -1052,7 +1114,8 @@ theorem unit_three_structural_ladders :
     u_Mom * u_c            = u_Energy ∧
     u_l_p / u_t_p          = u_c ∧
     u_c / u_t_p            = u_accel ∧
-    -- 3. Kinematic Normalization Ladder (multiplying E = +1 states by u_spec_volume = 1 / u_rho_tau -> E = 0) (5):
+    -- 3. Kinematic Normalization Ladder (multiplying E = +1 states by u_spec_volume = 1 / u_rho_tau
+    -- -> E = 0) (5):
     u_P_c * u_spec_volume         = u_Phi ∧
     u_grad_P * u_spec_volume      = u_accel ∧
     u_dyn_visc * u_spec_volume    = u_kin_visc ∧
@@ -1074,7 +1137,8 @@ theorem unit_integer_action_closure_and_coulomb_elimination :
     -- 1. Two-Body Gravitational Product (E = 1 + 1 = 2 contracted by u_G with E = -1 -> E = 1) (2):
     (u_M_P * u_M_P).E = 2 ∧
     ((u_G * (u_M_P * u_M_P)) / u_Area) = u_Force ∧
-    -- 2. Hyperelastic Quadratic Pressure (P_dyn^2 with E = 2 contracted by u_compliance = 1/P_c with E = -1 -> E = 1) (2):
+    -- 2. Hyperelastic Quadratic Pressure (P_dyn^2 with E = 2 contracted by u_compliance = 1/P_c
+    -- with E = -1 -> E = 1) (2):
     (u_P_c^(2:ℤ)).E = 2 ∧
     (u_P_c^(2:ℤ)) * u_compliance = u_P_c ∧
     -- 3. Linear Metric Density Identity (ε_τ = ρ_τ l_p^2 = c^2 / G = ⟨3, -2, 1⟩) (2):

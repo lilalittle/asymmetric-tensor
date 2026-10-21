@@ -63,8 +63,10 @@ noncomputable def P_c     : ℝ := (1 / 2) * rho_tau * c^2
 
 /-- Tracks physical dimensions on the Geometric Curvature Lattice `⟨K, Omega, E⟩ ∈ ℤ³`:
     - `K`: Spatial Curvature exponent (`k_p = 1 / l_p`, `∇^K`; negative `K` is length `l_p^{-K}`),
-    - `Omega`: Temporal Curvature exponent (`Omega_p = 1 / t_p`, `∂_t^Omega`; negative `Omega` is time `t_p^{-Omega}`),
-    - `E`: Constitutive Stiffness exponent (`E_P = hbar * Omega_p`; `0` = unweighted geometry, `+1` = stress/load, `-1` = compliance). -/
+    - `Omega`: Temporal Curvature exponent (`Omega_p = 1 / t_p`, `∂_t^Omega`; negative `Omega` is
+      time `t_p^{-Omega}`),
+    - `E`: Constitutive Stiffness exponent (`E_P = hbar * Omega_p`; `0` = unweighted geometry, `+1`
+      = stress/load, `-1` = compliance). -/
 structure UnitDim where
   K     : ℤ := 0  -- Spatial Curvature (k_p = 1 / l_p)
   Omega : ℤ := 0  -- Temporal Curvature (Omega_p = 1 / t_p)
@@ -89,29 +91,48 @@ def u_Energy  : UnitDim := ⟨0, 0, 1⟩   -- Constitutive Energy Stiffness Ceil
 -- 2. Extensive Space-Time & Tier 2 Emergent Couplings (Length, Time, Velocity, Action)
 def u_l_p     : UnitDim := u_dimless / u_k_p     -- ⟨-1, 0, 0⟩  (Extensive Length l_p = 1 / k_p)
 def u_t_p     : UnitDim := u_dimless / u_omega   -- ⟨0, -1, 0⟩  (Extensive Time t_p = 1 / Omega_p)
-def u_c       : UnitDim := u_omega / u_k_p       -- ⟨-1, 1, 0⟩  (Phase Velocity c = Omega_p / k_p = l_p / t_p)
-def u_hbar    : UnitDim := u_Energy / u_omega    -- ⟨0, -1, 1⟩  (Action Stiffness hbar = E_P / Omega_p = E_P * t_p)
+def u_c       : UnitDim := u_omega / u_k_p
+-- ⟨-1, 1, 0⟩  (Phase Velocity c = Omega_p / k_p = l_p / t_p)
+def u_hbar    : UnitDim := u_Energy / u_omega
+-- ⟨0, -1, 1⟩  (Action Stiffness hbar = E_P / Omega_p = E_P * t_p)
 
 -- 3. Emergent Continuum & Defect Units
-def u_M_P     : UnitDim := u_hbar / (u_l_p * u_c)              -- ⟨2, -2, 1⟩   (Defect Mass m_0 = E_P / c^2)
-def u_G       : UnitDim := (u_l_p^(2:ℤ) * u_c^(3:ℤ)) / u_hbar  -- ⟨-5, 4, -1⟩  (Gravitational Compliance G)
-def u_rho_tau : UnitDim := u_hbar / (u_l_p^(4:ℤ) * u_c)        -- ⟨5, -2, 1⟩   (3D Mass Density rho_tau = P_c / c^2)
-def u_P_c     : UnitDim := u_rho_tau * (u_c^(2:ℤ))             -- ⟨3, 0, 1⟩    (3D Bulk Pressure Stiffness P_c = E_P * k_p^3)
+def u_M_P     : UnitDim := u_hbar / (u_l_p * u_c)
+-- ⟨2, -2, 1⟩   (Defect Mass m_0 = E_P / c^2)
+def u_G       : UnitDim := (u_l_p^(2:ℤ) * u_c^(3:ℤ)) / u_hbar
+-- ⟨-5, 4, -1⟩  (Gravitational Compliance G)
+def u_rho_tau : UnitDim := u_hbar / (u_l_p^(4:ℤ) * u_c)
+-- ⟨5, -2, 1⟩   (3D Mass Density rho_tau = P_c / c^2)
+def u_P_c     : UnitDim := u_rho_tau * (u_c^(2:ℤ))
+-- ⟨3, 0, 1⟩    (3D Bulk Pressure Stiffness P_c = E_P * k_p^3)
 
 -- 4. Derived Mechanical & Differential Curvature Units
-def u_accel       : UnitDim := (u_c^(2:ℤ)) / u_l_p             -- ⟨-1, 2, 0⟩   (Acceleration a = v^2 / r = c^2 * k_p)
-def u_Mom         : UnitDim := u_hbar / u_l_p                  -- ⟨1, -1, 1⟩   (Momentum p = hbar * k_p = E_P / c)
-def u_Force       : UnitDim := (u_hbar * u_c) / (u_l_p^(2:ℤ))  -- ⟨1, 0, 1⟩    (1D Force / Tension F = E_P * k_p)
-def u_SurfTension : UnitDim := u_Energy * (u_k_p^(2:ℤ))        -- ⟨2, 0, 1⟩    (2D Surface Tension sigma = E_P * k_p^2)
-def u_Viscosity   : UnitDim := u_P_c / u_omega                 -- ⟨3, -1, 1⟩   (Dynamic Viscosity / Spin mu = P_c * t_p)
-def u_Area        : UnitDim := u_l_p^(2:ℤ)                     -- ⟨-2, 0, 0⟩   (2D Area l_p^2 = k_p^-2)
-def u_Volume      : UnitDim := u_l_p^(3:ℤ)                     -- ⟨-3, 0, 0⟩   (3D Volume l_p^3 = k_p^-3)
-def u_Phi         : UnitDim := u_c^(2:ℤ)                       -- ⟨-2, 2, 0⟩   (Gravitational potential G M / r = v^2)
-def u_Curvature   : UnitDim := u_dimless / (u_l_p^(2:ℤ))       -- ⟨2, 0, 0⟩    (2D Gaussian Curvature k_p^2 = 1 / l_p^2, Lambda)
-def u_grad_P      : UnitDim := u_P_c / u_l_p                   -- ⟨4, 0, 1⟩    (3D Force Density -∇P = E_P * k_p^4)
-def u_Laplacian   : UnitDim := u_dimless / (u_l_p^(2:ℤ))       -- ⟨2, 0, 0⟩    (Laplace operator ∇^2 = k_p^2)
-def u_Biharmonic  : UnitDim := u_dimless / (u_l_p^(4:ℤ))       -- ⟨4, 0, 0⟩    (Biharmonic operator ∇^4 = k_p^4)
-def u_C_isochoric : UnitDim := u_c * (u_l_p^(2:ℤ))             -- ⟨-3, 1, 0⟩   (Isochoric flow constant C = v r^2)
+def u_accel       : UnitDim := (u_c^(2:ℤ)) / u_l_p
+-- ⟨-1, 2, 0⟩   (Acceleration a = v^2 / r = c^2 * k_p)
+def u_Mom         : UnitDim := u_hbar / u_l_p
+-- ⟨1, -1, 1⟩   (Momentum p = hbar * k_p = E_P / c)
+def u_Force       : UnitDim := (u_hbar * u_c) / (u_l_p^(2:ℤ))
+-- ⟨1, 0, 1⟩    (1D Force / Tension F = E_P * k_p)
+def u_SurfTension : UnitDim := u_Energy * (u_k_p^(2:ℤ))
+-- ⟨2, 0, 1⟩    (2D Surface Tension sigma = E_P * k_p^2)
+def u_Viscosity   : UnitDim := u_P_c / u_omega
+-- ⟨3, -1, 1⟩   (Dynamic Viscosity / Spin mu = P_c * t_p)
+def u_Area        : UnitDim := u_l_p^(2:ℤ)
+-- ⟨-2, 0, 0⟩   (2D Area l_p^2 = k_p^-2)
+def u_Volume      : UnitDim := u_l_p^(3:ℤ)
+-- ⟨-3, 0, 0⟩   (3D Volume l_p^3 = k_p^-3)
+def u_Phi         : UnitDim := u_c^(2:ℤ)
+-- ⟨-2, 2, 0⟩   (Gravitational potential G M / r = v^2)
+def u_Curvature   : UnitDim := u_dimless / (u_l_p^(2:ℤ))
+-- ⟨2, 0, 0⟩    (2D Gaussian Curvature k_p^2 = 1 / l_p^2, Lambda)
+def u_grad_P      : UnitDim := u_P_c / u_l_p
+-- ⟨4, 0, 1⟩    (3D Force Density -∇P = E_P * k_p^4)
+def u_Laplacian   : UnitDim := u_dimless / (u_l_p^(2:ℤ))
+-- ⟨2, 0, 0⟩    (Laplace operator ∇^2 = k_p^2)
+def u_Biharmonic  : UnitDim := u_dimless / (u_l_p^(4:ℤ))
+-- ⟨4, 0, 0⟩    (Biharmonic operator ∇^4 = k_p^4)
+def u_C_isochoric : UnitDim := u_c * (u_l_p^(2:ℤ))
+-- ⟨-3, 1, 0⟩   (Isochoric flow constant C = v r^2)
 
 -- 5. Automated Dimensional Verification on the ⟨K, Omega, E⟩ Lattice (Proven by `rfl`)
 theorem unit_emergent_time :
