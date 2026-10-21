@@ -31,6 +31,8 @@ on representative authored, repaired and genuinely new lines using the
 [source-provenance procedure](../../../docs/source-provenance.md); retain the
 original history and report tracing exceptions. Ignore only reviewed, wholly
 mechanical commits, never mixed or novel content.
+Check original path/line content for repaired and restored lines; a matching
+author name or a "mechanical" commit label alone is not provenance evidence.
 
 Use one durable source-review record in an existing relevant PR or issue (create
 one if needed within the task's authority). Record:

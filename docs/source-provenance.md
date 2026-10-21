@@ -57,12 +57,34 @@ reference. Add the ID in a later commit; a commit cannot contain its own final I
 Do not list mixed commits that also add wrappers, tests, explanatory text or
 semantic changes. Split those changes before committing when practical. Never
 bulk-ignore historical integration commits without reviewing their full diffs.
+Calling a commit "mechanical" is not sufficient: verify each affected line's
+original path and line content, including restored lines, before accepting an
+exclusion. Separate repairs with reliable mappings from additions or restorations
+that need their own attribution evidence.
 
 An ignored revision is still in history. Git may attribute its changed lines to
 nearby older lines: `?` marks reassignment through an ignored revision, and `*`
 marks a line Git could not attribute elsewhere when the settings above are used.
 Inspect both kinds against source evidence; a mark is not an authorship verdict.
+The absence of an unblamable marker does not establish a correct mapping.
 No real historical commits are added to an ignore list by this redesign.
+
+## Real acceptance example
+
+The [PR #88 attribution audit](https://github.com/lilalittle/asymmetric-tensor/pull/88)
+tested ignoring the original manuscript-repair commit
+`d2792fb4d23829054ee9847edd21f3203474ee32`. Ten inherited formula/reference lines
+then traced to Binyamin's text, while the restored `\end{document}` incorrectly
+traced to an unrelated historical list item. No unblamable marker appeared.
+The old file contained a real terminator elsewhere; the selected original line
+was nevertheless wrong. This was not a successful whole-commit exclusion.
+
+For this class of repair, keep existing-line changes, terminator restoration and
+ignore-file metadata in separate commits. Test the precise repair revision before
+listing it; retain the restoration's honest change history and explicit source
+mapping when tracing is ambiguous. Acceptance requires checking content and line
+origin, not merely seeing the expected author's name. This example records the
+original audit and does not certify a later PR head or authorize its merge.
 
 ## Reproduce the fixture
 

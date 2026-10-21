@@ -87,23 +87,34 @@ class ProvenanceTest(unittest.TestCase):
                 records.append(record)
                 record = {}
             elif not record:
-                record["commit"] = line.split()[0]
+                header = line.split()
+                record["commit"] = header[0]
+                record["original_line"] = int(header[1])
+                record["final_line"] = int(header[2])
             else:
                 key, _, value = line.partition(" ")
                 record[key] = value
         return records
+
+    def origin_text(self, line):
+        source = self.git("show", line["commit"] + ":" + line["filename"])
+        return source.splitlines()[line["original_line"] - 1]
 
     def test_preserved_source_and_copied_moved_lines(self):
         self.git("merge-base", "--is-ancestor", self.author_commit, "HEAD")
         self.assertEqual(self.source.read_text(), AUTHORED + OTHER)
         self.assertEqual(self.git("rev-parse", "HEAD:author-v1.lean").strip(),
                          self.author_blob)
-        for filename, line_index in [("Balance.lean", 1), ("Bounds.lean", 0)]:
+        for filename, line_index, original_line in [
+                ("Balance.lean", 1, 2), ("Bounds.lean", 0, 3)]:
             line = self.blame(filename)[line_index]
             self.assertEqual(line["commit"], self.author_commit)
             self.assertEqual(line["author"], AUTHOR)
             self.assertEqual(line["filename"], "author-v1.lean")
             self.assertEqual(line["committer"], STEWARD)
+            self.assertEqual(line["original_line"], original_line)
+            self.assertEqual(self.origin_text(line),
+                             (AUTHORED + OTHER).splitlines()[original_line - 1])
 
     def test_mechanical_repair_recovers_author_origin(self):
         default = self.blame("Balance.lean", enhanced=False)[0]
@@ -116,6 +127,9 @@ class ProvenanceTest(unittest.TestCase):
                                  AUTHORED.splitlines()[0].replace("identity is", "identity  is"))
                 self.assertEqual(traced["commit"], self.author_commit)
                 self.assertEqual(traced["author"], AUTHOR)
+                self.assertEqual(traced["filename"], "author-v1.lean")
+                self.assertEqual(traced["original_line"], 1)
+                self.assertEqual(self.origin_text(traced), AUTHORED.splitlines()[0])
                 self.assertNotIn("unblamable", traced)
 
     def test_new_steward_content_is_not_reassigned(self):
@@ -123,6 +137,9 @@ class ProvenanceTest(unittest.TestCase):
         self.assertEqual(line["text"], NOVEL.rstrip("\n"))
         self.assertEqual(line["commit"], self.novel_commit)
         self.assertEqual(line["author"], STEWARD)
+        self.assertEqual(line["filename"], "Balance.lean")
+        self.assertEqual(line["original_line"], 3)
+        self.assertEqual(self.origin_text(line), NOVEL.rstrip("\n"))
         self.assertNotIn("ignored", line)
         self.assertNotIn("unblamable", line)
 

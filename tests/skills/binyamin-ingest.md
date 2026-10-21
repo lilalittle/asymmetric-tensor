@@ -149,3 +149,7 @@ availability. The [provenance fixture](../../scripts/test_ingest_provenance.py)
 exercises real Git history and blame behavior; see
 [its interpretation](../../docs/source-provenance.md). Neither check is a prose
 string assertion or a replacement for the strict stable verifier.
+Provenance assertions resolve the reported original path and line back to its
+committed content, so a matching author with the wrong source line cannot pass.
+The PR #88 example in that guidance explains why restored lines require this
+check even when Git emits no unblamable marker.
