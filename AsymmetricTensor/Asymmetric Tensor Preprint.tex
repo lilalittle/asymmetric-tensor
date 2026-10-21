@@ -157,7 +157,7 @@ Where the covariant tensor variables are:
 The symmetric components construct the bulk geometric packing of the coordinate grid. Because the background metric responds to scalar thermodynamic pressure ($P_{dyn}$), the resulting spatial compression lacks an independent directional vector. A single scalar constant occupies all three spatial directions simultaneously, constituting isotropic volumetric strain ($\hat{U}_{11} = \hat{U}_{22} = \hat{U}_{33}$). 
 \begin{itemize}[leftmargin=*]
     \item \textbf{Temporal Component ($\hat{U}_{00}$):} Phase update capacity. The time-time component equates to the negative Total Scalar Admittance ($\hat{U}_{00} = -\alpha_s^2 = -\alpha_g^2 \alpha_a^2$). This component acts as the product of gravitational and kinematic time dilation, reducing to $\hat{U}_{00} = -1$ in the unperturbed Minkowski vacuum ($\alpha_s = 1$). 
-    \item \textbf{Spatial Components ($\hat{U}_{ii}$):} Effective volumetric density and spatial packing of the coordinate grid. The isotropic spatial metric coefficients operate as the exact inverse of the Total Scalar Admittance ($\hat{U}_{ii} = 1/\alpha_s^2$, preserving the reciprocal invariant $\hat{U}_{00}\hat{U}_{ii} = -1$). This inverse scalar relationship specifies that as thermodynamic capacity depletes toward the cavitation boundary ($\alpha_s \to 0^+$), the spatial coordinate compliance diverges ($\hat{U}_{ii} \to \infty$). % :::LLM_EDIT::: Explicitly note spatial isotropy, reciprocal invariant U_00 U_ii = -1, and subcritical limit \alpha_s -> 0^+
+    \item \textbf{Spatial Components ($\hat{U}_{ii}$):} Effective volumetric density and spatial packing of the coordinate grid. The isotropic spatial metric coefficients operate as the inverse of the Total Scalar Admittance ($\hat{U}_{ii} = 1/\alpha_s^2$, preserving the reciprocal invariant $\hat{U}_{00}\hat{U}_{ii} = -1$). The Riemannian metric volume element is governed by the symmetric sector determinant $g \equiv \det(S_{\mu\nu}) = -\alpha_s^{-4}$ (with 4D volume density $\sqrt{-g} = \alpha_s^{-2}$, spatial determinant $\det(S_{ij}) = \alpha_s^{-6}$, and 3D spatial volume density $\sqrt{\det(S_{ij})} = \alpha_s^{-3}$), whereas the full asymmetric determinant $\det(\hat{U}_{\mu\nu})$ includes off-diagonal shear terms (Section 9.7). As $\alpha_s \to 0^+$ toward the cavitation boundary, the spatial compliance diagonals diverge ($\hat{U}_{ii} \to \infty$). % :::LLM_EDIT::: Define g = det(S) volume convention for Issue 21
 \end{itemize}
 
 \subsection*{3.2 The Antisymmetric Off-Diagonals (Transverse Shear)}
@@ -325,12 +325,13 @@ At the cosmological scale, the restoring thermodynamic stiffness of the continuu
 As derived in Section 4.2, the restoring macroscopic pressure is parameterized by the expanding causal horizon ($P_{macro} = \frac{c^4}{4\pi G R_h^2}$). Macroscopic mass-energy introduces topological defects, mapping the defect density to the classical Stress-Energy Tensor ($T_{\mu\nu}$). Standard GR assumes a symmetric stress-energy tensor because macroscopic objects possess negligible net spin density.
 
 \vspace{0.2 cm}
+
 \textbf{3. The Volumetric Determinant (Jacobian Equivalence):} \\
-Because the metric trace ($I_1 \equiv \hat{U}^\mu_\mu$) governs volumetric strain, the scalar admittance ($\alpha_s^2$) is equivalent to the normalized volume (the Jacobian determinant) of the local spacetime metric:
+Because the symmetric metric trace ($I_1 \equiv S^\mu_\mu$) governs volumetric strain, the scalar admittance ($\alpha_s^2$) determines the normalized Riemannian volume density (the Jacobian factor) of the symmetric spacetime metric ($g \equiv \det(S_{\mu\nu}) = -\alpha_s^{-4}$): % :::LLM_EDIT::: Identify g as det(S) and remove local
 \begin{equation}
-    \alpha_s^{-2} \equiv \frac{\sqrt{-g}}{\sqrt{-g_0}} \equiv J_{normalized}
+    \alpha_s^{-2} = \frac{\sqrt{-g}}{\sqrt{-g_0}} \equiv J_{normalized}, \qquad g \equiv \det(S_{\mu\nu}) = -\alpha_s^{-4} \label{eq:jacobian_volume_equivalence} % :::LLM_EDIT::: Define g = det(S) for Issue 21
 \end{equation}
-Where $\sqrt{-g_0}$ represents the unperturbed vacuum baseline. This identity formalizes the 1-to-1 mapping between the permittivity of the vacuum ($\alpha_s^2$) and the volumetric compression of the manifold ($J_{normalized}$).
+Where $\sqrt{-g_0} = 1$ represents the unperturbed vacuum baseline ($\alpha_s = 1$), and the 3D spatial block determinant $\det(S_{ij}) = \alpha_s^{-6}$ gives the spatial volume factor $\sqrt{\det(S_{ij})} = \alpha_s^{-3}$. Because the full asymmetric determinant $\det(\hat{U}_{\mu\nu}) = -\alpha_s^{-4}(1 - E^2) - B^2$ includes off-diagonal shear (Section 9.7), $\det(\hat{U}_{\mu\nu})$ coincides with $g = \det(S_{\mu\nu})$ only when $E^2 = \alpha_s^4 B^2$ (including $A_{\mu\nu} = 0$). This identity maps the permittivity of the vacuum ($\alpha_s^2$) to the volumetric compression of the symmetric manifold ($J_{normalized}$). % :::LLM_EDIT::: Distinguish det(S) from det(U) for Issue 21
 
 
 
@@ -1094,7 +1095,7 @@ This structural yield converts the continuous metric strain into discrete invari
 \vspace{0.2 cm}
 
 \textbf{3. Micro-Macro Horizon Duality ($r_c \Omega_{core} = c \leftrightarrow R_h H_0 = c$):} \\ % :::LLM_EDIT::: Remove em-dash and Section 11 Omega_max
-Clebsch vorticity ($\Omega_{core}$) and the Hubble horizon strain rate ($H_0$) both operate as inverse-time strain rates ($c/r$). Comparing the cavitation boundary ($r_c$) to the outer cosmological horizon ($R_h$) establishes a structural duality across the symmetric ($S_{\mu\nu}$) and antisymmetric ($A_{\mu\nu}$) sectors of the tensor: % :::LLM_EDIT::: Clarify inverse-time rate relation
+Clebsch vorticity ($\Omega_{core}$) and the Hubble horizon strain rate ($H_0$) both operate as inverse-time strain rates ($c/r$). Comparing the cavitation boundary ($r_c$) to the outer cosmological horizon ($R_h$) establishes a structural duality across the symmetric ($S_{\mu\nu}$) and antisymmetric ($A_{\mu\nu}$) sectors of the tensor (Equation \ref{eq:micro_macro_duality}): % :::LLM_EDIT::: Clarify inverse-time rate relation
 \begin{itemize}
     \item \textbf{Inner Defect Boundary ($r = r_c$):} At the Compton cavitation radius $r_c = \hbar/(m_0 c)$, the radial compliance $S_{ii} = 1/\alpha_s^2$ diverges and deflects the core strain into a closed rotational loop inside the antisymmetric sector ($A_{\mu\nu}$), locking the core angular frequency to $r_c \Omega_{core} = c \implies \Omega_{core} = m_0 c^2/\hbar$.
     \item \textbf{Outer Cosmic Horizon ($R_h$):} At the causal horizon $R_h = c/H_0$, the strain rate $H_0 = c/R_h$ operates in the symmetric sector ($S_{\mu\nu}$) as an irrotational radial gradient $v_0(r) = R_h H_0(1 - e^{-r/R_h})$, saturating at the phase velocity limit: % :::LLM_EDIT::: Remove premature Section 11 galactic rotation references
@@ -1240,21 +1241,24 @@ While the zero trace of the antisymmetric matrix ($\text{Tr}(A_{\mu\nu}) = 0$) g
 By mapping the electric field ($E \propto v_\perp/c$) and magnetic field ($B \propto t_p \Omega$), this equivalence reproduces the impedance of free space ($Z_0$), and the proportional magnitude ($E = cB$). 
 
 \subsection*{9.5 Non-Linear Vacuum Polarization (The Schwinger Limit)} 
-Electromagnetism assumes linear superposition, but the tensor restricts this to the weak-shear limit. For a coordinate free of longitudinal dynamic pressure ($\alpha_s = 1$) and electric slip ($v_\perp = 0$) subjected to the critical transverse vorticity threshold ($\alpha t_p \Omega = 1$), the transverse spatial eigenvalues move into the complex plane ($\lambda = 1 \pm i$). % :::LLM_EDIT::: Specify v_perp = 0 transverse eigenvalues for Issue 20
-
-Evaluating the pointwise impedance ratio from Section 9.2 at these eigenmodes ($\lambda = 1 \pm i$) determines the vacuum modulus: % :::LLM_EDIT::: Clarify evaluation at transverse eigenmodes
+Electromagnetism assumes linear superposition, but the tensor restricts this to the weak-shear limit. For an aligned field configuration with electric slip $E_x = \alpha v_{\perp,x}/c$ and magnetic vorticity $B_z = \alpha t_p \Omega_z$ ($v_{\perp,y} = v_{\perp,z} = \Omega_x = \Omega_y = 0$, $\alpha_s \neq 0$), the $4 \times 4$ characteristic polynomial of $\hat{U}_{\mu\nu}$ expands as: % :::LLM_EDIT::: State 4x4 characteristic polynomial for Issue 20
 \begin{equation}
-    |Z_{ratio}| = \left| \frac{1 + (1 \pm i)}{1 - (1 \pm i)} \right| = \frac{|2 \pm i|}{|\mp i|} = \sqrt{5}
+    \det(\hat{U}_{\mu\nu} - \lambda \mathbf{I}) = (\alpha_s^{-2} - \lambda)\Big[(-\alpha_s^2 - \lambda)\big((\alpha_s^{-2} - \lambda)^2 + B_z^2\big) + E_x^2 (\alpha_s^{-2} - \lambda)\Big] \label{eq:aligned_charpoly} % :::LLM_EDIT::: Add full 4x4 characteristic polynomial equation
 \end{equation}
+At the unit-admittance vorticity threshold ($\alpha_s = 1, B_z = 1$), evaluating Equation \ref{eq:aligned_charpoly} at $\lambda = 1 \pm i$ yields $\det(\hat{U}_{\mu\nu} - (1 \pm i)\mathbf{I}) = -E_x^2$ (for example, $E_x = 1/2$ gives $\det(\hat{U}_{\mu\nu} - (1+i)\mathbf{I}) = -1/4 \neq 0$). Consequently, $\lambda = 1 \pm i$ are eigenvalues of the full $4 \times 4$ tensor if and only if electric slip vanishes ($v_\perp = 0$, $E_x = 0$), where the polynomial factors into $(-1 - \lambda)(1 - \lambda)\big((1 - \lambda)^2 + 1\big) = 0$ with transverse 4-eigenvectors $\psi_\pm = (0, 1, \mp i, 0)^T$. % :::LLM_EDIT::: Include nonzero-slip counterexample and iff condition for Issue 20
+
+Substituting the decoupled transverse roots ($\lambda = 1 \pm i$ at $v_\perp = 0$) into the Mobius rational transformation $Z(\lambda) = (1 + \lambda)/(1 - \lambda)$ produces the spectral coefficient modulus: % :::LLM_EDIT::: Restrict sqrt(5) to spectral Mobius modulus for Issue 20
+\begin{equation}
+    |Z(\lambda_\pm)| = \left| \frac{1 + (1 \pm i)}{1 - (1 \pm i)} \right| = \frac{|2 \pm i|}{|\mp i|} = \sqrt{5} % :::LLM_EDIT::: Relabel Z_ratio as spectral function Z(lambda)
+\end{equation}
+Because $v_\perp = 0$ is required to decouple the spatial block, the physical slip-to-vorticity ratio $v_\perp / (c t_p \Omega)$ is zero in this state; $|Z(\lambda_\pm)| = \sqrt{5}$ is therefore a spectral coefficient modulus of the decoupled vorticity block rather than a simultaneous nonzero-slip electromagnetic impedance. % :::LLM_EDIT::: Reconcile zero-slip condition with impedance interpretation for Issue 20
 
 
 
 %--------
 
 \subsection*{9.6 Continuous Unitary Evolution ($U(1)$ Symmetry)} 
-Evaluating the characteristic polynomial at the real spatial ($\lambda = 1$) or real temporal ($\lambda = -1$) roots results in $\Omega = 0$ and $v_\perp = 0$, respectively. 
-
-Isolating the transverse spatial ($2 \times 2$) sub-matrix from the primary tensor decomposes the strain into a symmetric scalar amplitude and an antisymmetric rotational generator: 
+Evaluating the characteristic polynomial (Equation \ref{eq:aligned_charpoly}) at the real spatial ($\lambda = \alpha_s^{-2}$) or real temporal ($\lambda = -\alpha_s^2$) roots under $E_x = 0$ isolates the longitudinal subspace, whereas the complex conjugate roots govern the decoupled $2 \times 2$ transverse spatial block ($v_\perp = 0$): % :::LLM_EDIT::: Specify zero-slip decoupling for 2x2 block in Issue 20
 \begin{equation} 
     \hat{U}_{\perp} = \begin{bmatrix} \alpha_s^{-2} & -\alpha t_p \Omega \\ \alpha t_p \Omega & \alpha_s^{-2} \end{bmatrix} = \alpha_s^{-2} \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} + \alpha t_p \Omega \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} 
 \end{equation} 
@@ -1262,14 +1266,14 @@ A matrix possessing this structure ($a\mathbf{I} + b\mathbf{J}$, where $\mathbf{
 
 Because the exponential of an antisymmetric generator structures the rotation group ($e^{\mathbf{J}\theta} = \cos\theta \mathbf{I} + \sin\theta \mathbf{J}$), the boundary operates as an acoustic standing wave. This connects the quantum mechanical $U(1)$ unitary phase rotation to the asymmetric strain components. 
 
-Evaluating the eigenvectors ($\mathbf{v}$) of this transverse sub-matrix for the complex conjugate roots ($\lambda = \alpha_s^{-2} \pm i \alpha t_p \Omega$) determines the spatial orientation of the strain: 
+Evaluating the eigenvectors ($\mathbf{v}$) of this decoupled transverse sub-matrix for the complex conjugate roots ($\lambda = \alpha_s^{-2} \pm i \alpha t_p \Omega$ at $v_\perp = 0$) determines the spatial orientation of the strain: % :::LLM_EDIT::: Note v_perp = 0 condition for eigenvectors
 \begin{equation} 
     \begin{bmatrix} \mp i \alpha t_p \Omega & -\alpha t_p \Omega \\ \alpha t_p \Omega & \mp i \alpha t_p \Omega \end{bmatrix} \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = 0 \implies \mathbf{v}_\pm = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ \mp i \end{bmatrix} 
 \end{equation} 
-The geometric normalization of these orthogonal vectors scales by $1/\sqrt{2} = \cos(\pi/4)$. This projection supplies the 45-degree maximum Tresca shear plane required to yield the metric into a discrete mass boundary (Section 8.3). These complex orthogonal vectors recover the Jones vectors for circular polarization, deriving the gauge basis for spin-1 transverse wave propagation from the shear limits of the tensor.
+The unitary normalization of these orthogonal vectors scales by $1/\sqrt{2} = \cos(\pi/4)$, numerically matching the $\alpha_{yield} = 1/\sqrt{2}$ compliance factor derived independently from the Compton-Schwarzschild boundary intersection ($\hbar / Mc = 2GM/c^2$) in Section 8.3. These complex orthogonal vectors recover the Jones vectors for circular polarization in the decoupled transverse plane ($v_\perp = 0$). % :::LLM_EDIT::: Separate eigenvector normalization from Section 8.3 yield derivation for Issue 20
 
 \subsection*{9.7 The Generalized Determinant ($\det(\hat{U}) = 0$)} % 
-On the subcritical domain ($\alpha_s \in (0, 1]$), setting the determinant to zero sets the condition where the metric volume collapses: 
+Whereas the Riemannian metric volume is governed by the symmetric determinant $g \equiv \det(S_{\mu\nu}) = -\alpha_s^{-4}$ (so that at $\alpha_s = 1, v_\perp = 0, \alpha t_p \Omega_z = 1$, $\det(S_{\mu\nu}) = -1$ while $\det(\hat{U}_{\mu\nu}) = -2$), setting the full asymmetric determinant $\det(\hat{U}_{\mu\nu})$ to zero on the subcritical domain ($\alpha_s \in (0, 1]$) identifies the singular characteristic threshold where electric slip balances magnetic vorticity and symmetric compliance: % :::LLM_EDIT::: Distinguish det(U)=0 from Riemannian metric volume det(S) for Issue 21
 \begin{equation} 
     \det(\hat{U}_{\mu\nu}) = -\alpha_s^{-4} - (\alpha t_p \Omega)^2 + \alpha_s^{-4} \left(\alpha \frac{v_\perp}{c}\right)^2 = 0 
 \end{equation}
@@ -1281,7 +1285,7 @@ This equality ($E^2 - \alpha_s^4 B^2 = 1$) unites distinct yield limits across $
 \begin{itemize} 
      \item \textbf{Hawking Radiation ($0 < \alpha_s < 1$):} As gravitational dynamic pressure increases, the magnetic term is suppressed by the fourth power of the scalar admittance ($\alpha_s^4$). The boundary yields at exponentially lower energy thresholds, structuring spontaneous pair production near an event horizon. 
     \item \textbf{The Kinematic Mass Limit ($\alpha_s \to 0^+$):} As dynamic pressure approaches saturation, the magnetic term vanishes ($\alpha_s^4 \to 0$). Evaluating the boundary (\ref{eq:generalized_cavitation}) at $\alpha_s = 0$ yields $E^2 = 1 \implies v_\perp = c/\alpha$. Because longitudinal causality restricts energy transport (group velocity) to $v_g < c$, this variable operates as the orthogonal phase velocity of the boundary ($v_p = c/\alpha$). This satisfies the de Broglie kinematic wave relation ($v_p \cdot v_g = c^2$) for a ground-state defect oscillating at $v_g = \alpha c$. % :::LLM_EDIT::: Replace advection with energy transport
-\end{itemize} 
+\end{itemize}
 
 \subsection*{9.8 The Temporal Cavitation Limit ($\alpha_s \to 0^+$)} % :::LLM_EDIT::: Use one-sided limit notation for Issue 12
 In the one-sided cavitation limit as dynamic pressure approaches capacity ($P_{dyn} \to P_c^- \implies \alpha_s \to 0^+$), the spatial strain diagonals diverge ($\hat{U}_{ii} = 1/\alpha_s^2 \to +\infty$), while the inverse spatial compliance vanishes ($S^{ii} = \alpha_s^2 \to 0^+$) and the Eulerian Almansi strain remains finite ($e_{ij} = \frac{1}{2}(1 - \alpha_s^2)\delta_{ij} \to \frac{1}{2}\delta_{ij}$, Section 16.3). Simultaneously, the temporal diagonal collapses ($\hat{U}_{00} = -\alpha_s^2 \to 0^-$) and the temporal multiplier $(-\alpha_s^2 - \lambda)$ simplifies to $(-\lambda)$, driving the temporal root to zero ($\lambda_0 \to 0$). % :::LLM_EDIT::: Reconcile divergent diagonals and finite strain for Issue 12
@@ -1590,23 +1594,20 @@ Consequently, the thermal fluctuations of the baryonic vorticity cannot achieve 
     \langle A_{ij} \rangle = \frac{1}{V} \int_V A_{ij}^{(micro)} dV \neq 0
 \end{equation}
 
-Because this coherent residual correlates to the conserved angular momentum ($\mathbf{J}$), the aggregate torque becomes a steady-state axial field. This steady-state rotation is translationally invariant along the rotational axis ($\partial_z \langle A_{ij} \rangle = 0$). 
+Because this coherent residual correlates to the conserved angular momentum ($\mathbf{J}$), the aggregate torque becomes a steady-state axial field that is translationally invariant along the rotation axis ($\partial_z \langle A_{ij} \rangle = 0$). Because axial translational invariance alone permits uniform nonzero constants, dimensional reduction to the galactic midplane ($z = 0$) additionally invokes equatorial reflection anti-symmetry of the out-of-plane shear components ($A_{xz}(-z) = -A_{xz}(z)$ and $A_{yz}(-z) = -A_{yz}(z)$, forcing $A_{xz}(0) = A_{yz}(0) = 0$) together with the thin-disk plane-stress boundary condition ($\sigma_{zz} = 0$ from vanishing vertical traction at the free disk surfaces). % :::LLM_EDIT::: State reflection anti-symmetry and plane-stress hypotheses for Issue 24
 
-This translational invariance nullifies the off-plane shear components ($A_{xz} = A_{yz} = 0$).  To accommodate this restricted state, the symmetric stress tensor decouples the axial component ($\sigma_{zz} = 0$). 
+Under these symmetry and plane-stress boundary conditions, the kinematic response of the continuum is restricted to a 2D cylindrical plane-stress state ($r, \phi$). % :::LLM_EDIT::: Link 2D reduction to stated hypotheses for Issue 24
 
-Through the conservation of angular momentum, the kinematic response of the continuum is restricted to a 2D cylindrical plane stress state ($r, \phi$). 
-
-\textbf{3. The 2D Laplacian \& Logarithmic Shear:} \\
-The trace contraction of the tensor ($\hat{U}_{\mu\nu}\hat{U}^{\mu\nu}$) divides the kinetic energy. The antisymmetric trace filters the transverse shear stress ($P_{shear} = \frac{1}{4} P_c A_{\mu\nu}A^{\mu\nu}$). In steady-state, this scalar pressure field is bounded by the source-free Laplace equation ($\nabla^2 P_{shear} = 0$). 
-Applying the 2D polar Laplacian specifies the differential operator: 
+\textbf{3. The 2D Laplacian \& Logarithmic Shear on the Bounded Annulus:} \\ % :::LLM_EDIT::: Specify bounded annulus in heading for Issue 24
+The trace contraction of the tensor ($\hat{U}_{\mu\nu}\hat{U}^{\mu\nu}$) divides the kinetic energy. The antisymmetric trace filters the transverse shear stress ($P_{shear} = \frac{1}{4} P_c A_{\mu\nu}A^{\mu\nu}$). On the source-free galactic annulus bounded between the inner yield transition radius $r_t$ and the outer capture radius $R_{max}$ ($0 < r_t \le r \le R_{max}$), this scalar pressure field satisfies the 2D cylindrical Laplace equation ($\nabla_{2D}^2 P_{shear} = 0$): % :::LLM_EDIT::: Specify bounded annulus domain [r_t, R_max] for Issue 24
 \begin{equation}
     \nabla_{2D}^2 P_{shear} = \frac{1}{r} \frac{\partial}{\partial r} \left( r \frac{\partial P_{shear}}{\partial r} \right) = 0
 \end{equation}
-Integrating this operator radially outward constructs the macroscopic scalar pressure field:
+Integrating this operator radially across $r \in [r_t, R_{max}]$ subject to the outer vanishing boundary condition $P_{shear}^{2D}(R_{max}) = 0$ constructs the nonnegative logarithmic shear pressure field and its radial stress gradient: % :::LLM_EDIT::: State outer boundary condition and radial derivative for Issue 24
 \begin{equation}
-    P_{shear}^{2D}(r) = k \ln \left( \frac{R_{max}}{r} \right) \label{eq:logarithmic_shear_pressure}
+    P_{shear}^{2D}(r) = k \ln \left( \frac{R_{max}}{r} \right) \ge 0, \qquad \frac{\partial P_{shear}^{2D}}{\partial r} = -\frac{k}{r} \label{eq:logarithmic_shear_pressure} % :::LLM_EDIT::: Include radial derivative on bounded annulus for Issue 24
 \end{equation}
-The metric generates a logarithmic tension well, where the scalar amplitude ($k$) represents the net shear load of the galaxy. 
+The metric generates a logarithmic tension well on the annulus, where the scalar amplitude ($k \ge 0$) represents the shear load of the galaxy. % :::LLM_EDIT::: Specify annulus domain and k >= 0
 
 \textbf{4. The Elastic Metric Tension:} \\ 
 By the conservation laws of the thermodynamic budget, this shear load acts as transverse tension upon the Total Scalar Admittance ($\alpha_s^2$). The symmetric temporal diagonal ($S_{00} = -\alpha_s^2$) shifts to accommodate both the 3D isotropic Newtonian gravity and polarized 2D shear:
@@ -1637,7 +1638,7 @@ Equating the anomalous 2D spatial component to the required inward centripetal a
 The orbital velocity squares to a constant kinematic plateau. In Bingham fluid dynamics, this region of constant velocity and zero internal dynamic shear represents a plug flow. The continuum moves as a unified bulk, sustained by the elastic tension of the vacuum ($P_c$). 
 
 \textbf{7. The Three-Layer Rheological Coupling \& The Macroscopic Yield Limit:} \\ 
-The shear amplitude ($k$) evaluates via the mechanical energy balance. The macroscopic yield limit ($a_0$) is derived from the divergence equilibrium of the tensor components. 
+The shear amplitude ($k$) evaluates via boundary matching across the transition interface. The macroscopic yield limit ($a_0$) is derived from the divergence equilibrium of the tensor components. % :::LLM_EDIT::: Clarify boundary matching for k in Issue 24
 
 Transverse slip is parameterized by the space-time off-diagonal ($\hat{U}_{0i} = -\alpha v_{\perp,i}/c$). The spatial gradient of this component constructs the rotational acceleration ($\partial_j \hat{U}_{0i} \propto a_{rot}/c^2$). 
 Simultaneously, macroscopic cosmological expansion applies a continuous temporal divergence to the volumetric spatial diagonals ($\partial_0 \hat{U}_{ii}$). Because optical depth scales the coordinate wavelength by the redshift ratio ($1+z$), the apparent temporal strain rate attenuates at high redshift ($H_{app}(z) = c/[R_{h,0}(1+z)]$). 
@@ -1661,7 +1662,7 @@ This outward propagation behaves as continuous stress integrated over time, acti
 
 Identifying this inner acceleration boundary constructs the transition radius: 
 \begin{equation}
-    \frac{G M_{bar}}{r_t^2} = a_0(z) \implies r_t = \sqrt{\frac{G M_{bar}}{a_0(z)}}
+    \frac{G M_{bar}}{r_t^2} = a_0(z) \implies r_t = \sqrt{\frac{G M_{bar}}{a_0(z)}} \label{eq:transition_radius_rt} % :::LLM_EDIT::: Add label for transition radius
 \end{equation}
 
 Because the boundary acceleration is inversely proportional to optical depth ($a_0(z) \propto 1/[1+z]$), the yield threshold shrinks in the early universe. Evaluating the transition boundary limit as redshift increases ($z \gg 0$):
@@ -1678,12 +1679,12 @@ The 2D plug flow does not extend infinitely.  While the inner boundary ($r_t$) c
 At this radial limit, the kinematic slip of the galaxy matches the volumetric divergence of the cosmic background.  The 2D planar tension of the trapped plug flow shears against the isotropic tension of the surrounding void. The metric decouples across this phase-locked boundary, releasing the rotational strain back into the quiescent 3D expansion of the intergalactic medium. 
 \vspace{0.2 cm}
 
-Within the plug flow (Zone 2), the kinematics couple to the 2D tension. Matching the plug-flow plateau (Equation \ref{eq:plug_flow_plateau}, $v_{rot}^2 = c^2 k / 2P_c$) to the Newtonian acceleration at the inner transition interface ($v_{rot}^2 / r_t = G M_{bar} / r_t^2 = a_0(z) \implies v_{rot}^2 = a_0(z) r_t$) fixes the 2D shear amplitude ($k = \frac{2P_c}{c^2}\sqrt{a_0(z) G M_{bar}} = \rho_\tau \sqrt{a_0(z) G M_{bar}}$) and determines the plateau velocity: % :::LLM_EDIT::: Explicitly derive shear constant k from boundary matching for Issue 24
+Within the plug flow annulus ($r \in [r_t, R_{max}]$), imposing constitutive acceleration continuity between the 2D logarithmic stress gradient ($a_{2D}(r_t) = \frac{c^2 k}{2 P_c r_t} = \frac{k}{\rho_\tau r_t}$) and the 3D Newtonian yield acceleration ($a_N(r_t) = \frac{G M_{bar}}{r_t^2} = a_0(z)$) across the transition boundary $r_t = \sqrt{G M_{bar}/a_0(z)}$ (Equation \ref{eq:transition_radius_rt}) fixes the 2D shear amplitude $k = \rho_\tau a_0(z) r_t = \frac{2P_c}{c^2}\sqrt{a_0(z) G M_{bar}}$ and determines the plateau velocity: % :::LLM_EDIT::: State constitutive interface acceleration continuity for Issue 24
 \begin{align}
-    v_{rot}^2 &= a_0(z) \sqrt{\frac{G M_{bar}}{a_0(z)}} = \sqrt{a_0(z) G M_{bar}} \nonumber \\
+    v_{rot}^2 &= \frac{c^2 k}{2 P_c} = a_0(z) r_t = a_0(z) \sqrt{\frac{G M_{bar}}{a_0(z)}} = \sqrt{a_0(z) G M_{bar}} \nonumber \\ % :::LLM_EDIT::: Show step-by-step substitution from k and r_t
     v_{rot}^4 &= a_0(z) G M_{bar} \label{eq:tully_fisher_derivation}
 \end{align}
-The Baryonic Tully-Fisher relation emerges as the kinematic consequence of this Bingham plug flow. 
+Under this constitutive boundary-matching model, the Baryonic Tully-Fisher relation emerges from the Bingham plug-flow stress balance on the annulus; a first-principles derivation of the 3D-to-2D phase-transition operator from the microscopic equations of motion, along with the lensing and multi-body entrainment extensions below, remains an open analytical and computational problem. % :::LLM_EDIT::: Record constitutive scope and open operator derivation for Issue 24
 
 \vspace{0.2 cm}
 
