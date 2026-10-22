@@ -1064,8 +1064,7 @@ Redefining the kinematic state relative to the baseline defines the longitudinal
     v(x) = v_{vev} + \delta v(x)
 \end{equation}
 
-
-%----------
+%-------------------------------------
 
 \subsection*{8.2 The Topological Phase Lock (Mass Generation)}
 Before structural yield ($\alpha_s \in (0, 1]$), the metric sustains continuous independent wave states across its symmetric bulk diagonals ($S_{\mu\nu}$) and antisymmetric transverse shear off-diagonals ($A_{\mu\nu}$). 
@@ -1073,7 +1072,7 @@ Before structural yield ($\alpha_s \in (0, 1]$), the metric sustains continuous 
 \vspace{0.2 cm}
 
 \textbf{1. Frobenius Shear Pressure and Invariant Rest Mass:} \\
-When the kinematic strain crosses the VEV cavitation threshold ($v \to v_{vev}$, $\alpha_s \to 0^+$) at the defect boundary $r_c$, the static pressure capacity is exhausted ($P_{static} = \alpha_s^2 P_c \to 0$), the temporal diagonal collapses ($\hat{U}_{00} = -\alpha_s^2 \to 0$), and the spatial compliance diagonals ($S_{ii} = 1/\alpha_s^2$) diverge, driving the metric into cavitation. Continuous phase conservation locks the unresolved kinetic energy into the antisymmetric Clebsch vorticity off-diagonals ($A_{ij} = \alpha t_p [d\lambda_\Omega \wedge d\beta_\Omega]_{ij}$), which remain finite and independent of $\alpha_s$. Evaluating the Frobenius shear pressure $P_{shear} = \frac{1}{2}P_c \alpha^2 (v_\perp^2/c^2 + t_p^2\Omega^2)$ (derived in Equation \ref{eq:frobenius_shear_load} below) across a phase-locked defect volume $V_\tau > 0$ (with $\rho_\tau > 0$, $c > 0$, $\alpha \neq 0$, and $\Omega \neq 0$) yields positive invariant rest mass $m_0 = E_{locked}/c^2 = P_{shear}V_\tau / c^2$: % :::LLM_EDIT::: Remove banned word strictly (Rule 7)
+On the subcritical interior ($\alpha_s \in (0, 1)$), the spatial compliance diagonals ($S_{ii} = 1/\alpha_s^2$) are counterbalanced by the temporal admittance ($S_{00} = -\alpha_s^2$, preserving $S_{00}S_{ii} = -1$). When the kinematic strain crosses the VEV cavitation threshold ($v \to v_{vev}$, $\alpha_s \to 0^+$) at the defect boundary $r_c$, the static pressure reserve is exhausted ($P_{static} = \alpha_s^2 P_c \to 0$) and the temporal diagonal collapses ($\hat{U}_{00} = -\alpha_s^2 \to 0$). Continuous phase conservation locks the unresolved kinetic energy into the antisymmetric Clebsch vorticity off-diagonals ($A_{ij} = \alpha t_p [d\lambda_\Omega \wedge d\beta_\Omega]_{ij}$), which contain no $\alpha_s$ denominators and remain finite across all 16 matrix entries. Because each independent electric slip ($A_{0i} = -A_{i0}$) and magnetic vorticity ($A_{ij} = -A_{ji}$) component appears twice in the $4 \times 4$ matrix, the positive-definite Hamiltonian shear pressure evaluates via the Euclidean Frobenius norm $\|A\|_F^2 \equiv \sum_{\mu,\nu} (A_{\mu\nu})^2 = 2\alpha^2(v_\perp^2/c^2 + t_p^2\Omega^2)$, where the prefactor of $1/4$ cancels the double-counting factor of $2$ to yield $P_{shear} = \frac{1}{4}P_c \|A\|_F^2 = \frac{1}{2}P_c \alpha^2 (v_\perp^2/c^2 + t_p^2\Omega^2)$ (whereas raising indices with the Minkowski metric $\eta^{\mu\alpha}\eta^{\nu\beta}A_{\mu\nu}A_{\alpha\beta}$ in the Lagrangian action flips the sign of the $A_{0i}$ electric slip terms to give $\frac{1}{4}P_c A_{\mu\nu}A^{\mu\nu} = \frac{1}{2}P_c \alpha^2(t_p^2\Omega^2 - v_\perp^2/c^2)$, derived in Equation \ref{eq:frobenius_shear_load} below). Integrating $P_{shear}$ across a phase-locked defect volume $V_\tau > 0$ (with $\rho_\tau > 0$, $c > 0$, $\alpha \neq 0$, and $\Omega \neq 0$) yields positive invariant rest mass $m_0 = E_{locked}/c^2 = P_{shear}V_\tau / c^2$: % :::LLM_EDIT::: Distinguish Frobenius Hamiltonian norm from Minkowski Lorentzian contraction and note alpha_s counterbalance for Issues 10 and 12
 \begin{equation}
     \alpha_s \to 0^+ \implies P_{static} = 0 \implies m_0 = \frac{E_{locked}}{c^2} = \frac{P_{shear} V_\tau}{c^2} = \frac{\rho_\tau V_\tau \alpha^2}{4}\left(\frac{v_\perp^2}{c^2} + t_p^2 \Omega^2\right) > 0 \label{eq:cavitation_phase_lock}
 \end{equation}
@@ -1081,7 +1080,7 @@ When the kinematic strain crosses the VEV cavitation threshold ($v \to v_{vev}$,
 \vspace{0.2 cm}
 
 \textbf{2. Tangential Phase-Lock ($v_{vortex} = r_c \Omega = c$) and Equipartition Equivalence:} \\
-Because the spatial bulk can no longer compress radially at the cavitation boundary $r_c$, continuous phase conservation deflects the core strain into tangential circulation at the phase velocity ($v_{vortex} = r_c \Omega = c$). This locks the vacuum pressure $P_c = \frac{1}{2}\rho_\tau c^2$ into the rotational energy density of the vortex core, $P_{vortex} \equiv \frac{1}{2}\rho_\tau v_{vortex}^2 = \frac{1}{2}\rho_\tau (r_c \Omega)^2 = P_c$ (which is why $P_{static} = P_c - P_{vortex} = 0$ at $r = r_c$). Under the equipartition boundary matching condition between the space-time ($A_{0i}$) and space-space ($A_{ij}$) antisymmetric sectors, % :::LLM_EDIT::: Remove banned words local (Rule 7)
+Because the spatial bulk can no longer compress radially at the cavitation boundary $r_c$, phase conservation deflects the core strain into tangential circulation at the phase velocity ($v_{vortex} = r_c \Omega = c$). This locks the vacuum pressure $P_c = \frac{1}{2}\rho_\tau c^2$ into the rotational energy density of the vortex core, $P_{vortex} \equiv \frac{1}{2}\rho_\tau v_{vortex}^2 = \frac{1}{2}\rho_\tau (r_c \Omega)^2 = P_c$ (which is why $P_{static} = P_c - P_{vortex} = 0$ at $r = r_c$). Under the equipartition boundary matching condition between the space-time ($A_{0i}$) and space-space ($A_{ij}$) antisymmetric sectors, % :::LLM_EDIT::: Remove banned words local (Rule 7)
 \begin{equation}
     2 v_{vortex}^2 = 2 r_c^2 \Omega^2 = \alpha^2\left(v_\perp^2 + c^2 t_p^2 \Omega^2\right) \label{eq:vortex_equipartition_match}
 \end{equation}
@@ -1089,12 +1088,12 @@ the Frobenius shear pressure equals the tangential vortex pressure ($P_{shear} =
 \begin{equation}
     m_0 = \frac{P_{vortex} V_\tau}{c^2} = \frac{1}{2}\rho_\tau V_\tau \left(\frac{r_c \Omega}{c}\right)^2 = \frac{1}{2}\rho_\tau V_\tau = \frac{P_c V_\tau}{c^2} > 0 \label{eq:tangential_vortex_mass}
 \end{equation}
-This structural yield converts the continuous metric strain into discrete invariant mass. % :::LLM_EDIT::: Replace banned word topological with structural (Rule 7)
+This yield converts the metric strain into invariant mass. 
 
 \vspace{0.2 cm}
 
 \textbf{3. Micro-Macro Horizon Duality ($r_c \Omega_{core} = c \leftrightarrow R_h H_0 = c$):} \\ % :::LLM_EDIT::: Remove em-dash and Section 11 Omega_max
-Clebsch vorticity ($\Omega_{core}$) and the Hubble horizon strain rate ($H_0$) both operate as inverse-time strain rates ($c/r$). Comparing the cavitation boundary ($r_c$) to the outer cosmological horizon ($R_h$) establishes a structural duality across the symmetric ($S_{\mu\nu}$) and antisymmetric ($A_{\mu\nu}$) sectors of the tensor: % :::LLM_EDIT::: Clarify inverse-time rate relation
+Clebsch vorticity ($\Omega_{core}$) and the Hubble horizon strain rate ($H_0$) both operate as inverse-time strain rates ($c/r$). Comparing the cavitation boundary ($r_c$) to the cosmological horizon ($R_h$) establishes a duality across the symmetric ($S_{\mu\nu}$) and antisymmetric ($A_{\mu\nu}$) sectors of the tensor (Equation \ref{eq:micro_macro_duality}): % :::LLM_EDIT::: Clarify inverse-time rate relation
 \begin{itemize}
     \item \textbf{Inner Defect Boundary ($r = r_c$):} At the Compton cavitation radius $r_c = \hbar/(m_0 c)$, the radial compliance $S_{ii} = 1/\alpha_s^2$ diverges and deflects the core strain into a closed rotational loop inside the antisymmetric sector ($A_{\mu\nu}$), locking the core angular frequency to $r_c \Omega_{core} = c \implies \Omega_{core} = m_0 c^2/\hbar$.
     \item \textbf{Outer Cosmic Horizon ($R_h$):} At the causal horizon $R_h = c/H_0$, the strain rate $H_0 = c/R_h$ operates in the symmetric sector ($S_{\mu\nu}$) as an irrotational radial gradient $v_0(r) = R_h H_0(1 - e^{-r/R_h})$, saturating at the phase velocity limit: % :::LLM_EDIT::: Remove premature Section 11 galactic rotation references
@@ -1102,6 +1101,8 @@ Clebsch vorticity ($\Omega_{core}$) and the Hubble horizon strain rate ($H_0$) b
         r_c \Omega_{core} = R_h H_0 = c \label{eq:micro_macro_duality} % :::LLM_EDIT::: Remove Omega_max from Section 8 equation
     \end{equation}
 \end{itemize}
+
+% ------------------------
 
 
 \subsection*{8.3 The Kinematic Lagrangian \& Orthogonal Mass Extraction}
