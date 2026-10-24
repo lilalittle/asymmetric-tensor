@@ -530,9 +530,11 @@ theorem polynomial_cavitation_lock (v_perp : ℝ) (d_lambda d_beta : V4) (alpha_
   rw [h_cav] at h_cleared
   linarith
 
--- Theorem 63a: Physical Admittance Bounds & Counterbalanced Cavitation Regularity (Resolves Issue #12)
+-- Theorem 63a: Physical Admittance Bounds & Counterbalanced Cavitation Regularity (Resolves Issue
+-- #12)
 -- Proves at the proof level without altering `U_hat`:
--- 1. Strict Interior Physical Domain (`0 < α_s^2 < 1`): A nonzero cosmic horizon background velocity
+-- 1. Strict Interior Physical Domain (`0 < α_s^2 < 1`): A nonzero cosmic horizon background
+-- velocity
 --    (`0 < v_0^2 < c^2`) and subcritical local dynamic load (`0 ≤ P_dyn < P_ambient`) bound `α_s^2`
 --    strictly away from both `0` and `1` (`α_s ≠ 0` and `1 - α_s^2 ≠ 0`), so Lean's `1 / 0 = 0`
 --    totalized division is never triggered on any physical state.
@@ -584,7 +586,8 @@ theorem counterbalanced_cavitation_regularity
       (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = -1 := by
     rw [h00, h11]
     field_simp [has_ne]
-  have h_counter : alpha_s^2 * (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = 1 := by
+  have h_counter : alpha_s^2 * (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = 1 :=
+    by
     rw [h11]
     field_simp [has_ne]
   have h_det_clear : alpha_s^4 * (- (1 / alpha_s^4) - B_z^2 + (1 / alpha_s^4) * E_x^2) =

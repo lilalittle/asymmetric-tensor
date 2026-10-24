@@ -414,7 +414,8 @@ theorem divergence_expansion (x : SpaceTime) (ν : Fin 4) :
 noncomputable def P_dyn_f : ScalarField :=
   fun x => (1 - (alpha_s_f x)^2) * P_c
 
--- Lemma: Contravariant index raising `U^μν = η^μα η^νβ U_αβ` (`raiseBoth eta_metric`) on any 4×4 matrix `M`
+-- Lemma: Contravariant index raising `U^μν = η^μα η^νβ U_αβ` (`raiseBoth eta_metric`) on any 4×4
+-- matrix `M`
 lemma raiseBoth_eta_entries (M : T2) :
     raiseBoth eta_metric M 0 0 = M 0 0 ∧
     raiseBoth eta_metric M 1 1 = M 1 1 ∧
@@ -423,11 +424,13 @@ lemma raiseBoth_eta_entries (M : T2) :
     raiseBoth eta_metric M 3 1 = M 3 1 := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
   · unfold raiseBoth
-    rw [Fin.sum_univ_four, Fin.sum_univ_four, Fin.sum_univ_four, Fin.sum_univ_four, Fin.sum_univ_four]
+    rw [Fin.sum_univ_four, Fin.sum_univ_four, Fin.sum_univ_four, Fin.sum_univ_four,
+      Fin.sum_univ_four]
     dsimp [eta_metric, Matrix.of_apply]
     ring
 
--- Theorem 26a: Comoving `U_covariant` Assembly & Contravariant Index-Raising Bridge (Resolves Issue #13)
+-- Theorem 26a: Comoving `U_covariant` Assembly & Contravariant Index-Raising Bridge (Resolves Issue
+-- #13)
 -- Proves:
 -- 1. Comoving Reduction: Evaluating `U_covariant` on `u_comoving = (-1, 0, 0, 0)` and
 --    `v_perp_covec v_x v_y v_z` reproduces the diagonal (`U_00 = -α_s^2`, `U_11 = 1/α_s^2`)
@@ -454,29 +457,36 @@ theorem raised_contravariant_divergence_bridge
       partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x ∧
     partial_deriv (fun y => raiseBoth eta_metric (U_hat_dynamic y) 3 1) 3 x =
       partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x := by
-  have h_cov00 : U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda d_beta 0 0 =
+  have h_cov00 : U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda
+    d_beta 0 0 =
       (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 := by
     dsimp [U_covariant, U_hat, h_projector, eta_metric, u_comoving, v_perp_covec,
            wedge_covec, omega_clebsch_2form, Matrix.of_apply]
     ring
-  have h_cov11 : U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda d_beta 1 1 =
+  have h_cov11 : U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda
+    d_beta 1 1 =
       (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 := by
     dsimp [U_covariant, U_hat, h_projector, eta_metric, u_comoving, v_perp_covec,
            wedge_covec, omega_clebsch_2form, Matrix.of_apply]
     ring
-  have h_cov01 : U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda d_beta 0 1 =
+  have h_cov01 : U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda
+    d_beta 0 1 =
       (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 1 := by
     dsimp [U_covariant, U_hat, h_projector, eta_metric, u_comoving, v_perp_covec,
            wedge_covec, omega_clebsch_2form, Matrix.of_apply]
     rw [h_dl0, h_db0]
     ring
-  have h01 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 0 1) = (fun y => - U_hat_dynamic y 0 1) := by
+  have h01 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 0 1) = (fun y => - U_hat_dynamic y 0
+    1) := by
     ext y; exact (raiseBoth_eta_entries (U_hat_dynamic y)).2.2.1
-  have h11 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 1 1) = (fun y => U_hat_dynamic y 1 1) := by
+  have h11 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 1 1) = (fun y => U_hat_dynamic y 1 1)
+    := by
     ext y; exact (raiseBoth_eta_entries (U_hat_dynamic y)).2.1
-  have h21 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 2 1) = (fun y => U_hat_dynamic y 2 1) := by
+  have h21 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 2 1) = (fun y => U_hat_dynamic y 2 1)
+    := by
     ext y; exact (raiseBoth_eta_entries (U_hat_dynamic y)).2.2.2.1
-  have h31 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 3 1) = (fun y => U_hat_dynamic y 3 1) := by
+  have h31 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 3 1) = (fun y => U_hat_dynamic y 3 1)
+    := by
     ext y; exact (raiseBoth_eta_entries (U_hat_dynamic y)).2.2.2.2
   refine ⟨h_cov00, h_cov11, h_cov01, h01, h11, h21, h31, ?_, ?_, ?_⟩
   · rw [h11]
@@ -955,10 +965,12 @@ theorem lorentz_symmetry_broken (omega_0i : ℝ) (h_nonzero : omega_0i ≠ 0) (h
 
 -- Theorem 43a: Operator-Derived Lorentz Boost Lie Residual & Vacuum Reduction (Resolves Issue #11)
 -- Evaluates the 3-term covariant `lie_derivative` operator at `(0, 1)` on a homogeneous rest-frame
--- metric field `U` (`U_{00} = -α_s^2`, `U_{11} = 1 / α_s^2`, `∂_α U_{01} = 0`) along a Lorentz boost
+-- metric field `U` (`U_{00} = -α_s^2`, `U_{11} = 1 / α_s^2`, `∂_α U_{01} = 0`) along a Lorentz
+-- boost
 -- generator `X` in the `(0, 1)` plane (`∂_0 X^α = δ^α_1 ω_{01}`, `∂_1 X^α = δ^α_0 ω_{01}`):
 -- 1. Operator Evaluation: `lie_derivative X U x 0 1 = ω_{01} * ((1 / α_s^2) - α_s^2)`,
--- 2. Symmetry Breaking Consequence: `lie_derivative X U x 0 1 = 0` with `ω_{01} ≠ 0` forces `α_s = 1`.
+-- 2. Symmetry Breaking Consequence: `lie_derivative X U x 0 1 = 0` with `ω_{01} ≠ 0` forces `α_s =
+-- 1`.
 theorem lie_derivative_boost_residual_bridge
     (X : VectorField) (U : MetricField) (x : SpaceTime) (omega_0i : ℝ)
     (h_nonzero : omega_0i ≠ 0) (h_pos : alpha_s_val > 0)
