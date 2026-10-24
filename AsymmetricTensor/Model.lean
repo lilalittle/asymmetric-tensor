@@ -18,7 +18,7 @@ public import Mathlib.Tactic
 /-!
 # Fundamental bedrock axioms, dimensional audit layer, kinematics, and thermodynamic relations
 
-Module of Binyamin's v5.7 formalization. Declarations retained verbatim
+Module of Binyamin's v5.8 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -82,7 +82,7 @@ instance : Div UnitDim where
 instance : HPow UnitDim ℤ UnitDim where
   hPow a n := ⟨a.K * n, a.Omega * n, a.E * n⟩
 
--- 1. Tier 1 Fundamental Curvature & Stiffness Ceilings ⟨K, Omega, E⟩
+-- 1. Tier 1 Curvature & Stiffness Ceilings ⟨K, Omega, E⟩
 def u_dimless : UnitDim := ⟨0, 0, 0⟩
 def u_k_p     : UnitDim := ⟨1, 0, 0⟩   -- Spatial Curvature Ceiling (k_p = 1 / l_p, ∇)
 def u_omega   : UnitDim := ⟨0, 1, 0⟩   -- Temporal Curvature Ceiling (Omega_p = 1 / t_p, ∂_t)

@@ -20,7 +20,7 @@ public import AsymmetricTensor.MatrixAlgebra
 /-!
 # Continuous field equation, equation of motion, and conformal symmetry
 
-Module of Binyamin's v5.7 formalization. Declarations retained verbatim
+Module of Binyamin's v5.8 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -413,6 +413,85 @@ theorem divergence_expansion (x : SpaceTime) (ν : Fin 4) :
 /-- Dynamic pressure field `P_dyn(x) = (1 - α_s(x)^2) P_c`. -/
 noncomputable def P_dyn_f : ScalarField :=
   fun x => (1 - (alpha_s_f x)^2) * P_c
+
+-- Lemma: Contravariant index raising `U^μν = η^μα η^νβ U_αβ` (`raiseBoth eta_metric`) on any 4×4
+-- matrix `M`
+lemma raiseBoth_eta_entries (M : T2) :
+    raiseBoth eta_metric M 0 0 = M 0 0 ∧
+    raiseBoth eta_metric M 1 1 = M 1 1 ∧
+    raiseBoth eta_metric M 0 1 = - M 0 1 ∧
+    raiseBoth eta_metric M 2 1 = M 2 1 ∧
+    raiseBoth eta_metric M 3 1 = M 3 1 := by
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
+  · unfold raiseBoth
+    rw [Fin.sum_univ_four, Fin.sum_univ_four, Fin.sum_univ_four, Fin.sum_univ_four,
+      Fin.sum_univ_four]
+    dsimp [eta_metric, Matrix.of_apply]
+    ring
+
+-- Theorem 26a: Comoving `U_covariant` Assembly & Contravariant Index-Raising Bridge (Resolves Issue
+-- #13)
+-- Proves:
+-- 1. Comoving Reduction: Evaluating `U_covariant` on `u_comoving = (-1, 0, 0, 0)` and
+--    `v_perp_covec v_x v_y v_z` reproduces the diagonal (`U_00 = -α_s^2`, `U_11 = 1/α_s^2`)
+--    and space-time slip (`U_01 = -α v_x / c`) components of `U_hat`,
+-- 2. Contravariant Divergence Bridge: Raising both indices of `U_hat_dynamic` with `eta_metric`
+--    preserves the spatial components `(1,1)`, `(2,1)`, `(3,1)` and their partial derivatives,
+--    while flipping the sign of the mixed temporal-spatial component `(0,1)`.
+theorem raised_contravariant_divergence_bridge
+    (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ) (x : SpaceTime)
+    (h_dl0 : d_lambda 0 = 0) (h_db0 : d_beta 0 = 0) :
+    U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda d_beta 0 0 =
+      (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 ∧
+    U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda d_beta 1 1 =
+      (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 ∧
+    U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda d_beta 0 1 =
+      (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 1 ∧
+    (fun y => raiseBoth eta_metric (U_hat_dynamic y) 0 1) = (fun y => - U_hat_dynamic y 0 1) ∧
+    (fun y => raiseBoth eta_metric (U_hat_dynamic y) 1 1) = (fun y => U_hat_dynamic y 1 1) ∧
+    (fun y => raiseBoth eta_metric (U_hat_dynamic y) 2 1) = (fun y => U_hat_dynamic y 2 1) ∧
+    (fun y => raiseBoth eta_metric (U_hat_dynamic y) 3 1) = (fun y => U_hat_dynamic y 3 1) ∧
+    partial_deriv (fun y => raiseBoth eta_metric (U_hat_dynamic y) 1 1) 1 x =
+      partial_deriv (fun y => U_hat_dynamic y 1 1) 1 x ∧
+    partial_deriv (fun y => raiseBoth eta_metric (U_hat_dynamic y) 2 1) 2 x =
+      partial_deriv (fun y => U_hat_dynamic y 2 1) 2 x ∧
+    partial_deriv (fun y => raiseBoth eta_metric (U_hat_dynamic y) 3 1) 3 x =
+      partial_deriv (fun y => U_hat_dynamic y 3 1) 3 x := by
+  have h_cov00 : U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda
+    d_beta 0 0 =
+      (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 := by
+    dsimp [U_covariant, U_hat, h_projector, eta_metric, u_comoving, v_perp_covec,
+           wedge_covec, omega_clebsch_2form, Matrix.of_apply]
+    ring
+  have h_cov11 : U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda
+    d_beta 1 1 =
+      (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 := by
+    dsimp [U_covariant, U_hat, h_projector, eta_metric, u_comoving, v_perp_covec,
+           wedge_covec, omega_clebsch_2form, Matrix.of_apply]
+    ring
+  have h_cov01 : U_covariant alpha_s alpha c t_p_val u_comoving (v_perp_covec v_x v_y v_z) d_lambda
+    d_beta 0 1 =
+      (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 1 := by
+    dsimp [U_covariant, U_hat, h_projector, eta_metric, u_comoving, v_perp_covec,
+           wedge_covec, omega_clebsch_2form, Matrix.of_apply]
+    rw [h_dl0, h_db0]
+    ring
+  have h01 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 0 1) = (fun y => - U_hat_dynamic y 0
+    1) := by
+    ext y; exact (raiseBoth_eta_entries (U_hat_dynamic y)).2.2.1
+  have h11 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 1 1) = (fun y => U_hat_dynamic y 1 1)
+    := by
+    ext y; exact (raiseBoth_eta_entries (U_hat_dynamic y)).2.1
+  have h21 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 2 1) = (fun y => U_hat_dynamic y 2 1)
+    := by
+    ext y; exact (raiseBoth_eta_entries (U_hat_dynamic y)).2.2.2.1
+  have h31 : (fun y => raiseBoth eta_metric (U_hat_dynamic y) 3 1) = (fun y => U_hat_dynamic y 3 1)
+    := by
+    ext y; exact (raiseBoth_eta_entries (U_hat_dynamic y)).2.2.2.2
+  refine ⟨h_cov00, h_cov11, h_cov01, h01, h11, h21, h31, ?_, ?_, ?_⟩
+  · rw [h11]
+  · rw [h21]
+  · rw [h31]
 
 -- Theorem 27: Dynamic Spatial Compliance Link and Pressure Gradient Extraction
 theorem dynamic_compliance_link (x : SpaceTime) :
@@ -883,6 +962,38 @@ theorem lorentz_symmetry_broken (omega_0i : ℝ) (h_nonzero : omega_0i ≠ 0) (h
     (h_residual : omega_0i * ((1 / alpha_s_val^2) - alpha_s_val^2) = 0) :
     alpha_s_val = 1 := by
   exact isolate_lorentz_scalar omega_0i alpha_s_val h_nonzero h_pos h_residual
+
+-- Theorem 43a: Operator-Derived Lorentz Boost Lie Residual & Vacuum Reduction (Resolves Issue #11)
+-- Evaluates the 3-term covariant `lie_derivative` operator at `(0, 1)` on a homogeneous rest-frame
+-- metric field `U` (`U_{00} = -α_s^2`, `U_{11} = 1 / α_s^2`, `∂_α U_{01} = 0`) along a Lorentz
+-- boost
+-- generator `X` in the `(0, 1)` plane (`∂_0 X^α = δ^α_1 ω_{01}`, `∂_1 X^α = δ^α_0 ω_{01}`):
+-- 1. Operator Evaluation: `lie_derivative X U x 0 1 = ω_{01} * ((1 / α_s^2) - α_s^2)`,
+-- 2. Symmetry Breaking Consequence: `lie_derivative X U x 0 1 = 0` with `ω_{01} ≠ 0` forces `α_s =
+-- 1`.
+theorem lie_derivative_boost_residual_bridge
+    (X : VectorField) (U : MetricField) (x : SpaceTime) (omega_0i : ℝ)
+    (h_nonzero : omega_0i ≠ 0) (h_pos : alpha_s_val > 0)
+    (h_homog : ∀ α : Fin 4, partial_deriv (fun y => U y 0 1) α x = 0)
+    (h_dX0 : ∀ α : Fin 4, partial_deriv (fun y => X y α) 0 x = if α = 1 then omega_0i else 0)
+    (h_dX1 : ∀ α : Fin 4, partial_deriv (fun y => X y α) 1 x = if α = 0 then omega_0i else 0)
+    (h_U00 : U x 0 0 = -alpha_s_val^2)
+    (h_U11 : U x 1 1 = 1 / alpha_s_val^2) :
+    lie_derivative X U x 0 1 = omega_0i * ((1 / alpha_s_val^2) - alpha_s_val^2) ∧
+    (lie_derivative X U x 0 1 = 0 → alpha_s_val = 1) := by
+  have h_eval : lie_derivative X U x 0 1 = omega_0i * ((1 / alpha_s_val^2) - alpha_s_val^2) := by
+    dsimp [lie_derivative]
+    rw [Fin.sum_univ_four]
+    rw [h_homog 0, h_homog 1, h_homog 2, h_homog 3]
+    rw [h_dX0 0, h_dX0 1, h_dX0 2, h_dX0 3]
+    rw [h_dX1 0, h_dX1 1, h_dX1 2, h_dX1 3]
+    rw [h_U00, h_U11]
+    norm_num
+    ring
+  refine ⟨h_eval, ?_⟩
+  intro h_zero
+  rw [h_eval] at h_zero
+  exact isolate_lorentz_scalar omega_0i alpha_s_val h_nonzero h_pos h_zero
 
 -- ----------------------------------------------------------------------
 -- 7.2 Dilation & Special Conformal Transformations (5 Generators) (Manuscript Eqs. 97–106)
