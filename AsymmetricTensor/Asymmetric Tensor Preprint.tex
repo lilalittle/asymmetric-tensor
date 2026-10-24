@@ -1731,13 +1731,15 @@ When high-velocity dispersion stars overshoot the baryonic boundary of the dwarf
 The asymmetric strain tensor ($\hat{U}_{\mu\nu} = S_{\mu\nu} + A_{\mu\nu}$) requires an affine connection ($\Gamma^\lambda_{\mu\nu}$) that propagates both longitudinal volumetric deformation and transverse rotational shear across the continuum.
 
 \textbf{1. Connection Decomposition:} \\
-The generalized affine connection separates into a symmetric Levi-Civita component ($\tilde{\Gamma}^\lambda_{\mu\nu}$) and an antisymmetric contortion tensor ($K^\lambda_{\mu\nu}$):
+The generalized affine connection separates into a symmetric Levi-Civita component ($\tilde{\Gamma}^\lambda_{\mu\nu} = \Gamma^\lambda_{(\mu\nu)}$) and an antisymmetric contortion tensor ($K^\lambda_{\mu\nu}$, whose antisymmetric part defines the Cartan torsion tensor $T^\lambda_{\mu\nu} \equiv \Gamma^\lambda_{\mu\nu} - \Gamma^\lambda_{\nu\mu} = 2K^\lambda_{[\mu\nu]}$): % :::LLM_EDIT::: Link contortion K to torsion tensor T for Issue 13
 \begin{equation}
     \Gamma^\lambda_{\mu\nu} = \tilde{\Gamma}^\lambda_{\mu\nu} + K^\lambda_{\mu\nu}
 \end{equation}
 
+\vspace{0.2 cm}
+
 \textbf{2. The Symmetric Connection (Gravitational Acceleration):} \\
-The Levi-Civita connection is formulated from the symmetric diagonals ($S_{\mu\nu}$). Expanding the temporal component relative to the static capacity ($S_{00} \propto -P_{static}/P_c$) produces the restorative acceleration driven by the static pressure gradient: 
+The metric-compatible Levi-Civita connection is formulated from the symmetric sector ($S_{\mu\nu}$) via the Christoffel relation $\tilde{\Gamma}^\lambda_{\mu\nu} = \frac{1}{2}S^{\lambda\sigma}(\partial_\mu S_{\nu\sigma} + \partial_\nu S_{\mu\sigma} - \partial_\sigma S_{\mu\nu})$. In a stationary weak field ($\partial_0 S_{0i} = 0$, $S^{ij} \approx \eta^{ij}$), expanding the temporal component ($\mu = \nu = 0, \lambda = i$) relative to the static reserve ($S_{00} = -P_{static}/P_c$) produces the restorative acceleration driven by the static pressure gradient: % :::LLM_EDIT::: State general Christoffel formula before stationary weak-field limit for Issue 13
 \begin{equation}
     \tilde{\Gamma}^i_{00} \approx -\frac{1}{2} \eta^{ij} \partial_j S_{00} = +\frac{1}{\rho_\tau c^2} \nabla^i P_{static} 
 \end{equation}

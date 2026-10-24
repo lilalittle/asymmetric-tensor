@@ -1,6 +1,6 @@
 # Modules, naming, and style
 
-This is the modular layout of Binyamin Tsadik Bair-Mosheh's v5.7 formalization.
+This is the modular layout of Binyamin Tsadik Bair-Mosheh's v5.8 formalization.
 The public umbrella and namespace remain `AsymmetricTensor`; preservation of
 that import path does not imply compatibility with the older repaired APIs.
 Section headings follow manuscript topics and do not establish full coverage.
@@ -80,16 +80,23 @@ through their acceptance/rejection tests as well as the actual build.
 
 ## Compatibility checks
 
-The [v5.7 integration record](v5.7-integration.md) pins the exact author source,
-intentional migration from v5.0, summary-only correction and current verification
-status. The strict reference build compares 466 bounded named declarations and
-74 declaration docstrings. It retains both complete compiled namespace inventories
-and their differences, then separately compares the public/generated API's full
-elaborated types, universes and kinds. Structures, constructors, projections,
-instances and equation declarations remain in that comparison. Do not treat the
-bounded source count as a full API count.
+The [v5.8 integration record](v5.8-integration.md) pins the exact author source
+and intentional migration from stable v5.7. The strict reference build compares
+473 bounded named declarations and 75 declaration docstrings. It retains both
+complete compiled namespace inventories and their differences, then separately
+compares public/generated API full elaborated types, universes and kinds.
+Structures, constructors, projections, instances and equation declarations remain
+in that comparison. The source scanner does not cover every generated API.
 
-The observed raw/integrated inventories have 723/552 entries, with 180 removed,
+The new raising and boost bridges live in `FieldCalculus`; the shear pairing and
+changed cavitation theorem in `Applications.MechanicsMass`; the nonzero-domain
+bounds in `Applications.Electromagnetism`; and the coordinate Christoffel and
+pointwise connection reduction in `Applications.Geometry`. Existing imports and
+section-variable context are unchanged. The Christoffel name does not certify
+arbitrary inputs as a genuine inverse metric; pointwise zero coefficients do not
+establish curvature flatness.
+
+Historical v5.7 raw/integrated inventories had 723/552 entries, with 180 removed,
 9 added and 5 changed entries. These differences are retained as evidence. The
 public comparison classifies only terminal theorem-valued `_simp_N[_N]`,
 `_abel_N[_N]` and `_proof_N[_N]` helpers; a source-declared name can never enter
@@ -103,7 +110,8 @@ The full surrounding type remains compared. An actual public equation type
 changed by this normalization additionally requires a kernel-checked certificate;
 it is not accepted merely by deleting a type difference. See the
 [verification contract](verification.md#exact-source-reference-and-api-fidelity).
-The revised comparator and certificate still require exact-head hosted execution.
+The v5.8 comparator and certificates require exact-head hosted execution; prior
+counts are historical, not a measurement of this candidate.
 
 `UnitDim` now exposes `K`, `Omega` and `E`; `DynamicClebschFields` adds field and
 conservation projections plus generated constructor/recursor interfaces.
@@ -111,7 +119,8 @@ conservation projections plus generated constructor/recursor interfaces.
 migration. Source-to-candidate fidelity is a different question from backward
 compatibility with v5.0.
 
-The [source map](v5.7-source-map.json) and [provenance audit](v5.7-provenance.md)
+The [current source map](v5.8-source-map.json) and
+[provenance audit](v5.8-provenance.md)
 record original paths/lines and attribution exceptions. Formatting and new
 module wrappers must not be mistaken for new mathematical authorship. See
 [the verification contract](verification.md) for exact-head acceptance gates.

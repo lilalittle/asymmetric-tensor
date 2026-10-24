@@ -1,5 +1,16 @@
 # Mathematical formalization roadmap
 
+## v5.8 bridge update
+
+The current source adds explicit eta-raising and local boost-residual bridges,
+Frobenius/Lorentzian normalization, admissible-domain/counterbalanced polynomial
+algebra, and a pointwise connection/divergence reduction. See the
+[v5.8 source and scope record](v5.8-integration.md) and active
+[V58Migration tests](../tests/V58Migration.lean). These additions do not close the
+analytic, geometric, action, empirical or manuscript obligations below.
+
+<!-- declarations: raiseBoth_eta_entries raised_contravariant_divergence_bridge lie_derivative_boost_residual_bridge topological_phase_lock_cavitation frobenius_vs_lorentzian_shear_bridge counterbalanced_cavitation_regularity leviCivitaConnection independent_flat_connection_divergence_bridge -->
+
 This planning document addresses [issue #39](https://github.com/lilalittle/asymmetric-tensor/issues/39).
 Its original inventory was pinned to [revision 9f69988](https://github.com/lilalittle/asymmetric-tensor/tree/9f69988d17c9fb86f35a563eb6466be9dbf4e524)
 and manuscript v9. The declaration inventory is updated for the author's v5.7
