@@ -20,7 +20,7 @@ public import AsymmetricTensor.MatrixAlgebra
 /-!
 # Continuous field equation, equation of motion, and conformal symmetry
 
-Module of Binyamin's v5.7 formalization. Declarations retained verbatim
+Module of Binyamin's v5.8 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 

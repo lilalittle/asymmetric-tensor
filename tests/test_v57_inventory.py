@@ -1,27 +1,49 @@
 #!/usr/bin/env python3
-"""Lexical v5.7 integration regressions; not a replacement for Lean audits.
+"""Historical pinned v5.7 inventory; not a replacement for current Lean audits.
 
 The bounded declaration scanner omits structures and anonymous instances, so
 their reviewed inventory is checked separately here. Elaborated generated API,
 declaration types, and proof dependencies are checked by the Lean audits and
-reference API comparison.
+reference API comparison. These historical assertions read immutable v5.7
+stable module bytes, never the evolving production checkout.
 """
 from pathlib import Path
 import re
+import subprocess
 import sys
 import unittest
 
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from check_module_source import declarations, source_files, strip_comments
+from check_module_source import declarations, strip_comments
 from check_module_context import inventory
+from source_boundary import is_author_draft
+
+STABLE_COMMIT = "8ad507caa6625c810507a01c031040833af9c318"
+STABLE_TREE = "3e0a27fb8d5e095e6f0b9b65b4fa19b4815fcba5"
 
 
 class V57Inventory(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        tree = subprocess.check_output(
+            ['git', 'rev-parse', f'{STABLE_COMMIT}^{{tree}}'], cwd=ROOT, text=True).strip()
+        if tree != STABLE_TREE:
+            raise RuntimeError('Historical v5.7 stable tree differs from its pinned identity')
+        paths = subprocess.check_output(
+            ['git', 'ls-tree', '-r', '--name-only', STABLE_COMMIT],
+            cwd=ROOT, text=True).splitlines()
+        selected = [p for p in paths if p == 'AsymmetricTensor.lean' or (
+            p.startswith('AsymmetricTensor/') and p.endswith('.lean')
+            and not is_author_draft(p))]
+        cls.historical_sources = {
+            p: subprocess.check_output(
+                ['git', 'show', f'{STABLE_COMMIT}:{p}'], cwd=ROOT).decode()
+            for p in selected}
+
     def setUp(self):
-        self.sources = {p.relative_to(ROOT).as_posix(): p.read_text()
-                        for p in source_files(ROOT)}
+        self.sources = self.historical_sources
         self.text = strip_comments('\n'.join(self.sources.values()))
 
     def test_declaration_inventory(self):

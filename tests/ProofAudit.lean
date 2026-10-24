@@ -29,3 +29,12 @@ import ProofAudit
 #audit_theorem AsymmetricTensor.baryonic_tully_fisher_derivation custom []
 #audit_theorem AsymmetricTensor.schwinger_zero_slip_aligned_bridge custom []
 #audit_theorem AsymmetricTensor.tensor_four_effects_unification custom []
+
+-- v5.8 added bridges and the changed five-conjunct cavitation contract.
+#audit_theorem AsymmetricTensor.raiseBoth_eta_entries custom []
+#audit_theorem AsymmetricTensor.raised_contravariant_divergence_bridge custom []
+#audit_theorem AsymmetricTensor.lie_derivative_boost_residual_bridge custom []
+#audit_theorem AsymmetricTensor.topological_phase_lock_cavitation custom []
+#audit_theorem AsymmetricTensor.frobenius_vs_lorentzian_shear_bridge custom []
+#audit_theorem AsymmetricTensor.counterbalanced_cavitation_regularity custom []
+#audit_theorem AsymmetricTensor.independent_flat_connection_divergence_bridge custom []

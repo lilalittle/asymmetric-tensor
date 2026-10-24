@@ -9,10 +9,10 @@ use a separate integration PR after independent source approval. No duplicate
 root-copy review PR is needed. Historical review records and unresolved findings
 remain evidence; a newer upload or successful compilation does not clear them.
 
-Edit **`AsymmetricTensor/Asymmetric Tensor v5.7.lean`** directly for the current
+Edit **`AsymmetricTensor/Asymmetric Tensor v5.8.lean`** directly for the current
 single-file draft. Major rewrites, new declarations, incomplete proofs, formatting
 changes, and even syntax errors there do not change the integrated stable library.
-For a new version, add `AsymmetricTensor/Asymmetric Tensor v5.8.lean` (and so on).
+For a new version, add `AsymmetricTensor/Asymmetric Tensor v5.9.lean` (and so on).
 The exact recognized form is `AsymmetricTensor/Asymmetric Tensor v<N>[.<N>...].lean`,
 with numeric version components and no additional directory levels. Existing
 versioned author uploads remain source history; a reviewed snapshot is pinned
@@ -53,7 +53,7 @@ starting so an already-covered repair is not duplicated.
 `import AsymmetricTensor` is the public umbrella for nine implementation modules.
 Declarations remain in namespace `AsymmetricTensor`; `FutureWork` is a section,
 not a namespace. See the [module map](docs/modules.md). The current source is
-Binyamin Tsadik Bair-Mosheh's v5.7 formalization; earlier API and test results are
+Binyamin Tsadik Bair-Mosheh's v5.8 formalization; earlier API and test results are
 not automatically compatible with it.
 
 ## A path through the current API
@@ -113,10 +113,14 @@ focused checks from the aggregate and hosted CI.
   vorticity and the stated saturation premises. `tensor_four_effects_unification`
   now takes total `alpha_s` and its product relation to `alpha_g`/`alpha_a`; keep
   its pressure-only refraction specialization distinct from the combined tensor.
+- v5.8 adds `lie_derivative_boost_residual_bridge` with explicit homogeneous
+  metric and boost-Jacobian data. Vanishing of its Lie component forces
+  `alpha_s = 1` under its nonzero/positive premises. This extends rather than
+  silently changes the scalar-residual theorem.
 - `lie_derivative` contains both lower-index terms, but
   `is_translationally_symmetric` takes a general `VectorField`. The current
-  `lorentz_symmetry_broken` theorem assumes a scalar residual equation; the older
-  bridge from actual boost invariance is not supplied by that statement.
+  `lorentz_symmetry_broken` theorem assumes a scalar residual equation; that statement alone
+  does not supply the new operator bridge.
 - `tensor_contract` is a Frobenius pairing; `lorentzian_contract` has the explicit
   Minkowski signs. `U_hat_eq_comoving_U_covariant` requires spatial Clebsch
   gradients. Arbitrary time-space wedges do not satisfy the same equality.
@@ -151,6 +155,14 @@ Do not replace a missing derivation with a new axiom or its conclusion as a
 hypothesis and then call it complete. Preserve author attribution and distinguish
 the software license from manuscript licensing. Intended physical-model decisions
 belong to the author; Lean checks statements under their dependencies.
+
+The v5.8 `leviCivitaConnection` name denotes a coordinate Christoffel expression
+for arbitrary `gInv` and `S`. Metric symmetry, inverse compatibility and regularity
+are not certified by that definition. The connection reduction is pointwise;
+vanishing coefficients at one point do not prove curvature flatness. Likewise,
+`counterbalanced_cavitation_regularity` applies only under its displayed domain
+hypotheses, and its boundary polynomial is not an analytic limiting solution.
+See [the v5.8 source and scope record](docs/v5.8-integration.md).
 
 ## Source-preserving integrations
 

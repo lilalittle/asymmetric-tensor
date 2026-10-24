@@ -18,7 +18,7 @@ public import Mathlib.Tactic
 /-!
 # Fundamental bedrock axioms, dimensional audit layer, kinematics, and thermodynamic relations
 
-Module of Binyamin's v5.7 formalization. Declarations retained verbatim
+Module of Binyamin's v5.8 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
