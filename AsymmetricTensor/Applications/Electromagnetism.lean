@@ -530,6 +530,71 @@ theorem polynomial_cavitation_lock (v_perp : ℝ) (d_lambda d_beta : V4) (alpha_
   rw [h_cav] at h_cleared
   linarith
 
+-- Theorem 63a: Physical Admittance Bounds & Counterbalanced Cavitation Regularity (Resolves Issue #12)
+-- Proves at the proof level without altering `U_hat`:
+-- 1. Strict Interior Physical Domain (`0 < α_s^2 < 1`): A nonzero cosmic horizon background velocity
+--    (`0 < v_0^2 < c^2`) and subcritical local dynamic load (`0 ≤ P_dyn < P_ambient`) bound `α_s^2`
+--    strictly away from both `0` and `1` (`α_s ≠ 0` and `1 - α_s^2 ≠ 0`), so Lean's `1 / 0 = 0`
+--    totalized division is never triggered on any physical state.
+-- 2. Counterbalanced Observables (`α_s ≠ 0`): The spatial compliance `U_11 = 1 / α_s^2` is
+--    counterbalanced by the temporal admittance `U_00 = -α_s^2`, giving `U_00 * U_11 = -1`,
+--    `α_s^2 * U_11 = 1`, and the denominator-free cleared determinant polynomial
+--    `α_s^4 * (-1 / α_s^4 - B_z^2 + (1 / α_s^4) * E_x^2) = (E_x^2 - 1) - α_s^4 * B_z^2`.
+-- 3. Polynomial Cavitation Limit (`α_s → 0`): Evaluating the counterbalanced polynomial
+--    `(E_x^2 - 1) - α_s^4 * B_z^2 = 0` at `α_s = 0` yields `E_x^2 = 1` without dividing by zero.
+theorem counterbalanced_cavitation_regularity
+    (alpha_s alpha v_x v_y v_z v_0 P_dyn P_ambient E_x B_z : ℝ)
+    (d_lambda d_beta : V4) (t_p_val : ℝ)
+    (hv0_pos : 0 < v_0^2) (_hv0_sub : v_0^2 < c^2)
+    (hP_amb : P_ambient = P_c * (1 - v_0^2 / c^2))
+    (hP_dyn_nonneg : 0 ≤ P_dyn) (hP_dyn_sub : P_dyn < P_ambient)
+    (h_as_sq : alpha_s^2 = (P_ambient - P_dyn) / P_c) :
+    0 < alpha_s^2 ∧
+    alpha_s^2 < 1 ∧
+    alpha_s ≠ 0 ∧
+    1 - alpha_s^2 ≠ 0 ∧
+    (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 *
+      (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = -1 ∧
+    alpha_s^2 * (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = 1 ∧
+    alpha_s^4 * (- (1 / alpha_s^4) - B_z^2 + (1 / alpha_s^4) * E_x^2) =
+      (E_x^2 - 1) - alpha_s^4 * B_z^2 ∧
+    (((E_x^2 - 1) - (0 : ℝ)^4 * B_z^2 = 0) ↔ E_x^2 = 1) := by
+  have hc_pos : 0 < c^2 := sq_pos_of_pos c_pos
+  have hPc_pos : 0 < P_c := P_c_pos
+  have h_as_pos : 0 < alpha_s^2 := by
+    rw [h_as_sq]
+    exact div_pos (by linarith) hPc_pos
+  have h_as_lt_one : alpha_s^2 < 1 := by
+    rw [h_as_sq, hP_amb]
+    have h_v_pos : 0 < v_0^2 / c^2 := div_pos hv0_pos hc_pos
+    have h_num_lt : P_c * (1 - v_0^2 / c^2) - P_dyn < P_c := by
+      nlinarith
+    exact (div_lt_one hPc_pos).mpr h_num_lt
+  have has_ne : alpha_s ≠ 0 := by
+    intro h0
+    rw [h0, sq, mul_zero] at h_as_pos
+    exact lt_irrefl 0 h_as_pos
+  have has4_ne : alpha_s^4 ≠ 0 := pow_ne_zero 4 has_ne
+  have h_one_sub_ne : 1 - alpha_s^2 ≠ 0 := by linarith
+  have h00 : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 = -alpha_s^2 := by
+    simp [U_hat]
+  have h11 : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = 1 / alpha_s^2 := by
+    simp [U_hat]
+  have h_recip : (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 0 0 *
+      (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = -1 := by
+    rw [h00, h11]
+    field_simp [has_ne]
+  have h_counter : alpha_s^2 * (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) 1 1 = 1 := by
+    rw [h11]
+    field_simp [has_ne]
+  have h_det_clear : alpha_s^4 * (- (1 / alpha_s^4) - B_z^2 + (1 / alpha_s^4) * E_x^2) =
+      (E_x^2 - 1) - alpha_s^4 * B_z^2 := by
+    field_simp [has4_ne]
+    ring
+  have h_zero_poly : (E_x^2 - 1) - (0 : ℝ)^4 * B_z^2 = E_x^2 - 1 := by ring
+  refine ⟨h_as_pos, h_as_lt_one, has_ne, h_one_sub_ne, h_recip, h_counter, h_det_clear, ?_⟩
+  rw [h_zero_poly, sub_eq_zero]
+
 -- ----------------------------------------------------------------------
 -- 9.9 Complex Strain & The Deborah Number (Manuscript Eqs. 143–151)
 -- ----------------------------------------------------------------------
