@@ -17,3 +17,8 @@
 74d2bb4de6532bf82ae63c90cc40a6d1e15f7c67
 # Keep the deletion-only split visible: ignoring it guesses wrong source lines.
 # Keep scaffolding, summary repair, tests and documentation attributed normally.
+
+# v5.8: wrap only the newly copied author lines; no semantic or steward additions.
+# Full original-line content and scaffold-invariance audit: docs/v5.8-provenance.md.
+206cb1f15980895454b5700a3932c9b9a4ebdb02
+# Keep the v5.8 copying, scaffolding, tests and documentation commits visible.

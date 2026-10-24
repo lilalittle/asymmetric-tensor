@@ -22,7 +22,7 @@ public import AsymmetricTensor.Applications.WavesForces
 /-!
 # Predictive corollaries and future work, including dimensional audit corollaries
 
-Module of Binyamin's v5.7 formalization. Declarations retained verbatim
+Module of Binyamin's v5.8 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 

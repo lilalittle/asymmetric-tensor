@@ -1,24 +1,36 @@
-# v5.7 API and regression coverage
+# v5.8 API and regression coverage
 
 This candidate integrates the
-[author's pinned v5.7 source](https://github.com/lilalittle/asymmetric-tensor/blob/5be4d7101a1ab28624872a8f7e5001ea8ebb8449/AsymmetricTensor/Asymmetric%20Tensor%20v5.7.lean).
-The [integration record](v5.7-integration.md) separates the approved author API
-changes from source-preserving module construction and the summary-only repair.
-Retained tests keep their V45 filenames because the corresponding contracts
-remain useful. Source review is complete; candidate Lean and hosted verification
-remain pending until exact-head results are recorded.
+[immutable author v5.8 source](https://github.com/lilalittle/asymmetric-tensor/blob/38f4fb06a6b21fe38557afa90bc10aa36dde2f68/AsymmetricTensor/Asymmetric%20Tensor%20v5.8.lean).
+The [integration record](v5.8-integration.md) separates author changes from
+mechanical module construction. The raw upload and all declaration docstrings
+remain unchanged. Source approval is not passing candidate verification.
 
-The bounded source inventory is 466 named declarations and 74 declaration
-docstrings. It excludes structures, instances and generated declarations.
-Source comparison, full elaborated API comparison, migration call sites and
-whole-production proof audits provide separate evidence. None establishes
-empirical validity or full manuscript coverage.
+The bounded source inventory is 473 named declarations and 75 docstrings. Both
+structures and all three explicit instances retain the previous source tokens;
+full elaborated/generated API comparison is a separate strict gate.
+
+## v5.8 migration checks
+
+`V58Migration.lean` consumes the changed five-conjunct cavitation result, including
+all-entry antisymmetric independence at nonunit admittances, and explicitly
+reconstructs the old four-result view. It also exercises mixed/spatial raising
+signs, displayed spatial derivatives, admissible-domain and boundary-polynomial
+outputs, the boost operator bridge, pure-electric contraction signs, and the
+pointwise connection/divergence reduction. Exact custom-axiom audits expect none.
+The full raw-reference comparison separately covers every new public declaration.
+
+These tests do not prove a canonical Hamiltonian construction, metric compatibility
+for arbitrary inputs, curvature flatness, an analytic cavitation limit or a
+nontrivial physical solution. Exact-head CI must execute before the candidate is
+called verified. Retained V45/V57 tests remain active; their names reflect their
+original migration, not the current source version.
 
 ## v5.7 migration checks
 
 [`V57Migration.lean`](../tests/V57Migration.lean) targets the intentional changes
-from stable v5.0. The reference comparison separately requires fidelity to the
-approved v5.7 source, including generated public API types, universes and kinds.
+from stable v5.0. The current reference comparison requires fidelity to v5.8, which retains these
+v5.7 interfaces. Generated public API types, universes and kinds stay covered.
 
 | Changed interface | Migration contract |
 |---|---|
@@ -57,7 +69,9 @@ algebra; an inventory entry is not an independent regression for every theorem.
   [`conformal_dilation_micro_macro_asymmetry`](../AsymmetricTensor/Applications/Geometry.lean)
   gives transport plus `2σU` under the stipulated dilation Jacobian.
   `lorentz_symmetry_broken` assumes a scalar residual; it does not take actual
-  boost invariance as its premise.
+  boost invariance as its premise. The new v5.8 operator bridge derives the
+  residual from explicit local metric/Jacobian data, then uses vanishing of the
+  Lie component for its vacuum consequence.
 - `lorentzian_contract` is the explicit fixed-Minkowski component pairing;
   `tensor_contract` remains Frobenius. The action-named results are algebraic
   contractions, not integrated/varied actions.
