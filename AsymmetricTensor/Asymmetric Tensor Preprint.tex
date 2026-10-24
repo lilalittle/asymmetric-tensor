@@ -1731,22 +1731,23 @@ When high-velocity dispersion stars overshoot the baryonic boundary of the dwarf
 The asymmetric strain tensor ($\hat{U}_{\mu\nu} = S_{\mu\nu} + A_{\mu\nu}$) requires an affine connection ($\Gamma^\lambda_{\mu\nu}$) that propagates both longitudinal volumetric deformation and transverse rotational shear across the continuum.
 
 \textbf{1. Connection Decomposition:} \\
-The generalized affine connection separates into a symmetric Levi-Civita component ($\tilde{\Gamma}^\lambda_{\mu\nu} = \Gamma^\lambda_{(\mu\nu)}$) and an antisymmetric contortion tensor ($K^\lambda_{\mu\nu}$, whose antisymmetric part defines the Cartan torsion tensor $T^\lambda_{\mu\nu} \equiv \Gamma^\lambda_{\mu\nu} - \Gamma^\lambda_{\nu\mu} = 2K^\lambda_{[\mu\nu]}$): % :::LLM_EDIT::: Link contortion K to torsion tensor T for Issue 13
+By lower-index symmetry, any affine connection decomposes into its symmetric part $\Gamma^\lambda_{(\mu\nu)}$ and the Cartan torsion tensor $T^\lambda_{\mu\nu} \equiv \Gamma^\lambda_{\mu\nu} - \Gamma^\lambda_{\nu\mu}$ as $\Gamma^\lambda_{\mu\nu} = \Gamma^\lambda_{(\mu\nu)} + \frac{1}{2}T^\lambda_{\mu\nu}$. In the Einstein-Cartan formulation, separating the connection into a symmetric Levi-Civita component ($\tilde{\Gamma}^\lambda_{\mu\nu}$) and a contortion tensor ($K^\lambda_{\mu\nu}$) yields: % :::LLM_EDIT::: Distinguish general symmetric-torsion split from totally antisymmetric contortion identification for Issue 13
 \begin{equation}
     \Gamma^\lambda_{\mu\nu} = \tilde{\Gamma}^\lambda_{\mu\nu} + K^\lambda_{\mu\nu}
 \end{equation}
+When the contortion sourced by the axial Clebsch vorticity 2-form is completely antisymmetric in its lower indices ($K^\lambda_{(\mu\nu)} = 0$, so $K^\lambda_{\mu\nu} = \frac{1}{2}T^\lambda_{\mu\nu}$), the symmetrized connection coincides with the Levi-Civita connection ($\Gamma^\lambda_{(\mu\nu)} = \tilde{\Gamma}^\lambda_{\mu\nu}$), and vanishing torsion ($T^\lambda_{\mu\nu} = 0$) reduces $\Gamma^\lambda_{\mu\nu}$ to $\tilde{\Gamma}^\lambda_{\mu\nu}$.
 
 \vspace{0.2 cm}
 
 \textbf{2. The Symmetric Connection (Gravitational Acceleration):} \\
-The metric-compatible Levi-Civita connection is formulated from the symmetric sector ($S_{\mu\nu}$) via the Christoffel relation $\tilde{\Gamma}^\lambda_{\mu\nu} = \frac{1}{2}S^{\lambda\sigma}(\partial_\mu S_{\nu\sigma} + \partial_\nu S_{\mu\sigma} - \partial_\sigma S_{\mu\nu})$. In a stationary weak field ($\partial_0 S_{0i} = 0$, $S^{ij} \approx \eta^{ij}$), expanding the temporal component ($\mu = \nu = 0, \lambda = i$) relative to the static reserve ($S_{00} = -P_{static}/P_c$) produces the restorative acceleration driven by the static pressure gradient: % :::LLM_EDIT::: State general Christoffel formula before stationary weak-field limit for Issue 13
+On the subcritical domain where the symmetric sector ($S_{\mu\nu}$) is nondegenerate with inverse $S^{\lambda\sigma}$, the Levi-Civita connection is given by the Christoffel relation $\tilde{\Gamma}^\lambda_{\mu\nu} = \frac{1}{2}S^{\lambda\sigma}(\partial_\mu S_{\nu\sigma} + \partial_\nu S_{\mu\sigma} - \partial_\sigma S_{\mu\nu})$. In a stationary weak field ($\partial_0 S_{0i} = 0$, $S^{ij} \approx \eta^{ij}$), expanding the temporal component ($\mu = \nu = 0, \lambda = i$) relative to the static reserve ($S_{00} = -P_{static}/P_c$) produces the restorative acceleration driven by the static pressure gradient: % :::LLM_EDIT::: State nondegenerate inverse requirement and Christoffel formula before stationary weak-field limit for Issue 13
 \begin{equation}
     \tilde{\Gamma}^i_{00} \approx -\frac{1}{2} \eta^{ij} \partial_j S_{00} = +\frac{1}{\rho_\tau c^2} \nabla^i P_{static} 
 \end{equation}
 The geodesic equation dictates coordinate acceleration ($a^i \approx -c^2 \tilde{\Gamma}^i_{00}$). Because the static gradient opposes the dynamic pressure gradient ($\nabla P_{static} = -\nabla P_{dyn}$), this symmetric operator governs the longitudinal transport of the coordinate boundary ($\mathbf{a}_{grav} = -\frac{1}{\rho_\tau} \nabla P_{static} = +\frac{1}{\rho_\tau} \nabla P_{dyn}$). Since the dynamic gradient points inward toward the defect, this replicates the attractive irrotational curvature of General Relativity. 
 
-\vspace{0.2 cm}
 
+\vspace{0.2 cm}
 %-----------------
 
 \textbf{3. Spacetime Torsion:} \\
