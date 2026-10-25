@@ -37,7 +37,38 @@ jobs:
       - name: Check dependency lock files were preserved
         run: git diff --exit-code -- lean-toolchain lakefile.toml lake-manifest.json
       - name: Build, audit, and exercise failure regressions
-        run: ./scripts/verify.sh
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p .lake/verification-diagnostics
+          printf 'checkout_commit=%s\ncheckout_tree=%s\n' \
+            "$(git rev-parse HEAD)" "$(git rev-parse HEAD^{tree})" \
+            > .lake/verification-diagnostics/checkout.txt
+          if ./scripts/verify.sh 2>&1 | tee .lake/verification-diagnostics/verify.log; then
+            verify_status=0
+            capture_status=0
+          else
+            pipeline_status=("${PIPESTATUS[@]}")
+            verify_status=${pipeline_status[0]}
+            capture_status=${pipeline_status[1]}
+          fi
+          if printf 'verify_exit=%s\ncapture_exit=%s\n' "$verify_status" "$capture_status" \
+              > .lake/verification-diagnostics/exit-status.txt; then
+            metadata_status=0
+          else
+            metadata_status=$?
+          fi
+          if (( verify_status != 0 )); then exit "$verify_status"; fi
+          if (( capture_status != 0 )); then exit "$capture_status"; fi
+          exit "$metadata_status"
+      - name: Retain strict verification diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: stable-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .lake/verification-diagnostics/
+          retention-days: 7
+          if-no-files-found: warn
       - name: Retain immutable reference and full API comparison evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
