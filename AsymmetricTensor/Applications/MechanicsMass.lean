@@ -93,7 +93,7 @@ theorem tensor_vev_origin
 -- ----------------------------------------------------------------------
 
 -- Dimensional Audit: Phase-locked shear energy (P_c * V_τ) has dimension u_Energy,
--- and dividing by c^2 extracts discrete rest mass (u_M_P = ⟨-1, -1, 1⟩):
+-- and dividing by c^2 extracts discrete rest mass (u_M_P = ⟨2, -2, 1⟩):
 theorem unit_section8_2_phase_lock :
     u_P_c * u_Volume = u_Energy ∧
     (u_P_c * u_Volume) / (u_c^(2:ℤ)) = u_M_P ∧
@@ -103,13 +103,12 @@ theorem unit_section8_2_phase_lock :
 -- Theorem 155: Topological Phase-Lock Cavitation Transition & `α_s`-Independent Vortex Core (Issues
 -- #12 & #22)
 -- Proves without instantiating `U_hat` spatial diagonals at `0`:
--- 1. Subcritical Counterbalance (`α_s ≠ 0`): `α_s^2 * U_hat(1,1) = 1` and `U_hat(0,0) * U_hat(1,1)
--- = -1`,
--- 2. Antisymmetric Sector Independence: `U_anti` is independent of `α_s` across all 16 entries
+-- 1. Antisymmetric Sector Independence: `U_anti` is independent of `α_s` across all 16 entries
 --    (`U_anti α_s ... i j = U_anti 1 ... i j`), so the Clebsch vortex core never divides by `α_s`,
--- 3. Cavitation Limit (`α_s = 0`): Temporal admittance vanishes (`U_hat(0,0) = 0`, `P_static = 0`),
+-- 2. Cavitation Limit (`α_s = 0`): Temporal admittance vanishes (`U_hat(0,0) = 0`, `P_static = 0`),
 -- while the antisymmetric Clebsch vortex off-diagonal `U_anti(2,1) = α t_p Ω_z` locks `P_dyn +
 -- P_shear = P_c`.
+
 theorem topological_phase_lock_cavitation
     (alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4)
     (t_p_val P_static P_dyn P_shear alpha_s : ℝ)
@@ -138,22 +137,7 @@ theorem topological_phase_lock_cavitation
     norm_num
   · linarith
 
--- Theorem 155a: Frobenius Hamiltonian Energy vs. Lorentzian Lagrangian Action Normalization
--- (Resolves Issue #10)
--- Reconciles Manuscript Eq. (121) and Eq. (123) directly from `U_anti`:
--- 1. Frobenius 4×4 Contraction: Because each of the 6 independent antisymmetric components appears
--- twice in the 4×4 matrix (`A_μν = -A_νμ`), `tensor_contract U_anti U_anti = 2 α^2 (v_⊥^2/c^2 +
--- t_p^2 Ω^2)`,
--- 2. Eq. (121) Normalization (`1/4 → 1/2`): Multiplying by `(1 / 4) * P_c` cancels the
--- double-counting
---    factor of `2` to yield the positive-definite Hamiltonian shear pressure
--- `P_shear = (1 / 4) * P_c * tensor_contract U_anti U_anti = (1 / 2) * P_c * α^2 * (v_⊥^2/c^2 +
--- t_p^2 Ω^2)`,
--- 3. Eq. (123) Lorentzian Action Invariant: Contracting with the Minkowski metric `η =
--- diag(-1,1,1,1)`
---    flips the sign of the electric slip sector (`A_0i A^0i = -A_0i^2`), yielding
--- `(1 / 4) * P_c * lorentzian_contract U_anti U_anti = (1 / 2) * P_c * α^2 * (t_p^2 Ω^2 -
--- v_⊥^2/c^2)`.
+-- Theorem 177: Constitutive Frobenius Shear Load vs. Lorentzian Action Normalization (Resolves Issue #10)
 theorem frobenius_vs_lorentzian_shear_bridge
     (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ) :
     (1 / 4) * P_c * tensor_contract
@@ -400,7 +384,7 @@ theorem orthogonal_mass_extraction
 -- ----------------------------------------------------------------------
 variable (M_val : ℝ)
 
--- Dimensional Audit: Compton radius (hbar / M c) and Schwarzschild radius (2 G M / c^2) both evaluate to Length ⟨1, 0, 0⟩:
+-- Dimensional Audit: Compton radius (hbar / M c) and Schwarzschild radius (2 G M / c^2) both evaluate to Length ⟨-1, 0, 0⟩:
 theorem unit_section8_compton_schwarzschild_intersection :
     u_hbar / (u_M_P * u_c) = u_l_p ∧
     (u_G * u_M_P) / (u_c^(2:ℤ)) = u_l_p ∧

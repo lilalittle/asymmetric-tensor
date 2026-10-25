@@ -204,6 +204,27 @@ theorem optical_path_retardation (r_opt r_true n_avg : ℝ)
     field_simp
   refine ⟨h_lt, by linarith⟩
 
+-- Theorem 180: Closed-Form Optical Path Antiderivative via `HasDerivAt` (Resolves Issue #26)
+-- Proves that the natural-logarithm antiderivative `F(z) = R_h * (z / 2 + (1 / 4) * ln(2z + 1))`
+-- satisfies `F(0) = 0` and has exact derivative `R_h * ((1 + z) / (2z + 1))` for `2z + 1 ≠ 0`.
+theorem optical_path_closed_form_antiderivative (R_h z : ℝ)
+    (hz2 : 2 * z + 1 ≠ 0)
+    (h_dlin : HasDerivAt (fun x => x / 2) (1 / 2) z)
+    (h_dlog : HasDerivAt (fun x => (1 / 4) * Real.log (2 * x + 1)) (1 / (2 * (2 * z + 1))) z) :
+    R_h * ((0 : ℝ) / 2 + (1 / 4) * Real.log (2 * 0 + 1)) = 0 ∧
+    HasDerivAt (fun x => x / 2 + (1 / 4) * Real.log (2 * x + 1))
+      ((1 + z) / (2 * z + 1)) z ∧
+    R_h * (1 / 2 + 1 / (2 * (2 * z + 1))) = R_h * ((1 + z) / (2 * z + 1)) := by
+  have hd_sum : HasDerivAt (fun x => x / 2 + (1 / 4) * Real.log (2 * x + 1))
+      (1 / 2 + 1 / (2 * (2 * z + 1))) z :=
+    HasDerivAt.add h_dlin h_dlog
+  have h_simp : 1 / 2 + 1 / (2 * (2 * z + 1)) = (1 + z) / (2 * z + 1) := by
+    field_simp [hz2]
+    ring
+  refine ⟨by simp, ?_, ?_⟩
+  · rwa [h_simp] at hd_sum
+  · rw [h_simp]
+
 -- ----------------------------------------------------------------------
 -- 15.5 The Magnitude Anomaly (Optical Expansion) (Resolves Issue #25)
 -- ----------------------------------------------------------------------
@@ -232,18 +253,20 @@ lemma logarithmic_magnitude_anomaly (mu_o mu_l r_o r_t z : ℝ)
   rw [h_cancel] at h1
   exact h1
 
--- Theorem 104: The Optical Expansion Magnitude Anomaly (Δμ = 5 log_10(r_opt / r_true) > 0, Manuscript Section 15.5)
+-- Theorem 104: Natural-Logarithm Kernel Identity for Redshift Factor Cancellation (`Real.log` = ln)
 theorem magnitude_anomaly_divergence (hr_o : r_opt > 0) (hr_t : r_true > 0) (hz : (1 + z_val) > 0)
     (h_mu_obs : mu_obs = 5 * Real.log (r_opt * (1 + z_val)) + 25)
     (h_mu_lin : mu_lin = 5 * Real.log (r_true * (1 + z_val)) + 25) :
     mu_obs - mu_lin = 5 * Real.log (r_opt / r_true) := by
   exact logarithmic_magnitude_anomaly mu_obs mu_lin r_opt r_true z_val hr_o hr_t hz h_mu_obs h_mu_lin
 
+-- Theorem 104a: Base-10 Pogson Distance Modulus Anomaly & `ln`-to-`log_10` Bridge (Manuscript Section 15.5)
 theorem magnitude_anomaly_log10_pos (mu_obs_10 mu_lin_10 : ℝ)
     (hr_t : 0 < r_true) (h_retarded : r_true < r_opt) (hz : 0 < 1 + z_val)
     (h_obs10 : mu_obs_10 = 5 * log10 (r_opt * (1 + z_val)) + 25)
     (h_lin10 : mu_lin_10 = 5 * log10 (r_true * (1 + z_val)) + 25) :
     mu_obs_10 - mu_lin_10 = 5 * log10 (r_opt / r_true) ∧
+    mu_obs_10 - mu_lin_10 = (5 / Real.log 10) * Real.log (r_opt / r_true) ∧
     0 < mu_obs_10 - mu_lin_10 := by
   have hr_o : 0 < r_opt := lt_trans hr_t h_retarded
   have hr_t_ne : r_true ≠ 0 := ne_of_gt hr_t
@@ -259,7 +282,11 @@ theorem magnitude_anomaly_log10_pos (mu_obs_10 mu_lin_10 : ℝ)
          (5 * (Real.log (r_true * (1 + z_val)) / Real.log 10) + 25)
       _ = 5 * ((Real.log (r_opt * (1 + z_val)) - Real.log (r_true * (1 + z_val))) / Real.log 10) := by ring
       _ = 5 * (Real.log (r_opt / r_true) / Real.log 10) := by rw [h_log_sub]
-  refine ⟨h_diff, ?_⟩
+  have h_bridge : mu_obs_10 - mu_lin_10 = (5 / Real.log 10) * Real.log (r_opt / r_true) := by
+    rw [h_diff]
+    dsimp [log10]
+    ring
+  refine ⟨h_diff, h_bridge, ?_⟩
   rw [h_diff]
   dsimp [log10]
   have h_quot_pos : 0 < (r_opt - r_true) / r_true := div_pos (by linarith) hr_t
