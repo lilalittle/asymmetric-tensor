@@ -21,7 +21,7 @@ public import AsymmetricTensor.FieldCalculus
 /-!
 # Tensor covariance, galactic kinematics, and non-linear affine connection
 
-Module of Binyamin's v5.8 formalization. Declarations retained verbatim
+Module of Binyamin's v5.9 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 

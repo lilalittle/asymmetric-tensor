@@ -20,7 +20,7 @@ public import AsymmetricTensor.MatrixAlgebra
 /-!
 # Transverse wave mechanics and continuous pressure dynamics
 
-Module of Binyamin's v5.8 formalization. Declarations retained verbatim
+Module of Binyamin's v5.9 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 

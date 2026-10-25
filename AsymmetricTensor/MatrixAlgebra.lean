@@ -19,7 +19,7 @@ public import AsymmetricTensor.Model
 /-!
 # Asymmetric metric-tensor assembly and unified action
 
-Module of Binyamin's v5.8 formalization. Declarations retained verbatim
+Module of Binyamin's v5.9 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 

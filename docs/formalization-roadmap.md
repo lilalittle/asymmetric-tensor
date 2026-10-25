@@ -1,8 +1,23 @@
 # Mathematical formalization roadmap
 
-## v5.8 bridge update
+## v5.9 bounded algebra/calculus update
 
-The current source adds explicit eta-raising and local boost-residual bridges,
+The [v5.9 source and scope record](v5.9-integration.md) credits the general
+three-dimensional determinant, including `(E · B)²`, its cleared polynomial and
+volume criterion. It is not a Born–Infeld action, normalization, finite self-energy
+or universal cutoff. The new optical theorem composes explicitly supplied
+derivative facts and gives the unscaled primitive's derivative; no definite
+integral, integrability, integrated delay or strict path inequality is established.
+The base-10 anomaly adds the natural-log bridge, with positivity now at `.2.2`.
+See [V59Migration](../tests/V59Migration.lean); this progress does not close
+[issue #26](https://github.com/lilalittle/asymmetric-tensor/issues/26) or withdraw
+[PR #98's separate manuscript review](https://github.com/lilalittle/asymmetric-tensor/pull/98#pullrequestreview-5642303811).
+
+<!-- declarations: optical_path_closed_form_antiderivative magnitude_anomaly_log10_pos born_infeld_general_determinant_isomorphism -->
+
+## Retained v5.8 bridge update
+
+The preceding v5.8 source added explicit eta-raising and local boost-residual bridges,
 Frobenius/Lorentzian normalization, admissible-domain/counterbalanced polynomial
 algebra, and a pointwise connection/divergence reduction. See the
 [v5.8 source and scope record](v5.8-integration.md) and active
@@ -13,16 +28,17 @@ analytic, geometric, action, empirical or manuscript obligations below.
 
 This planning document addresses [issue #39](https://github.com/lilalittle/asymmetric-tensor/issues/39).
 Its original inventory was pinned to [revision 9f69988](https://github.com/lilalittle/asymmetric-tensor/tree/9f69988d17c9fb86f35a563eb6466be9dbf4e524)
-and manuscript v9. The declaration inventory is updated for the author's v5.7
-source at `5be4d7101a1ab28624872a8f7e5001ea8ebb8449`, blob
-`e03381d54d82fcfde0577ec33aa5f4923a2f0788`. Earlier version-specific planning
+and manuscript v9. The declaration inventory is updated for the author's v5.9
+source at `83bbc73eb1b12d97c2ee81be5813c6bc9e20ffe0`, blob
+`ec92bedca9a3fc6fda46feba2a10528f30ea2885`. Earlier version-specific planning
 decisions are retained where still relevant; historical progress records are
 not current PR status or validation evidence. This inventory update is not a
 new scientific review of every planning entry.
 
-Section 16 currently contains **44 theorems, 33 definitions, and zero `h_target`
+Section 16 currently contains **45 theorems, 33 definitions, and zero `h_target`
 binders**. The statements retain substantive physical assumptions as well as
-domain conditions; the four added conditional theorems are recorded in B21.
+domain conditions; the four v5.7 conditional additions are recorded in B21 and the new v5.9
+determinant above.
 Removing the old target binders does not derive every formerly named physical
 claim. Some targets were replaced by narrower algebra, some assumptions were
 renamed, and `helicity_orbital_arrest` was removed. This roadmap separates those
@@ -559,7 +575,7 @@ They establish a redshift substitution and partial-fraction identity, a ratio
 between stipulated Hubble observables, cancellation of the horizon scale in a
 stipulated distance ratio, and chronometer identities and positivity under the
 listed assumptions. The closed-form definition alone is not an integration proof
-or empirical validation. The exact reviewed Section 16 inventory is now 44
+or empirical validation. The exact reviewed Section 16 inventory at v5.7 was 44
 theorems and 33 definitions.
 
 Outside Section 16, `phase_locked_frobenius_rest_mass_pos` replaces the previous
@@ -670,7 +686,7 @@ and applicability must be checked for each selected implementation.
 ## Validation and stopping point
 
 - `python3 tests/check_roadmap.py` checks the reviewed zero-`h_target` inventory,
-  44 Section 16 theorems and 33 definitions, and current declaration references.
+  45 Section 16 theorems and 33 definitions, and current declaration references.
   It also checks candidate library paths and independently evaluates the finite
   determinant contract using exact arithmetic.
 - `lake build AsymmetricTensor` checks production source against the pinned setup.

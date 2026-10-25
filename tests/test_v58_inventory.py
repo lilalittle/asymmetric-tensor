@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lexical v5.8 integration regressions; not a replacement for Lean audits.
+"""Historical lexical v5.8 regressions against the pinned prior stable; not a replacement for Lean audits.
 
 The bounded declaration scanner omits structures and anonymous instances, so
 their reviewed inventory is checked separately here. Elaborated generated API,
@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from check_module_source import declarations, docstrings, source_files, strip_comments
 from check_module_context import inventory
 from check_v58_reference import SOURCE_COMMIT, SOURCE_PATH, stable_sources, validate_source
+from check_v59_reference import stable_sources as v58_sources
 
 
 def structural_commands(sources):
@@ -39,8 +40,10 @@ def structural_commands(sources):
 
 class V58Inventory(unittest.TestCase):
     def setUp(self):
-        self.sources = {p.relative_to(ROOT).as_posix(): p.read_text()
-                        for p in source_files(ROOT)}
+        # Preserve all v5.8 assertions against its immutable stable modules.
+        # A v5.9 candidate must not be zero-difference compared with v5.8.
+        self.sources = {name: contents.decode()
+                        for name, contents in v58_sources(ROOT).items()}
         self.text = strip_comments('\n'.join(self.sources.values()))
 
     def test_declaration_inventory(self):

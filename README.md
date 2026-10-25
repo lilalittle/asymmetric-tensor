@@ -3,7 +3,7 @@
 Lean 4 research companion to **The Asymmetric Metric-Tensor and the
 Thermodynamic Equation of State**, by Binyamin Tsadik Bair-Mosheh.
 
-The current implementation is the author's **v5.8 formalization**, organized into
+The current implementation is the author's **v5.9 formalization**, organized into
 nine topic modules. It contains real 4×4 matrix algebra, Clebsch-gradient exterior
 products, fixed-chart field operators, Lorentzian contraction identities, and
 conditional statements motivated by the manuscript. Physical names and section
@@ -12,7 +12,7 @@ headings do not establish full manuscript coverage or empirical validity.
 ## Author updates versus the verified library
 
 Binyamin can freely edit the current single-file draft at
-[`AsymmetricTensor/Asymmetric Tensor v5.8.lean`](AsymmetricTensor/Asymmetric%20Tensor%20v5.8.lean).
+[`AsymmetricTensor/Asymmetric Tensor v5.9.lean`](AsymmetricTensor/Asymmetric%20Tensor%20v5.9.lean).
 Versioned author uploads have separate **advisory compiler diagnostics** and do
 not alter the stable library or its strict proof checks. A green stable check
 means the integrated library at that revision passed, not that an uploaded draft has
@@ -25,7 +25,7 @@ Use the [current API and regression coverage report](docs/regression-coverage.md
 [module map](docs/modules.md), and [verification contract](docs/verification.md)
 for this revision. The public entry point remains `import AsymmetricTensor`, but
 v5.7 changes the v5.0 dimensional and dynamic-field APIs. See the
-[v5.8 integration and source record](docs/v5.8-integration.md).
+[v5.9 integration and source record](docs/v5.9-integration.md).
 
 - `matrix_decomposition` splits any real 4×4 matrix into symmetric and
   antisymmetric parts. `U_hat` now takes two four-component Clebsch gradients;
@@ -34,6 +34,13 @@ v5.7 changes the v5.0 dimensional and dynamic-field APIs. See the
   nonzero-domain and pointwise connection bridges. Their hypotheses and
   interpretation limits are recorded in the integration report; no broad
   scientific issue is closed by these additions.
+- v5.9 adds the general three-dimensional determinant with its `(E · B)²`
+  term, cleared polynomial and conditional volume criterion. This is not a
+  Born–Infeld action, field normalization, finite self-energy or universal cutoff.
+  Its optical antiderivative theorem composes two supplied derivative facts;
+  the derivative conclusion is unscaled, not a finite-path integral or delay law.
+  The base-10 magnitude theorem adds an explicit natural-log conversion as its
+  second conjunct; positivity moves from `.2` to `.2.2`.
 - `lie_derivative` includes transport and both covariant-index terms in a fixed
   chart. `is_translationally_symmetric` accepts an arbitrary vector field in this
   version; its name does not restrict that field to a constant translation.
@@ -84,7 +91,7 @@ The older [status map](docs/formalization-status.md),
 [force-hierarchy](docs/force-hierarchy.md) notes retain earlier API descriptions
 and validation records. Read them as historical documentation, alongside the
 [current coverage differences](docs/regression-coverage.md), rather than as
-contracts for v5.8. The seven archived Lean test files are preserved but are not
+contracts for v5.9. The seven archived Lean test files are preserved but are not
 executed by the current aggregate verifier.
 
 ## Building the committed version
@@ -140,7 +147,7 @@ and exact declared axioms, checks selected theorem dependencies, and exercises
 failure mutations. Warnings remain visible and nonfatal; elaboration errors and
 transitive `sorryAx` dependencies fail independently.
 
-The v5.8 source declares no custom axioms or `sorry`/`admit` holes. The
+The v5.9 source declares no custom axioms or `sorry`/`admit` holes. The
 three physical constants remain irreducible noncomputable definitions with
 proved positivity bounds. Eight scalar-field definitions now project from the
 witness-backed opaque `dyn_state`. The strict declared and transitive custom-axiom
@@ -148,11 +155,10 @@ policies are empty; the ordinary logical axioms `propext`, `Classical.choice`,
 and `Quot.sound` remain permitted. These checks do not establish empirical
 validity or a universal-field conservation law.
 
-The [v5.8 integration record](docs/v5.8-integration.md) identifies the exact
+The [v5.9 integration record](docs/v5.9-integration.md) identifies the exact
 author source, approved changes and current validation status. The aggregate
 also builds an independent monolithic reference and compares source tokens,
-docstrings and elaborated APIs, including the changed structure and instance
-interfaces. Reference fidelity and intentional migration from stable v5.7 are separate
+docstrings and elaborated APIs, including structures, constructors, projections and instances. Reference fidelity and intentional migration from stable v5.8 are separate
 checks. Local Lean was unavailable during preparation; hosted results must be
 recorded for the exact candidate before claiming verification. Historical green
 runs do not certify this candidate.
