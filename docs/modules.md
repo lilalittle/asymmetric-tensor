@@ -176,6 +176,19 @@ of 304 declarations and 78 docstrings describe the older library only. See
 validation boundary and [regression coverage](regression-coverage.md) for semantic changes
 from that older API.
 
+## v5.9 explicit derivative dependency
+
+`Applications.Optics` directly publicly imports
+`Mathlib.Analysis.Calculus.Deriv.Add` for the author's unchanged
+`HasDerivAt.add h_dlin h_dlog` proof step. At pinned Mathlib
+`aa35a481e5f0cdb3b04a899ead15d6ca7305a624`, this constant is declared in
+[Deriv/Add.lean](https://github.com/leanprover-community/mathlib4/blob/aa35a481e5f0cdb3b04a899ead15d6ca7305a624/Mathlib/Analysis/Calculus/Deriv/Add.lean),
+not `Deriv.Basic`. The initial split-module build exposed the missing dependency;
+raw-monolith advisory compilation did not establish split import sufficiency.
+No theorem/proof tokens or section variables change. The bounded context guard
+inventories first-party imports only, which stay unchanged; no baseline change
+or weakened check is used. See [the repair record](v5.9-integration.md#mechanical-direct-dependency-repair).
+
 ## v5.0 dependency repairs
 
 The §6 quadratic gravitational trace theorem remains in `FieldCalculus` because
