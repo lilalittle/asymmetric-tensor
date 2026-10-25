@@ -22,7 +22,7 @@ public import AsymmetricTensor.Applications.WavesForces
 /-!
 # Predictive corollaries and future work, including dimensional audit corollaries
 
-Module of Binyamin's v5.8 formalization. Declarations retained verbatim
+Module of Binyamin's v5.9 formalization. Declarations retained verbatim
 from the author's single-file development.
 -/
 
@@ -857,6 +857,91 @@ theorem fourier_curvature_decomposition (alpha_s alpha v_x v_y v_z : ℝ) (d_lam
       field_simp [c_ne_zero]
     rw [h_expand] at h_mul
     linarith
+
+-- Theorem 182 (Corollary 16.3.11 — Born-Infeld Nonlinear Electrodynamics & General 3D Determinant):
+-- Proves directly from `det4x4`, `U_hat`, and `U_sym` for arbitrary 3D slip `(v_x, v_y, v_z)` and
+-- arbitrary 3D Clebsch vorticity `(Ω_x, Ω_y, Ω_z)`:
+-- 1. General 3D Asymmetric Determinant (`α_s ≠ 0`):
+--    `det(U_hat) = -(1/α_s^4)*(1 - |E|^2) - |B|^2 + (E · B)^2`,
+-- 2. Cleared Born-Infeld Radical Polynomial (`α_s ≠ 0`):
+--    `-α_s^4 * det(U_hat) = 1 - |E|^2 + α_s^4 * |B|^2 - α_s^4 * (E · B)^2`,
+-- 3. General Volume-Preservation Criterion (`det(U_hat) = det(U_sym) = -1/α_s^4`):
+--    Holds iff `|E|^2 + α_s^4 * (E · B)^2 = α_s^4 * |B|^2`,
+-- 4. Parallel-Field Benchmark (`α_s = 1`, `E = B = (0, 0, 1/2)`): `det(U_hat) = -15 / 16`.
+theorem born_infeld_general_determinant_isomorphism
+    (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ)
+    (ha_s : alpha_s ≠ 0) :
+    let Ex := alpha * (v_x / c)
+    let Ey := alpha * (v_y / c)
+    let Ez := alpha * (v_z / c)
+    let Bx := alpha * (t_p_val * Omega_x_clebsch d_lambda d_beta)
+    let By := alpha * (t_p_val * Omega_y_clebsch d_lambda d_beta)
+    let Bz := alpha * (t_p_val * Omega_z_clebsch d_lambda d_beta)
+    det4x4 (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) =
+      - (1 / alpha_s^4) * (1 - (Ex^2 + Ey^2 + Ez^2)) -
+      (Bx^2 + By^2 + Bz^2) +
+      (Ex * Bx + Ey * By + Ez * Bz)^2 ∧
+    - alpha_s^4 * det4x4 (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) =
+      1 - (Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Bx^2 + By^2 + Bz^2) -
+      alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 ∧
+    (det4x4 (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) =
+      det4x4 (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) ↔
+      (Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 =
+      alpha_s^4 * (Bx^2 + By^2 + Bz^2)) ∧
+    (- (1 / (1 : ℝ)^4) * (1 - (0^2 + 0^2 + (1 / 2 : ℝ)^2)) -
+      (0^2 + 0^2 + (1 / 2 : ℝ)^2) +
+      (0 * 0 + 0 * 0 + (1 / 2 : ℝ) * (1 / 2 : ℝ))^2 = -(15 / 16 : ℝ)) := by
+  intro Ex Ey Ez Bx By Bz
+  have ha2 : alpha_s^2 ≠ 0 := pow_ne_zero 2 ha_s
+  have ha4 : alpha_s^4 ≠ 0 := pow_ne_zero 4 ha_s
+  have h_det : det4x4 (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) =
+      - (1 / alpha_s^4) * (1 - (Ex^2 + Ey^2 + Ez^2)) -
+      (Bx^2 + By^2 + Bz^2) +
+      (Ex * Bx + Ey * By + Ez * Bz)^2 := by
+    dsimp [Ex, Ey, Ez, Bx, By, Bz, det4x4, det3x3, U_hat, Matrix.of_apply]
+    norm_num
+    field_simp [ha2, ha4]
+    ring
+  have h_sym : det4x4 (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) = - (1 / alpha_s^4)
+    :=
+    det4x4_U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val ha_s
+  have h_clear : - alpha_s^4 * det4x4 (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) =
+      1 - (Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Bx^2 + By^2 + Bz^2) -
+      alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 := by
+    rw [h_det]
+    field_simp [ha4]
+    ring
+  refine ⟨h_det, h_clear, ?_, by norm_num⟩
+  rw [h_det, h_sym]
+  have h_diff : (- (1 / alpha_s^4) * (1 - (Ex^2 + Ey^2 + Ez^2)) -
+      (Bx^2 + By^2 + Bz^2) + (Ex * Bx + Ey * By + Ez * Bz)^2) - (- (1 / alpha_s^4)) =
+      ((Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 -
+       alpha_s^4 * (Bx^2 + By^2 + Bz^2)) / alpha_s^4 := by
+    field_simp [ha4]
+    ring
+  constructor
+  · intro h
+    have h_sub_zero : (- (1 / alpha_s^4) * (1 - (Ex^2 + Ey^2 + Ez^2)) -
+        (Bx^2 + By^2 + Bz^2) + (Ex * Bx + Ey * By + Ez * Bz)^2) - (- (1 / alpha_s^4)) = 0 :=
+      sub_eq_zero.mpr h
+    rw [h_diff] at h_sub_zero
+    have h_num_zero : ((Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 -
+        alpha_s^4 * (Bx^2 + By^2 + Bz^2)) = 0 := by
+      calc ((Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 -
+            alpha_s^4 * (Bx^2 + By^2 + Bz^2))
+        _ = (((Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 -
+              alpha_s^4 * (Bx^2 + By^2 + Bz^2)) / alpha_s^4) * alpha_s^4 :=
+            (div_mul_cancel₀ _ ha4).symm
+        _ = 0 * alpha_s^4 := by rw [h_sub_zero]
+        _ = 0 := zero_mul _
+    linarith
+  · intro h
+    have h_num_zero : (Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 -
+        alpha_s^4 * (Bx^2 + By^2 + Bz^2) = 0 := by linarith
+    have h_div_zero : ((Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 -
+        alpha_s^4 * (Bx^2 + By^2 + Bz^2)) / alpha_s^4 = 0 := by
+      rw [h_num_zero, zero_div]
+    linarith [h_diff, h_div_zero]
 
 -- ----------------------------------------------------------------------
 -- 16.4 Dimensional Audit, Combinatorial Possibility Space, and Lean 4 Parity

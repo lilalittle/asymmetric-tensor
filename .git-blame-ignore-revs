@@ -22,3 +22,8 @@
 # Full original-line content and scaffold-invariance audit: docs/v5.8-provenance.md.
 206cb1f15980895454b5700a3932c9b9a4ebdb02
 # Keep the v5.8 copying, scaffolding, tests and documentation commits visible.
+
+# v5.9: wrap five newly copied author lines only; no new contributor content.
+# Original-line and scaffold-invariance audit: docs/v5.9-provenance.md.
+e9d7c922bd5d4fc80d850600af774f670108bdf6
+# Keep source copying, wrappers, tests and documentation attributed normally.

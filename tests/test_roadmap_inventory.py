@@ -181,6 +181,7 @@ theorem supplied (p : ∀ h_target : True, True) : True := True.intro
             "viscoelastic_phase_angle_reduction": ["h_alpha_s"],
             "electromagnetic_decoupling_ratio": ["ha_s", "hc", "ht_p", "h_Omega", "h_E", "h_M"],
             "fourier_curvature_decomposition": ["ha_s", "h_on_shell"],
+            "born_infeld_general_determinant_isomorphism": ["ha_s"],
         }
         signatures = dict(declaration_signatures(
             (ROOT / "AsymmetricTensor/FutureTargets.lean").read_text()))

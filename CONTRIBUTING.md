@@ -9,10 +9,10 @@ use a separate integration PR after independent source approval. No duplicate
 root-copy review PR is needed. Historical review records and unresolved findings
 remain evidence; a newer upload or successful compilation does not clear them.
 
-Edit **`AsymmetricTensor/Asymmetric Tensor v5.8.lean`** directly for the current
+Edit **`AsymmetricTensor/Asymmetric Tensor v5.9.lean`** directly for the current
 single-file draft. Major rewrites, new declarations, incomplete proofs, formatting
 changes, and even syntax errors there do not change the integrated stable library.
-For a new version, add `AsymmetricTensor/Asymmetric Tensor v5.9.lean` (and so on).
+For a new version, add `AsymmetricTensor/Asymmetric Tensor v5.10.lean` (and so on).
 The exact recognized form is `AsymmetricTensor/Asymmetric Tensor v<N>[.<N>...].lean`,
 with numeric version components and no additional directory levels. Existing
 versioned author uploads remain source history; a reviewed snapshot is pinned
@@ -53,7 +53,7 @@ starting so an already-covered repair is not duplicated.
 `import AsymmetricTensor` is the public umbrella for nine implementation modules.
 Declarations remain in namespace `AsymmetricTensor`; `FutureWork` is a section,
 not a namespace. See the [module map](docs/modules.md). The current source is
-Binyamin Tsadik Bair-Mosheh's v5.8 formalization; earlier API and test results are
+Binyamin Tsadik Bair-Mosheh's v5.9 formalization; earlier API and test results are
 not automatically compatible with it.
 
 ## A path through the current API
@@ -78,8 +78,8 @@ nonconserved coordinate-field counterexample are in
 [`tests/V45FieldCalculus.lean`](tests/V45FieldCalculus.lean).
 [`tests/V45OpticsForces.lean`](tests/V45OpticsForces.lean) distinguishes the
 retained natural-log and scaled-force statements, decimal calibration, and
-unscaled/scaled ratios. It does not yet directly exercise the new base-10
-positivity theorem or the first and third EM theorem conjuncts.
+unscaled/scaled ratios. The v5.9 migration suite directly exercises base-10 positivity and its inserted
+logarithm bridge; first/third EM projection coverage remains a separate gap.
 See [coverage and remaining gaps](docs/regression-coverage.md).
 
 Run from the repository root:
@@ -137,6 +137,15 @@ focused checks from the aggregate and hosted CI.
   ratio separate from the test-local scaled `α⁵` ratio, including their nonzero
   mass/coupling hypotheses and nonunit regression cases.
 
+- v5.9 adds determinant/cleared-polynomial/volume-criterion algebra, not a
+  Born–Infeld action or field cutoff. Its optical derivative theorem assumes
+  both component derivatives and concludes the derivative of the unscaled
+  primitive. No integrability, finite-path identity or travel-time theorem follows.
+- `magnitude_anomaly_log10_pos` now returns `A ∧ C ∧ B`: the base-10 identity,
+  explicit `(5 / ln 10) * ln` bridge, then positivity. Migrate old positivity
+  projections from `.2` to `.2.2`; `V59Migration.lean` reconstructs the old pair
+  and pins all three changed/added whole theorem types.
+
 ## Mathematical and scientific scope
 
 Identify what every result assumes and actually proves. `VolAvg` is
@@ -162,7 +171,7 @@ are not certified by that definition. The connection reduction is pointwise;
 vanishing coefficients at one point do not prove curvature flatness. Likewise,
 `counterbalanced_cavitation_regularity` applies only under its displayed domain
 hypotheses, and its boundary polynomial is not an analytic limiting solution.
-See [the v5.8 source and scope record](docs/v5.8-integration.md).
+See [the current source and scope record](docs/v5.9-integration.md).
 
 ## Source-preserving integrations
 

@@ -1,21 +1,22 @@
 # Verification contract
 
-## v5.8 candidate and independent source review
+## v5.9 candidate and independent source review
 
-The [v5.8 integration record](v5.8-integration.md) pins the immutable author upload,
-independent source verdict and separate integration evidence. Source approval
-permits faithful preparation; it is not a passing integration build or final
-candidate approval. The candidate retains nine implementation modules, unchanged
-dependency pins and the strict zero-custom-axiom production policy from v5.7.
+The [v5.9 integration record](v5.9-integration.md) pins the immutable author
+upload, independent source verdict and separate integration evidence. Approval
+permits faithful preparation; it is not a passing integration build, final
+candidate review, merge approval or scientific/manuscript endorsement. Historical
+[v5.8](v5.8-integration.md), [v5.7](v5.7-integration.md) and
+[v5.0](v5.0-integration.md) evidence remains revision-specific.
 
-The [workflow](../.github/workflows/lean_action_ci.yml) uses Lean `v4.35.0` and
-Mathlib `aa35a481e5f0cdb3b04a899ead15d6ca7305a624`. Actions stay pinned,
-first-party build caching stays disabled, and author-upload compiler diagnostics
-remain a separate advisory job. A configured workflow is not evidence of success.
+The [workflow](../.github/workflows/lean_action_ci.yml) retains Lean `v4.35.0`,
+Mathlib `aa35a481e5f0cdb3b04a899ead15d6ca7305a624`, pinned Actions, no first-party
+build caching and separate advisory author diagnostics. No dependency, audit or
+proof baseline is refreshed. Configuration is not evidence of execution.
 
 ## Reproduction without upgrading dependencies
 
-Use the committed setup and pinned Mathlib cache, then run:
+Provision the committed setup and pinned Mathlib cache, then run:
 
 ```sh
 bash scripts/verify.sh
@@ -23,106 +24,100 @@ git diff --check
 git diff --exit-code -- lean-toolchain lakefile.toml lake-manifest.json
 ```
 
-Do not run `lake update`, delete the manifest or change pins to silence a failure.
-The aggregate checks lock bytes at entry and exit; CI also checks against Git.
+Do not run `lake update`, delete the manifest or change pins to silence failures.
+The aggregate checks configuration bytes at entry and exit; CI also checks Git.
 
 ## What the aggregate executes
 
-The aggregate checks source boundaries, style/context and their mutation tests,
-source-parser/reference guard tests and the v5.8 inventory. It builds
-`AsymmetricTensor` and `ProofAudit`, runs every top-level `tests/*.lean`, and
-executes roadmap and proof-audit regressions. The glob is nonrecursive; archived
-v2 tests remain history, not passing current tests. `lake build` alone is not the
-aggregate verification contract.
+Source boundaries, reviewed style/context, bounded parser/reference guards and
+their mutations remain strict. Both historical v5.8 and current v5.9 reference
+unit suites run. The historical v5.8 lexical assertions now read the immutable
+previous stable modules, not v5.9 candidate modules; all assertions remain.
+The v5.9 inventory independently checks exact-source identity, declaration and
+docstring equality, both structures, three instances and the precise source delta.
 
-Active Lean suites retain full API snapshots, whole-production/transitive axiom
-audits, exact theorem policies, finite roadmap/counterexample contracts, matrix
-and fixed-chart calculus regressions, optics/force tests and the v5.7 migration.
-`V58Migration.lean` adds changed-conjunction call sites plus raising, boost,
-admissible-domain, contraction-sign and pointwise-connection checks. See
-[regression coverage](regression-coverage.md) for limits.
+The aggregate builds `AsymmetricTensor` and `ProofAudit`, checks draft build
+isolation, runs every top-level `tests/*.lean`, and executes roadmap/proof-audit
+regressions. The test glob is nonrecursive; archived v2 suites remain historical.
+`lake build` alone is not this contract. V45/V57/V58 migrations stay active;
+`V59Migration.lean` adds whole-type checks, changed magnitude projections,
+conditional optical derivatives and determinant/volume/nonunit matrix call sites.
+See [regression coverage](regression-coverage.md).
 
 ## Exact-source reference and API fidelity
 
-`python3 scripts/check_v58_reference.py` retrieves
-`38f4fb06a6b21fe38557afa90bc10aa36dde2f68:AsymmetricTensor/Asymmetric Tensor v5.8.lean`,
-checks Git blob `9040d932eb4ed68e7c5ccb67e490383cf0b9527c` and SHA-256
-`aff0033565c3f41139e3b5c26491542b885643bf14eb116aac0dafecf14b4102`, and requires
-the candidate upload to remain byte-identical. It builds that monolith separately
-as `AsymmetricTensor.lean`, sharing only revision-checked dependency packages,
-never integrated first-party build outputs.
+`python3 scripts/check_v59_reference.py` retrieves immutable source
+`83bbc73eb1b12d97c2ee81be5813c6bc9e20ffe0:AsymmetricTensor/Asymmetric Tensor v5.9.lean`,
+Git blob `ec92bedca9a3fc6fda46feba2a10528f30ea2885`, SHA-256
+`a37c4c32d727f4d9d6f2cad7214f64c6b4e76f0f9499cfb7cf4a0dab328ed5c8`.
+It rejects changed candidate upload bytes and builds the exact monolith separately
+as `AsymmetricTensor.lean`. Only revision-checked dependency packages are shared;
+first-party outputs and split sources are never reused.
 
-- The bounded lexical comparator requires all 473 named declaration token
-  sequences and 75 docstrings to match. Structure/instance token checks retain
-  both structures and all three explicit instances; this is not full generated
-  API verification.
+- All 475 bounded named declaration token sequences and 75 declaration docstrings
+  must match. Separate tokens retain both structures and all three explicit
+  instances; scanner counts never substitute for generated API verification.
 - Both complete compiled namespace snapshots and their unfiltered differences
-  are retained. The separate public/generated comparison preserves structures,
+  are retained. The unchanged public/generated comparator preserves structures,
   constructors, recursors, projections, instances and equation declarations,
   including full types, universes and declaration kinds.
 - Only terminal theorem-valued `_simp_N[_N]`, `_abel_N[_N]` and `_proof_N[_N]`
-  helpers can enter the reviewed helper class; never source-declared names,
-  helper-shaped non-theorems or unknown entries. Binder hygiene and elaborator
-  metadata normalization remain unchanged.
-- A proof-helper constant reference is normalized only with zero universe
-  parameters and matching actual theorem kind, full type and universes. The
-  surrounding type stays compared, and a changed public equation type requires
-  an actual kernel-checked certificate. Mutation tests reject changed helper
-  propositions, kinds/universes and missing/generated API evidence.
-- A separately built stable v5.7 umbrella/modules snapshot at
-  `8ad507caa6625c810507a01c031040833af9c318`, tree
-  `3e0a27fb8d5e095e6f0b9b65b4fa19b4815fcba5`, records every added, removed or
-  changed compiled entry with full types, universes and kinds. This intentionally
-  nonempty stable-to-v5.8 delta is not backward compatibility and never weakens
-  the strict raw-v5.8-to-candidate fidelity comparison.
+  helpers enter the previously reviewed helper class. Source-declared names,
+  helper-shaped non-theorems and unknown differences stay strict failures.
+  Binder-hygiene/elaborator-metadata normalization is unchanged.
+- Proof-helper references normalize only for zero universe parameters and
+  matching actual theorem kind, full proposition and universes. Surrounding
+  types remain compared. Any affected public equation type requires its actual
+  kernel-checked certificate. Mutation tests reject changed helper propositions,
+  kinds/universes, missing generated APIs and missing snapshots.
+- A separately built prior-stable **v5.8 umbrella and nine modules** at
+  `ca4f10eca7ef6138ce43d38cab0cac390110ef89`, tree
+  `81f50656bea7469414eb56bd45088ea584e21697`, records every added, removed or
+  changed compiled entry, with full types, universes and kinds. This intentionally
+  nonempty migration is not backward compatibility and cannot weaken the strict
+  raw-v5.9-to-candidate comparison. The magnitude contract changes from `A ∧ B`
+  to `A ∧ C ∧ B`; old positivity users move from `.2` to `.2.2`.
 
-Evidence is retained in `.lake/v58-reference-evidence/` and the hosted
-`v58-reference` artifact, including manifests, build/source/API logs, certificates
-and `stable-v57-migration.json` with complete snapshots and baseline module blobs.
-Missing source identity, dependency pins, build, snapshot or comparison evidence
-fails the strict gate. Historical v5.7 counts do not certify a v5.8 candidate.
+Evidence goes to `.lake/v59-reference-evidence/` and the hosted `v59-reference`
+artifact: manifests, source/build/API logs, complete snapshots, kernel certificates
+and `stable-v58-migration.json` with baseline module blobs. Missing source identity,
+pins, build, comparison or snapshot evidence fails closed. Old v5.8 reference
+code/tests remain historical evidence, not a zero-difference gate against v5.9.
 
 ## Completeness and axiom policy
 
-`#audit_root AsymmetricTensor declared []` includes first-party private/generated
-declarations and names outside the public namespace. It rejects transitive
-`sorryAx` and every declared custom axiom. `EquationAxioms.lean` independently
-checks the whole production transitive inventory; selected theorem audits pin
-exact empty custom-axiom sets. Ordinary logical axioms `propext`,
-`Classical.choice` and `Quot.sound` remain allowed. This is not an assumption-free
-physical theory or empirical validation.
+`#audit_root AsymmetricTensor declared []` covers private/generated production
+names and first-party names outside the public namespace. It rejects transitive
+`sorryAx` and all declared custom axioms. `EquationAxioms.lean` independently
+checks the complete production transitive inventory; selected theorem policies
+remain exactly empty. Ordinary logical `propext`, `Classical.choice` and
+`Quot.sound` remain permitted. No axiom/proof-completeness baseline changes.
 
-The inhabited `DynamicClebschFields` on-shell bundle, vacuum witness, opaque
-selected state and conservation projections are unchanged from v5.7. Conservation
-is not proved for arbitrary fields; the nonconserved coordinate-field regression
-remains. No axiom/proof-completeness baseline is refreshed for v5.8.
-
-## Failure regressions
-
-Proof-audit fixtures require both nonzero exit and the intended diagnostic for
-`sorry`/`admit`, imported/private incomplete proofs, unexpected custom axioms and
-missing theorem/module targets. Malformed fixtures or unrelated missing imports
-do not count as valid rejection. Source/context/style/boundary/roadmap checks keep
-their acceptance and rejection cases. None replaces the actual compiled gate.
+The inhabited on-shell `DynamicClebschFields`, vacuum witness, opaque selected
+state and conservation projections are unchanged. This is not arbitrary-field
+conservation or an assumption-free empirical theory. Negative proof fixtures
+require both failure and the intended diagnostic, not unrelated broken imports.
 
 ## Current validation boundary
 
 Preparation has Python/Git but no local Lean/Lake or dependency cache. Static
-checks and hosted outcomes are reported separately in the integration record and
-PR. Exact-head hosted success must include the full strict gate, independent raw
-reference, all generated API/certificate checks and the stable migration build.
-A previous source advisory COMPILED result or v5.7 stable pass does not transfer.
+checks and hosted outcomes are reported separately. The raw-source advisory
+COMPILED job does not certify an integration. Exact-head hosted success must
+include the full strict gate, independent raw reference, public/generated API
+and certificates, and complete prior-stable v5.8 migration build.
 
-An independent final integration review must cover the exact candidate head/tree,
-source mapping and actual check evidence before any separately authorized merge.
-The latest source and base/head must be rechecked; changed bytes require renewed
-applicable review/check evidence. Preserve history without squash, then verify
-resulting-main CI. Pending or failing post-merge verification is not completion.
+Before any separately authorized merge, recheck the newest author source,
+base/head and concurrent writes; rerun affected checks and full strict CI on the
+reconciled candidate and obtain independent final integration review of its exact
+head/tree, source map and actual evidence. Preserve history without squash,
+then verify resulting-main CI. Pending or failed checks are not completion.
 
-The [v5.7](v5.7-integration.md) and [v5.0](v5.0-integration.md) records preserve
-previous source/API and policy history. The historical equation ledger and
-Poppler-dependent tests remain separate; neither the old ledger nor an unchanged
-PDF is upgraded by current Lean compilation.
+The source's optical theorem assumes both derivative premises, concludes the
+unscaled derivative and proves no definite integral or delay inequality. The
+Born–Infeld-named result is determinant algebra, not an action, physical field
+normalization, finite self-energy or universal cutoff. Pointwise zero connection
+does not imply curvature flatness. Prior unresolved scientific/manuscript
+findings and unchanged PDFs are not cleared by compilation.
 
 ## Historical validation records
 

@@ -1,6 +1,6 @@
 # Modules, naming, and style
 
-This is the modular layout of Binyamin Tsadik Bair-Mosheh's v5.8 formalization.
+This is the modular layout of Binyamin Tsadik Bair-Mosheh's v5.9 formalization.
 The public umbrella and namespace remain `AsymmetricTensor`; preservation of
 that import path does not imply compatibility with the older repaired APIs.
 Section headings follow manuscript topics and do not establish full coverage.
@@ -20,8 +20,8 @@ section inside `AsymmetricTensor`, not a namespace.
 | `Applications.Electromagnetism` | Electromagnetic component identities, aligned determinant and explicit zero-slip eigenpair bridge, cavitation limits | `Model`, `MatrixAlgebra` |
 | `Applications.Geometry` | Frame relations, galactic algebra and conditional connection identities | `Model`, `FieldCalculus` |
 | `Applications.WavesForces` | Wave/abstract-form identities, pressure and scaled force relations | `Model`, `MatrixAlgebra` |
-| `Applications.Optics` | Redshift, pressure-only/combined-admittance distinction, pointwise refraction and magnitude identities | `Model`, `MatrixAlgebra` |
-| `FutureTargets` | Section 16 algebraic corollaries and additional dimensional identities | `Model`, `MatrixAlgebra`, `Applications.Electromagnetism`, `Applications.WavesForces` |
+| `Applications.Optics` | Redshift, pressure-only/combined-admittance distinction, pointwise refraction, conditional antiderivative and magnitude identities | `Model`, `MatrixAlgebra` |
+| `FutureTargets` | Section 16 algebraic corollaries, general 3D determinant and dimensions | `Model`, `MatrixAlgebra`, `Applications.Electromagnetism`, `Applications.WavesForces` |
 
 For example:
 
@@ -80,15 +80,15 @@ through their acceptance/rejection tests as well as the actual build.
 
 ## Compatibility checks
 
-The [v5.8 integration record](v5.8-integration.md) pins the exact author source
-and intentional migration from stable v5.7. The strict reference build compares
-473 bounded named declarations and 75 declaration docstrings. It retains both
+The [v5.9 integration record](v5.9-integration.md) pins the exact author source
+and intentional migration from stable v5.8. The strict reference build compares
+475 bounded named declarations and 75 declaration docstrings. It retains both
 complete compiled namespace inventories and their differences, then separately
 compares public/generated API full elaborated types, universes and kinds.
 Structures, constructors, projections, instances and equation declarations remain
 in that comparison. The source scanner does not cover every generated API.
 
-The new raising and boost bridges live in `FieldCalculus`; the shear pairing and
+The retained v5.8 raising and boost bridges live in `FieldCalculus`; the shear pairing and
 changed cavitation theorem in `Applications.MechanicsMass`; the nonzero-domain
 bounds in `Applications.Electromagnetism`; and the coordinate Christoffel and
 pointwise connection reduction in `Applications.Geometry`. Existing imports and
@@ -110,7 +110,7 @@ The full surrounding type remains compared. An actual public equation type
 changed by this normalization additionally requires a kernel-checked certificate;
 it is not accepted merely by deleting a type difference. See the
 [verification contract](verification.md#exact-source-reference-and-api-fidelity).
-The v5.8 comparator and certificates require exact-head hosted execution; prior
+The v5.9 comparator and certificates require exact-head hosted execution; prior
 counts are historical, not a measurement of this candidate.
 
 `UnitDim` now exposes `K`, `Omega` and `E`; `DynamicClebschFields` adds field and
@@ -119,8 +119,14 @@ conservation projections plus generated constructor/recursor interfaces.
 migration. Source-to-candidate fidelity is a different question from backward
 compatibility with v5.0.
 
-The [current source map](v5.8-source-map.json) and
-[provenance audit](v5.8-provenance.md)
+The new optical primitive composition and three-part base-10 anomaly live in
+`Applications.Optics`; the general determinant and cleared volume criterion are
+in `FutureTargets`, preserving the author's Section 16 placement. No import or
+section-variable change is needed. The derivative premises remain explicit;
+no finite-path integral or Born–Infeld action is constructed.
+
+The [current source map](v5.9-source-map.json) and
+[provenance audit](v5.9-provenance.md)
 record original paths/lines and attribution exceptions. Formatting and new
 module wrappers must not be mistaken for new mathematical authorship. See
 [the verification contract](verification.md) for exact-head acceptance gates.
@@ -169,6 +175,19 @@ of 304 declarations and 78 docstrings describe the older library only. See
 [verification](verification.md#current-validation-boundary) for the exact-head
 validation boundary and [regression coverage](regression-coverage.md) for semantic changes
 from that older API.
+
+## v5.9 explicit derivative dependency
+
+`Applications.Optics` directly publicly imports
+`Mathlib.Analysis.Calculus.Deriv.Add` for the author's unchanged
+`HasDerivAt.add h_dlin h_dlog` proof step. At pinned Mathlib
+`aa35a481e5f0cdb3b04a899ead15d6ca7305a624`, this constant is declared in
+[Deriv/Add.lean](https://github.com/leanprover-community/mathlib4/blob/aa35a481e5f0cdb3b04a899ead15d6ca7305a624/Mathlib/Analysis/Calculus/Deriv/Add.lean),
+not `Deriv.Basic`. The initial split-module build exposed the missing dependency;
+raw-monolith advisory compilation did not establish split import sufficiency.
+No theorem/proof tokens or section variables change. The bounded context guard
+inventories first-party imports only, which stay unchanged; no baseline change
+or weakened check is used. See [the repair record](v5.9-integration.md#mechanical-direct-dependency-repair).
 
 ## v5.0 dependency repairs
 

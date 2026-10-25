@@ -1,16 +1,45 @@
-# v5.8 API and regression coverage
+# v5.9 API and regression coverage
 
 This candidate integrates the
-[immutable author v5.8 source](https://github.com/lilalittle/asymmetric-tensor/blob/38f4fb06a6b21fe38557afa90bc10aa36dde2f68/AsymmetricTensor/Asymmetric%20Tensor%20v5.8.lean).
-The [integration record](v5.8-integration.md) separates author changes from
+[immutable author v5.9 source](https://github.com/lilalittle/asymmetric-tensor/blob/83bbc73eb1b12d97c2ee81be5813c6bc9e20ffe0/AsymmetricTensor/Asymmetric%20Tensor%20v5.9.lean).
+The [integration record](v5.9-integration.md) separates author changes from
 mechanical module construction. The raw upload and all declaration docstrings
 remain unchanged. Source approval is not passing candidate verification.
 
-The bounded source inventory is 473 named declarations and 75 docstrings. Both
+The bounded source inventory is 475 named declarations and 75 docstrings. Both
 structures and all three explicit instances retain the previous source tokens;
 full elaborated/generated API comparison is a separate strict gate.
 
-## v5.8 migration checks
+## v5.9 migration checks
+
+`V59Migration.lean` pins complete theorem types, including binder order, for both
+new declarations and the changed `magnitude_anomaly_log10_pos`. It reconstructs
+the previous base-10-identity/positivity pair using `.1` and `.2.2`, separately
+consumes the inserted `.2.1` logarithm bridge and exercises production positivity
+at a tenfold distance ratio. The existing decimal calibration tests remain active.
+
+The optical call site consumes all outputs while retaining the two supplied
+derivative premises and the unscaled derivative conclusion. The determinant
+call sites consume the cleared polynomial, exact volume criterion and separate
+numeric polynomial benchmark. An actual `U_hat` evaluation at `alpha_s = 2`,
+parallel `E = B = (0,0,1/2)` gives `-15/64`, not the symmetric `-1/16`; this
+nonzero-dot-product case detects missing cross terms and admittance factors.
+All focused dependency policies require zero custom axioms. These Lean tests
+are configured, not locally executed: Lean/Lake is unavailable during preparation.
+
+No test claims a constructed optical integral, physical delay law, independent
+logarithm-chain-rule proof, Born–Infeld action/normalization, finite self-energy
+or universal field cutoff. Full reference/generated API and complete stable-v5.8
+migration snapshots remain separate strict hosted gates.
+
+`test_v59_inventory.py` checks 475 declarations/75 docstrings against exact raw
+v5.9, two unchanged structures/three instances and the precise stable-v5.8 source
+delta. The retained `test_v58_inventory.py` runs all historical assertions on the
+pinned previous stable modules, not on v5.9; historical reference guard tests
+remain active. Prior stable-to-new deltas are intentionally nonzero and never
+replace zero-difference raw-v5.9-to-candidate fidelity.
+
+## Retained v5.8 migration checks
 
 `V58Migration.lean` consumes the changed five-conjunct cavitation result, including
 all-entry antisymmetric independence at nonunit admittances, and explicitly
@@ -29,7 +58,7 @@ original migration, not the current source version.
 ## v5.7 migration checks
 
 [`V57Migration.lean`](../tests/V57Migration.lean) targets the intentional changes
-from stable v5.0. The current reference comparison requires fidelity to v5.8, which retains these
+from stable v5.0. The current reference comparison requires fidelity to v5.9, which retains these
 v5.7 interfaces. Generated public API types, universes and kinds stay covered.
 
 | Changed interface | Migration contract |
@@ -79,10 +108,10 @@ algebra; an inventory entry is not an independent regression for every theorem.
   pointwise refraction, retained natural-log magnitude identities, and the
   production definition `log10 x = Real.log x / Real.log 10`.
   `magnitude_anomaly_log10_pos` proves the base-10 modulus-difference identity
-  and strict positivity, assuming `0 < r_true`, `r_true < r_opt`, `0 < 1 + z`,
+  the explicit natural-log conversion and strict positivity, assuming `0 < r_true`, `r_true < r_opt`, `0 < 1 + z`,
   and the two base-10 modulus prescriptions. The separate
   `magnitude_anomaly_divergence` still proves only a natural-log identity,
-  despite its base-10/positivity caption; it does not prove divergence to infinity.
+  with its corrected natural-log caption; it does not prove divergence to infinity.
   `optical_path_retardation` proves the distance inequality from `n_avg > 1`
   and `r_opt = n_avg * r_true` for positive `r_true`, not from a defined integral.
 - [`interaction_hierarchy_em`](../AsymmetricTensor/Applications/WavesForces.lean)
@@ -103,9 +132,9 @@ executed. Recovered test-local facts are not restored production declarations.
 | `Conservation.lean` | Test-local constant-field divergence and coordinate-field counterexample; exact-kind/type guard for the dynamic theorem; witnessed `DynamicClebschFields` and both component projections | The old `CoordinateConserved` interface is not restored; inhabitance of the new on-shell structure does not establish nontrivial physical solutions |
 | `LieDerivative.lean` | Constant translation of constant tensors, constant-tensor dilation, varying-field transport and dilation, and independent first/second index responses | Historical helper names/signatures, generic linear-flow/boost suite, regularity bridge and actual-invariance-to-residual API remain absent; current replacement translation/dilation helpers described above are not directly exercised here |
 | `LorentzianAction.lean` | Electric/magnetic/mixed signs, generic raising-to-component bridge, arbitrary symmetric/antisymmetric orthogonality, current action separation, comoving constraints, spatial-gradient restriction, Eq. 123 null/nonunit cases | Old Eq. 121 normalization, dynamic inverse/one-index raising, background-subtracted pressure-normalized action API and the seventeen old exact audits are not restored |
-| `DistanceModulus.lean` | Natural-log tenfold/e-fold/equal-distance behavior and common redshift cancellation; test-local division by `log 10` recovers decimal tenfold calibration | Production `log10` and `magnitude_anomaly_log10_pos` are available, but these regressions do not directly exercise the latter; `decimalLog` is still a historical name, and the retained natural-log tenfold result is `5 * log 10`, not `5` |
+| `DistanceModulus.lean` | Natural-log tenfold/e-fold/equal-distance behavior and common redshift cancellation; test-local division by `log 10` recovers decimal tenfold calibration | Production `log10` and `magnitude_anomaly_log10_pos` are available, and V59Migration now exercises the latter and its inserted logarithm bridge; `decimalLog` is still a historical name, and the retained natural-log tenfold result is `5 * log 10`, not `5` |
 | `ForceHierarchy.lean` | Direct exercise of the named theorem's scaled second conjunct; test-local unscaled/scaled ratios; nonunit coupling distinguishes `1/16` and `1/32`; excluded zero-mass case | The production theorem also supplies the unscaled baseline and `α⁴` ratio as first/third conjuncts, without direct projection-specific regressions here; the old separately named helpers are absent, and the tests do not decide the physical model |
-| `OpticalPath.lean` | Pointwise refraction substitution and the origin value; production now also has the conditional average-index result `optical_path_retardation` | No constructed finite path/travel-time integral, continuity/integrability proof, integral-derived strict path/delay inequality, zero-scale boundary theorem, or integral-linked positive magnitude anomaly; the new average-index result is not directly exercised here |
+| `OpticalPath.lean` | Pointwise refraction substitution and the origin value; production now also has the conditional average-index result `optical_path_retardation` | A conditional unscaled antiderivative composition is exercised by V59Migration, but no constructed finite path/travel-time integral, continuity/integrability proof, integral-derived strict path/delay inequality, zero-scale boundary theorem, or integral-linked positive magnitude anomaly; the average-index result remains separate |
 
 ## Additional v4.5 checks
 
