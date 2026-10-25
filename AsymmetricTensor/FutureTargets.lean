@@ -902,7 +902,8 @@ theorem born_infeld_general_determinant_isomorphism
     norm_num
     field_simp [ha2, ha4]
     ring
-  have h_sym : det4x4 (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) = - (1 / alpha_s^4) :=
+  have h_sym : det4x4 (U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) = - (1 / alpha_s^4)
+    :=
     det4x4_U_sym alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val ha_s
   have h_clear : - alpha_s^4 * det4x4 (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) =
       1 - (Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Bx^2 + By^2 + Bz^2) -

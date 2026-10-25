@@ -137,7 +137,8 @@ theorem topological_phase_lock_cavitation
     norm_num
   · linarith
 
--- Theorem 177: Constitutive Frobenius Shear Load vs. Lorentzian Action Normalization (Resolves Issue #10)
+-- Theorem 177: Constitutive Frobenius Shear Load vs. Lorentzian Action Normalization (Resolves
+-- Issue #10)
 theorem frobenius_vs_lorentzian_shear_bridge
     (alpha_s alpha v_x v_y v_z : ℝ) (d_lambda d_beta : V4) (t_p_val : ℝ) :
     (1 / 4) * P_c * tensor_contract
@@ -384,7 +385,8 @@ theorem orthogonal_mass_extraction
 -- ----------------------------------------------------------------------
 variable (M_val : ℝ)
 
--- Dimensional Audit: Compton radius (hbar / M c) and Schwarzschild radius (2 G M / c^2) both evaluate to Length ⟨-1, 0, 0⟩:
+-- Dimensional Audit: Compton radius (hbar / M c) and Schwarzschild radius (2 G M / c^2) both
+-- evaluate to Length ⟨-1, 0, 0⟩:
 theorem unit_section8_compton_schwarzschild_intersection :
     u_hbar / (u_M_P * u_c) = u_l_p ∧
     (u_G * u_M_P) / (u_c^(2:ℤ)) = u_l_p ∧

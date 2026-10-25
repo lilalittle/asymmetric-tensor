@@ -829,7 +829,8 @@ noncomputable def leviCivitaConnection (gInv S : MetricField) : AffineConnection
        partial_deriv (fun y => S y μ sig) ν x -
        partial_deriv (fun y => S y μ ν) sig x)
 
--- Theorem 179: Coordinate Christoffel Expression & Pointwise Vanishing-Connection Reduction (Resolves Issue #13)
+-- Theorem 179: Coordinate Christoffel Expression & Pointwise Vanishing-Connection Reduction
+-- (Resolves Issue #13)
 -- Proves at evaluation point `x` without assuming `Γ = 0` a priori:
 -- 1. Vanishing First Metric Gradients (`∂_α S_μν = 0` at `x`): Forces the coordinate Christoffel
 --    expression `leviCivitaConnection gInv S x` to vanish across all indices `λ, μ, ν`,
