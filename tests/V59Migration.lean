@@ -110,7 +110,7 @@ theorem determinant_projection_callsite
     let Ez := alpha * (v_z / c)
     let Bx := alpha * (t_p_val * Omega_x_clebsch d_lambda d_beta)
     let By := alpha * (t_p_val * Omega_y_clebsch d_lambda d_beta)
-    let Bz := alpha * (t_p_val * Omega_z_clebsch d_lambda d_beta)
+    let Bz := alpha * (t_p_val * Omega_z_clebsch d_lambda d_beta);
     -alpha_s^4 * det4x4 (U_hat alpha_s alpha v_x v_y v_z d_lambda d_beta t_p_val) =
       1 - (Ex^2 + Ey^2 + Ez^2) + alpha_s^4 * (Bx^2 + By^2 + Bz^2) -
       alpha_s^4 * (Ex * Bx + Ey * By + Ez * Bz)^2 ∧
