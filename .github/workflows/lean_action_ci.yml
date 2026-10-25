@@ -67,6 +67,7 @@ jobs:
         with:
           name: stable-verification-${{ github.run_id }}-${{ github.run_attempt }}
           path: .lake/verification-diagnostics/
+          include-hidden-files: true
           retention-days: 7
           if-no-files-found: warn
       - name: Retain immutable reference and full API comparison evidence
