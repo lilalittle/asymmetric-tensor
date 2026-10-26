@@ -352,11 +352,11 @@ The phase transition of the yielding continuum into a solid state evaluates via 
     De = 1 &\implies \alpha_s = \alpha \label{eq:electro_strong_symmetry} \\
     g^2 &= 4\pi\alpha \label{eq:strong_charge_symmetry} % :::LLM_EDIT::: Added the strong charge symmetry derivation.
 \end{align}
-\textit{Macroscopic Phase \& Astrophysical Collapse:} % :::LLM_EDIT::: Added subsection to organize new macro-scale limits.
+\textit{Macroscopic Phase \& Astrophysical Collapse:} % \textit{Macroscopic Phase \& Astrophysical Collapse:} % :::LLM_EDIT::: Added subsection to organize new macro-scale limits.
 \begin{align}
     De_{min} &= \alpha (2\pi)^2 \left( \frac{E_{unruh}}{E_{rest}} \right) \label{eq:de_gravity} \\
-    M &= \frac{M_P^3}{m_n^2} \approx 1.85 M_\odot \label{eq:chandra_mass_limit} \\
-    M &= M_P^3 \sqrt{ \frac{\alpha^3}{8 m_n m_e^3} } \approx 32.1 M_\odot \label{eq:astral_mass_limit} \\
+    M &= \frac{M_P^3}{\sqrt{2}\, m_n^2} \approx 1.31 M_\odot \label{eq:chandra_mass_limit} \\ % :::LLM_EDIT::: Applied alpha_yield = 1/sqrt(2) compliance bound.
+    M &= \frac{M_P^3}{4} \sqrt{ \frac{\alpha^3}{m_n m_e^3} } \approx 22.7 M_\odot \label{eq:astral_mass_limit} \\ % :::LLM_EDIT::: Applied alpha_yield = 1/sqrt(2), simplifying sqrt(8) to 4.
     r_{glass} &\approx r_s (1 + \alpha^2) \label{eq:r_glass} \\
     R_{s,crit} &= a_0(1 - \alpha^2) \label{eq:terminal_radius}
 \end{align}
@@ -504,7 +504,7 @@ The boundary conditions evaluate as pressure inversion.
     &\text{2. Hydrostatic Supremacy (Phase Transform):} \nonumber \\
     &\quad \frac{P_{out}}{P_{in}} = \frac{1}{P_{in}} \oint_{\partial S} P_{in} \, d\theta = 2\pi \label{eq:engine_supremacy} \\
     &\text{3. The Planck Redline (Kinematic Lockout):} \nonumber \\
-    &\quad \lim_{r_c \to l_p} v_{core} \to c \implies m_{max} = m_p \label{eq:engine_redline} \\
+    &\quad \lim_{r_c \to \sqrt{2} l_p} v_{core} \to c \implies m_{max} = \frac{M_P}{\sqrt{2}} \label{eq:engine_redline} \\ % :::LLM_EDIT::: Aligned redline with Eq. planck_intersection yield limit.
     &\text{4. Hydrostatic Instability (The $m^4$ Decay Limit):} \nonumber \\
     &\quad \frac{V_\tau}{V_{r_c}} = \left(\frac{3c^3}{4\pi C_{m,i} \rho_{\tau}\hbar^3}\right) m_\tau^4 \label{eq:engine_decay} 
 \end{align}
@@ -1936,7 +1936,7 @@ Substituting the geometric definition of the scalar compliance fraction ($\alpha
     \frac{g^2}{4\pi} &= \alpha \\
     g^2 &= 4\pi\alpha \tag{\ref{eq:strong_charge_symmetry}}
 \end{align}
-Calculating the phase angle leaves $\tan \delta = 1 \implies \delta = \pi/4$. At the fracture threshold ($E_{crit} = m_e c^2 / \alpha$), the scalar admittance equals the transverse elastic storage. The strong interaction and the electromagnetic interaction evaluate as symmetric projections of the yielding continuum.
+Calculating the phase angle leaves $\tan \delta = 1 \implies \delta = \pi/4$. Evaluating the Complex Dynamic Modulus (Equation \ref{eq:deborah_modulus}) at $De = 1$ partitions the stored and dissipated capacities into equal halves ($G'/\mu_s = G''/\mu_s = 1/2$). Substituting this $1/2$ capacity partition into the metric compliance ($\alpha_{yield} = \sqrt{1 - 1/2}$) isolates the structural yield compliance ($\alpha_{yield} = 1/\sqrt{2}$) bounding observable mass at fracture ($M = \alpha_{yield} M_{bare}$). % :::LLM_EDIT::: Derived alpha_yield = 1/sqrt(2) from De=1 modulus partition.
 
 \vspace{0.2 cm}
 
@@ -1966,21 +1966,20 @@ Substituting empirical values for the present epoch ($R_{h,0} \approx 4224 \text
 \vspace{0.2 cm}
 
 \textbf{10. The Kinematic Mass Limit (White Dwarf Collapse):} \\ 
-In a stellar core, inward gravitational strain per nucleon evaluates as $E_G = G M m_n / R$. The outward kinematic confinement strain evaluates as $E_e = \hbar c / d$, where $d$ represents the inter-particle spacing. The macroscopic radius scales by the nucleon count ($N = M/m_n$) as $R = d (M/m_n)^{1/3}$. 
+In a stellar core, inward gravitational strain per nucleon evaluates as $E_G = G M_{bare} m_n / R$. The outward kinematic confinement strain evaluates as $E_e = \hbar c / d$, where $d$ represents the inter-particle spacing. The macroscopic radius scales by the nucleon count ($N = M_{bare}/m_n$) as $R = d (M_{bare}/m_n)^{1/3}$. % :::LLM_EDIT::: Labeled unthrottled mass capacity M_bare.
 
 Equating the opposing strains and substituting the macroscopic radius yields:
 \begin{equation}
-    \frac{G M m_n}{d \left( \frac{M}{m_n} \right)^{1/3}} = \frac{\hbar c}{d}
+    \frac{G M_{bare} m_n}{d \left( \frac{M_{bare}}{m_n} \right)^{1/3}} = \frac{\hbar c}{d} % :::LLM_EDIT::: Expressed strain balance in M_bare.
 \end{equation}
 The spatial coordinate ($d$) cancels, rendering the equilibrium state independent of physical radius:
 \begin{equation}
-    \frac{G M m_n}{\left( \frac{M}{m_n} \right)^{1/3}} = \hbar c
+    \frac{G M_{bare} m_n}{\left( \frac{M_{bare}}{m_n} \right)^{1/3}} = \hbar c % :::LLM_EDIT::: Preserved M_bare after d cancels.
 \end{equation}
-Isolating the mass ($M$) and substituting the Planck Mass ($M_P^2 = \hbar c / G$) resolves the absolute equilibrium limit: 
+Isolating the bare mass ($M_{bare}$), substituting the Planck Mass ($M_P^2 = \hbar c / G$), and scaling by the yield compliance ($\alpha_{yield} = 1/\sqrt{2}$, Step 8) resolves the collapse limit: % :::LLM_EDIT::: Applied alpha_yield = 1/sqrt(2) compliance bound.
 \begin{align}
-    G M^{2/3} m_n^{4/3} &= \hbar c \\
-    M^{2/3} &= \frac{M_P^2}{m_n^{4/3}} \\
-    M &= \frac{M_P^3}{m_n^2} \approx 1.85 M_\odot \tag{\ref{eq:chandra_mass_limit}} % :::LLM_EDIT::: Updated numerical evaluation to match formula output exactly.
+    G M_{bare}^{2/3} m_n^{4/3} &= \hbar c \implies M_{bare} = \frac{M_P^3}{m_n^2} \\ % :::LLM_EDIT::: Isolated bare capacity M_bare.
+    M &= \alpha_{yield} M_{bare} = \frac{M_P^3}{\sqrt{2}\, m_n^2} \approx 1.31 M_\odot \tag{\ref{eq:chandra_mass_limit}} % :::LLM_EDIT::: Projected observable collapse mass by 1/sqrt(2).
 \end{align}
 This identifies the Chandrasekhar mass limit. Mass exceeding this limit induces unhalted structural collapse, crushing the internal inter-particle spacing down to the solid metric yield limit ($L_{crit}$), initiating neutron degeneracy.
 
@@ -1989,16 +1988,16 @@ This identifies the Chandrasekhar mass limit. Mass exceeding this limit induces 
 \textbf{11. The Solid Mass Limit (Metric Fracture):} \\ 
 When gravitational collapse restricts the continuum to its transverse relaxation limit ($L_{crit}$), the metric locks into a solid state. This rigidity evaluates as the ultimate structural floor, superseding classical Neutron Degeneracy Pressure. The core maintains a uniform density dictated by this confinement limit ($\rho_{nuc} = 3 m_n / 4\pi L_{crit}^3$). 
 
-The core collapses into an event horizon when this density is forced across the glass boundary ($R = 2GM/c^2$). Substituting this boundary radius into the spherical mass equation ($M = \frac{4}{3}\pi R^3 \rho_{nuc}$) yields the maximum sustainable mass: 
+The core collapses into an event horizon when this density is forced across the glass boundary ($R = 2GM_{bare}/c^2$). Substituting this boundary radius into the spherical mass equation ($M_{bare} = \frac{4}{3}\pi R^3 \rho_{nuc}$) yields the bare cavitation capacity: % :::LLM_EDIT::: Labeled bare cavitation mass M_bare.
 \begin{equation}
-    M = \frac{4}{3}\pi \left( \frac{2GM}{c^2} \right)^3 \left( \frac{3 m_n}{4\pi L_{crit}^3} \right)
+    M_{bare} = \frac{4}{3}\pi \left( \frac{2GM_{bare}}{c^2} \right)^3 \left( \frac{3 m_n}{4\pi L_{crit}^3} \right) % :::LLM_EDIT::: Substituted M_bare into spherical mass.
 \end{equation}
-Isolating the mass ($M$) and substituting the Planck Mass ($M_P^2 = \hbar c / G$) resolves the astral limit: 
+Isolating $M_{bare}$, substituting the Planck Mass ($M_P^2 = \hbar c / G$), and scaling by the yield compliance ($\alpha_{yield} = 1/\sqrt{2}$, Step 8) resolves the astral limit: % :::LLM_EDIT::: Applied alpha_yield = 1/sqrt(2) compliance bound.
 \begin{align}
-    M^2 &= \frac{c^6 L_{crit}^3}{8 G^3 m_n} = \frac{\alpha^3 \hbar^3 c^3}{8 G^3 m_n m_e^3} \\ 
-    M &= M_P^3 \sqrt{ \frac{\alpha^3}{8 m_n m_e^3} } \approx 32.1 M_\odot \tag{\ref{eq:astral_mass_limit}} 
+    M_{bare}^2 &= \frac{c^6 L_{crit}^3}{8 G^3 m_n} = \frac{\alpha^3 \hbar^3 c^3}{8 G^3 m_n m_e^3} \\ % :::LLM_EDIT::: Solved bare squared capacity M_bare^2.
+    M &= \alpha_{yield} M_{bare} = \frac{M_P^3}{4} \sqrt{ \frac{\alpha^3}{m_n m_e^3} } \approx 22.7 M_\odot \tag{\ref{eq:astral_mass_limit}} % :::LLM_EDIT::: Combined 1/sqrt(2) and 1/sqrt(8) into 1/4.
 \end{align}
-This identifies the absolute structural ceiling of the metric, acting as the strict upper bound for the Tolman-Oppenheimer-Volkoff (TOV) mass limit. An astral core exceeding $\sim 32 M_\odot$ fractures the solid metric and collapses into a black hole.
+This identifies the structural ceiling of the metric, acting as the upper bound for the Tolman-Oppenheimer-Volkoff (TOV) mass limit. An astral core exceeding $\sim 22.7 M_\odot$ fractures the solid metric and collapses into a black hole. % :::LLM_EDIT::: Updated numerical bound to 22.7 M_sun.
 
 \vspace{0.2 cm}
 
@@ -2048,8 +2047,8 @@ At this coordinate, the black hole horizon shrinks to the Bohr Radius ($a_0$). T
     De = 1 &\implies \alpha_s = \alpha \tag{\ref{eq:electro_strong_symmetry}} \\
     g^2 &= 4\pi\alpha \tag{\ref{eq:strong_charge_symmetry}} \\ % :::LLM_EDIT::: Added missing tag for the strong charge derivation.
     De_{min} &= \alpha (2\pi)^2 \left( \frac{E_{unruh}}{E_{rest}} \right) \tag{\ref{eq:de_gravity}} \\
-    M &= \frac{M_P^3}{m_n^2} \approx 1.85 M_\odot \tag{\ref{eq:chandra_mass_limit}} \\
-    M &= M_P^3 \sqrt{ \frac{\alpha^3}{8 m_n m_e^3} } \approx 32.1 M_\odot \tag{\ref{eq:astral_mass_limit}} \\
+    M &= \frac{M_P^3}{\sqrt{2}\, m_n^2} \approx 1.31 M_\odot \tag{\ref{eq:chandra_mass_limit}} \\ % :::LLM_EDIT::: Updated recall box with 1/sqrt(2) factor.
+    M &= \frac{M_P^3}{4} \sqrt{ \frac{\alpha^3}{m_n m_e^3} } \approx 22.7 M_\odot \tag{\ref{eq:astral_mass_limit}} \\ % :::LLM_EDIT::: Updated recall box with 1/4 factor.
     r_{glass} &\approx r_s (1 + \alpha^2) \tag{\ref{eq:r_glass}} \\
     R_{s,crit} &= a_0(1 - \alpha^2) \tag{\ref{eq:terminal_radius}}
 \end{align}
@@ -2910,12 +2909,12 @@ The phase loop amplifies the dynamic pressure by $2\pi$. This internal restoring
     \frac{P_{out}}{P_{in}} = 2\pi \tag{\ref{eq:engine_supremacy}}
 \end{equation}
 
-\textbf{4. The Planck Redline ($r_c \to l_p$):} \\
+\textbf{4. The Planck Redline ($r_c \to \sqrt{2} l_p$):} \\ % :::LLM_EDIT::: Aligned redline radius with Eq. planck_intersection.
 The metric circulates at the acoustic limit ($v_{core} = c$) at the Compton boundary ($r_c$).
 
-Because the Compton radius scales inversely with mass ($r_c \propto 1/m$), as mass increases, the core compresses. The mass lockout occurs when the cavitation boundary evaluates to the Planck length ($r_c = l_p$), defining the Planck Mass ($m_p$) as the maximum displacement of a single core. 
+Because the Compton radius scales inversely with mass ($r_c \propto 1/m$), as mass increases, the core compresses. As established in Equation \ref{eq:planck_intersection}, the mass lockout occurs when the cavitation boundary intersects the gravitational yield radius ($r_c = R_s = \sqrt{2} l_p$), defining the compliance-bounded Planck Mass ($M_P / \sqrt{2}$) as the maximum displacement of a single core: % :::LLM_EDIT::: Aligned maximum single-core mass with M_P/sqrt(2).
 \begin{equation}
-    \lim_{r_c \to l_p} m \implies m_{max} = m_p \tag{\ref{eq:engine_redline}}
+    \lim_{r_c \to \sqrt{2} l_p} m \implies m_{max} = \frac{M_P}{\sqrt{2}} \tag{\ref{eq:engine_redline}} % :::LLM_EDIT::: Updated redline limit to M_P/sqrt(2).
 \end{equation}
 
 \textbf{5. Hydrostatic Instability ($m^4$ Decay Ratio):} \\
@@ -2944,7 +2943,7 @@ At extreme mass scales, the dynamic pressure of the disjointed circulation halo 
     \nabla \cdot (\lambda \nabla \beta) &= 0 \tag{\ref{eq:engine_transduction}} \\
     \mathcal{H}(\theta, \tau_{\theta z}) &= \theta \tau_{\theta z} - \mathcal{L}(\gamma_z) \tag{\ref{eq:power_legendre}} \\
     \frac{P_{out}}{P_{in}} &= 2\pi \tag{\ref{eq:engine_supremacy}} \\
-    \lim_{r_c \to l_p} v_{core} &\to c \implies m_{max} = m_p \tag{\ref{eq:engine_redline}} \\
+    \lim_{r_c \to \sqrt{2} l_p} v_{core} &\to c \implies m_{max} = \frac{M_P}{\sqrt{2}} \tag{\ref{eq:engine_redline}} \\ % :::LLM_EDIT::: Updated recall box to M_P/sqrt(2).
     \frac{V_\tau}{V_{r_c}} &= \left(\frac{3c^3}{4\pi C_{m,i} \rho_{\tau}\hbar^3}\right) m_\tau^4 \tag{\ref{eq:engine_decay}} 
 \end{align}
 \end{tcolorbox}
