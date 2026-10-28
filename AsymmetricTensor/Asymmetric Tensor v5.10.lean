@@ -6231,4 +6231,3 @@ theorem unit_integer_action_closure_and_coulomb_elimination :
 end FutureWork
 
 end AsymmetricTensor
-
