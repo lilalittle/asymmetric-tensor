@@ -233,6 +233,7 @@ The author's published manuscripts (Zenodo, CC-BY-4.0). The latest version is al
 | v8 | 2026-09-19 | [zenodo.22847830](https://doi.org/10.5281/zenodo.22847830) |
 | v9 | 2026-09-25 | [zenodo.22953897](https://doi.org/10.5281/zenodo.22953897) |
 | v10 | 2026-10-19 | [zenodo.23472554](https://doi.org/10.5281/zenodo.23472554) |
+| v11 | 2026-10-24 | [zenodo.23623951](https://doi.org/10.5281/zenodo.23623951) |
 
 All versions live at the concept DOI: https://doi.org/10.5281/zenodo.21321264
 
