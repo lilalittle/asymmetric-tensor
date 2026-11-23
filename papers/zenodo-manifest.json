@@ -80,6 +80,14 @@
       "published": "2026-10-19",
       "file": "papers/asymmetric-metric-tensor.pdf",
       "note": "Added Lean Code to formalize the mathematics"
+    },
+    {
+      "index": 12,
+      "recid": "24465200",
+      "doi": "10.5281/zenodo.24465200",
+      "published": "2026-11-23",
+      "file": "papers/asymmetric-metric-tensor.pdf",
+      "note": "Added Lean Code to formalize the mathematics"
     }
   ]
 }
