@@ -1,0 +1,1436 @@
+% ======================================================================
+% CONTINUUM MECHANICS & FEW-BODY PACKING OF (2,3) TREFOIL NUCLEONS
+% V3.2 Unified Monograph — PART 1 OF 4 (Preamble & Sections 1--4)
+% Overleaf-safe across XeLaTeX, LuaLaTeX, and pdfLaTeX (robust .toc)
+% ======================================================================
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[a4paper, margin=2.0cm]{geometry}
+\usepackage{etoolbox}
+\usepackage{iftex}
+\ifTUTeX
+  \usepackage{fontspec}
+  \usepackage[english]{babel}
+  \babelfont{rm}{Noto Sans}
+\else
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+\fi
+
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{booktabs, tabularx, array, multirow}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[section]{placeins}
+
+\definecolor{navyaccent}{HTML}{1B365D}
+\definecolor{boxbg}{HTML}{F4F7FB}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.42em}
+\setlength{\headheight}{15pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\textit{Continuum Mechanics \& Nuclear Geometry of the $(2,3)$ Trefoil}}
+\fancyhead[R]{\footnotesize\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\usepackage[colorlinks=true, linkcolor=navyaccent, citecolor=navyaccent, urlcolor=navyaccent]{hyperref}
+
+\DeclareRobustCommand{\dd}{\mathrm{d}}
+\DeclareRobustCommand{\Rmax}{R_{\max}}
+\DeclareRobustCommand{\dmin}{d_{\min}}
+\DeclareRobustCommand{\dtouch}{d_{\mathrm{touch}}}
+
+% >>> START PASTE (Unified V3.3 Front Matter + Part I Header) >>>
+\title{\vspace{-0.7cm}\textbf{Continuum Mechanics and Dynamic Geometry of $(2,3)$ Trefoil Nucleons}\\[0.28em]
+\large Zero-Parameter Hadron Structure, Neumann Bessel Shells, Ego-Metric Nuclear Binding, and Cluster Architecture ($A = 1\text{--}16$)}
+\author{Binyamin Tsadik Bair-Mosheh\\[0.15em]
+\small ORCID: \texttt{0000-0003-4329-7740}}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+\vspace{-0.45cm}
+
+\begin{abstract}
+\noindent Starting from five constants ($\hbar c, \alpha, M_p, M_n, M_e$) and zero empirical hadronic length scales, this two-part monograph derives the geometric structure of protons, neutrons, pions, and light atomic nuclei within an isotropic compressible continuum whose maximum shear ceiling $\Pi_{\mathrm{shear}} = \alpha P_c$ fixes the shear-to-bulk wave-speed ratio $v_s^2/c^2 = \alpha$. In \textbf{Part~I}, cavitated vortex tubes partition spin-$0$ mesons (two-lobe figure-eight unknots with $L_z = \mp 4/3$) from spin-$1/2$ baryons ($(2,3)$ trefoil knots): grazing three skew cube edges with $90^\circ$ self-crossings fixes the self-contacting neutron ($b_{u,n} = \sqrt{2}/3$), while halving axial pitch relaxes the free-vacuum proton ($b_{u,p} = \sqrt{2}/6$) to $109.47^\circ$ with $+13.4\%$ open throat clearance. Solving the 1,080-panel exterior Laplace boundary-element problem and curvature-binormal surface vorticity reproduces charge neutrality, proton magnetic and charge radii, the isovector magnetic moment, the neutron squared charge radius, the Cottingham electromagnetic mass shift, and the Cabibbo tangent overlap to $0.25\%\text{--}2.5\%$, while spherical Neumann Bessel roots ($j_0'(x_n) = 0$) lock three elastic nuclear shells ($0.944, 1.623, 2.290\text{ fm}$) inside the $2.818\text{ fm}$ ($De = 1$) viscoelastic horizon and fix the pion mass scale ($137.15\text{ MeV}$, $-0.64\%$). In \textbf{Part~II}, replacing the static biharmonic wall ($G_B \equiv 0$) with the parameter-free Hookean shear-ceiling spring, Bloch magic-angle rotor beveling ($T_{\mathrm{rot}} = 81.68\text{ MeV}$), midpoint nodal parity $\hat{\Pi}_{ab}^+ = \frac{1}{2}(1 + \hat{P}_{ab}^{(x)})$, and pure two-body ego-metric kinetic compliance ($\hat{T}_{\mathrm{ego}}$) resolves the $^3\text{He}\text{--}{}^3\text{H}$ mirror split to $+763.7\text{ keV}$ (exp $+763.8\text{ keV}$), binds $^3\text{H}$ ($-8.42\text{ MeV}$) and $^4\text{He}$ ($-27.50\text{ MeV}$) with zero three-body forces, flips $^3P$ scattering to $-0.32^\circ$ to unbind $P$-wave $^5\text{He}$, and maps the $Z = 3$ synchronous ring to $Z \ge 4$ $\alpha$-cluster crossover and weakest-link breakup cuts.
+\end{abstract}
+
+\vspace{0.15cm}
+\begin{center}
+\scriptsize
+\setlength{\tabcolsep}{4.0pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}X c c c}
+\toprule
+Observable / System & Continuum Derivation \& Selection Method & Model & Experiment & Residual \\
+\midrule
+Charge Neutrality $|Q_p + Q_e|/e$ & Exterior Gauss divergence across $\beta^-$ reconnection ($0$ knobs) & $0$ & $< 10^{-21}$ & Exact \\
+Cabibbo Overlap $\mathcal{O}_{np}$ & 1D directional tangent inner product ($109.47^\circ\leftrightarrow 90^\circ$) & $0.9713$ & $0.9737$ ($|V_{ud}|$) & $-0.25\%$ \\
+Pion Scale \& 1st Neumann Root & Hookean stretch $\kappa(r_e/3)^2$ \& Bessel root $x_1 r_{c,n}$ ($0$ knobs) & $137.15\text{ MeV}$ & $138.04\text{ MeV}$ & $-0.64\%$ \\
+Isovector Moment $\mu_p - \mu_n$ & Closed-loop Gaussian-curvature surface vorticity ($0$ knobs) & $+4.7497\,\mu_N$ & $+4.7059\,\mu_N$ & $+0.93\%$ \\
+Proton Radii $r_M(p^+) / r_E(p^+)$ & 1,080-panel Laplace BEM ($34.2\times$ apex shift) + Darboux $F_2$ & $0.783 / 0.820\text{ fm}$ & $0.776 / 0.841\text{ fm}$ & $+1.0 / -2.5\%$ \\
+Neutron $\langle r_E^2\rangle_n$ \& $\Delta U_{\mathrm{EM}}$ & Cubic monopole null ($\Phi_n = 0$ Foldy) \& Cottingham integral & $-0.1170\text{ fm}^2$ & $-0.1155(17)\text{ fm}^2$ & $0.88\sigma$ \\
+$^2\text{H}$ Capture $\sigma_{\mathrm{th}}$ \& $^3P$ Phase & Thermal $^1\text{H}(n,\gamma)^2\text{H}$ M1 \& $\hat{\Pi}_{12}^+$ parity at $25\text{ MeV}$ & $340.5\text{ mb},\; -0.32^\circ$ & $332.6\text{ mb},\; -0.30^\circ$ & $+2.4\%$ \\
+$^3\text{H}$ Binding $E$ \& Radius $r_E$ & Pure $2N$ CG + ego-metric pocket ($G_B = 0$, $0$ $3N$ loops) & $-8.422\text{ MeV},\; 1.753$ & $-8.482\text{ MeV},\; 1.759$ & $-0.71\%$ \\
+$^3\text{He} - {}^3\text{H}$ Mirror $\Delta E_\gamma$ & $\operatorname{erf}$ Coul + $\alpha_s^{-2}$ running + $V_{\mathrm{mag}}$ + $A=1$ virial $\eta_{\mathrm{CSB}}$ & $+763.7\text{ keV}$ & $+763.8\text{ keV}$ & $-0.01\%$ \\
+$^4\text{He}$ Binding $E$ \& $^5\text{He}$ Gap & $C_{2v}$ disphenoid ($G_B=0, k=2$); 12-perm Pauli + $\hat{\Pi}_{ab}^+$ & $-27.50,\; \Delta E > 0$ & $-28.30,\; +0.80\text{ MeV}$ & $-2.8\%$; Unb. \\
+$^{11}\text{Li}$ Global Minimum & Winner of 55-pair scan ($410.9\text{ MeV}$ below equatorial $2n$) & $3t + \text{polar }2n$ & $S_{2n} = 0.369\text{ MeV}$ & Borromean \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\newpage
+\tableofcontents
+\newpage
+
+\part*{Part I: Single-Nucleon Geometry, Boundary Multipoles, and Static Contact Spectra}
+\addcontentsline{toc}{part}{Part I: Single-Nucleon Geometry, Boundary Multipoles, and Static Contact Spectra}
+% <<< END PASTE <<<
+% ======================================================================
+% SECTION 1
+% ======================================================================
+\section{\texorpdfstring{Parameter Ledger and Unit-Contact Geometry of the $(2,3)$ Trefoil}{Parameter Ledger and Unit-Contact Geometry of the (2,3) Trefoil}}
+\label{sec:cube_tangent}
+
+\subsection{Methodological Scope and Four-Tier Parameter Classification}
+Throughout this monograph, mathematical correspondences between continuum mechanics and subatomic observables are stated as structural isomorphisms and quantitative evaluations rather than ontological claims of causation. Every input in the verification suite (\texttt{trefoil\_nuclear\_master\_suite.py}) is classified into four audited tiers:
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Five External Universal Constants (Zero Hadronic Length Inputs):} $\hbar c = 197.3269804\text{ MeV}\cdot\text{fm}$, $\alpha = 1/137.035999084$, $M_p = 938.272088\text{ MeV}$, $M_n = 939.565420\text{ MeV}$, and $M_e = 0.51099895\text{ MeV}$. Both the viscoelastic relaxation scale $r_e = \alpha\hbar c/M_e = 2.8179\text{ fm}$ and the Yukawa screening scale $r_\pi = 1.43877\text{ fm}$ ($r_{2\pi} = \frac{1}{2}r_\pi = 0.71939\text{ fm}$) evaluate directly from $(\hbar c, \alpha, M_n, M_e)$~\cite{bairmosheh2026}.
+    \item \textbf{Exact Parameter-Free Geometry \& Linear Elastostatics (Sections~\ref{sec:cube_tangent}--\ref{sec:sym_breaking}):} Unit-contact $(2,3)$ trefoil kinematics ($R_{0,u} = 3/5, a_u = 2/5$), $90^\circ$ cubic ($b_{u,n} = \sqrt{2}/3$) vs.\ $109.47^\circ$ tetrahedral ($b_{u,p} = \sqrt{2}/6$) polyhedral tangency, continuous Gonzalez--Maddocks injectivity thickness, 2-lobe counter-circulating meson spin cancellation, and $540 \times 540$ Kelvin boundary-element multipoles contain \textbf{zero adjustable parameters}.
+    \item \textbf{Explicit Zero-Knob Continuum Boundary Relations (Sections~2.2 \& 6--8):} Inverse-cube volume scaling $V_{r_c}V_\tau^3 = \text{const}$~\cite{bairmosheh2026}, isotropic 3-axis Compton cross-sections $r_{t,a} = \hbar c/(\sqrt{3}\,M_a)$, exterior-metric charge flux $Q \in \{0, +1\}$, curvature-binormal surface vorticity normalization in $\mathbf{m}_a(s)$, and Breit/biharmonic form-factor propagators introduce \textbf{zero fitted parameters} and are stated explicitly as constitutive boundary conditions.
+    \item \textbf{Calibrated $A = 2$ Couplings and Untuned $A \ge 3$ Extrapolation (Sections~10--18):} In Part~I's static-filament baseline (Sections~10--13), four two-body strengths $(g_S, g_M, g_B, c_{\mathrm{FB}})$ are calibrated once to $(E_d, Q_d, r_d, a_{np})$; in Part~II's dynamic rotor formulation (Sections~14--18), the Hookean shear-ceiling spring ($\Pi_{\mathrm{shear}} = \alpha P_c$) eliminates the biharmonic wall identically ($G_B \equiv 0$), leaving only $(G_S, C_{\mathrm{FB}})$ at fixed $G_M$ across all $A = 3\text{--}16$ states with \textbf{zero three-body fits and zero classical Pauli potentials}.
+\end{enumerate}
+
+\subsection{\texorpdfstring{Skew Orthogonal Cube Edges and Unit-Contact Normalization ($\Rmax = 1$)}{Skew Orthogonal Cube Edges and Unit-Contact Normalization}}
+Define the right-handed orthonormal triad $(\hat{\mathbf{u}}_0, \hat{\mathbf{v}}_0, \hat{\mathbf{d}}_{111})$ aligned with the $[1,1,1]$ diagonal of a cube centered at $(0,0,0)$:
+\begin{equation}
+    \hat{\mathbf{d}}_{111} = \frac{1}{\sqrt{3}}\begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}, \quad
+    \hat{\mathbf{u}}_0 = \frac{1}{\sqrt{6}}\begin{pmatrix} 2 \\ -1 \\ -1 \end{pmatrix}, \quad
+    \hat{\mathbf{v}}_0 = \frac{1}{\sqrt{2}}\begin{pmatrix} 0 \\ 1 \\ -1 \end{pmatrix}, \quad
+    \hat{\mathbf{u}}_0 \times \hat{\mathbf{v}}_0 = \hat{\mathbf{d}}_{111}.
+    \label{eq:triad_111}
+\end{equation}
+On the unit-contact cube $\mathcal{C}_u = [-c, +c]^3$ of half-edge $c = \frac{1}{\sqrt{2}}$ (where the three skew equatorial edge midpoints lie on the unit sphere $|\tilde{\mathbf{P}}_k| = 1$ in the plane $\tilde{\mathbf{r}}\cdot\hat{\mathbf{d}}_{111} = 0$), three mutually $90^\circ$-orthogonal skew edges have midpoints and unit tangents:
+\begin{equation}
+    \tilde{\mathbf{P}}_1 = \tfrac{1}{\sqrt{2}}(0,-1,+1),\; \mathbf{T}_1 = +\hat{\mathbf{x}}; \quad
+    \tilde{\mathbf{P}}_2 = \tfrac{1}{\sqrt{2}}(-1,+1,0),\; \mathbf{T}_2 = +\hat{\mathbf{z}}; \quad
+    \tilde{\mathbf{P}}_3 = \tfrac{1}{\sqrt{2}}(+1,0,-1),\; \mathbf{T}_3 = +\hat{\mathbf{y}},
+    \label{eq:three_skew_edges}
+\end{equation}
+whose orbital levers $\tilde{\mathbf{P}}_k \times \mathbf{T}_k$ sum to $\sqrt{6}\,\hat{\mathbf{d}}_{111}$. With the double-wrapping cylindrical basis ($\phi \in [0, 2\pi)$),
+\begin{equation}
+    \hat{\boldsymbol{\rho}}_c(2\phi) = \sin(2\phi)\,\hat{\mathbf{u}}_0 - \cos(2\phi)\,\hat{\mathbf{v}}_0, \qquad
+    \hat{\boldsymbol{\varphi}}_c(2\phi) = \cos(2\phi)\,\hat{\mathbf{u}}_0 + \sin(2\phi)\,\hat{\mathbf{v}}_0,
+    \label{eq:double_wrap_basis}
+\end{equation}
+the dimensionless unit-contact $(2,3)$ torus-knot centerline $\tilde{\mathbf{r}}(\phi)$ and its $\phi$-derivative are:
+\begin{align}
+    \tilde{\mathbf{r}}(\phi) &= \rho_u(\phi)\,\hat{\boldsymbol{\rho}}_c(2\phi) + w_u(\phi)\,\hat{\mathbf{d}}_{111}, \qquad \rho_u(\phi) = R_{0,u} + a_u\cos(3\phi), \quad w_u(\phi) = b_u\sin(3\phi), \label{eq:master_trefoil}\\
+    \tilde{\mathbf{r}}'(\phi) &= -3a_u\sin(3\phi)\,\hat{\boldsymbol{\rho}}_c(2\phi) + 2\big(R_{0,u} + a_u\cos 3\phi\big)\hat{\boldsymbol{\varphi}}_c(2\phi) + 3b_u\cos(3\phi)\,\hat{\mathbf{d}}_{111}. \label{eq:first_deriv}
+\end{align}
+
+\begin{theorem}[Unique Unit-Contact Cube-Inscribed $(2,3)$ Trefoil]
+\label{thm:cube_inscribed}
+Imposing (i) unit-radius tangential contact $\tilde{\mathbf{r}}(0, \frac{2\pi}{3}, \frac{4\pi}{3}) = \tilde{\mathbf{P}}_{1,2,3}$, (ii) edge alignment $\mathbf{T}(0, \frac{2\pi}{3}, \frac{4\pi}{3}) = (+\hat{\mathbf{x}}, +\hat{\mathbf{z}}, +\hat{\mathbf{y}})$, and (iii) $90^\circ$ 3D orthogonality between over-crossing and under-crossing strands fixes $(R_{0,u}, a_u, b_u)$ uniquely:
+\begin{equation}
+    R_{0,u} = \frac{3}{5}, \qquad a_u = \frac{2}{5}, \qquad b_{u,n} = \frac{\sqrt{2}}{3}
+    \qquad \Big(\Rmax = R_{0,u} + a_u = 1, \quad \rho_{\min} = R_{0,u} - a_u = \frac{1}{5}\Big).
+    \label{eq:exact_cube_constants}
+\end{equation}
+Moreover, the $90^\circ$ interior crossing orthogonality holds for all $b_u \in \mathbb{R}$.
+\end{theorem}
+
+\begin{proof}
+At $\phi = 0$, $\tilde{\mathbf{r}}(0) = -(R_{0,u} + a_u)\hat{\mathbf{v}}_0 = (R_{0,u}+a_u)\tilde{\mathbf{P}}_1 = \tilde{\mathbf{P}}_1 \iff R_{0,u} + a_u = 1$, giving $\tilde{\mathbf{r}}'(0) = 2\hat{\mathbf{u}}_0 + 3b_u\hat{\mathbf{d}}_{111} = (\frac{4}{\sqrt{6}} + \sqrt{3}\,b_u,\ -\frac{2}{\sqrt{6}} + \sqrt{3}\,b_u,\ -\frac{2}{\sqrt{6}} + \sqrt{3}\,b_u)^T$. Alignment with $\mathbf{T}_1 = (1,0,0)^T$ yields $-\frac{2}{\sqrt{6}} + \sqrt{3}\,b_u = 0 \implies b_{u,n} = \frac{\sqrt{2}}{3}$. Projected along $\hat{\mathbf{d}}_{111}$, distinct phases $\phi_2 = \phi_1 + \pi$ satisfy $\rho_u(\phi_1) = \rho_u(\phi_1 + \pi) \iff \cos(3\phi_c) = 0$ at $\phi_c \in \{\frac{\pi}{6}, \frac{\pi}{2}, \frac{5\pi}{6}\}$. Since $w'_u(\phi_c) = 3b_u\cos(3\phi_c) = 0$, $b_u$ drops out of the crossing tangents:
+\begin{equation}
+    \tilde{\mathbf{r}}'\!\left(\frac{\pi}{6}\right)\cdot\tilde{\mathbf{r}}'\!\left(\frac{7\pi}{6}\right) = \big(-3a_u\hat{\boldsymbol{\rho}}_c + 2R_{0,u}\hat{\boldsymbol{\varphi}}_c\big)\cdot\big(+3a_u\hat{\boldsymbol{\rho}}_c + 2R_{0,u}\hat{\boldsymbol{\varphi}}_c\big) = 4R_{0,u}^2 - 9a_u^2 = 0 \iff 3a_u = 2R_{0,u}.
+    \label{eq:90deg_crossing_lock}
+\end{equation}
+Solving $R_{0,u} + a_u = 1$ with $3a_u = 2R_{0,u}$ gives $R_{0,u} = \frac{3}{5}$ and $a_u = \frac{2}{5}$.
+\end{proof}
+
+In Cartesian components, all three coordinates along the uncoiled 1D curve are generated by $120^\circ$ phase shifts of a single 4-harmonic wave in which only $m = 3$ depends on $b_u$:
+\begin{equation}
+    \tilde{X}(\phi) = \sqrt{\frac{2}{3}}\left[-\frac{1}{5}\sin\phi + \frac{3}{5}\sin(2\phi) + \frac{1}{5}\sin(5\phi)\right] + \frac{b_u}{\sqrt{3}}\sin(3\phi), \quad
+    \tilde{Y}(\phi) = \tilde{X}\!\left(\phi + \frac{2\pi}{3}\right), \quad
+    \tilde{Z}(\phi) = \tilde{X}\!\left(\phi + \frac{4\pi}{3}\right).
+    \label{eq:single_1d_generator}
+\end{equation}
+Because $\tilde{Y}'(0) = \tilde{Z}'(0) = \frac{-\sqrt{2} + 3b_u}{\sqrt{3}}$ at $\tilde{Y}(0) = -c, \tilde{Z}(0) = +c$, the cube $\mathcal{C}_u$ circumscribes only $b_{u,n} = \frac{\sqrt{2}}{3}$ ($\max|\tilde{X}_n|/c = 1.000000$).
+
+\subsection{\texorpdfstring{Polyhedral Frames of the Relaxed Proton ($b_{u,p} = \sqrt{2}/6$): $S^2$, $\mathcal{R}_{1/2}$, $\Delta_p$, and $\mathcal{RD}_{\sqrt{2}}$}{Polyhedral Frames of the Relaxed Proton}}
+At fixed $(R_{0,u}, a_u) = (\frac{3}{5}, \frac{2}{5})$, the mutual angle $\theta_{12}(b_u)$ between unit outer-lobe tangents $\mathbf{T}(0)$ and $\mathbf{T}(\frac{2\pi}{3})$ is:
+\begin{equation}
+    \mathbf{T}(0) = \frac{2\,\hat{\mathbf{u}}_0 + 3b_u\,\hat{\mathbf{d}}_{111}}{\sqrt{4 + 9b_u^2}}, \qquad
+    \cos\theta_{12}(b_u) = \mathbf{T}(0)\cdot\mathbf{T}\!\left(\frac{2\pi}{3}\right) = \frac{9b_u^2 - 2}{9b_u^2 + 4}.
+    \label{eq:outer_angle_master}
+\end{equation}
+While $b_{u,n} = \frac{\sqrt{2}}{3}$ gives $\theta_{12} = \mathbf{90.0000^\circ}$ ($\alpha_n = 54.7356^\circ$), halving the axial pitch to $b_{u,p} = \frac{\sqrt{2}}{6}$ gives $\cos\theta_{12} = -\frac{1}{3} \implies \theta_{12} = \mathbf{109.4712^\circ}$ ($\alpha_p = 70.5288^\circ$, $2\alpha_n + \alpha_p = 180^\circ$). Extending $+2.1284\%$ beyond $\mathcal{C}_u$ ($\max|\tilde{X}_p|/c = 1.021284$), $\tilde{\mathbf{r}}_p(\phi)$ satisfies four dual tetrahedral tangency relations ($3.3\text{--}8.3 \times 10^{-16}$):
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{4-Ray Tangent Tetrahedron on $S^2$:} $\mathbf{T}_p(0), \mathbf{T}_p(\frac{2\pi}{3}), \mathbf{T}_p(\frac{4\pi}{3})$ and $\mathbf{T}_0 = -\hat{\mathbf{d}}_{111}$ satisfy $\max_{a\neq b}|\mathbf{T}_a\cdot\mathbf{T}_b + \frac{1}{3}| = 8.33 \times 10^{-16}$ and $\sum_{a=0}^3 \mathbf{T}_a = \mathbf{0}$.
+    \item \textbf{$50\%$ $[1,1,1]$-Compressed Rhombohedron $\mathcal{R}_{1/2}$:} Compressing $\mathcal{C}_u$ by $\frac{1}{2}$ along $\hat{\mathbf{d}}_{111}$ aligns the three contacted edges to $109.4712^\circ$ along $\mathbf{T}_p(0,\frac{2\pi}{3},\frac{4\pi}{3})$ and inscribes $\tilde{\mathbf{r}}_p(\phi)$ ($\max|\tilde{\mathbf{r}}_p + (\tilde{\mathbf{r}}_p\cdot\hat{\mathbf{d}}_{111})\hat{\mathbf{d}}_{111}|_\infty / c = 1.000000$).
+    \item \textbf{Face-Tangent Regular Tetrahedron $\Delta_p$:} With outward normals $\hat{\mathbf{n}}_0 = -\hat{\mathbf{d}}_{111}$ and $\hat{\mathbf{n}}_k = \frac{1}{3}\hat{\mathbf{d}}_{111} + \frac{2\sqrt{2}}{3}[\cos(\alpha_0 + \frac{4\pi(k-1)}{3})\hat{\mathbf{u}}_0 + \sin(\alpha_0 + \frac{4\pi(k-1)}{3})\hat{\mathbf{v}}_0]$ ($\cos\alpha_0 = -\frac{1}{8}, \sin\alpha_0 = -\frac{3\sqrt{7}}{8}$), $\tilde{\mathbf{r}}_p(\phi)$ osculates all four faces from within ($\tilde{\mathbf{r}}_p\cdot\hat{\mathbf{n}}_0 \le \frac{\sqrt{2}}{6}$, $\tilde{\mathbf{r}}_p\cdot\hat{\mathbf{n}}_k \le \frac{\sqrt{14}}{4}$, residual $+3.33 \times 10^{-16}$).
+    \item \textbf{Unit-Contact Rhombic Dodecahedron $\mathcal{RD}_{\sqrt{2}}$:} Rotated $180^\circ$ around $\hat{\mathbf{d}}_{111}$, $\tilde{\mathbf{r}}_p(\phi)$ inscribes inside $\{|\tilde{x}\pm\tilde{y}|, |\tilde{y}\pm\tilde{z}|, |\tilde{z}\pm\tilde{x}| \le \sqrt{2}\}$ (ratio $1.000000$).
+\end{enumerate}
+
+% ======================================================================
+% SECTION 2
+% ======================================================================
+\section{1D Fluid-Line Atlas, Inverse-Cube Relaxed Scales, and Rheological Landmarks}
+\label{sec:derivatives_critical}
+
+\subsection{\texorpdfstring{Higher Derivatives, Polynomial Line Metric $J_{s,u}(\phi)$, and 1D Station Atlas}{Higher Derivatives, Polynomial Line Metric, and 1D Station Atlas}}
+Differentiating Equation~(\ref{eq:first_deriv}) gives the closed-form acceleration and jerk in $(\hat{\boldsymbol{\rho}}_c(2\phi), \hat{\boldsymbol{\varphi}}_c(2\phi), \hat{\mathbf{d}}_{111})$:
+\begin{align}
+    \tilde{\mathbf{r}}''(\phi) &= -\big(4R_{0,u} + 13a_u\cos 3\phi\big)\hat{\boldsymbol{\rho}}_c(2\phi) - 12a_u\sin(3\phi)\,\hat{\boldsymbol{\varphi}}_c(2\phi) - 9b_u\sin(3\phi)\,\hat{\mathbf{d}}_{111}, \label{eq:second_deriv}\\
+    \tilde{\mathbf{r}}'''(\phi) &= 63a_u\sin(3\phi)\,\hat{\boldsymbol{\rho}}_c(2\phi) - \big(8R_{0,u} + 62a_u\cos 3\phi\big)\hat{\boldsymbol{\varphi}}_c(2\phi) - 27b_u\cos(3\phi)\,\hat{\mathbf{d}}_{111}. \label{eq:third_deriv}
+\end{align}
+The dimensionless line-stretch metric $J_{s,u}(\phi) = |\tilde{\mathbf{r}}'(\phi)|$ reduces to an exact polynomial in $\cos(3\phi)$:
+\begin{equation}
+    J_{s,u}(\phi) = \frac{1}{5}\sqrt{72 + 48\cos(3\phi) + (225b_u^2 - 20)\cos^2(3\phi)},
+    \label{eq:js_polynomial}
+\end{equation}
+fixing $\mathbf{T} = \tilde{\mathbf{r}}'/J_{s,u}$, $\mathbf{B} = (\tilde{\mathbf{r}}'\times\tilde{\mathbf{r}}'')/|\tilde{\mathbf{r}}'\times\tilde{\mathbf{r}}''|$, $\mathbf{N} = \mathbf{B}\times\mathbf{T}$, $\kappa_u = |\tilde{\mathbf{r}}'\times\tilde{\mathbf{r}}''|/J_{s,u}^3$, and $\tau_u = [(\tilde{\mathbf{r}}'\times\tilde{\mathbf{r}}'')\cdot\tilde{\mathbf{r}}''']/|\tilde{\mathbf{r}}'\times\tilde{\mathbf{r}}''|^2$~\cite{frenet1847} (Table~\ref{tab:1d_line_atlas}).
+
+\begin{table}[!htbp]
+\centering
+\caption{Exact Unit-Contact ($\Rmax = 1$) 1D Fluid-Line Atlas Across One Lobe Period $\phi \in [0^\circ, 120^\circ)$.}
+\label{tab:1d_line_atlas}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.22\textwidth} c >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+Unit-Contact Field & State & $\phi = 0^\circ$ (Outer Apex) & $\phi = 30^\circ$ (Up Crossing) & $\phi = 60^\circ$ (Inner Throat) & $\phi = 90^\circ$ (Dn Crossing) \\
+\midrule
+\multirow{2}{*}{Radius $|\tilde{\mathbf{r}}(\phi)|$} & $p^+$ & $1.0000$ & $\frac{\sqrt{374}}{30} = 0.6446$ & $\frac{1}{5} = 0.2000$ & $\frac{\sqrt{374}}{30} = 0.6446$ \\
+ & $n^0$ & $1.0000$ & $\frac{\sqrt{524}}{30} = 0.7630$ & $\frac{1}{5} = 0.2000$ & $\frac{\sqrt{524}}{30} = 0.7630$ \\
+\midrule
+\multirow{2}{*}{Line Metric $J_{s,u}(\phi)$} & $p^+$ & $\frac{3}{\sqrt{2}} = 2.1213$ & $\frac{6\sqrt{2}}{5} = 1.6971$ & $\sqrt{\frac{33}{50}} = 0.8124$ & $\frac{6\sqrt{2}}{5} = 1.6971$ \\
+ & $n^0$ & $\sqrt{6} = 2.4495$ & $\frac{6\sqrt{2}}{5} = 1.6971$ & $\frac{3\sqrt{6}}{5} = 1.4697$ & $\frac{6\sqrt{2}}{5} = 1.6971$ \\
+\midrule
+\multirow{2}{*}{Flow $(T_\rho, T_\varphi, T_d)$} & $p^+$ & $(0, +.943, +.333)$ & $(-.707, +.707, 0)$ & $(0, +.492, -.870)$ & $(+.707, +.707, 0)$ \\
+ & $n^0$ & $(0, +.816, +.577)$ & $(-.707, +.707, 0)$ & $(0, +.272, -.962)$ & $(+.707, +.707, 0)$ \\
+\midrule
+\multirow{2}{*}{Curvature $\kappa_u(\phi)$} & $p^+$ & $\frac{76}{45} = 1.6889$ & $\frac{65\sqrt{2}}{48} = 1.9151$ & $\frac{140}{33} = 4.2424$ & $\frac{65\sqrt{2}}{48} = 1.9151$ \\
+ & $n^0$ & $\frac{19}{15} = 1.2667$ & $\frac{5\sqrt{122}}{24} = 2.3011$ & $\frac{35}{27} = 1.2963$ & $\frac{5\sqrt{122}}{24} = 2.3011$ \\
+\midrule
+\multirow{2}{*}{Frenet Torsion $\tau_u(\phi)$} & $p^+$ & $+0.2398$ & $-0.5927$ & $-9.0302$ & $-0.5927$ \\
+ & $n^0$ & $+0.3598$ & $-0.8211$ & $-5.5184$ & $-0.8211$ \\
+\midrule
+\multirow{2}{*}{Binormal $B_d = \mathbf{B}\cdot\hat{\mathbf{d}}_{111}$} & $p^+$ & $+0.9428$ & $+\frac{12}{13} = +0.9231$ & $-0.4924$ & $+0.9231$ \\
+ & $n^0$ & $+0.8165$ & $+\frac{6}{\sqrt{61}} = +0.7682$ & $-\frac{\sqrt{6}}{9} = -0.2722$ & $+0.7682$ \\
+\midrule
+\multirow{2}{*}{Virial $1 + \tilde{\mathbf{r}}\cdot\kappa_u\mathbf{N}$} & $p^+$ & $-0.6889$ & $+\frac{11}{144} = +0.0764$ & $+1.8485$ & $+\frac{11}{144} = +0.0764$ \\
+ & $n^0$ & $-0.2667$ & $-\frac{4}{9} = -0.4444$ & $+1.2593$ & $-\frac{4}{9} = -0.4444$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Inverse-Cube Strain-Volume Conservation and Four-Way Rheological Scale Alignment}
+By Gonzalez and Maddocks~\cite{gonzalez1999}, the global self-contact injectivity ratios of the unit-length $(2,3)$ curves $\mathbf{r}_{u,a} = \tilde{\mathbf{r}}_a/\ell_u(a)$ evaluate via continuous 2D minimization over $(\phi_1, \phi_2) \in [0, 2\pi)^2$ to:
+\begin{equation}
+    \left(\frac{r_t}{L}\right)_{\!\mathrm{jam},n} = \inf_{\phi_1 \neq \phi_2} \frac{|\mathbf{r}_{u,n}(\phi_2) - \mathbf{r}_{u,n}(\phi_1)|^2}{2\,\big|(\mathbf{r}_{u,n}(\phi_2) - \mathbf{r}_{u,n}(\phi_1)) \times \mathbf{T}_n(\phi_1)\big|} = \mathbf{0.014954337} < 0.034460, \quad
+    \left(\frac{r_t}{L}\right)_{\!\mathrm{jam},p} = \mathbf{0.016961487}
+    \label{eq:steric_ratio}
+\end{equation}
+(ropelength minimum $L/r_t = 57.93$ at $b_{u,\mathrm{rope}} = 0.1856$, Euler--Bernoulli minimum $b_{u,E2} = 0.3631$~\cite{euler1762}, Germain--Kirchhoff minimum $b_{u,E4} = 0.3581$~\cite{germain1821}, tangent-quadrupole zero $b_{u,*} = 0.5099$, and oblate rotor range $b_u < 0.7424$).
+
+In the continuum mechanics formulation~\cite{bairmosheh2026}, rest energy $M_a c^2 = P_c V_{\tau,a}$ scales with the kinematic strain displacement volume $V_{\tau,a} \propto M_a^{+1}$, whereas the Euclidean cavity volume $V_{r_c,a} \propto r_{c,a}^3 \propto M_a^{-3}$ satisfies the inverse-cube conservation identity $V_{r_c,a} V_{\tau,a}^3 = \frac{32\pi^4}{3C_m^3}l_p^{12} = \text{const}$:
+\begin{equation}
+    \frac{V_\tau(p^+)}{V_\tau(n^0)} = \frac{M_p}{M_n} = \mathbf{0.998623} < 1, \qquad
+    \frac{V_{r_c}(p^+)}{V_{r_c}(n^0)} = \frac{V_{\mathrm{tube}}(p^+)}{V_{\mathrm{tube}}(n^0)} = \left(\frac{M_n}{M_p}\right)^{\!3} = \mathbf{1.004141} > 1.
+    \label{eq:inverse_cube_conservation}
+\end{equation}
+With isotropic 3-axis Compton tube radii $r_{t,a} = \hbar c/(\sqrt{3}\,M_a)$ ($r_{t,p} = 0.12142\text{ fm}$, $r_{t,n} = 0.12125\text{ fm}$) and $L_a = V_{\mathrm{tube},a}/(\pi r_{t,a}^2) \propto M_a^{-1}$, anchoring the tighter $90^\circ$ neutron ($|Wr_n| = 3.9005$) at its self-contact limit $L_n = r_{t,n}/0.014954337$ determines the relaxed $109.47^\circ$ proton ($|Wr_p| = 3.6447$) without equal-length constraints:
+\begin{equation}
+    L_n = \mathbf{8.1083\text{ fm}}, \quad L_p = \frac{M_n}{M_p}L_n = \mathbf{8.1195\text{ fm}} > L_n, \quad
+    \Rmax(n) = \mathbf{0.7059\text{ fm}}, \quad \Rmax(p) = \mathbf{0.8130\text{ fm}}\;\;(+15.18\%),
+    \label{eq:relaxed_proton_scales}
+\end{equation}
+leaving the relaxed proton with $+13.42\%$ open throat clearance ($r_{t,p}/L_p = 0.0149543 < 0.0169615$) and universal 1D lobe phase flux $\Phi_0 = \sqrt{8\pi\alpha\hbar c/(9\rho_\tau)}$ ($\eta_p = \eta_n = 1$)~\cite{bairmosheh2026}.
+
+Across radial separation $r$, the Cosmological Deborah profile $De(r) = r_e/r$ ($r_e = \alpha\hbar c/M_e = \mathbf{2.8179\text{ fm}}$ at $De = 1$, where $G' = G'' = \frac{1}{2}\mu_s$) places the interior $r < r_e$ inside the elastic storage regime ($De > 1$, $G' > G''$). Imposing the spherical standing-wave Neumann boundary condition $j_0'(x_n) = -j_1(x_n) = 0 \iff \tan x_n = x_n$ ($x_1 = 4.49341$, $x_2 = 7.72525$, $x_3 = 10.90412$, $x_4 = 14.06619$) at neutron Compton wavenumber $k_n = r_{c,n}^{-1} = M_n c/\hbar$ locks \textbf{exactly three elastic radial shells} inside $r_e = 2.8179\text{ fm}$:
+\begin{equation}
+    R_1 = x_1 r_{c,n} = \mathbf{0.9437\text{ fm}},\quad
+    R_2 = x_2 r_{c,n} = \mathbf{1.6225\text{ fm}},\quad
+    R_3 = x_3 r_{c,n} = \mathbf{2.2901\text{ fm}} < r_e < R_4 = \mathbf{2.9542\text{ fm}}.
+    \label{eq:neumann_bessel_shells}
+\end{equation}
+Crucially, the radial shell step $\Delta R_{12} = (x_2 - x_1)r_{c,n} = \mathbf{0.6787\text{ fm}}$ ($\Delta R_{23} = \mathbf{0.6676\text{ fm}}$) matches the 12-station arc-length interval $L_n/12 = \mathbf{0.6757\text{ fm}}$ along the uncoiled 1D knot (placing 6 full standing waves around $L_n$, matching $Lk_{\mathrm{Frenet}} = -6$), while the $90^\circ$ self-crossings partition each lobe into an inner-throat segment $\Delta s_{\mathrm{throat}} = 1.02\text{--}1.11\text{ fm} \approx R_1$ and an outer-arch segment $\Delta s_{\mathrm{arch}} = 1.60\text{--}1.69\text{ fm} \approx R_2$ with automatic 1D Neumann antinodes ($T_r = 0 \implies \partial_s\psi = 0$) at all six apices and throats. Furthermore, $R_1 = 0.9437\text{ fm}$ aligns to $0.47\%$ with $r_e/3 = \mathbf{0.9393\text{ fm}}$ ($De = 3$), its normalized Bessel second moment $\langle r^2\rangle/R_\pi^2 = \frac{1}{3} - \frac{1}{6x_1^2} = 0.32508$ gives $\sqrt{\langle r^2\rangle} = \mathbf{0.8203\text{ fm}}$ (matching the 1,080-panel BEM proton radius $0.8195\text{ fm}$ to $0.10\%$), and Hookean double-leg stretching ($\kappa = \alpha M_n^3 c^4/\hbar^2 = 0.1553\text{ GeV/fm}^2$) at $r_e/3$ fixes the pion mass and Yukawa scale without hadronic inputs~\cite{bairmosheh2026}:
+\begin{equation}
+    U_{\mathrm{Hooke}}\!\left(\frac{r_e}{3}\right) = \kappa\left(\frac{r_e}{3}\right)^{\!2} = \frac{\alpha^3 M_n^3 c^2}{9 M_e^2} = \mathbf{137.150\text{ MeV}}, \qquad
+    r_\pi \equiv \frac{\hbar c}{U_{\mathrm{Hooke}}(r_e/3)} = \mathbf{1.43877\text{ fm}}.
+    \label{eq:hookean_pion_scale}
+\end{equation}
+
+% ======================================================================
+% SECTION 3
+% ======================================================================
+\section{\texorpdfstring{1D Circulation Topology: $(2,3)$ Baryons vs.\ 2-Lobe Spin-$0$ Mesons}{1D Circulation Topology: (2,3) Baryons vs. 2-Lobe Spin-0 Mesons}}
+\label{sec:1d_line}
+
+\subsection{\texorpdfstring{Continuity Cancellation and Pointwise $120^\circ$ Wobble Erasure on the $(2,3)$ Baryon}{Continuity Cancellation and Pointwise 120-Degree Wobble Erasure}}
+
+
+\begin{proposition}[Spatial Divergence Conservation of Tube Phase Flux and Exterior Strain]
+\label{prop:spatial_divergence}
+Let $\mathbf{u}(\mathbf{x})$ be an isochoric circulatory velocity field ($\nabla\cdot\mathbf{u} = 0$) tangent to the cavitated tube boundary ($\mathbf{u}\cdot\hat{\mathbf{n}}_{\mathrm{wall}} = 0$ on $\partial\mathcal{T}_a$). Applying Gauss's divergence theorem to any curvilinear tube slice $\Omega_{[s_1, s_2]}$ bounded by cross sections $A(s_1)$ and $A(s_2)$ gives
+\begin{equation}
+    0 = \iiint_{\Omega_{[s_1, s_2]}} (\nabla\cdot\mathbf{u})\,\dd^3x = \Phi_0(s_2) - \Phi_0(s_1) + \iint_{\partial\mathcal{T}_{[s_1,s_2]}} \mathbf{u}\cdot\hat{\mathbf{n}}_{\mathrm{wall}}\,\dd A \implies \frac{\dd\Phi_0}{\dd s} \equiv 0,
+    \label{eq:flux_divergence_conservation}
+\end{equation}
+conserving 1D lobe flux $\Phi_0 = A(s)\bar{u}(s)$ identically across variable curvature and throat pinching. Simultaneously, exterior divergence conservation $\nabla\cdot\boldsymbol{\xi}_\tau = 0$ across concentric surfaces enclosing $\mathcal{T}_a$ conserves displaced kinematic strain volume $V_{\tau,a} = \iint \boldsymbol{\xi}_\tau\cdot\hat{\mathbf{n}}\,\dd A = M_a c^2/P_c$, while 3-axis Compton phase-space invariance $(M_a c\,r_{c,a})^3 = \hbar^3$ locks $V_{r_c,a}V_{\tau,a}^3 = \mathrm{const}$ (Equation~(\ref{eq:inverse_cube_conservation})).
+\end{proposition}
+
+For a constant-flux stream ($\Phi_0 = A(s)u(s) = \text{const}$), linear momentum $\dd\mathbf{p} = \rho_\tau\Phi_0\,\tilde{\mathbf{r}}'(\phi)\,\dd\phi$ is independent of cross-sectional area variations, yielding angular-momentum density $\tilde{\mathbf{j}}(\phi) = \tilde{\mathbf{r}}(\phi)\times\tilde{\mathbf{r}}'(\phi) = j_{\parallel,u}(\phi)\hat{\mathbf{d}}_{111} + \tilde{\mathbf{j}}_\perp(\phi)$:
+\begin{equation}
+    j_{\parallel,u}(\phi) = 2\rho_u^2(\phi) > 0, \qquad
+    \tilde{\mathbf{j}}_\perp(\phi) = -2\rho_u(\phi)w_u(\phi)\,\hat{\boldsymbol{\rho}}_c(2\phi) - 3b_u\big(a_u + R_{0,u}\cos 3\phi\big)\hat{\boldsymbol{\varphi}}_c(2\phi),
+    \label{eq:j_perp_exact}
+\end{equation}
+verified numerically to $8.88 \times 10^{-16}$. Because $j_{\parallel,u}$ contains only $3n$ harmonics $\{0,3,6\}$ whereas $\tilde{\mathbf{j}}_\perp$ contains only non-$3n$ harmonics $\{1,2,4,5,8\}$, transverse components cancel pointwise across every $120^\circ$ triad ($\sum_{k=0}^2 \tilde{\mathbf{j}}(\phi + \frac{2\pi k}{3}) = 3j_{\parallel,u}(\phi)\hat{\mathbf{d}}_{111}$), leaving axial area $\mathcal{A}_{111,u} = \frac{22\pi}{25}$ and $\mathcal{A}_{111}/L^2 = \frac{22\pi}{25\,\ell_u^2(b_u)}$. Under general $SO(3)$ projection, the $(2,3)$ knot has Alexander determinant $|\Delta_{3_1}(-1)| = 3$ and Frenet linking number~\cite{calugareanu1959,gauss1833} $Lk_{\mathrm{Frenet}} = Wr + Tw_{\mathrm{Frenet}} = -6.0000$ (Table~\ref{tab:topological_darboux}), corresponding to conserved $B = 1$.
+
+\begin{table}[!htbp]
+\centering
+\caption{Exact Scale-Invariant 3D Space-Curve and Darboux Integrals of the $(2,3)$ Nucleon Trefoil.}
+\label{tab:topological_darboux}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.35\textwidth} c c >{\raggedright\arraybackslash}X}
+\toprule
+Scale-Invariant Curve Integral & Neutron ($b_{u,n} = \frac{\sqrt{2}}{3}$) & Proton ($b_{u,p} = \frac{\sqrt{2}}{6}$) & Geometric / Topological Property \\
+\midrule
+Unit-Contact Arc Length $\ell_u(b_u)$ & $11.487086$ & $9.986754$ & Dimensionless perimeter at $\Rmax = 1$ \\
+Alexander Determinant $|\Delta_{3_1}(-1)|$ & $3$ & $3$ & Prime $(2,3)$ torus knot ($B = 1$) \\
+3D Gauss Writhe $Wr(b_u)$ & $-3.90050$ & $-3.64467$ & Higher 3D coiling magnitude in $n^0$ \\
+Frenet Torsion $Tw_{\mathrm{Frenet}}(b_u)$ & $-2.09949$ & $-2.35532$ & Integrated Frenet frame rotation \\
+Frenet Linking $Wr + Tw_{\mathrm{Frenet}}$ & $\mathbf{-6.0000}$ & $\mathbf{-6.0000}$ & C\u{a}lug\u{a}reanu space-curve invariant \\
+Total Curvature $W_\kappa = \frac{1}{2\pi}\oint\kappa\,\dd s$ & $+3.24956$ & $+3.25547$ & Milnor--F\'{a}ry knotted bound ($> 3$) \\
+Darboux Binormal $W_B = \frac{1}{2\pi}\oint\kappa B_d\,\dd s$ & $+1.94979$ & $+2.18482$ & Axial curvature-binormal integral \\
+Enclosed Spin Area $\mathcal{A}_{111}/L^2$ & $+0.020951$ & $+0.027719$ & $+32.30\%$ larger spin area in $p^+$ \\
+GM Self-Contact Bound $(r_t/L)_{\mathrm{jam}}$ & $0.0149543$ & $0.0169615$ & $p^+$ sits $+13.42\%$ open ($0.0149543$) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{\texorpdfstring{The 2-Lobe Counter-Circulating Figure-Eight Meson ($J = 0$, $B = 0$)}{The 2-Lobe Counter-Circulating Figure-Eight Meson}}
+Whereas the chiral $(2,3)$ knot has $j_{\parallel,u}(\phi) > 0$ everywhere ($J = \frac{1}{2}$), a spin-$0$ meson ($B = 0$) corresponds to a single closed filament with two lobes of opposite circulation handedness, parameterized via orthogonal $(m = 1, 2, 3)$ harmonics:
+\begin{equation}
+    \mathbf{r}_{\mathrm{mes}}(t) = \Big(\sin t,\; \tfrac{1}{2}\sin(2t),\; \tfrac{1}{4}\cos(3t)\Big), \qquad t \in [0, 2\pi).
+    \label{eq:two_lobe_meson}
+\end{equation}
+On $t \in [0, \pi)$ ($x \ge 0$), $L_{z,\mathrm{right}} = -\frac{4}{3} = -1.3333$; on $t \in [\pi, 2\pi)$ ($x \le 0$), $L_{z,\mathrm{left}} = +\frac{4}{3} = +1.3333$, while harmonic orthogonality gives $L_x = L_y \equiv 0$, yielding $|\oint \mathbf{r}_{\mathrm{mes}}\times\dd\mathbf{r}_{\mathrm{mes}}| = 3.92 \times 10^{-16}$. With a single central crossing ($Wr = \pm 0.722$, $|\Delta(-1)| = 1$), $\mathbf{r}_{\mathrm{mes}}(t)$ is isotopic to the unknot $0_1$ ($B = 0$).
+
+% ======================================================================
+% SECTION 4
+% ======================================================================
+\section{\texorpdfstring{Continuum Medium Induction, Exact $2\alpha$ Throttle, and Kelvin Multipoles}{Continuum Medium Induction, Exact 2-Alpha Throttle, and Kelvin Multipoles}}
+\label{sec:medium_multipoles}
+
+\subsection{\texorpdfstring{Toroidal Anapole Asymmetry and Elastostatic $2\alpha$ Monopole Throttle}{Toroidal Anapole Asymmetry and Elastostatic 2-Alpha Monopole Throttle}}
+Because $w_u(\phi)\rho'_u(\phi) = -3a_u b_u\sin^2(3\phi) \le 0$, the $(2,3)$ curve flares on the intake side ($w_u < 0$) and converges on the exhaust side ($w_u > 0$), defining the toroidal anapole moment $\mathbf{T}_{\mathrm{tor},a} = -\frac{1}{6}\oint \mathbf{r}_a\times(\mathbf{r}_a\times\dd\mathbf{r}_a) = \frac{3\pi}{2}\Rmax(a)^3 R_{0,u} a_u b_{u,a}\,\hat{\mathbf{d}}_{111}$ with neutron-to-proton ratio $|\mathbf{T}_{\mathrm{tor}}(n^0)|/|\mathbf{T}_{\mathrm{tor}}(p^+)| = (\Rmax(n)/\Rmax(p))^3(b_{u,n}/b_{u,p}) = \mathbf{1.3088}$.
+
+In an isotropic Navier--Cauchy continuum~\cite{cauchy1828,stokes1845} with shear wave speed $v_s^2 = \mu_s/\rho_\tau$ and longitudinal P-wave speed $c^2 = (K_{\mathrm{bulk}} + \frac{4}{3}\mu_s)/\rho_\tau$, the ratio $v_s^2/c^2 = \frac{1-2\nu}{2(1-\nu)} = \alpha$~\cite{bairmosheh2026,bairmosheh2026b} fixes Poisson's ratio and the monopole throttle (residual $2.05 \times 10^{-16}$):
+\begin{equation}
+    \nu = \frac{1 - 2\alpha}{2(1 - \alpha)} \approx 0.4963245 \iff \frac{1 - 2\nu}{1 - \nu} \equiv \mathbf{2\alpha} = 0.0145947.
+    \label{eq:poisson_alpha}
+\end{equation}
+Expanding Kelvin's Green's tensor~\cite{kelvin1848} $G_{ij}(\mathbf{R}) = \frac{1}{16\pi\mu_s(1-\nu)R}[(3-4\nu)\delta_{ij} + \hat{R}_i\hat{R}_j]$ at $r = |\mathbf{x}| \gg L_a$ for zero-net-force wall traction ($\oint\mathbf{f}\,\dd s = \mathbf{0}$, $D_{jk} \equiv \oint f_j r_{b,k}\,\dd s$) yields:
+\begin{equation}
+    \mathbf{u}^{(1/r^2)}(\mathbf{x}) = \frac{(1 - 2\nu)\,D_0}{24\pi\mu_s(1-\nu)}\frac{\hat{\mathbf{r}}}{r^2} + \frac{\boldsymbol{\mathcal{T}}_{\mathrm{rot}} \times \hat{\mathbf{r}}}{8\pi\mu_s\,r^2} + \frac{2(1 - 2\nu)(\mathbf{S}\cdot\hat{\mathbf{r}}) + 3(\hat{\mathbf{r}}\cdot\mathbf{S}\cdot\hat{\mathbf{r}})\,\hat{\mathbf{r}}}{16\pi\mu_s(1-\nu)\,r^2},
+    \label{eq:multipole_1_over_r2}
+\end{equation}
+separating the $2\alpha$-throttled dilatation monopole $D_0 = \operatorname{Tr}(\mathbf{D})$, the unthrottled shear rotlet $\boldsymbol{\mathcal{T}}_{\mathrm{rot}} = \oint\mathbf{r}_b\times\mathbf{f}\,\dd s$, and the deviatoric stresslet $S_{jk} = \frac{1}{2}(D_{jk} + D_{kj}) - \frac{1}{3}D_0\delta_{jk}$.
+
+\subsection{\texorpdfstring{$D_3$ Parity Decoupling and $540 \times 540$ Regularized Kelvin BEM Ledger}{D3 Parity Decoupling and 540x540 Regularized Kelvin BEM Ledger}}
+Discretizing each $L = 1$ curve into $M = 180$ uniform-arc-length elements with Cortez-regularized~\cite{happel1965} bead radius $a_{\mathrm{bead},a} = r_{t,a}/L_a = 0.0149543$ ($\mu_s = 1$) confirms (Table~\ref{tab:bem_multipoles}): (i) at $r = 150\,L$, Equation~(\ref{eq:multipole_1_over_r2}) agrees with direct 3D Kelvin summation to $2.04 \times 10^{-4}$ ($n^0$) and $5.87 \times 10^{-5}$ ($p^+$); and (ii) under $D_3 = C_3 \rtimes C_2$ parity (leak $4.74 \times 10^{-7}$), $(\mathbf{T}, \mathbf{B})$ couple exclusively to $(F_{111}, \mathcal{T}_{111})$ while normal displacement ($\mathbf{N}$) couples exclusively to $(D_0, S_{111})$, with $S_{111}(p)/S_{111}(n) = \mathbf{3.34\times}$.
+
+\begin{table}[!htbp]
+\centering
+\caption{Uniform-Arc-Length $540 \times 540$ Regularized Kelvin--Navier--Cauchy Multipoles at $L = 1$ ($a_{\mathrm{bead}} = r_{t,a}/L_a$).}
+\label{tab:bem_multipoles}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X c c c c c}
+\toprule
+Boundary Excitation Mode $\mathbf{u}_{\mathrm{wall}}$ & State & Thrust $F_{111}$ & Rotlet $\mathcal{T}_{111}$ & Monopole $D_0$ & Stresslet $S_{111}$ \\
+\midrule
+\multirow{2}{*}{1. Tangential Flow ($\mathbf{u}_{\mathrm{wall}} = \mathbf{T}$)}
+  & $p^+$ & $+0.245$ & $+0.129$ & $0$ (exact) & $0$ (exact) \\
+  & $n^0$ & $+0.370$ & $+0.106$ & $0$ (exact) & $0$ (exact) \\
+\midrule
+\multirow{2}{*}{2. Binormal Wall Swirl ($\mathbf{u}_{\mathrm{wall}} = \mathbf{B}$)}
+  & $p^+$ & $+1.382$ & $-0.058$ & $0$ (exact) & $0$ (exact) \\
+  & $n^0$ & $+1.171$ & $-0.091$ & $0$ (exact) & $0$ (exact) \\
+\midrule
+\multirow{2}{*}{3. Force-Free Helical ($\cos\chi_{\mathrm{FF}}\mathbf{T} + \sin\chi_{\mathrm{FF}}\mathbf{B}$)}
+  & $p^+$ & $0$ ($\chi_{\mathrm{FF}} = -10.04^\circ$) & $\mathbf{+0.1372}$ & $0$ (exact) & $0$ (exact) \\
+  & $n^0$ & $0$ ($\chi_{\mathrm{FF}} = -17.55^\circ$) & $+0.1288$ & $0$ (exact) & $0$ (exact) \\
+\midrule
+\multirow{2}{*}{4. Normal Cavitation Squeeze ($\mathbf{u}_{\mathrm{wall}} = \mathbf{N}$)}
+  & $p^+$ & $0$ (exact) & $0$ (exact) & $-0.5997$ & $\mathbf{+0.0904}$ ($3.34\times$) \\
+  & $n^0$ & $0$ (exact) & $0$ (exact) & $-0.5805$ & $+0.0271$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% === PASTE PART 2 OF 4 DIRECTLY BELOW THIS LINE ===
+
+% ======================================================================
+% CONTINUUM MECHANICS & FEW-BODY PACKING OF (2,3) TREFOIL NUCLEONS
+% V3.2 Unified Monograph — PART 2 OF 4 (Sections 5--9)
+% ======================================================================
+
+% ======================================================================
+% SECTION 5
+% ======================================================================
+\section{Symmetry Perturbations and the Four Rotational Primitives}
+\label{sec:sym_breaking}
+
+\subsection{\texorpdfstring{Single-Lobe $1\phi$ Tilt and the $D_3 \to C_3$ Phase-Lag Identity}{Single-Lobe 1-Phi Tilt and the D3 to C3 Phase-Lag Identity}}
+Perturbing the unit-contact axial profile $w_u(\phi) = b_u\sin(3\phi)$ isolates two symmetry-breaking deformations:
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Single-Lobe $1\phi$ Tilt ($C_3 \to C_1$):} Perturbing $w_u(\phi) = b_u\sin(3\phi) + \delta b_{u,s}\sin\phi + \delta b_{u,c}\cos\phi$ tilts the circulation axis off $\hat{\mathbf{d}}_{111}$ according to $\tan\psi_{\mathrm{axis}} = \frac{5}{22}\sqrt{\delta b_{u,s}^2 + \delta b_{u,c}^2}$ (verified numerically to $4.86 \times 10^{-16}$) while maintaining $D_0(\mathbf{T}) = 0$ for $\delta b_{u,c} = 0$.
+    \item \textbf{Axial--Radial $3\phi$ Phase Lag ($D_3 \to C_3$):} Shifting $w_u(\phi) = b_{u,0}\sin(3\phi + \delta\psi)$ relative to $\rho_u(\phi) = R_{0,u} + a_u\cos(3\phi)$ preserves $C_3$ symmetry while breaking all three equatorial $C_2$ axes. The convective virial integral evaluates in closed form (numerical residual $6.94 \times 10^{-17}$):
+    \begin{equation}
+        \mathcal{D}_{\mathrm{lag}}(\delta\psi) \equiv \frac{1}{5}\oint_0^{2\pi} \frac{w_u(\phi)\,w'_u(\phi)}{\rho_u(\phi)}\,\dd\phi = \frac{3\pi(7\sqrt{5} - 15)}{10}\,b_{u,0}^2\sin(2\delta\psi),
+        \label{eq:phase_lag_virial}
+    \end{equation}
+    vanishing at $\delta\psi = 0$.
+\end{enumerate}
+
+\subsection{\texorpdfstring{Action ($\hbar$), Fermionic Spin ($\hbar/2$), Vorticity ($\boldsymbol{\Omega}$), and Gyroscopic Rotation}{Action, Fermionic Spin, Vorticity, and Gyroscopic Rotation}}
+Within the continuum mechanics formulation~\cite{bairmosheh2026,bairmosheh2026b}, four distinct rotational quantities operate simultaneously and must be distinguished explicitly:
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Rotational Action Impedance ($\hbar = E/\omega \equiv Z_{\tau(\circlearrowleft)}$):} The reduced Planck constant $\hbar$ represents the baseline rotational impedance of a single $2\pi$ closed wave cycle ($S = M_a c\,r_{c,a} = \hbar$, with Kelvin circulation $\Gamma = \oint (\lambda\nabla\beta)\cdot\dd\mathbf{l} = h/M_a$).
+    \item \textbf{Fermionic Spin ($\hbar/2$ Metric-Contact Untangling):} Because the cavity wall $\partial\mathcal{T}_a$ remains in continuous mechanical contact with the surrounding 3D elastic metric, rotating its Cartan frame ($\mathbf{e}^a$) by $2\pi$ twists the exterior strain lines; returning the tethered exterior metric to its identity configuration requires a $4\pi$ spinor double-wrap, yielding $S_{\mathrm{fermion}} = M_a\Gamma/(4\pi) = \hbar/2$ (whereas the 2-lobe figure-eight meson of Equation~(\ref{eq:two_lobe_meson}) cancels lobe angular momenta internally, $L_z = \mp 4/3 \implies J = 0$).
+    \item \textbf{Electromagnetic Vorticity ($\boldsymbol{\Omega} = \nabla \times \mathbf{v}_\perp$):} Antisymmetric spatial curl of the transverse shear velocity ($F_{\mu\nu} \equiv \Omega_{\mu\nu}$ in $\hat{U}_{[\mu\nu]}$) defines the magnetic vorticity field $\mathbf{B} \equiv \boldsymbol{\Omega}$, whose bound curvature-binormal surface distribution on $\partial\mathcal{T}_a$ evaluates the magnetic moments $\mu_p$ and $\mu_n$ (Section~\ref{sec:magnetic_moments}).
+    \item \textbf{Spatial Gyroscopic Stator Rotation and Exterior Added Mass:} At the cavitation boundary ($P_{\mathrm{static}} \to 0 \implies Z_{\tau(\circlearrowleft)} \to \infty$), the $(2,3)$ knot operates as a rigid gyroscope rotating in space and shearing the surrounding continuum at $|\mathbf{u}_{\mathrm{wall}}| \le v_s = \sqrt{\alpha}\,c$, inducing the exterior Kelvin shear rotlet $\mathcal{T}_{\mathrm{FF}}$ (Table~\ref{tab:bem_multipoles}) and two-nucleon Bernoulli wakes (Section~\ref{sec:deuteron}). Crucially, the evacuated cavity interior carries zero intrinsic mass ($m_{\mathrm{intrinsic}} = 0$); observable rest mass $M_a = \frac{1}{2}\rho_\tau V_{\tau,a}$ is entrained exterior added mass distributed across the surrounding metric strain field~\cite{bairmosheh2026}. Assigning $M_n$ instead to literal fluid advection inside the hollow $\pi r_{t,n}^2$ pipe at $L_n = 8.1083\text{ fm}$ ($\mathcal{A}_{111}/L_n^2 = 0.020951$) would require
+    \begin{equation}
+        \frac{u_{\mathrm{pipe}}(n^0)}{c} = \frac{\hbar c}{4 M_n c^2\,(\mathcal{A}_{111}(n^0)/L_n)} = \mathbf{0.3091} > \frac{v_s}{c} = \sqrt{\alpha} = \mathbf{0.08542},
+        \label{eq:cavitation_speed_bound}
+    \end{equation}
+    confirming that $M_a$ resides in the exterior added-mass strain field rather than interior pipe advection.
+\end{enumerate}
+
+% ======================================================================
+% SECTION 6
+% ======================================================================
+\section{Exterior-Metric Charge Induction and 1080-Panel Laplace BEM}
+\label{sec:charge_quantization}
+
+\subsection{\texorpdfstring{Antisymmetric Divergence Conservation and $\beta^-$ Charge Neutrality}{Antisymmetric Divergence Conservation and Beta-Decay Charge Neutrality}}
+In the antisymmetric sector $\hat{U}^{[\mu\nu]}$ of the unified field tensor~\cite{bairmosheh2026,bairmosheh2026b}, the identity $\partial_\mu\partial_\nu \hat{U}^{[\mu\nu]} \equiv 0$ conserves electric acceleration divergence ($\nabla\cdot\mathbf{a}_\perp = \rho_e c^2/\epsilon_\tau$) across the intact exterior metric $\Omega_{\mathrm{ext}} = \mathbb{R}^3 \setminus \bigcup_a \mathcal{T}_a$, independent of discrete ribbon-twist rules.
+
+\begin{theorem}[Exterior-Metric Gauss Conservation and $\beta^-$ Charge Neutrality]
+\label{thm:hopf_charge}
+Let $\mathbf{E}^{\mathrm{eff}}(\mathbf{x})$ satisfy $\nabla\cdot\mathbf{E}^{\mathrm{eff}} = 0$ throughout $\Omega_{\mathrm{ext}} = \mathbb{R}^3 \setminus \bigcup_{a=1}^N \mathcal{T}_a$, with induced cavity boundary flux
+\begin{equation}
+    Q_a \equiv \frac{\epsilon_\tau}{e_\tau}\iint_{\partial\mathcal{T}_a} \mathbf{E}^{\mathrm{eff}}\cdot\hat{\mathbf{n}}_{\mathrm{out}}\,\dd A.
+    \label{eq:exterior_gauss_charge}
+\end{equation}
+Across any localized topological transition enclosed within a large sphere $S^2_R$ (including $n^0 \to p^+ + e^- + \bar{\nu}_e$, where the uncavitated longitudinal wave packet $\bar{\nu}_e$ encloses no cavity boundary, $Q(\bar{\nu}_e) \equiv 0$), net boundary flux is conserved: $Q(n^0) = 0 \implies |Q_p + Q_e|/e \equiv 0$.
+\end{theorem}
+
+\begin{proof}
+Applying Gauss's divergence theorem to $\Omega_R = B_R \setminus \bigcup_{a=1}^N \mathcal{T}_a$ gives $\frac{\epsilon_\tau}{e_\tau}\iint_{S^2_R} \mathbf{E}^{\mathrm{eff}}\cdot\dd\mathbf{A} - \sum_a Q_a = \frac{\epsilon_\tau}{e_\tau}\iiint_{\Omega_R} (\nabla\cdot\mathbf{E}^{\mathrm{eff}})\,\dd^3x = 0$. Because causal propagation cannot instantaneously alter the surface integral on $S^2_R$ as $R \to \infty$, $\sum_{a\in\mathrm{final}} Q_a = \sum_{a\in\mathrm{initial}} Q_a = Q(n^0) = 0$, yielding $Q(p^+) + Q(e^-) = 0$.
+\end{proof}
+
+\noindent\textbf{Constitutive Charge Boundary Condition ($Q \in \{0, \pm 1\}$):} On the centrosymmetric $90^\circ$ cubic boundary ($n^0$), monopole potential cancels ($\Phi|_{\partial\mathcal{T}_n} = 0 \implies Q = 0$ and $F_1^n(Q^2) \equiv 0$), whereas the inversion-asymmetric $109.47^\circ$ tetrahedral boundary ($\Delta_p$) carries unit exterior flux $Q = +1$ paired with $Q = -1$ on $e^-$. Deriving $|Q| = 1$ directly from the nonlinear 3D boundary equations of $\hat{U}_{\mu\nu}$ remains an open PDE problem.
+
+\subsection{\texorpdfstring{Equipotential Screening on $\partial\mathcal{T}_p$: 1080-Panel Exterior Laplace BEM}{Equipotential Screening on dTp: 1080-Panel Exterior Laplace BEM}}
+At the relaxed proton dimensions ($L_p = 8.1195\text{ fm}$, $r_{t,p} = 0.12142\text{ fm}$), an equipotential cavity boundary ($\nabla^2\Phi = 0$ on $\mathbb{R}^3 \setminus \mathcal{T}_p$, $\Phi|_{\partial\mathcal{T}_p} = V_0$) satisfies the parameter-free 2D Fredholm integral equation for the normalized exterior flux density $w_{\mathrm{ind}}(\mathbf{x}) = \sigma_{\mathrm{ind}}(\mathbf{x})/Q$:
+\begin{equation}
+    \iint_{\partial\mathcal{T}_p} \frac{w_{\mathrm{ind}}(\mathbf{x}')\,\dd A'}{4\pi|\mathbf{x} - \mathbf{x}'|} = \frac{V_0}{Q} \quad (\mathbf{x} \in \partial\mathcal{T}_p), \qquad
+    \iint_{\partial\mathcal{T}_p} w_{\mathrm{ind}}(\mathbf{x}')\,\dd A' = 1.
+    \label{eq:laplace_bem_proton}
+\end{equation}
+Discretizing $\partial\mathcal{T}_p$ into $90 \times 12 = 1080$ surface panels with analytical rectangular-panel self-potentials on the diagonal yields an outer-apex ($\phi = 0^\circ$) to inner-throat ($\phi = 60^\circ$) linear flux ratio of $\mathbf{34.2\times}$ (moderated from $77.7\times$ by the proton's $+13.42\%$ un-jammed throat clearance), shifting the bare+Foldy proton charge radius from $0.7189\text{ fm}$ (uniform $\rho_1 = Q/L_p$) to $\mathbf{0.8195\text{ fm}}$ (Section~\ref{sec:form_factors}).
+
+% ======================================================================
+% SECTION 7
+% ======================================================================
+\section{\texorpdfstring{Curvature-Binormal Surface Vorticity and Magnetic Moments ($A = 1$)}{Curvature-Binormal Surface Vorticity and Magnetic Moments (A = 1)}}
+\label{sec:magnetic_moments}
+
+\subsection{Bound Surface Vorticity Current vs.\ Charge Convection}
+Because $n^0$ satisfies $Q = 0$ ($F_1^n(Q^2) \equiv 0$) while $|\mathbf{u}_{\mathrm{wall}}| \le v_s = 0.0854\,c \ll c$, anomalous nucleon magnetism corresponds to bound surface vorticity rather than convected net charge. On $\mathbf{x}_a(s,\vartheta) = \mathbf{r}_a(s) + r_{t,a}[\cos\vartheta\,\mathbf{N}(s) + \sin\vartheta\,\mathbf{B}(s)]$ ($\dd A = r_{t,a}(1 - r_{t,a}\kappa\cos\vartheta)\,\dd s\,\dd\vartheta$), Gaussian curvature $K_G(s,\vartheta) = -\frac{\kappa(s)\cos\vartheta}{r_{t,a}(1 - r_{t,a}\kappa\cos\vartheta)}$ weights a divergence-free surface vorticity current $\mathbf{K}_{\mathrm{mag}} = \mathbf{M}_{\mathrm{surf}} \times \hat{\mathbf{n}}_{\mathrm{surf}}$ ($\nabla_{\mathrm{surf}}\cdot\mathbf{K}_{\mathrm{mag}} \equiv 0$, $\rho_{\mathrm{el}} \equiv 0$):
+\begin{equation}
+    K_{\mathrm{mag},s}(s,\vartheta)\,\dd A = -\sigma_\vartheta\,\frac{ec\,\kappa(s)\cos\vartheta}{2\pi}\,\dd s\,\dd\vartheta.
+\end{equation}
+Integrating $\boldsymbol{\mu}_{\mathrm{anom},a} = \frac{1}{2}\iint_{\partial\mathcal{T}_a} \mathbf{x}\times\mathbf{K}_{\mathrm{mag}}\,\dd A$ ($\int_0^{2\pi}\cos^2\vartheta\,\dd\vartheta = \pi$, $\mathbf{N}\times\mathbf{T} = -\mathbf{B}$) against species Compton scale $r_{c,a} = \hbar c/M_a$ yields the scale-invariant Darboux binormal law (with $r_{t,a}/r_{c,a} = 1/\sqrt{3}$):
+\begin{equation}
+    \mathbf{m}_a(s) = \sigma_\vartheta\,\frac{r_{t,a}}{4r_{c,a}}\,\kappa(s)\,\mathbf{B}(s), \qquad
+    \kappa_{\mathrm{anom}}(a) = \oint_0^{L_a} \mathbf{m}_a(s)\cdot\hat{\mathbf{d}}_{111}\,\dd s = \sigma_\vartheta\,\frac{\pi}{2\sqrt{3}}\,W_B(b_{u,a}).
+    \label{eq:darboux_exact_derivation}
+\end{equation}
+
+\subsection{Constitutive Boundary Inputs and Isoscalar Magnetic Offset}
+Adding the Dirac point-recoil baseline $Q_a$ gives the parameter-free magnetic moment expression:
+\begin{equation}
+    \frac{\mu_{\mathrm{tot}}(a)}{\mu_N} = Q_a + \sigma_\vartheta\,\frac{\pi}{2\sqrt{3}}\,W_B(b_{u,a}).
+    \label{eq:zero_fudge_moment}
+\end{equation}
+Equation~(\ref{eq:zero_fudge_moment}) pairs the geometric integral $W_B(b_{u,a})$ with three explicit boundary conditions: (1) Dirac recoil $Q_a$ ($g_{\mathrm{Dirac}} = 2$), (2) opposing poloidal vorticity sign $\sigma_\vartheta = 2I_3 \in \{+1, -1\}$, and (3) isotropic 3-axis Compton cross-section $r_{t,a}/r_{c,a} = 1/\sqrt{3}$. Table~\ref{tab:magnetic_ledger} shows $+6.75\%$ and $-7.57\%$ residuals on $\mu_p$ and $\mu_n$—reflecting a common $+0.167\,\mu_N$ per-nucleon circular-torus isoscalar offset ($\mu_p + \mu_n = +1.2131$ vs.\ $+0.8798\,\mu_N$) that cancels in the isovector difference $\mu_p - \mu_n = \mathbf{+4.7497\,\mu_N}$ ($+0.93\%$).
+
+\begin{table}[!htbp]
+\centering
+\caption{Zero-Parameter Single-Nucleon Magnetic Moments Under Circular-Wall Darboux Vorticity ($r_{t,a}/r_{c,a} = 1/\sqrt{3}$, in $\mu_N$).}
+\label{tab:magnetic_ledger}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.28\textwidth} >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+Magnetic Observable & Dirac $Q$ & Darboux $\kappa_{\mathrm{anom}}$ & Computed Total & Experiment (Residual) \\
+\midrule
+Proton $\mu_p$ & $+1.0000$ & $+1.9814$ & $\mathbf{+2.9814}$ & $+2.792847$ ($+6.75\%$) \\
+Neutron $\mu_n$ & $0.0000$ & $-1.7683$ & $\mathbf{-1.7683}$ & $-1.913043$ ($-7.57\%$) \\
+Isovector $\mu_p - \mu_n$ & $+1.0000$ & $+3.7497$ & $\mathbf{+4.7497}$ & $+4.705890$ ($+0.93\%$) \\
+Isoscalar $\mu_p + \mu_n$ & $+1.0000$ & $+0.2131$ & $+1.2131$ & $+0.879804$ ($+37.9\%$) \\
+Ratio $\mu_p / \mu_n$ & --- & $-1.1205$ & $-1.6860$ & $-1.459898$ ($+15.5\%$) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ======================================================================
+% SECTION 8
+% ======================================================================
+\section{Gordon--Sachs Form Factors and Hydrogen Hyperfine Null Geometry}
+\label{sec:form_factors}
+
+\subsection{\texorpdfstring{Unified Gordon--Sachs Form Factors with Exterior Laplace $w_{\mathrm{ind}}$ in $F_1(Q^2)$}{Unified Gordon-Sachs Form Factors with Exterior Laplace Induction in F1}}
+In the Breit frame ($k_Q = Q/(\hbar c)$, $\tau_{B,a} = Q^2/(4M_a^2 c^2)$, $r_{c,a} = \hbar c/M_a$), feeding the 1080-panel exterior Laplace surface weight $w_{\mathrm{ind}}(\mathbf{x})$ of Equation~(\ref{eq:laplace_bem_proton}) directly into $F_1(Q^2)$ alongside the biharmonic propagator $\Pi_{\mathrm{bih},a}(k_Q) = (1 + r_{t,a}^2 k_Q^2)^{-1}$ and $k_{\mathrm{int}} = k_Q/(1 + \tau_{B,a})$ yields~\cite{foldy1952,sachs1962} ($x_c \equiv k_{\mathrm{int}}|\mathbf{r}_a(s)|$, $m_{111} \equiv \mathbf{m}_a\cdot\hat{\mathbf{d}}_{111}$, $m_{\mathrm{quad}} \equiv \frac{1}{2}[m_{111} - 3(\mathbf{m}_a\cdot\hat{\mathbf{r}})(\hat{\mathbf{d}}_{111}\cdot\hat{\mathbf{r}})]$):
+\begin{align}
+    F_1(Q^2) &= \frac{Q_a\,\Pi_{\mathrm{bih},a}(k_Q)}{1 + \tau_{B,a}}\iint_{\partial\mathcal{T}_a} w_{\mathrm{ind}}(\mathbf{x})\,j_0\big(k_{\mathrm{int}}|\mathbf{x}|\big)\,\dd A, \label{eq:F1_exact}\\
+    F_2(Q^2) &= \frac{\Pi_{\mathrm{bih},a}(k_Q)}{(1 + \tau_{B,a})^2}\oint_0^{L_a} \Big[m_{111}(s)\,j_0(x_c) + m_{\mathrm{quad}}(s)\,j_2(x_c)\Big]\dd s, \label{eq:F2_exact}\\
+    G_E(Q^2) &= F_1(Q^2) - \tau_{B,a} F_2(Q^2), \qquad\qquad G_M(Q^2) = F_1(Q^2) + F_2(Q^2). \label{eq:sachs_exact}
+\end{align}
+Analytical expansion around $Q^2 = 0$ (verified against numerical finite differences $\dd G/\dd Q^2$ to $1.50 \times 10^{-6}\text{ fm}^2$) gives ($I_{M0} \equiv \oint m_{111}r^2\,\dd s$, $I_{M2} \equiv \oint m_{\mathrm{quad}}r^2\,\dd s$):
+\begin{align}
+    \langle r_E^2\rangle_{\mathrm{bare}} &= Q_a\langle |\mathbf{x}|^2\rangle_{w} + \frac{3}{2}r_{c,a}^2\,\kappa_{\mathrm{anom}}, \qquad
+    \langle r_E^2\rangle_{\mathrm{dressed}} = Q_a\Big(\langle |\mathbf{x}|^2\rangle_{w} + 6r_{t,a}^2\Big) + \frac{3}{2}r_{c,a}^2\,\mu_{\mathrm{tot}}, \label{eq:re2_analytic}\\
+    \mu_{\mathrm{tot}}\langle r_M^2\rangle_{\mathrm{dressed}} &= Q_a\Big(\langle |\mathbf{x}|^2\rangle_{w} + 6r_{t,a}^2 + \frac{3}{2}r_{c,a}^2\Big) + I_{M0} - \frac{2}{5}I_{M2} + \kappa_{\mathrm{anom}}\big(6r_{t,a}^2 + 3r_{c,a}^2\big), \label{eq:rm2_analytic}
+\end{align}
+with $\mu_{\mathrm{tot}}\langle r_M^2\rangle_{\mathrm{bare}} = Q_a\langle |\mathbf{x}|^2\rangle_{w} + I_{M0} - \frac{2}{5}I_{M2}$. At $(L_p = 8.1195\text{ fm}, L_n = 8.1083\text{ fm})$ (Tables~\ref{tab:sachs_radii}--\ref{tab:sachs_high_q2}), including $w_{\mathrm{ind}}$ inside $F_1^p$ yields $r_M(p^+) = \mathbf{0.7834\text{ fm}}$ ($+0.95\%$, $0.22\sigma$), bare+Foldy $r_E(p^+) = \mathbf{0.8195\text{ fm}}$ ($-2.53\%$, matching dressed uniform $\rho_1 = Q/L_p$), and $\langle r_E^2\rangle_n = \mathbf{-0.11699\text{ fm}^2}$ ($+1.29\%$, $0.88\sigma$). In Table~\ref{tab:sachs_high_q2}, $G_M^p/\mu_p$ tracks Kelly~\cite{kelly2004} closely below $0.5\text{ GeV}^2$ ($+0.5415$ vs.\ $+0.5375$ at $0.25\text{ GeV}^2$), while applying static $Q^2 = 0$ outer-apex Faraday screening unaltered at $Q^2 \ge 1\text{ GeV}^2$ produces a zero crossing in $G_E^p$, marking the high-$Q^2$ optical-penetration regime ($\lambda < 1.5\,r_c$)~\cite{bairmosheh2026}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Analytic Gordon--Sachs Single-Nucleon Radii at Relaxed Scales $L_p = 8.1195\text{ fm}, L_n = 8.1083\text{ fm}$ (Zero Free Parameters).}
+\label{tab:sachs_radii}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.31\textwidth} c c c >{\raggedright\arraybackslash}X}
+\toprule
+Electromagnetic Radius & Bare + Foldy & Dressed ($\Pi_{\mathrm{bih}}$+Breit) & Experiment & Boundary Regime / Residual \\
+\midrule
+$p^+$ $r_E$ (Metric-Induced $w_{\mathrm{ind}}$) & $\mathbf{0.8195\text{ fm}}$ & $0.9090\text{ fm}$ & $0.84075(64)\text{ fm}$ & $34.2\times$ apex shift ($-2.53\%$ bare / $+8.12\%$ dr.) \\
+$p^+$ $r_E$ (Uniform $\rho_1 = Q/L_p$) & $0.7189\text{ fm}$ & $\mathbf{0.8195\text{ fm}}$ & $0.84075(64)\text{ fm}$ & Unscreened 1D baseline ($-2.53\%$ dressed) \\
+Neutron $\langle r_E^2\rangle_n$ ($\Phi_n \equiv 0$) & $\mathbf{-0.11699\text{ fm}^2}$ & $\mathbf{-0.11699\text{ fm}^2}$ & $-0.1155(17)\text{ fm}^2$ & Pure Foldy $\frac{3}{2}r_{c,n}^2\mu_n$ ($+1.29\%$, $0.88\sigma$) \\
+Proton Magnetic Radius $r_M(p^+)$ & $0.6440\text{ fm}$ & $\mathbf{0.7834\text{ fm}}$ & $0.776(34)\text{ fm}$ & $w_{\mathrm{ind}}$ in $F_1$ + Darboux $F_2$ ($+0.95\%$, $0.22\sigma$) \\
+Neutron Magnetic Radius $r_M(n^0)$ & $0.5477\text{ fm}$ & $\mathbf{0.7215\text{ fm}}$ & $0.780\text{ fm}$ & Circular-wall $n^0$ Darboux loop ($-7.50\%$) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{High-$Q^2$ Gordon--Sachs Form Factors (Static $Q^2=0$ Laplace $w_{\mathrm{ind}}$ in $F_1^p$, $L_p = 8.1195\text{ fm}, L_n = 8.1083\text{ fm}$) vs.\ Kelly~\cite{kelly2004}.}
+\label{tab:sachs_high_q2}
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} c c c c c @{}}
+\toprule
+$Q^2\;[\text{GeV}^2]$ & $G_E^p$ (Model / Kelly) & $G_M^p/\mu_p$ (Model / Kelly) & $G_E^n$ (Model / Kelly) & $Q^4 G_M^p/\mu_p$ (Model / Kelly) \\
+\midrule
+$0.05$ & $+0.8382$ / $+0.8602$ & $+0.8785$ / $+0.8638$ & $+0.0224$ / $+0.0201$ & $+0.002$ / $+0.002$ \\
+$0.25$ & $+0.4129$ / $+0.5308$ & $+0.5415$ / $+0.5375$ & $+0.0746$ / $+0.0534$ & $+0.034$ / $+0.034$ \\
+$0.50$ & $+0.1594$ / $+0.3353$ & $+0.3165$ / $+0.3440$ & $+0.0951$ / $+0.0565$ & $+0.079$ / $+0.086$ \\
+$1.00$ & $-0.0107$ / $+0.1648$ & $+0.1298$ / $+0.1787$ & $+0.0912$ / $+0.0429$ & $+0.130$ / $+0.179$ \\
+$2.00$ & $-0.0545$ / $+0.0561$ & $+0.0370$ / $+0.0736$ & $+0.0661$ / $+0.0230$ & $+0.148$ / $+0.294$ \\
+$4.00$ & $-0.0410$ / $+0.0117$ & $+0.0107$ / $+0.0240$ & $+0.0439$ / $+0.0092$ & $+0.171$ / $+0.384$ \\
+$6.00$ & $-0.0306$ / $+0.0036$ & $+0.0067$ / $+0.0113$ & $+0.0353$ / $+0.0049$ & $+0.241$ / $+0.406$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\subsection{\texorpdfstring{Spin-$1/2$ Multipole Projection and Hydrogen $21\text{ cm}$ Null Surfaces}{Spin-1/2 Multipole Projection and Hydrogen 21 cm Null Surfaces}}
+In a $J = \frac{1}{2}$ eigenstate, Wigner--Eckart projection multiplies every rank-$l$ body-frame multipole by $\langle \frac{1}{2}M; l0 | \frac{1}{2}M\rangle = 0$ for all $l \ge 2$, leaving zero spectroscopic quadrupole/octupole moment for isolated nucleons while retaining $l = 2$ in the $J = 1$ deuteron. Coupled to an electron ($|\mu_e/\mu_p| = 616.6$ at $\mu_p = +2.9814\,\mu_N$, $r_{c,e} = \hbar c/M_e = 386.16\text{ fm}$), singlet ($F = 0, \boldsymbol{\mu}_e \parallel +\boldsymbol{\mu}_p$) vorticity opposition defines an equatorial null ring at $R_{\mathrm{null}} = r_{c,e}(2|\mu_e/\mu_p|)^{-1/3} = \mathbf{36.01\text{ fm}}$, whereas triplet ($F = 1, \boldsymbol{\mu}_e \parallel -\boldsymbol{\mu}_p$) alignment encloses a spheromak separatrix with axial stagnation points at $z_{\mathrm{null}} = \pm r_{c,e}(|\mu_e/\mu_p|)^{-1/3} = \mathbf{\pm 45.37\text{ fm}}$.
+
+% ======================================================================
+% SECTION 9
+% ======================================================================
+\section{\texorpdfstring{Electromagnetic Mass Shift ($\Delta U_{\mathrm{EM}}$) and 1-Tube Tangent Overlaps}{Electromagnetic Mass Shift and 1-Tube Tangent Overlaps}}
+\label{sec:weak_mass_split}
+
+\subsection{Cottingham Dispersion Integral and Non-Electromagnetic Mass Split}
+Evaluating Cottingham's dispersion integral~\cite{cottingham1963} across $k_Q \in [0, \infty)$ with the unified Gordon--Sachs form factors~(\ref{eq:sachs_exact}) gives:
+\begin{align}
+    \Delta U_{\mathrm{EM}}(n - p) &= \frac{\alpha\hbar c}{\pi}\int_0^\infty \Big[(G_E^n)^2 - (G_E^p)^2\Big]\dd k_Q + \frac{2\alpha\hbar c}{3\pi}\int_0^\infty \tau_B\Big[(G_M^n)^2 - (G_M^p)^2\Big]\dd k_Q \nonumber\\
+    &= \mathbf{-0.8659\text{ MeV}},
+    \label{eq:em_self_EM}
+\end{align}
+within $0.84\sigma$ of BMW Lattice QED ($-1.00 \pm 0.16\text{ MeV}$~\cite{borsanyi2015}). Combining Equation~(\ref{eq:em_self_EM}) with $\Delta M(n - p)_{\mathrm{exp}} = +1.2933\text{ MeV}$ isolates $\Delta U_{\mathrm{mech}}(n - p) = \Delta M_{\mathrm{exp}} - \Delta U_{\mathrm{EM}} = \mathbf{+2.1592\text{ MeV}}$ of excess non-electromagnetic strain energy in the self-contacting $90^\circ$ cubic neutron ($Wr_n = -3.9005$) relative to the relaxed $109.47^\circ$ proton ($Wr_p = -3.6447$). Because 1D Saint-Venant rod torsion~\cite{saintvenant1855} contributes $\sim 10^{-3}\text{ MeV}$, evaluating $\Delta U_{\mathrm{mech}}(n - p)$ directly from 3D exterior cavitation stress around $\partial\mathcal{T}$ remains an open PDE calculation.
+
+\subsection{\texorpdfstring{Scale-Invariant 1-Tube Overlaps ($\mathcal{O}_{np}, \mathcal{M}_\perp$)}{Scale-Invariant 1-Tube Overlaps}}
+For normalized 1D tangent wavefunctions $\boldsymbol{\psi}_u(\phi) \equiv \sqrt{J_{s,u}(\phi)/\ell_u}\,\mathbf{T}(\phi)$ on $\phi \in [0, 2\pi)$, the full 3D vector overlap and transverse projection ($\hat{P}_\perp = I - \hat{\mathbf{d}}_{111}\hat{\mathbf{d}}_{111}^T$) evaluate to:
+\begin{equation}
+    \mathcal{O}_{np} = \langle\boldsymbol{\psi}_p|\boldsymbol{\psi}_n\rangle = \mathbf{0.97127}, \qquad
+    \mathcal{M}_\perp = \langle\boldsymbol{\psi}_p|\hat{P}_\perp|\boldsymbol{\psi}_n\rangle = \oint_0^{2\pi} \sqrt{\frac{\dd s_p}{\ell_u(p)}\frac{\dd s_n}{\ell_u(n)}}\,\mathbf{T}_{p,\perp}(\phi)\cdot\mathbf{T}_{n,\perp}(\phi) = \mathbf{0.78140}.
+    \label{eq:weak_single_integral}
+\end{equation}
+Without importing non-relativistic three-fermion $SU(6)$ multipliers ($\frac{5}{3}$), the single-filament transverse overlap evaluates to $\mathcal{M}_\perp = 0.78140 < 1$, leaving relativistic spinor-current normalization toward $g_A/g_V = 1.2754$ explicitly open.
+
+% === PASTE PART 3 OF 4 DIRECTLY BELOW THIS LINE ===
+
+% ======================================================================
+% CONTINUUM MECHANICS & FEW-BODY PACKING OF (2,3) TREFOIL NUCLEONS
+% V3.2 Unified Monograph — PART 3 OF 4 (Sections 10--11)
+% ======================================================================
+
+% ======================================================================
+% SECTION 10
+% ======================================================================
+\section{\texorpdfstring{Two-Nucleon Continuum Interaction ($A = 2$): Viscoelastic Storage and Universal Flux}{Two-Nucleon Continuum Interaction (A = 2): Viscoelastic Storage and Universal Flux}}
+\label{sec:deuteron}
+
+\subsection{Bernoulli Pressure Depletion, Maxwell--Deborah Storage, and Biharmonic Stiffness}
+For two cavitated $(2,3)$ tubes with superimposed exterior velocity fields $\mathbf{u}_{\mathrm{tot}} = \mathbf{u}_1 + \mathbf{u}_2$, static pressure obeys the Bernoulli relation bounded by $P_{\mathrm{static}} \ge 0$ at $|\mathbf{u}_{\mathrm{tot}}| = v_s = \sqrt{\alpha}\,c$~\cite{bairmosheh2026,bairmosheh2026b}:
+\begin{equation}
+    P_{\mathrm{static}}(\mathbf{x}) = P_{\mathrm{ambient}} - \frac{1}{2}\rho_\tau\Big(|\mathbf{u}_1(\mathbf{x})|^2 + |\mathbf{u}_2(\mathbf{x})|^2 + 2\,\mathbf{u}_1(\mathbf{x})\cdot\mathbf{u}_2(\mathbf{x})\Big) \ge 0.
+    \label{eq:bernoulli_master}
+\end{equation}
+With universal 1D lobe phase flux $\Phi_0 = \sqrt{8\pi\alpha\hbar c/(9\rho_\tau)}$ ($\eta_p = \eta_n = 1$)~\cite{bairmosheh2026}, pairwise cross-sectional regularization $d_{12}^{(ab)} \equiv \sqrt{|\mathbf{r}_1(s_1) - \mathbf{r}_2(s_2)|^2 + r_{t,a}^2 + r_{t,b}^2}$, Hookean Yukawa scale $r_\pi = \hbar c/U_{\mathrm{Hooke}}(r_e/3) = 1.43877\text{ fm}$ ($r_{2\pi} = \frac{1}{2}r_\pi = 0.71939\text{ fm}$, Equation~(\ref{eq:hookean_pion_scale})), and the dimensionless Maxwell--Deborah elastic storage fraction ($De(d_{12}) = r_e/d_{12}$, $r_e = 2.8179\text{ fm}$),
+\begin{equation}
+    \widetilde{G}'\!\big(d_{12}^{(ab)}\big) \equiv \frac{G'\big(d_{12}^{(ab)}\big)}{\mu_s} = \frac{De^2}{1 + De^2} = \frac{r_e^2}{\big(d_{12}^{(ab)}\big)^2 + r_e^2},
+    \label{eq:maxwell_deborah_cutoff}
+\end{equation}
+the two-nucleon potential across $s_1 \in [0, L_a)$ and $s_2 \in [0, L_b)$ takes the four-channel form (plus finite-size $p\text{--}p$ Coulomb repulsion $\alpha\hbar c/\sqrt{R^2 + r_{E,p}^2}$ at $r_{E,p} = 0.8195\text{ fm}$):
+\begin{equation}
+    V_{2N}^{(ab)} = -g_S\,S_{2\pi}^{(ab)} - g_M\,M_{1\pi}^{(ab)} + g_B\,B_4^{(ab)} + c_{\mathrm{FB}}\max(0, -\hat{\mathbf{s}}_1\cdot\hat{\mathbf{s}}_2)\,S_{2\pi}^{(ab)} + V_{\mathrm{Coul}}^{(ab)},
+    \label{eq:v2n_master}
+\end{equation}
+\begin{align}
+    S_{2\pi}^{(ab)}(\mathbf{R}) &= \frac{1}{4\pi}\oint_0^{L_a}\!\!\oint_0^{L_b} \widetilde{G}'\!\big(d_{12}^{(ab)}\big)\frac{e^{-d_{12}^{(ab)}/r_{2\pi}}}{d_{12}^{(ab)}}\,\dd s_1\,\dd s_2, \qquad
+    B_4^{(ab)}(\mathbf{R}) = \frac{1}{4\pi}\oint_0^{L_a}\!\!\oint_0^{L_b} \frac{\dd s_1\,\dd s_2}{\big(d_{12}^{(ab)}\big)^4}, \nonumber\\
+    M_{1\pi}^{(ab)}(\mathbf{R}) &= \frac{1}{4\pi}\oint_0^{L_a}\!\!\oint_0^{L_b} \big(\mathbf{T}_1(s_1)\cdot\mathbf{T}_2(s_2)\big)\,\widetilde{G}'\!\big(d_{12}^{(ab)}\big)\frac{e^{-d_{12}^{(ab)}/r_\pi}}{d_{12}^{(ab)}}\,\dd s_1\,\dd s_2.
+    \label{eq:M1pi_S2pi_B4}
+\end{align}
+The kernels in Equations~(\ref{eq:v2n_master})--(\ref{eq:M1pi_S2pi_B4}) encode: (1) squared-wake Bernoulli pressure depletion $-g_S S_{2\pi}^{(ab)}$ at half-range $r_{2\pi} = \frac{1}{2}r_\pi$; (2) screened Neumann tangent coupling $-g_M M_{1\pi}^{(ab)}$~\cite{neumann1845} for active Mode-1 tangential slip $\mathbf{u}_a \parallel \mathbf{T}_a$ (whereas passive poloidal circulation around rigid boundaries obeys Kelvin's sign inversion~\cite{kelvin1848}), modulated outside $r_e = 2.8179\text{ fm}$ by $\widetilde{G}'(d_{12})$; and (3) fourth-order biharmonic bridge stiffness $+g_B B_4^{(ab)}$ plus antiparallel singlet backpressure $+c_{\mathrm{FB}}$.
+
+\subsection{\texorpdfstring{Coupled $^3S_1\text{--}{}^3D_1$ Deuteron Calibration and Tensor Observables}{Coupled 3S1-3D1 Deuteron Calibration and Tensor Observables}}
+Projecting the coaxial $S = 1$ $(p, n)$ channel onto Gauss--Legendre multipoles ($V_C = -g_S S_0 - g_M M_0 + g_B B_0$, $V_T = -\frac{5}{2}g_M M_2$) and solving the coupled radial $^3S_1\text{--}{}^3D_1$ system:
+\begin{align}
+    -\frac{\hbar^2}{2\mu_{np}}u'' + V_C(R)\,u + \sqrt{8}\,V_T(R)\,w &= E_d\,u, \nonumber\\
+    -\frac{\hbar^2}{2\mu_{np}}w'' + \left(V_C(R) - 2V_T(R) + \frac{6\hbar^2}{2\mu_{np}R^2}\right)w + \sqrt{8}\,V_T(R)\,u &= E_d\,w,
+    \label{eq:coupled_3S1_3D1}
+\end{align}
+calibrates $(g_S, g_M, g_B)$ at $(L_p = 8.1195\text{ fm}, L_n = 8.1083\text{ fm})$ from $(E_d, Q_d, r_d)$: $g_S = 265.97\text{ MeV/fm}$, $g_M = 506.16\text{ MeV/fm}$, and $g_B = 21.82\text{ MeV}\cdot\text{fm}^2$ (Table~\ref{tab:deuteron_coupled}). Without additional parameters, the coupled wavefunction yields $P_D = \mathbf{5.04\%}$, $\eta_{D/S} = \mathbf{+0.0233}$ ($-9.0\%$ vs.\ $+0.0256(4)$, reflecting $\widetilde{G}'$ attenuation beyond $r_e = 2.82\text{ fm}$), and $\mu_d = \mathbf{+0.8511\,\mu_N}$ ($-0.74\%$ with empirical $\mu_{p,n}$; $+1.1592\,\mu_N$ with circular-torus $\mu_{p,n}$).
+
+\begin{table}[!htbp]
+\centering
+\caption{Coupled $^3S_1\text{--}{}^3D_1$ Deuteron Ledger at $(L_p = 8.1195\text{ fm}, L_n = 8.1083\text{ fm}, r_\pi = 1.43877\text{ fm})$.}
+\label{tab:deuteron_coupled}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.34\textwidth} c c >{\raggedright\arraybackslash}X}
+\toprule
+Deuteron Observable & V3.2 $(2,3)$ Model & Experiment & Parameter Status / Diagnostic \\
+\midrule
+Binding Energy $E_d\;[\text{MeV}]$ (1D / 3D CG) & $\mathbf{-2.225 / -2.225}$ & $-2.22457$ & Calibrated $A = 2$ (exact 3D CG match) \\
+Quadrupole Moment $Q_d\;[\text{fm}^2]$ & $+0.2858$ & $+0.2859(3)$ & Calibrated $A = 2$ \\
+Charge Radius $r_d\;[\text{fm}]$ & $2.128$ & $2.1280$ & Calibrated $A = 2$ ($r_{E,p} = 0.8195\text{ fm}$) \\
+$D$-State Probability $P_D$ & $\mathbf{5.04\%}$ & $4.85\%\text{--}5.76\%$ & Untuned wavefunction evaluation \\
+Asymptotic $D/S$ Ratio $\eta_{D/S}$ & $+0.0233$ & $+0.0256(4)$ & Untuned ($\widetilde{G}'$ tail damping $-9.0\%$) \\
+$\mu_d\;[\mu_N]$ (emp $\mu_{p,n}$ / model $\mu_{p,n}$) & $\mathbf{+0.8511}$ / $+1.1592$ & $+0.85744$ & Untuned $D$-wave check ($-0.74\%$) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{\texorpdfstring{Counter-Rotating $^1S_0$ Singlet Scattering, Effective Range $r_{0s}$, and CIB Audit}{Counter-Rotating 1S0 Singlet Scattering, Effective Range r0s, and CIB Audit}}
+\label{sec:singlet_scattering}
+For antiparallel spins ($S = 0$, $\gamma_1 = -\omega t$, $\gamma_2 = +\omega t + \frac{\pi}{3}$), calibrating $c_{\mathrm{FB}} = +37.92\text{ MeV/fm}$ to $a_{np} = -23.74\text{ fm}$ on the unweighted $L = 0$ spherical average $V_0^{(ab)}(d) = (-g_S + c_{\mathrm{FB}})S_0^{(ab)} - g_M M_0^{(ab)} + g_B B_0^{(ab)}$ yields:
+\begin{equation}
+    r_{0s}(np) = \mathbf{3.11\text{ fm}} \quad (\text{exp } 2.75\text{ fm}), \qquad
+    a_{nn} = \mathbf{-28.5\text{ fm}} \quad (\text{exp } -18.9\text{ fm}), \qquad
+    a_{pp}^{\mathrm{strong}} = \mathbf{-38.0\text{ fm}} \quad (\text{exp } -17.3\text{ fm}).
+    \label{eq:singlet_v32}
+\end{equation}
+Including $\widetilde{G}'(d_{12})$ reduces the singlet effective range from $4.00\text{ fm}$ to $3.11\text{ fm}$ while keeping all three $^1S_0$ channels unbound ($0$ nodes). Because $-1/a_s \propto 1 - V_{\mathrm{eff}}/V_{\mathrm{crit}}$ lies within $6\text{--}12\%$ of the zero-energy pole, inverse effective-range analysis shows that shifting $(a_{nn}, a_{pp}^{\mathrm{strong}})$ from $(-28.5, -38.0)\text{ fm}$ onto $(-18.9, -17.3)\text{ fm}$ corresponds to an omitted $+3.1\text{ MeV}$ ($n\text{--}n$, $4.6\%$) and $+5.7\text{ MeV}$ ($p\text{--}p$, $8.3\%$) isospin-opposing repulsion relative to $p\text{--}n$ (attributable to opposite-chirality ribbon-twist interference $+Tw_{\mathrm{rib},a}Tw_{\mathrm{rib},b}$ and $\pi^\pm\text{--}\pi^0$ Yukawa mass splitting $\Delta m_\pi = 4.59\text{ MeV}$).
+
+% ======================================================================
+% SECTION 11
+% ======================================================================
+\section{Synchronous Two-Body Contact Spectrum and Separated Three-Body Relays}
+\label{sec:contact_spectrum}
+
+\subsection{\texorpdfstring{Closed-Form Pairwise Steric Contact Scale ($\xi_{\mathrm{touch}}$)}{Closed-Form Pairwise Steric Contact Scale}}
+For $N$ rigid trefoil centerlines positioned along ray vectors $\mathbf{C}_a(\xi) = \xi\,\mathbf{u}_a$ ($\xi > 0$) with local coordinates $\mathbf{r}_{\mathrm{loc},a}(\tau, s_a)$ across $\tau \in [0, \frac{2\pi}{3})$ and $s_a \in [0, L_a)$, solving $|\xi\Delta\mathbf{u}_{ij} + \mathbf{w}_{ij}(\tau, s_1, s_2)|^2 = (r_{t,i} + r_{t,j})^2$ ($\Delta\mathbf{u}_{ij} \equiv \mathbf{u}_i - \mathbf{u}_j$, $\mathbf{w}_{ij} \equiv \mathbf{r}_{\mathrm{loc},i} - \mathbf{r}_{\mathrm{loc},j}$) determines the outermost hard-wall contact scale analytically:
+\begin{equation}
+    \xi_{\mathrm{touch}} = \max_{(i,j),\,\tau,\,s_1,\,s_2} \left[ \frac{-\Delta\mathbf{u}_{ij}\cdot\mathbf{w}_{ij} + \sqrt{(\Delta\mathbf{u}_{ij}\cdot\mathbf{w}_{ij})^2 - |\Delta\mathbf{u}_{ij}|^2\big(|\mathbf{w}_{ij}|^2 - (r_{t,i} + r_{t,j})^2\big)}}{|\Delta\mathbf{u}_{ij}|^2} \right]_{\!\Delta > 0}.
+    \label{eq:exact_quadratic_touch}
+\end{equation}
+Setting $\xi = \xi_{\mathrm{touch}} + u_\xi^2$ enforces $\min d_{12}(\tau) \ge r_{t,i} + r_{t,j}$ ($0.2428\text{ fm}$ for $p\text{--}p$, $0.2427\text{ fm}$ for $p\text{--}n$, and $0.2425\text{ fm}$ for $n\text{--}n$) throughout all multi-tube optimizations.
+
+\subsection{\texorpdfstring{Aligned 1D-to-3D Coordinate Maps ($L_p = 8.1195 > L_n = 8.1083\text{ fm}$)}{Aligned 1D-to-3D Coordinate Maps}}
+Mapping uniform 1D arc-length stations $s_a \in [0, L_a)$ onto 3D coordinates at the relaxed proton ($L_p = 8.1195\text{ fm}$) and self-contacting neutron ($L_n = 8.1083\text{ fm}$) scales contrasts axial $S = 1$ and equatorial $S = 0$ meshing (Table~\ref{tab:1d_strips}):
+\begin{itemize}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Coaxial $C_3$ Triplet $p\text{--}n$ ($d^* = 0.762\text{ fm}$, $\Delta\phi = 48.0^\circ$):} All three $C_3$ lobes interleave continuously around $360^\circ$; $M_{1\pi}(s_1)$ remains positive at every station ($+0.029$ to $+0.046$), integrating to $M_{1\pi} = +0.3033\text{ fm}$ at $\dmin = 0.2949\text{ fm} > 0.2427\text{ fm}$.
+    \item \textbf{Equatorial Counter-Rotating Singlets $p\text{--}p$ vs.\ $n\text{--}n$ ($d = 1.747\text{ fm}$, $\Delta\phi = 60.0^\circ$):} Because the relaxed proton extends $+0.1071\text{ fm}$ farther radially ($\Rmax = 0.8130$ vs.\ $0.7059\text{ fm}$), its equatorial apex approaches to $\dmin = 0.3740\text{ fm}$ ($M_{1\pi}(0) = +0.128$, net $M_{1\pi} = +0.0785\text{ fm}$) whereas the more compact neutron pair sits at $\dmin = 0.5647\text{ fm}$ ($M_{1\pi}(0) = +0.060$, net $M_{1\pi} = +0.0372\text{ fm}$) at the same center separation.
+\end{itemize}
+
+\begin{table}[!htbp]
+\centering
+\caption{Aligned 1D-to-3D Tube Station Profiles ($s_1 \in [0, L_p/3)$ $C_3$-periodic cell for 5A; reflection-symmetric half-loops $s_1 \in [0, L_a/2]$ for 5B [$L_p = 8.1195\text{ fm}$] \& 5C [$L_n = 8.1083\text{ fm}$]).}
+\label{tab:1d_strips}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l c l c c c c @{}}
+\toprule
+Coupling Configuration & $s_1\;[\text{fm}]$ ($\phi_1$) & Tube-1 $(x,y,z)\;[\text{fm}]$ & Closest $s_2$ ($\phi_2$) & $\dmin\;[\text{fm}]$ & $\mathbf{T}_1\cdot\mathbf{T}_2$ & $d_{\max}\;[\text{fm}]$ & $M_{1\pi}(s_1)$ \\
+\midrule
+\multirow{4}{*}{\shortstack[l]{\textbf{5A. Coaxial $C_3$ Triplet $p\text{--}n$}\\$d^*=0.762\text{ fm},\;\Delta\phi=48.0^\circ$\\$\dmin=0.2949,\;M_{1\pi}=+0.3033\text{ fm}$}}
+ & $0.000$ ($0.0^\circ$)  & $(+0.00,-0.81,-0.38)$ & $7.48$ ($337.4^\circ$) & $0.536$ & $+0.846$ & $1.745$ & $+0.046$ \\
+ & $0.677$ ($23.4^\circ$) & $(+0.44,-0.41,-0.20)$ & $7.70$ ($346.1^\circ$) & $0.460$ & $+0.094$ & $1.442$ & $+0.039$ \\
+ & $1.353$ ($60.0^\circ$) & $(+0.14,+0.08,-0.38)$ & $4.50$ ($204.8^\circ$) & $0.487$ & $+0.358$ & $1.270$ & $+0.043$ \\
+ & $2.030$ ($96.6^\circ$) & $(-0.14,+0.58,-0.56)$ & $1.85$ ($87.1^\circ$)  & $0.693$ & $+0.914$ & $1.640$ & $+0.029$ \\
+\midrule
+\multirow{7}{*}{\shortstack[l]{\textbf{5B. Equatorial Singlet $p\text{--}p$}\\$d^*=1.747\text{ fm},\;\Delta\phi=60.0^\circ$\\$\dmin=0.3740,\;M_{1\pi}=+0.0785\text{ fm}$}}
+ & $0.000$ ($0.0^\circ$)   & $(+0.00,-0.06,+0.00)$ & $3.36$ ($142.5^\circ$) & $0.417$ & $+0.821$ & $1.747$ & $+0.128$ \\
+ & $0.677$ ($23.4^\circ$)  & $(-0.44,-0.46,+0.18)$ & $7.67$ ($344.8^\circ$) & $0.721$ & $+0.006$ & $2.215$ & $-0.009$ \\
+ & $1.353$ ($60.0^\circ$)  & $(-0.14,-0.95,+0.00)$ & $7.60$ ($342.4^\circ$) & $1.225$ & $-0.018$ & $2.646$ & $-0.006$ \\
+ & $2.030$ ($96.6^\circ$)  & $(+0.14,-1.46,-0.18)$ & $3.23$ ($137.6^\circ$) & $1.715$ & $-0.941$ & $3.151$ & $-0.010$ \\
+ & $2.707$ ($120.0^\circ$) & $(+0.70,-1.28,-0.00)$ & $3.09$ ($132.9^\circ$) & $1.571$ & $-0.696$ & $3.062$ & $-0.009$ \\
+ & $3.383$ ($143.4^\circ$) & $(+0.57,-0.70,+0.18)$ & $3.07$ ($132.1^\circ$) & $1.019$ & $+0.571$ & $2.473$ & $+0.018$ \\
+ & $4.060$ ($180.0^\circ$) & $(+0.00,-0.71,+0.00)$ & $7.56$ ($340.8^\circ$) & $1.012$ & $+0.644$ & $2.397$ & $+0.021$ \\
+\midrule
+\multirow{7}{*}{\shortstack[l]{\textbf{5C. Equatorial Singlet $n\text{--}n$}\\$d=1.747\text{ fm},\;\Delta\phi=60.0^\circ$\\$\dmin=0.5647,\;M_{1\pi}=+0.0372\text{ fm}$}}
+ & $0.000$ ($0.0^\circ$)   & $(+0.00,-0.17,+0.00)$ & $7.57$ ($341.1^\circ$) & $0.617$ & $+0.532$ & $1.747$ & $+0.060$ \\
+ & $0.676$ ($24.5^\circ$)  & $(-0.38,-0.54,+0.32)$ & $7.66$ ($344.5^\circ$) & $0.883$ & $-0.101$ & $2.199$ & $-0.005$ \\
+ & $1.351$ ($60.0^\circ$)  & $(-0.12,-0.94,+0.00)$ & $7.64$ ($343.6^\circ$) & $1.311$ & $+0.292$ & $2.527$ & $-0.001$ \\
+ & $2.027$ ($95.5^\circ$)  & $(+0.10,-1.37,-0.32)$ & $3.22$ ($138.1^\circ$) & $1.710$ & $-0.920$ & $2.969$ & $-0.008$ \\
+ & $2.703$ ($120.0^\circ$) & $(+0.61,-1.23,+0.00)$ & $3.06$ ($132.2^\circ$) & $1.601$ & $-0.782$ & $2.882$ & $-0.007$ \\
+ & $3.378$ ($144.5^\circ$) & $(+0.48,-0.71,+0.32)$ & $3.02$ ($130.6^\circ$) & $1.176$ & $+0.401$ & $2.362$ & $+0.014$ \\
+ & $4.054$ ($180.0^\circ$) & $(+0.00,-0.73,+0.00)$ & $7.59$ ($341.9^\circ$) & $1.126$ & $+0.627$ & $2.312$ & $+0.010$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\subsection{Synchronous Two-Body Contact Spectrum (21 Degree-0 Modes)}
+Each $(2,3)$ trefoil exhibits 12 symmetry contact sites across three zones: 2 axial polar ($\pm\hat{\mathbf{s}}$), 6 equatorial (3 apices + 3 troughs), and 4 skew ($90^\circ\text{--}109.5^\circ$). Joint minimization of $V_{\mathrm{sync}}(d)$ over $(\Delta\gamma, d \ge \dtouch(\Delta\gamma))$ yields Table~\ref{tab:contact_21}; notably, under universal lobe flux $\Phi_0$ ($\eta_p = \eta_n = 1$), equatorial $S = 0$ coupling is isospin-symmetric to within $0.4\%$ ($-68.19, -68.19, -68.47\text{ MeV}$ across $p\text{--}n, n\text{--}n, p\text{--}p$).
+
+\begin{table}[!htbp]
+\centering
+\caption{Synchronous Two-Body Continuum Contact Spectrum Across All 21 Degree-0 Modes ($\tau \in [0, 2\pi/3)$, $d^* \ge \dtouch$).}
+\label{tab:contact_21}
+\scriptsize
+\setlength{\tabcolsep}{3.4pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l c c r r r r r @{}}
+\toprule
+Coupling Mode & Symmetry Zone & Pair & $P_{S=1}$ & $\dtouch\;[\text{fm}]$ & $d^*_{\mathrm{sync}}\;[\text{fm}]$ & $\dmin(d^*)\;[\text{fm}]$ & $M_{1\pi}(d^*)\;[\text{fm}]$ & $V_{\mathrm{sync}}\;[\text{MeV}]$ \\
+\midrule
+\multirow{3}{*}{1. Coaxial $C_3$ Triplet ($S=1$)}
+ & \multirow{3}{*}{2 axial polar}   & $p\text{--}n$ & $1.00$ & $0.691$ & $0.762$ & $0.3099$ & $+0.3041$ & $\mathbf{-265.04}$ \\
+ &                                  & $n\text{--}n$ & $1.00$ & $0.810$ & $0.898$ & $0.3101$ & $+0.2129$ & $-211.48$ \\
+ &                                  & $p\text{--}p$ & $1.00$ & $0.526$ & $0.631$ & $0.3453$ & $+0.4400$ & $-335.22$ \\
+\midrule
+\multirow{3}{*}{2. Coaxial Singlet ($S=0$)}
+ & \multirow{3}{*}{2 axial polar}   & $p\text{--}n$ & $0.00$ & $0.745$ & $1.235$ & $0.7285$ & $-0.0967$ & $-19.48$ \\
+ &                                  & $n\text{--}n$ & $0.00$ & $0.862$ & $1.270$ & $0.6364$ & $-0.0815$ & $-28.20$ \\
+ &                                  & $p\text{--}p$ & $0.00$ & $0.570$ & $1.291$ & $0.9235$ & $-0.0962$ & $-7.27$ \\
+\midrule
+\multirow{3}{*}{3. Equatorial Singlet ($S=0$)}
+ & \multirow{3}{*}{6 equatorial}    & $p\text{--}n$ & $0.00$ & $1.552$ & $1.643$ & $0.3116$ & $+0.0648$ & $-68.19$ \\
+ &                                  & $n\text{--}n$ & $0.00$ & $1.458$ & $1.550$ & $0.3223$ & $+0.0536$ & $-68.19$ \\
+ &                                  & $p\text{--}p$ & $0.00$ & $1.651$ & $1.747$ & $0.3236$ & $+0.0788$ & $\mathbf{-68.47}$ \\
+\midrule
+\multirow{3}{*}{4. Equatorial Triplet ($S=1$)}
+ & \multirow{3}{*}{6 equatorial}    & $p\text{--}n$ & $1.00$ & $1.590$ & $1.765$ & $0.4020$ & $-0.0507$ & $-21.78$ \\
+ &                                  & $n\text{--}n$ & $1.00$ & $1.484$ & $1.618$ & $0.3609$ & $-0.0453$ & $-33.49$ \\
+ &                                  & $p\text{--}p$ & $1.00$ & $1.703$ & $1.940$ & $0.4707$ & $-0.0542$ & $-10.25$ \\
+\midrule
+\multirow{3}{*}{5. Orthogonal Skew-Bevel ($90^\circ$)}
+ & \multirow{3}{*}{4 skew $90^\circ$} & $p\text{--}n$ & $0.50$ & $1.317$ & $1.367$ & $0.2761$ & $+0.0692$ & $-97.54$ \\
+ &                                  & $n\text{--}n$ & $0.50$ & $1.249$ & $1.300$ & $0.2792$ & $+0.0640$ & $\mathbf{-100.63}$ \\
+ &                                  & $p\text{--}p$ & $0.50$ & $1.404$ & $1.444$ & $0.2730$ & $+0.0776$ & $-93.96$ \\
+\midrule
+\multirow{3}{*}{6. Polar-Equatorial Ortho.\ ($90^\circ$)}
+ & \multirow{3}{*}{6 ortho $90^\circ$} & $p\text{--}n$ & $0.50$ & $1.033$ & $1.129$ & $0.3282$ & $+0.0015$ & $-96.86$ \\
+ &                                  & $n\text{--}n$ & $0.50$ & $1.163$ & $1.267$ & $0.3269$ & $+0.0011$ & $-84.37$ \\
+ &                                  & $p\text{--}p$ & $0.50$ & $1.131$ & $1.231$ & $0.3381$ & $+0.0012$ & $-84.72$ \\
+\midrule
+\multirow{3}{*}{7. Tetrahedral $109.5^\circ$ Coupling}
+ & \multirow{3}{*}{4 skew $109.5^\circ$} & $p\text{--}n$ & $0.33$ & $1.367$ & $1.415$ & $0.2821$ & $+0.0898$ & $-99.33$ \\
+ &                                  & $n\text{--}n$ & $0.33$ & $1.394$ & $1.398$ & $0.2458$ & $+0.0708$ & $-93.57$ \\
+ &                                  & $p\text{--}p$ & $0.33$ & $1.441$ & $1.479$ & $0.2815$ & $+0.1088$ & $\mathbf{-100.86}$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\subsection{\texorpdfstring{Degree-1 Separated Relay Couplings ($A\text{---}\{C\}\text{---}B$) and Hinge Closure}{Degree-1 Separated Relay Couplings and Hinge Closure}}
+\label{sec:degree1_relays}
+When an intermediate monomer $\{C\}$ separates endpoints $A$ and $B$ ($D_{AB} = d^*_{AC} + d^*_{CB}$), removing $\{C\}$ from the potential sum isolates the pure Degree-1 next-nearest-neighbor interaction across all six species bridges (Tables~\ref{tab:deg1_straight} and~\ref{tab:deg1_hinges}):
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Colinear Axial vs.\ Polar-Equatorial Relays (7A vs.\ 7C):} Across a coaxial relay ($D_{AB} = 1.524\text{ fm}$), steeper axial neutron arches approach $0.278\text{ fm}$ closer across an empty proton slot in $n\text{---}\{p\}\text{---}n$ ($\dmin = 0.886\text{ fm}$, $V_{\mathrm{sync}} = -78.84\text{ MeV}$) than $p\text{---}\{n\}\text{---}p$ ($\dmin = 1.164\text{ fm}$, $-73.85\text{ MeV}$), while node-free $n\text{---}\{p\}\text{---}p$ reaches $-99.03\text{ MeV}$. Conversely, across a polar-equatorial $S_{AB} = 0$ relay ($D_{AB} = 2.257\text{ fm}$), the proton's $+15.18\%$ wider outer radius brings $p\text{---}\{n\}\text{---}p$ to $\dmin = 0.631\text{ fm}$ ($-32.47\text{ MeV}$) versus $\dmin = 0.846\text{ fm}$ ($-22.23\text{ MeV}$) for $n\text{---}\{p\}\text{---}n$.
+    \item \textbf{Screened Equatorial Relays (7B) vs.\ Oblique Hinge Closure (7D):} Colinear equatorial chains ($D_{AB} = 3.10\text{--}3.49\text{ fm} > r_e$) sit outside the $\widetilde{G}'$ storage horizon with near-zero coupling ($-0.42$ to $+1.54\text{ MeV}$). Bending an oblique polar-equatorial hinge ($S_{AB} = 0$, Table~\ref{tab:deg1_hinges}) from $180^\circ \to 75^\circ$ turns $M_{1\pi}$ positive by $109.47^\circ$, deepens attraction to $-41.62\text{ MeV}$ ($n\text{---}\{p\}\text{---}n$) and $-46.30\text{ MeV}$ ($p\text{---}\{n\}\text{---}p$) at $90^\circ$, and intersects pairwise steric contact ($r_{t,i} + r_{t,j}$) between $90^\circ$ and $75^\circ$.
+\end{enumerate}
+
+\begin{table}[!htbp]
+\centering
+\caption{Pure Degree-1 Colinear ($180^\circ$) Relay Couplings ($A\text{---}\{C\}\text{---}B$ with Mediator $\{C\}$ Removed from Potential Sum).}
+\label{tab:deg1_straight}
+\scriptsize
+\setlength{\tabcolsep}{3.6pt}
+\renewcommand{\arraystretch}{1.14}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l r r r r r r r @{}}
+\toprule
+Colinear Relay Mode & Species Bridge & $D_{AB}\;[\text{fm}]$ & $\dmin(\text{cyc})\;[\text{fm}]$ & $M_{1\pi}\;[\text{fm}]$ & $V_{S2\pi}$ & $V_{M1\pi}$ & $V_{B4+C}$ & $V_{\mathrm{sync}}\;[\text{MeV}]$ \\
+\midrule
+\multirow{6}{*}{\shortstack[l]{\textbf{7A. Colinear Axial Relay}\\$A^\uparrow\text{---}\{C^\uparrow\}\text{---}B^\uparrow\;\;(S_{AB}=1)$}}
+ & $n\text{---}\{p\}\text{---}n$ & $1.524$ & $0.886$ & $+0.0452$ & $-77.53$  & $-22.89$ & $+21.58$ & $-78.84$ \\
+ & $p\text{---}\{n\}\text{---}p$ & $1.524$ & $1.164$ & $+0.0591$ & $-59.95$  & $-29.89$ & $+15.99$ & $-73.85$ \\
+ & $p\text{---}\{n\}\text{---}n$ & $1.660$ & $1.161$ & $+0.0386$ & $-50.96$  & $-19.54$ & $+12.93$ & $-57.57$ \\
+ & $n\text{---}\{p\}\text{---}p$ & $1.393$ & $0.898$ & $+0.0680$ & $-89.59$  & $-34.42$ & $+24.97$ & $\mathbf{-99.03}$ \\
+ & $n\text{---}\{n\}\text{---}n$ & $1.795$ & $1.157$ & $+0.0252$ & $-43.41$  & $-12.75$ & $+11.09$ & $-45.07$ \\
+ & $p\text{---}\{p\}\text{---}p$ & $1.262$ & $0.902$ & $+0.1023$ & $-103.87$ & $-51.76$ & $+30.09$ & $-125.55$ \\
+\midrule
+\multirow{6}{*}{\shortstack[l]{\textbf{7B. Colinear Equatorial Relay}\\$A^\uparrow\text{---}\{C^\downarrow\}\text{---}B^\uparrow\;\;(S_{AB}=1)$}}
+ & $n\text{---}\{p\}\text{---}n$ & $3.286$ & $2.006$ & $-0.0033$ & $-2.81$ & $+1.67$ & $+1.17$ & $+0.03$ \\
+ & $p\text{---}\{n\}\text{---}p$ & $3.286$ & $1.808$ & $-0.0064$ & $-3.41$ & $+3.22$ & $+1.73$ & $+1.53$ \\
+ & $p\text{---}\{n\}\text{---}n$ & $3.193$ & $1.812$ & $-0.0053$ & $-3.74$ & $+2.66$ & $+1.40$ & $+0.31$ \\
+ & $n\text{---}\{p\}\text{---}p$ & $3.390$ & $2.006$ & $-0.0039$ & $-2.50$ & $+2.00$ & $+1.07$ & $+0.57$ \\
+ & $n\text{---}\{n\}\text{---}n$ & $3.101$ & $1.822$ & $-0.0043$ & $-4.11$ & $+2.19$ & $+1.51$ & $-0.42$ \\
+ & $p\text{---}\{p\}\text{---}p$ & $3.494$ & $2.015$ & $-0.0047$ & $-2.22$ & $+2.38$ & $+1.38$ & $+1.54$ \\
+\midrule
+\multirow{6}{*}{\shortstack[l]{\textbf{7C. Polar-Equatorial Relay}\\$A^\uparrow\text{---}\{C^\rightarrow\}\text{---}B^\downarrow\;\;(S_{AB}=0)$}}
+ & $n\text{---}\{p\}\text{---}n$ & $2.257$ & $0.846$ & $+0.0154$ & $-24.62$ & $-7.82$  & $+10.21$ & $-22.23$ \\
+ & $p\text{---}\{n\}\text{---}p$ & $2.257$ & $0.631$ & $+0.0312$ & $-30.84$ & $-15.78$ & $+14.14$ & $\mathbf{-32.47}$ \\
+ & $p\text{---}\{n\}\text{---}n$ & $2.396$ & $0.877$ & $+0.0176$ & $-20.31$ & $-8.89$  & $+8.50$  & $-20.69$ \\
+ & $n\text{---}\{p\}\text{---}p$ & $2.359$ & $0.840$ & $+0.0186$ & $-22.00$ & $-9.42$  & $+9.22$  & $-22.20$ \\
+ & $n\text{---}\{n\}\text{---}n$ & $2.535$ & $1.123$ & $+0.0100$ & $-13.54$ & $-5.08$  & $+5.73$  & $-12.89$ \\
+ & $p\text{---}\{p\}\text{---}p$ & $2.461$ & $0.835$ & $+0.0223$ & $-19.70$ & $-11.31$ & $+8.90$  & $-22.11$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{7D. Oblique Polar-Equatorial Hinge Closure ($S_{AB}=0$, $\{C\}$ Removed, $\Theta_{ACB}: 180^\circ \to 75^\circ$).}
+\label{tab:deg1_hinges}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r r r r r c r r r c @{}}
+\toprule
+ & & \multicolumn{4}{c}{$n\text{---}\{p\}\text{---}n$ ($2r_{t,n} = 0.2425\text{ fm}$)} & \multicolumn{4}{c}{$p\text{---}\{n\}\text{---}p$ ($2r_{t,p} = 0.2428\text{ fm}$)} \\
+\cmidrule(lr){3-6}\cmidrule(l){7-10}
+$\Theta_{ACB}\;[\text{deg}]$ & $D_{AB}\;[\text{fm}]$ & $\dmin\;[\text{fm}]$ & $M_{1\pi}$ & $V_{\mathrm{sync}}\;[\text{MeV}]$ & Steric & $\dmin\;[\text{fm}]$ & $M_{1\pi}$ & $V_{\mathrm{sync}}\;[\text{MeV}]$ & Steric \\
+\midrule
+$180.00$ & $2.405$ & $1.764$ & $-0.0075$ & $-3.10$  & clear   & $2.026$ & $-0.0109$ & $+0.67$  & clear \\
+$150.00$ & $2.334$ & $1.547$ & $-0.0065$ & $-5.21$  & clear   & $1.805$ & $-0.0101$ & $-1.27$  & clear \\
+$120.00$ & $2.129$ & $1.038$ & $-0.0013$ & $-14.52$ & clear   & $1.245$ & $-0.0045$ & $-11.02$ & clear \\
+$109.47$ & $2.028$ & $0.870$ & $+0.0029$ & $-21.29$ & clear   & $1.015$ & $+0.0010$ & $-19.00$ & clear \\
+$90.00$  & $1.811$ & $0.506$ & $+0.0177$ & $-41.62$ & clear   & $0.541$ & $+0.0245$ & $-46.30$ & clear \\
+$75.00$  & $1.622$ & $0.238$ & $+0.0384$ & $-57.69$ & overlap & $0.187$ & $+0.0694$ & $-52.54$ & overlap \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+% === PASTE PART 4 OF 4 DIRECTLY BELOW THIS LINE ===
+
+% ======================================================================
+% CONTINUUM MECHANICS & FEW-BODY PACKING OF (2,3) TREFOIL NUCLEONS
+% V3.2 Unified Monograph — PART 4 OF 4 (Sections 12--13 & Bib)
+% ======================================================================
+
+% ======================================================================
+% SECTION 12
+% ======================================================================
+\section{\texorpdfstring{Few-Body Quantum Binding, $C_{2v}$ Disphenoid Geometry, and $^{11}\text{Li}$ ($A = 3\text{--}16$)}{Few-Body Quantum Binding, C2v Disphenoid Geometry, and 11Li (A = 3--16)}}
+\label{sec:nuclear_packing}
+
+\subsection{\texorpdfstring{Deterministic Pure Two-Body Correlated-Gaussian Ledger ($A = 2, 3, 4$)}{Deterministic Pure Two-Body Correlated-Gaussian Ledger (A = 2, 3, 4)}}
+Expanding all calibrated $A = 2$ spherical channels uniformly into a 28-Gaussian bank (unweighted worst-case RMS fit residual $6.3825\text{ MeV}$ near the short-range $1/d^4$ wall, zero hand-chosen weight peaks) and diagonalizing the translation-invariant, fermionic-antisymmetrized \textbf{pure two-body} Hamiltonian in a deterministic, RNG-free, $pp \leftrightarrow nn$-symmetric $L = 0 \oplus L = 2$ Correlated-Gaussian + Solid-Harmonic basis~\cite{suzuki1998} yields Table~\ref{tab:a234_quantum}. Across $A = 2, 3, 4$:
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Exact 1D-to-3D Deuteron Consistency:} The 3D Correlated-Gaussian ground state matches the 1D banded solver to four digits ($E_d = -2.225\text{ MeV}$ vs.\ $-2.225\text{ MeV}$).
+    \item \textbf{$A = 3$ Mirror Energy Ordering and Splitting:} Whereas static minimization without antisymmetrization places $^3\text{He}$ slightly below $^3\text{H}$ ($-395.88$ vs.\ $-388.51\text{ MeV}$), quantum zero-point kinetic energy, fermionic antisymmetrization, and finite-size $p\text{--}p$ Coulomb repulsion yield $E(^3\text{H}) = \mathbf{-6.116\text{ MeV}} < E(^3\text{He}) = \mathbf{-5.475\text{ MeV}}$, reproducing $84\%$ of the empirical mirror splitting ($\Delta E = +0.641\text{ MeV}$ vs.\ $+0.764\text{ MeV}$) and $72\%$ of the triton binding energy with zero three-body parameters.
+    \item \textbf{$^4\text{He}$ Pair-Distance Hierarchy and Multi-Body Strain-Volume Gap:} The unbiased $pp \leftrightarrow nn$ CG basis binds $^4\text{He}$ at $E(^4\text{He}) = -13.853\text{ MeV}$ ($P_D = 9.3\%$) and reproduces the empirical RMS pair-distance ordering $d_{pp} = 3.334\text{ fm} > d_{nn} = 3.309\text{ fm} > d_{pn} = 3.203\text{ fm}$. Comparing the remaining pure-$2N$ gap against experiment shows $-2.37\text{ MeV}$ in $^3\text{H}$ ($\binom{3}{3} = 1$ triplet) versus $-14.44\text{ MeV}$ in $^4\text{He}$ ($\binom{4}{3} = 4$ triplets), corresponding to the omitted non-linear multi-body compliance terms of $-\sqrt{1 - \Delta P/P_c}$~\cite{bairmosheh2026} and the 3D non-spherical $C_{2v}$ orientation lock averaged out by $4\pi$ spherical channel projection.
+\end{enumerate}
+
+\begin{table}[!htbp]
+\centering
+\caption{Pure Two-Body $A = 2, 3, 4$ Quantum Observables at $(L_p = 8.1195\text{ fm}, L_n = 8.1083\text{ fm}, r_\pi = 1.43877\text{ fm})$ (Zero $3N$ Fits).}
+\label{tab:a234_quantum}
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.31\textwidth} c c >{\raggedright\arraybackslash}X}
+\toprule
+System \& Quantum Observable & Computed & Exp.\ Ref. & Status / Diagnostic \\
+\midrule
+$^2\text{H}$ $E_d$ (1D Banded / 3D CG) $[\text{MeV}]$ & $\mathbf{-2.225 / -2.225}$ & $-2.22457$ & Calibrated $A = 2$ ($28$-Gaussian SOG check) \\
+$^2\text{H}$ $Q_d\;[\text{fm}^2]$ \& $r_d\;[\text{fm}]$ & $+0.2858 / 2.128$ & $+0.2859 / 2.128$ & Calibrated $A = 2$ \\
+$^2\text{H}$ Asymptotic $\eta_{D/S}$ \& $P_D$ & $+0.0233 / \mathbf{5.04\%}$ & $+0.0256(4) / {\sim}5\%$ & Untuned ($\widetilde{G}'$ tail attenuation on $\eta_{D/S}$) \\
+$^2\text{H}$ $\mu_d\;[\mu_N]$ (emp / mod $\mu_{p,n}$) & $\mathbf{+0.8511} / +1.1592$ & $+0.85744$ & Untuned $D$-wave check ($-0.74\%$) \\
+$^1S_0$ $a_{np}$ (cal) \& $a_{nn}\;[\text{fm}]$ & $-23.74 / -28.5$ & $-23.74 / -18.9$ & Unbound ($0$ nodes); $+3.1\text{ MeV}$ CIB open \\
+$^1S_0$ $a_{pp}^{\mathrm{strong}}$ \& $r_{0s}\;[\text{fm}]$ & $-38.0 / \mathbf{3.11}$ & $-17.3 / 2.75$ & $\widetilde{G}'$ range compression ($4.00\to 3.11\text{ fm}$) \\
+$^3\text{H}$ Triton $E\;[\text{MeV}]$ ($r_E\;[\text{fm}]$) & $\mathbf{-6.116}$ ($2.089$) & $-8.482$ ($1.759$) & Pure $2N$ ($72\%$ of $E$; $\Delta V_\tau^{(3N)}$ open) \\
+$^3\text{He}$ Helion $E\;[\text{MeV}]$ ($r_E\;[\text{fm}]$) & $\mathbf{-5.475}$ ($2.346$) & $-7.718$ ($1.966$) & Mirror split $\mathbf{+0.641\text{ MeV}}$ (exp $+0.764$) \\
+$^4\text{He}$ Alpha $E\;[\text{MeV}]$ ($r_E\;[\text{fm}]$) & $-13.853$ ($2.126$) & $-28.296$ ($1.676$) & Pure $2N$, $P_D = 9.3\%$ ($\Delta V_\tau^{(3N,4N)}$ open) \\
+$^4\text{He}$ RMS $(d_{pp}, d_{nn}, d_{pn})\;[\text{fm}]$ & $\mathbf{(3.334, 3.309, 3.203)}$ & $d_{pp} > d_{nn} > d_{pn}$ & Exact hierarchy in unbiased CG basis \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{\texorpdfstring{Exact Multipole Cancellation of the $C_{2v}$ Disphenoid vs.\ Rival $A = 4$ Topologies}{Exact Multipole Cancellation of the C2v Disphenoid vs. Rival A = 4 Topologies}}
+Assigning two protons and two neutrons to the four rotation matrices of the single-cube Klein four-group $V_4 = \{I, R_\pi^{(x)}, R_\pi^{(y)}, R_\pi^{(z)}\} \subset SO(3)$ leaves a non-zero net outer-tangent sum because $b_{u,p} = \frac{\sqrt{2}}{6}$ ($109.47^\circ$) and $b_{u,n} = \frac{\sqrt{2}}{3}$ ($90.0^\circ$) have distinct axial slopes:
+\begin{equation}
+    \left|\sum_{a=1}^4\sum_{k=1}^3 \mathbf{T}_k^{(a)}\right|_{V_4} = \frac{2(\sqrt{3} - 1)}{\sqrt{3}} = \mathbf{0.845299} \neq 0.
+    \label{eq:v4_tangent_leak}
+\end{equation}
+
+\begin{proposition}[Exact Vector Multipole Cancellation of the $C_{2v}$ Skew-Paired Disphenoid]
+\label{prop:c2v_disphenoid}
+Place the two protons along an upper ridge $\mathbf{R}_{p1,p2} = (\pm x_p, \pm x_p, +z_0)$ with antiparallel spin axes $\hat{\mathbf{s}}_{p1} = -\hat{\mathbf{s}}_{p2} = \frac{1}{\sqrt{2}}(-1,+1,0)$ and the two neutrons along the orthogonal lower ridge $\mathbf{R}_{n1,n2} = (\pm x_n, \mp x_n, -z_0)$ with $\hat{\mathbf{s}}_{n1} = -\hat{\mathbf{s}}_{n2} = \frac{1}{\sqrt{2}}(+1,+1,0)$. For arbitrary $L_p \neq L_n$, $r_{t,p} \neq r_{t,n}$, and $F_{111}(p^+) \neq F_{111}(n^0)$, pairing each species with its own $180^\circ$-opposing partner yields exact vector cancellation (numerical residual $0.00 \times 10^0$):
+\begin{equation}
+    \sum_{a=1}^4 \hat{\mathbf{s}}_a = \mathbf{0}, \qquad
+    \sum_{a=1}^4 F_{111,a}\hat{\mathbf{s}}_a = \mathbf{0}, \qquad
+    \sum_{a=1}^4 \mathbf{T}_{\mathrm{tor},a} = \mathbf{0}, \qquad
+    \Sigma_{\mathrm{tensor}} = +1.00.
+    \label{eq:c2v_exact_nulls}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Because $\hat{\mathbf{s}}_{p1} + \hat{\mathbf{s}}_{p2} = \mathbf{0}$ and $\hat{\mathbf{s}}_{n1} + \hat{\mathbf{s}}_{n2} = \mathbf{0}$ vanish separately within each isospin pair, every species-dependent axial vector $c(\tau_3)\hat{\mathbf{s}}_a$ sums to $\mathbf{0}$, while the four skew $90^\circ$ $p\text{--}n$ edges place the identical-fermion ridges on orthogonal planes.
+\end{proof}
+
+Evaluating all six candidate 4-nucleon geometries at equal nearest-neighbor spacing $d_{NN} = 1.75\text{ fm}$ (Table~\ref{tab:a4_6modes}) places the $C_{2v}$ disphenoid ($-363.66\text{ MeV}$) $81.8\text{--}267.4\text{ MeV}$ below every planar, $V_4$-cubic, colinear, and radial alternative. Relaxing to exact pairwise hard-wall contact~(\ref{eq:exact_quadratic_touch}) yields static $V_{2N}(^3\text{H}) = -388.51\text{ MeV}$ ($\min d_{12} = 0.2677\text{ fm}$, $d/(r_i+r_j) = 1.1037$), $V_{2N}(^3\text{He}) = -395.88\text{ MeV}$ ($\min d_{12} = 0.2427\text{ fm}$, $1.0002$), four-neutron disphenoid $V_{2N}(^4n) = -472.53\text{ MeV}$ ($\min d_{12} = 0.2425\text{ fm}$), and $^4\text{He}$ $V_{2N} = \mathbf{-566.3490\text{ MeV}}$ ($\min d/(r_i+r_j) = 1.0000$, Tables~\ref{tab:he4_pairs}--\ref{tab:he4_1d}). Adding a fifth neutron at the center of $^4\text{He}$ yields $\mathbf{100.1\%}$ wall-normalized spin-wake saturation ($V_{\mathrm{wake}}(^4\text{He}) = 5.604\text{ fm}^3 \to V_{\mathrm{wake}}(^5\text{He}) = 5.603\text{ fm}^3$ vs.\ $V_{\mathrm{wake}}(1n) = 1.256\text{ fm}^3$), matching the absence of bound $A = 5$ states.
+
+Across $s_p \in [0, L_p)$ ($L_p = 8.1195\text{ fm}$) and $s_n \in [0, L_n)$ ($L_n = 8.1083\text{ fm}$) in $^4\text{He}$, the partner line-density $\varepsilon_{a\leftarrow b}(s_a) \equiv \oint_0^{L_b} v_{ab}(s_a, s_b)\,\dd s_b$ and nucleon half-share $\mathcal{E}_a(s_a) \equiv \frac{1}{2}\sum_{b\neq a}\varepsilon_{a\leftarrow b}(s_a)$ satisfy exact 4-tube conservation:
+\begin{equation}
+    2\oint_0^{L_p} \mathcal{E}_{p1}(s_p)\,\dd s_p + 2\oint_0^{L_n} \mathcal{E}_{n1}(s_n)\,\dd s_n = -566.3490\text{ MeV} \equiv \sum_{1 \le a < b \le 4} V_{ab} \quad \big(\text{diff } 0.00 \times 10^0\text{ MeV}\big),
+    \label{eq:he4_4tube_conservation}
+\end{equation}
+with the four node-free $90^\circ$ $p\text{--}n$ skew-bevels contributing \textbf{$81.8\%$ ($-463.26\text{ MeV}$)} of $^4\text{He}$'s static well and reaching $-56.41\text{ MeV/fm}$ ($p_1$) and $-47.59\text{ MeV/fm}$ ($n_1$) in the interior core pockets (Table~\ref{tab:he4_1d}).
+
+\begin{table}[!htbp]
+\centering
+\caption{Equal-Spacing ($d_{NN} = 1.75\text{ fm}$) Static Continuum Comparison Across Candidate 4-Nucleon Topologies ($2p + 2n$).}
+\label{tab:a4_6modes}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.38\textwidth} r r >{\raggedright\arraybackslash}X}
+\toprule
+4-Nucleon Architecture ($d_{NN} = 1.75\text{ fm}$) & $\min d_{12}\;[\text{fm}]$ & Static $V_{2N}\;[\text{MeV}]$ & Geometric / Spin Diagnostic \\
+\midrule
+1. 3D $C_{2v}$ Disphenoid Swirl ($0^+$) & $0.3261$ & $\mathbf{-363.66}$ & $4$ skew $90^\circ$ $p\text{--}n$ bevels + $2$ $S=0$ ridges ($\Sigma_{\mathrm{tensor}}=+1$) \\
+2. $2\times 2$ Planar Singlet Square ($0^+$) & $0.2886$ & $-250.99$ & Stretches $2$ diagonal pairs to $\sqrt{2}\,d_{NN}$ \\
+3. $2\times 2$ Planar Antiparallel ($0^+$) & $0.2774$ & $-226.39$ & $2$ coaxial $S=1$ dimers coupled equatorially \\
+4. 3D $V_4$ Sub-Lattice Node ($0^+$) & $0.5068$ & $-281.86$ & Non-zero net outer tangent sum ($0.8453 \neq 0$) \\
+5. $1\times 4$ Coaxial Linear Chain ($2^+$) & $1.2629$ & $-145.13$ & Loses $3$ non-adjacent pair bonds \\
+6. 3D Radial Hedgehog ($0^+$) & $0.6673$ & $-96.29$ & Radial spin opposition ($\Sigma_{\mathrm{tensor}}=-4$) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Exact-Contact $^4\text{He}$ $C_{2v}$ Disphenoid 6-Pair Channel Ledger ($V_{2N} = -566.3490\text{ MeV}$, $\min d_{12}/(r_{t,i}+r_{t,j}) = 1.0000$).}
+\label{tab:he4_pairs}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r r r r r r r r r @{}}
+\toprule
+Disphenoid Pair & $d_{\mathrm{cm}}$ & $\dmin$ & $r_i+r_j$ & $V_{S2\pi}$ & $V_{M1\pi}$ & $V_{B4}$ & $V_{c\mathrm{FB}+C}$ & $V_{\mathrm{pair}}\;[\text{MeV}]$ & Share \\
+\midrule
+$p_1\text{--}p_2$ (Upper $S=0$ Ridge) & $1.91$ & $0.4601$ & $0.2428$ & $-67.25$  & $-29.42$ & $+26.65$ & $+10.28$ & $-59.74$  & $10.5\%$ \\
+$p_1\text{--}n_1$ (Lateral $90^\circ$ Bevel) & $1.35$ & $0.2427$ & $0.2427$ & $-142.37$ & $-47.24$ & $+74.13$ & $+0.00$  & $-115.47$ & $20.4\%$ \\
+$p_1\text{--}n_2$ (Lateral $90^\circ$ Bevel) & $1.35$ & $0.2428$ & $0.2427$ & $-142.44$ & $-47.49$ & $+73.78$ & $+0.00$  & $-116.16$ & $20.5\%$ \\
+$p_2\text{--}n_1$ (Lateral $90^\circ$ Bevel) & $1.35$ & $0.2428$ & $0.2427$ & $-142.44$ & $-47.49$ & $+73.78$ & $+0.00$  & $-116.16$ & $20.5\%$ \\
+$p_2\text{--}n_2$ (Lateral $90^\circ$ Bevel) & $1.35$ & $0.2427$ & $0.2427$ & $-142.37$ & $-47.24$ & $+74.13$ & $+0.00$  & $-115.47$ & $20.4\%$ \\
+$n_1\text{--}n_2$ (Lower $S=0$ Ridge) & $1.91$ & $0.6457$ & $0.2425$ & $-52.70$  & $-14.22$ & $+16.06$ & $+7.51$  & $-43.35$  & $7.7\%$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Complete 12-Station Uncoiled 1D Line-Density Profiles $\varepsilon_{a\leftarrow b}(s)$ and Half-Shares $\mathcal{E}_a(s)$ $[\text{MeV/fm}]$ Along $p_1$ ($L_p = 8.1195\text{ fm}$) and $n_1$ ($L_n = 8.1083\text{ fm}$) in $^4\text{He}$.}
+\label{tab:he4_1d}
+\scriptsize
+\setlength{\tabcolsep}{3.6pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} c r r r r r r r r l @{}}
+\toprule
+ & \multicolumn{4}{c}{Proton-1 ($p_1$, $\oint\mathcal{E}_{p1}\dd s_p = -145.69\text{ MeV}$)} & \multicolumn{4}{c}{Neutron-1 ($n_1$, $\oint\mathcal{E}_{n1}\dd s_n = -137.49\text{ MeV}$)} & \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+$s_p / s_n\;[\text{fm}]$ & $\varepsilon(p_2)$ & $\varepsilon(n_1)$ & $\varepsilon(n_2)$ & $\mathcal{E}_{p1}(s_p)$ & $\varepsilon(p_1)$ & $\varepsilon(p_2)$ & $\varepsilon(n_2)$ & $\mathcal{E}_{n1}(s_n)$ & Structural Zone \\
+\midrule
+$0.00 / 0.00$ & $+2.11$  & $-3.75$  & $-1.77$  & $-1.70$  & $-5.31$  & $-17.19$ & $-2.81$  & $-12.66$ & Ridge Transition \\
+$0.68 / 0.68$ & $-12.21$ & $-20.03$ & $-18.32$ & $-25.28$ & $-24.35$ & $-27.76$ & $-16.09$ & $-34.10$ & Secondary Core Contact \\
+$1.35 / 1.35$ & $-11.30$ & $-25.88$ & $-23.21$ & $-30.19$ & $-21.07$ & $-18.57$ & $-7.32$  & $-23.48$ & Inner Throat Passage \\
+$2.03 / 2.03$ & $-19.05$ & $-16.57$ & $-23.81$ & $-29.72$ & $-13.57$ & $-16.93$ & $-5.01$  & $-17.75$ & Bevel Flank \\
+$2.71 / 2.70$ & $+0.61$  & $-3.66$  & $-6.75$  & $-4.90$  & $-1.69$  & $+0.64$  & $+1.67$  & $+0.31$  & Lobe-2 Apex Entry \\
+$3.38 / 3.38$ & $+3.59$  & $+0.27$  & $-0.61$  & $+1.62$  & $-2.46$  & $-1.11$  & $+0.96$  & $-1.31$  & Outer Return Arch \\
+$4.06 / 4.05$ & $-0.93$  & $-10.27$ & $-9.73$  & $-10.47$ & $-17.41$ & $-9.91$  & $-4.59$  & $-15.96$ & Mid-Loop Throat \\
+$4.74 / 4.73$ & $-6.68$  & $-5.48$  & $-15.46$ & $-13.81$ & $-22.90$ & $-29.38$ & $-13.49$ & $-32.89$ & Core Approach \\
+$5.41 / 5.41$ & $-31.75$ & $-40.53$ & $-40.55$ & $\mathbf{-56.41}$ & $-41.01$ & $-36.07$ & $-18.10$ & $\mathbf{-47.59}$ & Primary Core Pocket \\
+$6.09 / 6.08$ & $-14.33$ & $-21.24$ & $-13.49$ & $-24.53$ & $-12.04$ & $-4.38$  & $-0.59$  & $-8.51$  & Core Exit Flank \\
+$6.77 / 6.76$ & $-2.49$  & $-14.60$ & $-9.06$  & $-13.08$ & $-9.56$  & $-7.91$  & $-2.15$  & $-9.81$  & Throat-3 Return \\
+$7.44 / 7.43$ & $+2.78$  & $-1.12$  & $-0.28$  & $+0.69$  & $+2.59$  & $-1.73$  & $+2.77$  & $+1.81$  & Outer Return Arch \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\subsection{\texorpdfstring{Deductive Alpha-Cluster Equilibria ($^8\text{Be}\text{--}{}^{12}\text{C}$) and $V_4 \subset SO(3)$ Control Tests for $^{16}\text{O}$}{Deductive Alpha-Cluster Equilibria (8Be--12C) and V4 Control Tests for 16O}}
+Inheriting the rigid $^4\text{He}$ disphenoid from Section~12.2 with zero refitted parameters and enforcing inter-cluster pairwise contact ($d_{12} \ge r_{t,i} + r_{t,j}$) evaluates multi-$\alpha$ static equilibria across $^8\text{Be}$, $^9\text{Be}$, $^{12}\text{C}$, and the three Klein four-group ($V_4 \subset T \subset SO(3)$) tetrahedral orbits of $^{16}\text{O}$ (Table~\ref{tab:alpha_macro}). Inserting a mediating neutron between two $\alpha$ blocks ($^9\text{Be}$) expands $R_{\alpha\alpha}^*$ from $1.33\text{ fm}$ to $1.57\text{ fm}$ while deepening inter-cluster attraction by $-85.14\text{ MeV}$ ($-657.88 \to -743.02\text{ MeV}$). Under universal flux $\Phi_0$ ($\eta_p = \eta_n = 1$), $^{16}\text{O}$'s \emph{Protons-Inward} ($-1005.15\text{ MeV}$, $R_{\alpha\alpha}^* = 2.43\text{ fm}$) and \emph{Neutrons-Inward} ($-1000.37\text{ MeV}$, $2.44\text{ fm}$) orbits become nearly degenerate while \emph{Axis-Parallel} ridge alignment reaches $-1401.60\text{ MeV}$ ($2.44\text{ fm}$); in all cases, converting static two-body wells into empirical cluster spacings ($R_{\alpha\alpha} \approx 3\text{ fm}$ in $^8\text{Be}$) requires Wildermuth--Saito $(1s)^2(1p)^6$ fermionic radial nodes ($2n_r + L \ge 4$)~\cite{wildermuth1977}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Deductive Static Inter-Cluster Equilibria of Inherited $^4\text{He}$ Blocks ($d_{12}/(r_{t,i}+r_{t,j}) \ge 1.0000$, Zero Classical Pauli Terms).}
+\label{tab:alpha_macro}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.31\textwidth} r r r r >{\raggedright\arraybackslash}X}
+\toprule
+Cluster Architecture & $R_{\alpha\alpha}^*\;[\text{fm}]$ & $\min d_{12}$ & $\frac{\dmin}{r_i+r_j}$ & Static $V_{\mathrm{inter}}\;[\text{MeV}]$ & Control Diagnostic \\
+\midrule
+$^8\text{Be} = 2\alpha$ ($SO(3)$-relaxed dimer) & $1.33$ & $0.2450$ & $1.0097$ & $-657.88$ & Static dimer ($2n_r + L = 4$ node omitted) \\
+$^9\text{Be} = \alpha + n + \alpha$ (free $n$-mediator) & $1.57$ & $0.2427$ & $1.0000$ & $\mathbf{-743.02}$ & $-85.14\text{ MeV}$ mediator gain vs.\ $^8\text{Be}$ \\
+$^{12}\text{C} = 3\alpha$ ($C_3$ Euler-relaxed ring) & $1.88$ & $0.2429$ & $1.0009$ & $-919.53$ & $3\times$ inter-$\alpha$ ring closure \\
+$^{16}\text{O} = 4\alpha$ ($V_4$ Axis-Parallel) & $2.44$ & $0.2425$ & $1.0000$ & $-1401.60$ & $6$-edge orthogonal ridge alignment \\
+$^{16}\text{O} = 4\alpha$ ($V_4$ Protons-Inward) & $2.43$ & $0.2425$ & $1.0000$ & $-1005.15$ & Near-degenerate with Neutrons-Inward \\
+$^{16}\text{O} = 4\alpha$ ($V_4$ Neutrons-Inward) & $2.44$ & $0.2425$ & $1.0000$ & $-1000.37$ & Interior $n^0$ core + exterior $p^+$ shell \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{\texorpdfstring{Comparative 55-Pair 11-Tube Cluster Ledger of $^{11}\text{Li}$ ($3p + 8n$)}{Comparative 55-Pair 11-Tube Cluster Ledger of 11Li (3p + 8n)}}
+For $^{11}\text{Li}$ ($Z = 3, N = 8$, $\binom{11}{2} = 55$ pairs: $3\;p\text{--}p$, $24\;p\text{--}n$, $28\;n\text{--}n$), $Z = 3$ precludes a $2\alpha$ core ($Z \ge 4$), leaving two structural families: \textbf{$3\times(1p+2n) + 2n$} (a $C_3$ three-triton ring plus two valence neutrons) versus a single $\alpha(2p+2n)$ paired with $^3\text{H}(1p+2n)$ and either two equatorial $(2n)_{S=0}$ dimers or a $^4n$ disphenoid. For any eight neutron spin unit vectors $\hat{\mathbf{s}}_1,\dots,\hat{\mathbf{s}}_8 \in S^2$, the 28 $n\text{--}n$ triplet weights obey
+\begin{equation}
+    \sum_{1 \le i < j \le 8} P_{S=1}^{(ij)} = \sum_{1 \le i < j \le 8} \frac{1 + \hat{\mathbf{s}}_i\cdot\hat{\mathbf{s}}_j}{2} = 12 + \frac{1}{4}\left|\sum_{i=1}^8 \hat{\mathbf{s}}_i\right|^2 \ge 12.0.
+    \label{eq:8n_frustration}
+\end{equation}
+Evaluating all 55 filament-pair integrals simultaneously under exact pairwise contact ($\min d_{12}/(r_{t,i}+r_{t,j}) \ge 1.0000$, Tables~\ref{tab:li11_ledger}--\ref{tab:li11_11tubes}) identifies \textbf{Architecture 1A ($3\times(1p+2n)$ joined by a central axial $2n$ bridge at $(0, 0, \pm 1.12\text{ fm})$)} as the global static minimum at $\mathbf{-2409.2\text{ MeV}}$, lying **$410.9\text{ MeV}$ below peripheral equatorial placement (1B, $-1998.3\text{ MeV}$)** and $439.0\text{--}571.1\text{ MeV}$ below $\alpha$-based partitions. Rather than floating disconnected outside the nucleus, the two bridge neutrons $n_{p1}, n_{p2}$ (antiparallel spins $(\pm 1, 0, 0)$) occupy the central symmetry axis on opposite sides of the $3t$ ring, coupling directly to the three inward-turned core neutrons $n_{2,t1}, n_{2,t2}, n_{2,t3}$ via $-78.3$ to $-93.7\text{ MeV}$ bridges while keeping the three protons isolated on an outer $\sim 3.1\text{ fm}$ triangle (pure Coulomb $V_{pp} = +4.1\text{ MeV}$) and preserving all three coaxial $S = 1$ $p\text{--}n$ pairs ($3 \times -264.5 = -793.5\text{ MeV}$). Removing one axial bridge neutron leaves $^{10}\text{Li}$ unbound for lack of symmetric polar closure and $S = 0$ pairing, whereas in $^{11}\text{Li}$ quantum zero-point motion and fermionic radial orthogonality against the $N = 6$ core leave net two-neutron separation energy $S_{2n} = 0.369\text{ MeV}$—producing a wide evanescent axial wavefunction tail ($\kappa^{-1} = \hbar/\sqrt{2\mu S_{2n}} \approx 5.4\text{ fm}$) anchored directly in the central axial bridge \textbf{1A}~\cite{tanihata1985,tanihata2013}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Comparative 55-Pair 11-Tube $^{11}\text{Li}$ ($Z = 3, N = 8$) Cluster Energy Ledger ($\min d_{12}/(r_{t,i}+r_{t,j}) \ge 1.0000$).}
+\label{tab:li11_ledger}
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r r r r c c r @{}}
+\toprule
+11-Tube Cluster Architecture ($3p + 8n$) & Static $V_{55}$ & $V_{pp}\;[\text{MeV}]$ & $V_{pn}\;[\text{MeV}]$ & $V_{nn}\;[\text{MeV}]$ & $\min\frac{d_{12}}{r_i+r_j}$ & $\sum P_{S=1}^{(nn)}$ & $R_{\mathrm{cm}}\;[\text{fm}]$ \\
+\midrule
+\textbf{1A. $3\times(1p+2n)$ + Central $2n$ Bridge} & $\mathbf{-2409.2}$ & $+4.1$   & $-1346.4$ & $-1066.9$ & $1.0000$ & $12.0$ & $1.50$ \\
+1B. $3\times(1p+2n)$ + Outer Equatorial $(2n)_{S=0}$ & $-1998.3$ & $+4.1$   & $-1288.5$ & $-713.9$  & $1.0001$ & $12.0$ & $1.77$ \\
+2. $^4\text{He} + {}^3\text{H} + 2\times\text{Equatorial }(2n)_{S=0}$ & $-1970.2$ & $-86.1$  & $-1195.0$ & $-689.1$  & $1.0000$ & $12.0$ & $1.56$ \\
+3. $^4\text{He} + {}^4n\text{-Disphenoid} + {}^3\text{H}$ & $-1838.1$ & $-113.8$ & $-923.4$  & $-801.0$  & $1.0000$ & $12.0$ & $1.82$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{11-Tube Spatial Coordinates, Spin Axes, Half-Shares, and Principal Partner Couplings in Global Minimum \textbf{1A} ($3t + \text{Central }2n$).}
+\label{tab:li11_11tubes}
+\scriptsize
+\setlength{\tabcolsep}{3.8pt}
+\renewcommand{\arraystretch}{1.14}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l c c r r r l @{}}
+\toprule
+Tube & Block & Center $(x,y,z)\;[\text{fm}]$ & Spin $(\hat{s}_x,\hat{s}_y,\hat{s}_z)$ & $V_{\text{w/}p}$ & $V_{\text{w/}n}$ & $\frac{1}{2}\text{-Share}\;[\text{MeV}]$ & Top-2 Partner Bonds $[\text{MeV}]$ \\
+\midrule
+$p_{1,t1}$ & $t_1$  & $(+1.76,-0.35,-0.38)$ & $(-0.03,+0.02,+1.00)$ & $+2.7$   & $-427.3$ & $-212.29$ & $n_{1,t1}(-264.5),\; n_{2,t1}(-63.7)$ \\
+$n_{1,t1}$ & $t_1$  & $(+1.74,-0.33,+0.38)$ & $(-0.03,+0.02,+1.00)$ & $-264.3$ & $-159.4$ & $-211.86$ & $p_{1,t1}(-264.5),\; n_{2,t1}(-60.3)$ \\
+$n_{2,t1}$ & $t_1$  & $(+0.58,+0.68,-0.00)$ & $(+0.03,-0.02,-1.00)$ & $-137.8$ & $-373.9$ & $-255.85$ & $n_{p1}(-93.7),\; n_{p2}(-87.8)$ \\
+$p_{1,t2}$ & $t_2$  & $(-0.58,+1.70,-0.38)$ & $(-0.01,-0.03,+1.00)$ & $+2.7$   & $-456.5$ & $-226.89$ & $n_{1,t2}(-264.5),\; n_{2,t2}(-63.7)$ \\
+$n_{1,t2}$ & $t_2$  & $(-0.58,+1.67,+0.38)$ & $(-0.01,-0.03,+1.00)$ & $-264.3$ & $-185.2$ & $-224.75$ & $p_{1,t2}(-264.5),\; n_{2,t2}(-60.3)$ \\
+$n_{2,t2}$ & $t_2$  & $(-0.88,+0.16,-0.00)$ & $(+0.01,+0.03,-1.00)$ & $-137.8$ & $-266.3$ & $-202.04$ & $p_{1,t2}(-63.7),\; p_{1,t3}(-63.3)$ \\
+$p_{1,t3}$ & $t_3$  & $(-1.18,-1.35,-0.38)$ & $(+0.03,+0.01,+1.00)$ & $+2.7$   & $-462.6$ & $-229.94$ & $n_{1,t3}(-264.5),\; n_{2,t3}(-63.7)$ \\
+$n_{1,t3}$ & $t_3$  & $(-1.16,-1.34,+0.38)$ & $(+0.03,+0.01,+1.00)$ & $-264.3$ & $-186.8$ & $-225.59$ & $p_{1,t3}(-264.5),\; n_{2,t3}(-60.3)$ \\
+$n_{2,t3}$ & $t_3$  & $(+0.30,-0.84,-0.00)$ & $(-0.03,-0.01,-1.00)$ & $-137.8$ & $-356.1$ & $-246.93$ & $n_{p2}(-85.5),\; n_{p1}(-78.3)$ \\
+$n_{p1}$   & $p_{\mathrm{up}}$ & $(+0.00,-0.00,+1.12)$ & $(+1.00,+0.00,+0.00)$ & $-39.6$  & $-330.5$ & $-185.03$ & $n_{2,t1}(-93.7),\; n_{2,t3}(-78.3)$ \\
+$n_{p2}$   & $p_{\mathrm{dn}}$ & $(+0.00,-0.00,-1.12)$ & $(-1.00,-0.00,-0.00)$ & $-100.5$ & $-275.5$ & $-188.03$ & $n_{2,t1}(-87.8),\; n_{2,t3}(-85.5)$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+% ======================================================================
+% SECTION 13
+% ======================================================================
+\section{Framework Comparison, Open Continuum Frontiers, and Master Ledger}
+\label{sec:master_summary}
+
+\subsection{\texorpdfstring{Methodological Comparison with Lattice QCD (+QED) and Chiral EFT ($\chi$EFT)}{Methodological Comparison with Lattice QCD (+QED) and Chiral EFT}}
+\label{sec:lqcd_chieft}
+Table~\ref{tab:framework_comparison} contrasts the parameter structure, scope, and rigid-filament approximations of the V3.2 $(2,3)$ trefoil formulation against Lattice QCD and Chiral Effective Field Theory:
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Lattice QCD (+QED) vs.\ Analytic 2D Torus Geometry:} Lattice QCD discretizes the 4D Euclidean path integral across $10^8\text{--}10^9$ variables from $4\text{--}5$ Standard Model couplings ($g_s, m_u, m_d, m_s, \alpha$)~\cite{borsanyi2015}, resolving cross-sectional deformation and meson-cloud polarization to $\sim 1\%$ (compared to $0.93\%\text{--}7.57\%$ on zero-knob circular-torus $A = 1$ moments and radii here), while encountering the exponential Parisi--Lepage signal-to-noise barrier $\mathrm{S/N}(\tau) \propto \exp[-A(M_N - \frac{3}{2}m_\pi)\tau/\hbar]$~\cite{parisi1984} for $A \ge 2$.
+    \item \textbf{Chiral Effective Field Theory ($\chi$EFT) vs.\ Four-Coupling $A \ge 2$ Continuum Extrapolation:} $\chi$EFT takes $A = 1$ observables as external inputs and fits $\sim 25\text{--}32$ Low-Energy Constants (LECs)~\cite{weinberg1990}, achieving $< 1\%$ few-body accuracy via three terms not yet included in the present static single-$r_\pi$ rigid-centerline kernel: (i) $\pi^\pm\text{--}\pi^0$ Yukawa range splitting ($\Delta m_\pi$) and opposite-chirality twist coupling in $^1S_0$, (ii) momentum-dependent ($q^2$) core deformation, and (iii) explicit three-nucleon ($3N$) operators.
+\end{enumerate}
+
+\begin{table}[!htbp]
+\centering
+\caption{Methodological Comparison Across Strong-Interaction and Nuclear Structure Frameworks.}
+\label{tab:framework_comparison}
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.23\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
+\toprule
+Criterion & Lattice QCD (+QED) & Chiral EFT (N$^3$LO) & V3.2 $(2,3)$ Trefoil Continuum \\
+\midrule
+Fitted Parameters & $4\text{--}5$ ($g_s, m_u, m_d, m_s, \alpha$) & ${\sim}25\text{--}32$ LECs + $g_A, f_\pi, m_\pi$ & \textbf{0} ($A=1$); \textbf{4} ($A=2$), \textbf{0} hadron scales \\
+$A = 1$ Nucleon Structure & ${\sim}1\%$ (4D Euclidean PDE) & Empirical input (not predicted) & $\mathbf{0.93\%\text{--}7.57\%}$ (circular 2D torus) \\
+$p^+$ vs.\ $n^0$ Scale Relation & External Yukawa $m_d - m_u$ & External $c_5$ LEC & $V_{r_c}V_\tau^3=\text{const}$ ($L_p=8.12 > L_n=8.11\text{ fm}$) \\
+$A = 2, 3, 4$ Quantum Binding & Exponential S/N barrier & $< 1\%$ (fitted $3N$ $c_D, c_E$) & Pure $2N$: $^3\text{H}=-6.12$, $\Delta E_3=+0.64\text{ MeV}$ \\
+$A = 8\text{--}16$ Cluster Geometry & Computationally prohibitive & Ab-initio NCSD / Lattice EFT & Pairwise-contact $2\alpha\text{--}4\alpha$ \& central-$2n$ $^{11}\text{Li}$ \\
+Compute Cost & $10^6\text{--}10^8$ GPU-hours & $10^2\text{--}10^5$ CPU-hours & ${\sim}2.8\text{ min}$ on $1$ CPU; closed-form \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Open 3D Continuum PDE Frontiers and Audited Master Quantitative Ledger}
+\label{sec:scope_ledger}
+Inverting the remaining discrepancies between Table~\ref{tab:master_ledger} and experiment isolates five well-posed continuum calculations beyond Part~I's static circular-filament baseline (two of which are resolved directly in Part~II):
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{$Q^2$-Dependent Penetration of Exterior Screening ($Q^2 \ge 1\text{ GeV}^2$):} Incorporating dynamic curvature shift $K_{\mathrm{total}}^2 = K_0^2 + (p/\hbar)^2$~\cite{bairmosheh2026} so $F_1^p(Q^2)$ transitions smoothly from $Q^2 = 0$ outer-apex Laplace induction ($r_E = 0.8195\text{ fm}$) to short-wavelength interior curvature-pressure scattering without a static shell diffraction zero.
+    \item \textbf{3D Free-Boundary Crossing Equilibrium ($\Delta U_{\mathrm{mech}}, \mu_p + \mu_n$):} Solving the 3D Navier--Cauchy/Bernoulli stress balance across the six $90^\circ$ crossings to evaluate $\Delta U_{\mathrm{mech}}(n - p) = +2.159\text{ MeV}$ and cross-sectional ovalization (accounting for the $+0.167\,\mu_N$ per-nucleon circular-torus isoscalar offset).
+    \item \textbf{Isospin-Opposing $^1S_0$ Shift ($+3.1\text{ MeV}$ on $n\text{--}n$, $+5.7\text{ MeV}$ on $p\text{--}p$):} Coupling opposite-sign ribbon twist ($Tw_{\mathrm{rib}}(n) = -0.0995$ vs.\ $Tw_{\mathrm{rib}}(p) = +0.1447$), dipolar Neumann modes ($j_1'(x'_{1,1}) = 0$), and $\pi^\pm\text{--}\pi^0$ Yukawa range splitting to move $(a_{nn}, a_{pp}^{\mathrm{strong}})$ onto $(-18.9, -17.3)\text{ fm}$.
+    \item \textbf{Cooperative Multi-Body Strain-Volume Release ($\Delta V_\tau^{(3N,4N)}$):} Retaining the non-linear compliance curvature of $-\sqrt{1 - \sum_a \Delta P_a/P_c}$ inside the quantum solver to supply the $-2.37\text{ MeV}$ ($^3\text{H}$) and $-14.44\text{ MeV}$ ($^4\text{He}$) shared-basin binding energy \textit{[Resolved via $G_B \equiv 0$ and $\hat{T}_{\mathrm{ego}}$ in Part~II, Sections~\ref{sec:spring_velocity_cone}--\ref{sec:a2_to_a5_benchmarks}]}.
+    \item \textbf{Boundary Charge/Current Quantization and $A = 5\text{--}16$ Antisymmetrization:} Deriving $|Q| = 1$ and relativistic axial current normalization ($g_A/g_V = 1.2754$ vs.\ $\mathcal{M}_\perp = 0.78140$) directly from $\hat{U}_{\mu\nu}$, and enforcing $(1s)^4(1p)^{A-4}$ antisymmetrization plus odd-$L$ parity projection across light cluster nuclei \textit{[Resolved for $A = 5\text{--}15$ via $\hat{\Pi}_{ab}^+$ and Brink--L\"{o}wdin antisymmetrization in Sections~\ref{sec:parity_egometric}--\ref{sec:manybody_architectures}]}.
+\end{enumerate}
+
+\begin{table}[!htbp]
+\centering
+\caption{Audited Master Quantitative Ledger of the V3.2 $(2,3)$ Trefoil Continuum Model (Zero Empirical Hadronic Length Inputs).}
+\label{tab:master_ledger}
+\scriptsize
+\setlength{\tabcolsep}{3.8pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.31\textwidth} c c >{\raggedright\arraybackslash}X}
+\toprule
+Physical Observable & V3.2 $(2,3)$ Model & Experiment / Exact & Parameter Status / Diagnostic \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{\textbf{I. Exact $(2,3)$ Geometry, Inverse-Cube Relaxed Scales, \& Rheological Landmarks} ($V_{r_c}V_\tau^3 = \text{const}$, $r_{t,a} = \hbar c/(\sqrt{3}\,M_a)$)}} \\
+Outer Angles $(\theta_n, \theta_p)$ \& $|\Delta_{3_1}(-1)|$ & $90.00^\circ, 109.47^\circ;\; 3$ & Cube / Tet; $B = 1$ & Exact ($\mathcal{C}_u$ vs.\ $\mathcal{R}_{1/2}, \Delta_p, \mathcal{RD}_{\sqrt{2}}$) \\
+2-Lobe Meson $|\Delta(-1)|$ \& $|\mathbf{L}_{\mathrm{tot}}|$ & $1;\; 3.92 \times 10^{-16}$ & Unknot $B=0;\; J=0$ & Exact lobe cancellation $L_z = \mp 4/3$ \\
+Relaxed Lengths $(L_p, L_n)$ \& $\Rmax(p/n)$ & $8.1195 > 8.1083\text{ fm};\; +15.18\%$ & $V_\tau(p/n) = 0.998623$ & $p^+$ $+13.42\%$ un-jammed throat clearance \\
+Hookean Scale $U_{\mathrm{Hooke}}(r_e/3)$ \& $r_\pi$ & $137.15\text{ MeV};\; 1.4388\text{ fm}$ & $\bar{m}_\pi = 138.04\text{ MeV}$ & $0$ hadron inputs ($r_e = 2.8179\text{ fm}$ at $De=1$) \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{\textbf{II. Zero-Free-Parameter Single-Nucleon ($A = 1$) Sector} (1080-panel Laplace $w_{\mathrm{ind}}$ in $F_1$, unified $G_M = F_1 + F_2$)}} \\
+Charge Neutrality $|Q_p + Q_e|/e$ & $0$ (exact) & $< 10^{-21}$ & Antisymmetric divergence $\partial_\mu\partial_\nu\hat{U}^{[\mu\nu]}\equiv 0$ \\
+Isovector Moment $\mu_p - \mu_n$ & $\mathbf{+4.7497\,\mu_N}$ & $+4.705890\,\mu_N$ & $\mathbf{+0.93\%}$ ($0$ free params) \\
+Proton Magnetic Radius $r_M(p^+)$ & $\mathbf{0.7834\text{ fm}}$ & $0.776(34)\text{ fm}$ & $\mathbf{+0.95\%}$ ($0.22\sigma$, $w_{\mathrm{ind}}$ in $F_1$) \\
+Neutron $\langle r_E^2\rangle_n$ (Foldy) & $\mathbf{-0.11699\text{ fm}^2}$ & $-0.1155(17)\text{ fm}^2$ & $\mathbf{+1.29\%}$ ($0.88\sigma$, $\Phi_n = 0$ exact) \\
+Proton $r_E$ (Metric-Induced Br / Dr) & $\mathbf{0.8195} / 0.9090\text{ fm}$ & $0.84075(64)\text{ fm}$ & $\mathbf{-2.53\%}$ bare ($34.2\times$ apex shift) \\
+Cottingham Shift $\Delta U_{\mathrm{EM}}(n - p)$ & $\mathbf{-0.8659\text{ MeV}}$ & $-1.00(16)\text{ MeV}$ & $0.84\sigma$ vs.\ Lattice QED; $\Delta U_{\mathrm{mech}}=+2.159$ \\
+Individual Moments $(\mu_p, \mu_n)$ & $+2.9814,\; -1.7683\,\mu_N$ & $+2.7928,\; -1.9130\,\mu_N$ & $+6.75\%,\; -7.57\%$ ($+0.17\,\mu_N$ isoscalar shift) \\
+Neutron Magnetic Radius $r_M(n^0)$ & $0.7215\text{ fm}$ & $0.780\text{ fm}$ & $-7.50\%$ (circular-wall baseline) \\
+Pure 1-Tube Overlaps $\mathcal{O}_{np} / \mathcal{M}_\perp$ & $0.97127 / 0.78140$ & $g_A/g_V = 1.2754(13)$ & Zero $\frac{5}{3}$ mult.; spinor current open \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{\textbf{III. $A = 2$-Calibrated Quantum \& Pairwise-Contact Few-Body Sector} ($g_S, g_M, g_B, c_{\mathrm{FB}}$ with $\widetilde{G}'(d_{12})$ \& $\Phi_0$, zero $3N$ fits)}} \\
+Deuteron $P_D$, $\eta_{D/S}$, \& $\mu_d$ (emp) & $\mathbf{5.04\%},\; +0.0233,\; \mathbf{+0.8511\,\mu_N}$ & ${\sim}5\%,\; +0.0256,\; +0.8574\,\mu_N$ & Untuned ($E_d = -2.225\text{ MeV}$ in 1D \& 3D) \\
+Singlet $r_{0s}(np)$ \& $(a_{nn}, a_{pp}^{\mathrm{strong}})$ & $\mathbf{3.11\text{ fm}};\; (-28.5, -38.0)\text{ fm}$ & $2.75\text{ fm};\; (-18.9, -17.3)\text{ fm}$ & $\widetilde{G}'$ range compression; $0$ bound nodes \\
+$^3\text{H}$ / $^3\text{He}$ Pure $2N$ CG \& Split & $-6.116 / -5.475\text{ MeV}$ ($\mathbf{+0.641}$) & $-8.482 / -7.718\text{ MeV}$ ($+0.764$) & $72\%$ of $E(^3\text{H})$; $84\%$ of mirror split \\
+$^4\text{He}$ Pure $2N$ CG \& Pair Order & $-13.853\text{ MeV};\; d_{pp}>d_{nn}>d_{pn}$ & $-28.296\text{ MeV};\; d_{pp}>d_{nn}>d_{pn}$ & $C_{2v}$ beats rival $A=4$ modes by $>81\text{ MeV}$ \\
+$^9\text{Be}$ Mediator Gain vs.\ $^8\text{Be}$ & $-743.0$ vs.\ $-657.9\text{ MeV}$ & $^9\text{Be}$ bound; $^8\text{Be}$ res. & $-85.1\text{ MeV}$ $n$-bridge ($R_{\alpha\alpha}^*: 1.33\to 1.57\text{ fm}$) \\
+$^{11}\text{Li}$ Central $2n$ Bridge (\textbf{1A} vs.\ 1B) & $\mathbf{-2409.2}$ vs.\ $-1998.3\text{ MeV}$ & Bound by $S_{2n}=0.369\text{ MeV}$ & Central $\pm z$ bridge leads outer $2n$ by $410.9\text{ MeV}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% ======================================================================
+% CONTINUUM MECHANICS & FEW-BODY PACKING OF (2,3) TREFOIL NUCLEONS
+% V3.3 Unified Monograph — PART II (Sections 14--18)
+% Paste directly above \begin{thebibliography}{99} in the V3.2 master file
+% ======================================================================
+
+\newpage
+\part*{Part II: Dynamic Rotor Hydrodynamics, Ego-Metric Density Pockets, and Quantum Cluster Architecture}
+\addcontentsline{toc}{part}{Part II: Dynamic Rotor Hydrodynamics, Ego-Metric Density Pockets, and Quantum Cluster Architecture}
+
+% ======================================================================
+% SECTION 14
+% ======================================================================
+\section{Physical Picture of the Dynamic Continuum Atom}
+\label{sec:dynamic_picture}
+
+\subsection{From Static Wireframes to Synchronized Hydrodynamic Rotors}
+Part~I established the static geometry, boundary-element multipoles, and pairwise contact spectra of cavitated $(2,3)$ trefoil nucleons, closing in Section~\ref{sec:scope_ledger} with three open many-body requirements: replacing the phenomenological biharmonic wall $+g_B B_4^{(ab)}$ with first-principles medium compressibility, capturing cooperative multi-nucleon binding without fitted three-body forces, and enforcing fermionic antisymmetrization across $A = 5\text{--}16$. Resolving these three frontiers requires viewing an atomic nucleus not as a static wireframe of glued rods, but as a \textbf{dynamic, self-organizing hydrodynamic assembly of spinning cavitated rotors} immersed in an external pressurized continuum~\cite{bairmosheh2026,bairmosheh2026b}.
+
+Six coupled continuum mechanisms govern every calculation in Part~II:
+\begin{enumerate}[leftmargin=1.8em, itemsep=3pt]
+    \item \textbf{Dynamic Gyroscopic Precession and Circulatory Advection:} Each spin-$1/2$ nucleon is a Compton-frequency $(2,3)$ vortex gyroscope whose spin axis $\hat{\mathbf{s}}_a$ precesses on the quantum Bloch magic-angle cone ($\theta_m = 54.7356^\circ$, $\cos\theta_m = \pm 1/\sqrt{3}$), erasing static single-fermion quadrupole moments ($P_2(\cos\theta_m) = 0$) while driving circulatory advection $\mathbf{v}_a(\mathbf{x})$ through the surrounding medium.
+    \item \textbf{External Ambient Pressure and Velocity-Overlap Suction:} Nucleons do not pull on one another via action at a distance. Rather, external ambient continuum pressure $P_{\mathrm{ambient}}$ pushes neighboring rotors into shared low-pressure Bernoulli wakes where superposed circulatory flows ($\mathbf{v}_{\mathrm{tot}} = \mathbf{v}_a + \mathbf{v}_b$) deplete static pressure ($P_{\mathrm{static}} = P_{\mathrm{ambient}} - \frac{1}{2}\rho_\tau|\mathbf{v}_{\mathrm{tot}}|^2 \ge 0$). Integrating $\mathbf{v}_a\cdot\mathbf{v}_b$ over $\mathbb{R}^3$ introduces a natural $(1 - d_{12}/2\lambda_\pi)$ sign-reversal horizon that cuts off unphysical long-range inductance tails.
+    \item \textbf{Shear-Ceiling Compression ($\Pi_{\mathrm{shear}} = \alpha P_c$) and Curvature Dispersion Stiffness ($G_B \equiv 0$):} The continuum supports a maximum shear stress $\Pi_{\mathrm{shear}} = \alpha P_c$ corresponding to the transverse shear wave speed $v_s = \sqrt{\alpha}\,c$. When two cavitated tubes crowd toward surface contact ($d_{12} \to \dtouch$), local shear strain $\epsilon_{12} = P_{\mathrm{shear}}/\Pi_{\mathrm{shear}} \to 1$ saturates the shear reserve and triggers the $De \ge 1$ viscoelastic glass transition ($\alpha_s^2 \to \alpha$), stiffening the bridge from fluid shear modulus $\alpha P_c$ to bulk modulus $P_c$ and eliminating the ad-hoc $+g_B/d_{12}^4$ parameter ($G_B \equiv 0$).
+    \item \textbf{High-Effective-Density Pockets and Ego-Metric Kinetic Compliance:} Inside a multi-nucleon cluster, overlapping wakes deplete the local metric admittance $\alpha_{s,(-a)}^2 = (1 + \Sigma_{(-a)})^{-1} < 1$, creating a pocket of \textbf{higher effective refractive and inertial density} ($n_{\mathrm{eff}} = \alpha_s^{-1} > 1$, spatial inverse metric $S_{(-a)}^{ij} = \alpha_{s,(-a)}^2\delta^{ij}$). Wavepackets submerged in this denser pocket experience softened zero-point kinetic dispersion ($\hat{T}_{\mathrm{ego}} < \hat{T}_0$), proper-to-lab length contraction ($dx = \alpha_s\lambda_0$), and electrostatic anti-screening ($\alpha_s^{-2}V_{\mathrm{Coul}}$)—supplying the missing $-14\text{ to }-15\text{ MeV}$ of $^4\text{He}$ binding and the exact $+763.8\text{ keV}$ $^3\text{He}\text{--}{}^3\text{H}$ mirror split with zero three-body vertices.
+    \item \textbf{Synchronous Gear-Meshing vs.\ Phase-Mismatch Nodal Noise ($\hat{\Pi}_{ab}^+$):} Approaching rotors experience induced bevel torques scaled by the trefoil rotor constant $T_{\mathrm{rot}} = \hbar^2/(2I_z) = 81.68\text{ MeV}$, aligning lobes into open $70.53^\circ/109.47^\circ$ skew notches (spinning in sync). Conversely, when two nucleons occupy an odd-parity ($L = 1, 3, \dots$) relative orbital state, spatial wave antisymmetry ($\psi(-\mathbf{r}_{ab}) = -\psi(\mathbf{r}_{ab})$) enforces a phase-mismatch node across the midpoint plane, canceling constructive scalar bridge formation via the parity projector $\hat{\Pi}_{ab}^+ = \frac{1}{2}(1 + \hat{P}_{ab}^{(x)})$ and leaving $^5\text{He}$ unbound.
+    \item \textbf{Unique Cluster Architectures and Weakest-Link Scission Cuts:} Competition between synchronous bevel bonding, Pauli antisymmetrization, and $\hat{\Pi}_{ab}^+$ nodal projection selects distinct 3D architectures ($120^\circ$ $3d/3t$ rings at $Z = 3$ vs.\ closed $C_{2v}$ $\alpha$-disphenoids at $Z \ge 4$), whose minimum graph-cut bonds ($W_{\mathrm{cut}}$) dictate the weakest-link breakup, neutron-halo, and $\beta$-decay pathways of light nuclei.
+\end{enumerate}
+
+\begin{table}[!htbp]
+\centering
+\caption{Dictionary Mapping Hydrodynamic Rotor Intuition to Exact Continuum Operators ($\hat{U}_{\mu\nu}$, $G_B \equiv 0$).}
+\label{tab:intuition_dictionary}
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}p{0.34\textwidth} >{\raggedright\arraybackslash}X}
+\toprule
+Physical Visualization & Continuum Operator / Law & Primary Nuclear Consequence \\
+\midrule
+Spinning gyroscopic body & Bloch magic-angle cone ($\theta_m = 54.74^\circ$), $\hat{\boldsymbol{\sigma}}_a\cdot\hat{\boldsymbol{\sigma}}_b = 3\hat{\mathbf{s}}_a\cdot\hat{\mathbf{s}}_b$, $T_{\mathrm{rot}} = 81.68\text{ MeV}$ & Vanishing $J=1/2$ static quadrupole; skew-bevel notch interleaving at $R \approx 1.0\text{--}1.5\text{ fm}$ \\
+Circulatory advection \& external pressure push & Velocity cross-energy $\int \mathbf{v}_a\cdot\mathbf{v}_b\,\dd^3x \propto \frac{e^{-d/\lambda_\pi}}{d}(1 - \frac{d}{2\lambda_\pi})$ & Cuts off $>2.87\text{ fm}$ vector tail; compresses $^1S_0$ effective range $r_{0s}$ toward $2.75\text{ fm}$ \\
+Maximum shear ceiling ($\Pi_{\mathrm{shear}} = \alpha P_c$) & Strain $\epsilon_{12} = \min(1, \frac{\dtouch^2}{d_{12}^2}e^{-(d_{12}-\dtouch)_+/R_{2\pi}})$, spring $\frac{1}{2}\kappa_{\mathrm{Hooke}}\epsilon_{12}^2/\alpha_s^2$ & Replaces fitted $+g_B/d^4$ ($G_B \equiv 0$); $+1836\text{ MeV}$ core wall with $+1.7\text{ MeV}$ tail at $1.5\text{ fm}$ \\
+High-compression, high-effective-density pocket & Admittance $\alpha_{s,(-a)}^2 = (1 + \Sigma_{(-a)})^{-1}$, ego-metric $\hat{T}_{\mathrm{ego}} = \hat{T}_0^{1/2}(I + \tilde{K}_\Sigma)^{-1}\hat{T}_0^{1/2}$ & Releases $-14.2\text{ to }-15.1\text{ MeV}$ in $^4\text{He}$ without $3N$ loops; contracts $r_E$ via $dx = \alpha_s\lambda_0$ \\
+Phase-mismatch noise across midpoint bridge & Midpoint parity projector $\hat{\Pi}_{ab}^+ = \frac{1}{2}(1 + \hat{P}_{ab}^{(x)})$ on scalar suction $-G_S$ & Flips $^3P$ phase shifts to $-0.32^\circ$ (exp $-0.3^\circ$); unbinds $P$-wave $^5\text{He}$ ($\Delta E > 0$) \\
+Induced spin-orbit wake torque ($u = c$) & Bernoulli--Magnus coupling $\Delta E_\gamma = 3 R_{C0}\langle\Lambda_z\rangle_{b^*}/\langle I_\parallel\rangle_{b^*}$ & Splits $3/2^- \leftrightarrow 1/2^-$ hub states in mirror wheels $^7\text{Li}^*$ ($477.6\text{ keV}$) \& $^7\text{Be}^*$ ($429.1\text{ keV}$) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ======================================================================
+% SECTION 15
+% ======================================================================
+\section{\texorpdfstring{Shear-Ceiling Spring ($G_B \equiv 0$), Velocity Advection, and Synchronous Beveling}{Shear-Ceiling Spring (GB = 0), Velocity Advection, and Synchronous Beveling}}
+\label{sec:spring_velocity_cone}
+
+\subsection{\texorpdfstring{Virial Charge-Symmetry Breaking ($\eta_{\mathrm{CSB}}$) at $A = 1$}{Virial Charge-Symmetry Breaking at A = 1}}
+Whereas an isolated $A = 1$ proton in unstrained vacuum ($\alpha_s^2 = 1$) relaxes its $+13.42\%$ internal throat clearance to $b_{u,p} = \sqrt{2}/6$, submerging nucleons inside a compressed $A \ge 2$ nuclear density pocket ($\alpha_s^2 < 1$, $R \approx 1.6\text{--}1.8\text{ fm}$) squeezes that open throat clearance onto the universal self-contacting $(2,3)$ baryon core. Both baryon species then share the knot aspect ratio $(R_{0,u}, a_u, b_u) = (\frac{3}{5}, \frac{2}{5}, \frac{\sqrt{2}}{3})$, with spatial coordinates scaled by their Compton lengths ($L_p/L_n = M_n/M_p = 1.00138$) and invariant Kelvin circulation action ($\kappa = h$) normalized to the common coupling arc length $L_0 = \frac{1}{2}(L_p + L_n)$. With Hookean constant $\kappa_{\mathrm{Hooke}} = \alpha M_n^3 c^4/(\hbar c)^2 = 155.3\text{ MeV/fm}^2$, Yukawa range $R_\pi = 2R_{2\pi} = \hbar c/[\kappa_{\mathrm{Hooke}}(r_e/3)^2] = 1.4388\text{ fm}$, and vacuum shear modulus $K_0 = \kappa_{\mathrm{Hooke}}/R_\pi = 108.04\text{ MeV/fm}^3$~\cite{bairmosheh2026}, each nucleon generates a 3D static-compliance wake $\sigma_a(\mathbf{x}) = \gamma_a u_a(\mathbf{x})$ and bounded admittance depletion $\Lambda_a(\mathbf{x}) = 1 - \alpha_{s,a}^2(\mathbf{x}) = \sigma_a(\mathbf{x})/[1 + \sigma_a(\mathbf{x})] \in [0, 1)$, where
+\begin{equation}
+    u_a(\mathbf{x}) = \frac{1}{4\pi}\oint_0^{L_0} \frac{r_e^2}{d_a^2(\mathbf{x}, s) + r_e^2}\,\frac{e^{-d_a(\mathbf{x}, s)/R_{2\pi}}}{d_a(\mathbf{x}, s)}\,\dd s, \qquad
+    d_a(\mathbf{x}, s) = \sqrt{|\mathbf{x} - \mathbf{r}_a(s)|^2 + r_{t,a}^2}.
+    \label{eq:single_nucleon_wake}
+\end{equation}
+Locking the exterior strain-field energy to $50\%$ rest-mass virial equipartition fixes $(\gamma_p, \gamma_n)$ with zero free parameters:
+\begin{equation}
+    \int_{\mathbb{R}^3} K_0\,\frac{\gamma_a u_a(\mathbf{x})}{1 + \gamma_a u_a(\mathbf{x})}\,\dd^3x = \frac{1}{2}M_a c^2 \implies
+    \gamma_p = 1.68415,\quad \gamma_n = 1.68709,\quad \eta_{\mathrm{CSB}} \equiv \frac{\gamma_n}{\gamma_p} = \mathbf{1.00175}.
+    \label{eq:virial_csb_ratio}
+\end{equation}
+Because the neutron is heavier ($M_n > M_p$) on a tighter Compton scale ($L_n < L_p$), its dimensionless wake strength exceeds the proton's by $+0.175\%$, strengthening $n\text{--}n$ scalar attraction by $\eta_{\mathrm{CSB}}$ and weakening $p\text{--}p$ by $\eta_{\mathrm{CSB}}^{-1}$.
+
+\subsection{\texorpdfstring{Hookean Shear-Reserve Spring ($\Pi_{\mathrm{shear}} = \alpha P_c$) and Debye Contraction}{Hookean Shear-Reserve Spring and Debye Contraction}}
+Consider two filament elements separated by regularized distance $d_{12} = \sqrt{|\mathbf{r}_a - \mathbf{r}_b|^2 + r_{t,a}^2 + r_{t,b}^2}$. Their cavitated tube walls touch physically when $|\mathbf{r}_a - \mathbf{r}_b| = r_{t,a} + r_{t,b}$, defining the exact contact scale $\dtouch = \sqrt{(r_{t,a} + r_{t,b})^2 + r_{t,a}^2 + r_{t,b}^2}$. Normalized to the continuum's maximum shear stress $\Pi_{\mathrm{shear}} = \alpha P_c$, the inter-filament shear load $\epsilon_{12}(d_{12}) \in (0, 1]$ and viscoelastic wave-speed admittance $\alpha_s^2(d_{12})$ are~\cite{bairmosheh2026,bairmosheh2026b}:
+\begin{equation}
+    \epsilon_{12}(d_{12}) = \min\!\left(1,\; \frac{\dtouch^2}{d_{12}^2}\exp\!\left(-\frac{\max(0,\, d_{12} - \dtouch)}{R_{2\pi}}\right)\right), \qquad
+    \alpha_s^2(d_{12}) = \sqrt{\big(1 - \epsilon_{12}(d_{12})\big)^2 + \alpha^2}.
+    \label{eq:shear_strain_admittance}
+\end{equation}
+Equation~(\ref{eq:shear_strain_admittance}) replaces the phenomenological $+g_B/d_{12}^4$ wall ($G_B \equiv 0$) with two parameter-free medium effects:
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Fluid-to-Solid Glass-Transition Spring:} In the tail ($\epsilon_{12} \ll 1$, $\alpha_s^2 \to 1$), shear deformation stores Hookean energy against $\kappa_{\mathrm{Hooke}} \propto \alpha P_c$. As tubes jam into contact ($\epsilon_{12} \to 1$), static shear reserve vanishes and $\alpha_s^2 \to \alpha$, canceling the $\alpha$ prefactor in $\kappa_{\mathrm{Hooke}}/\alpha_s^2$ so the jammed core resists overlap with full bulk stiffness $P_c$:
+    \begin{equation}
+        w_{\mathrm{sp}}(d_{12}) = \frac{1}{2}\kappa_{\mathrm{Hooke}}\,\frac{\epsilon_{12}^2(d_{12})}{\alpha_s^2(d_{12})}, \qquad
+        V_{\mathrm{sp}}^{(ab)}(d, \mu) = \frac{1}{4\pi}\oint_0^{L_0}\!\!\oint_0^{L_0} w_{\mathrm{sp}}(d_{12})\,\dd s_a\,\dd s_b.
+        \label{eq:hookean_spring_kernel}
+    \end{equation}
+    \item \textbf{In-Medium Debye Range Contraction and Velocity-Superposition Kernel:} By local proper-to-coordinate scaling, the Yukawa screening length contracts inside compressed regions according to $\lambda_\pi(d_{12}) = R_\pi\alpha_s(d_{12})$~\cite{bairmosheh2026}. Furthermore, because static pressure depletion arises from $|\mathbf{v}_a(\mathbf{x}) + \mathbf{v}_b(\mathbf{x})|^2$ rather than bare vector-potential inductance $\mathbf{J}_a\cdot\mathbf{A}_b$, integrating $\mathbf{v}_a\cdot\mathbf{v}_b$ by parts via $\mathcal{F}^{-1}\!\big[k^2/(k^2 + \lambda_\pi^{-2})^2\big] = \frac{e^{-r/\lambda_\pi}}{4\pi r}(1 - \frac{r}{2\lambda_\pi})$ yields the continuum scalar and velocity-overlap integrals:
+    \begin{align}
+        S^{(ab)}(d, \mu) &= \frac{1}{4\pi}\oint_0^{L_0}\!\!\oint_0^{L_0} \widetilde{G}'(d_{12})\,\frac{e^{-2d_{12}/\lambda_\pi(d_{12})}}{d_{12}}\,\dd s_a\,\dd s_b, \label{eq:debye_scalar_kernel}\\
+        M_v^{(ab)}(d, \mu) &= \frac{1}{4\pi}\oint_0^{L_0}\!\!\oint_0^{L_0} 3\big(\dd\mathbf{r}_a\cdot\dd\mathbf{r}_b\big)\,\widetilde{G}'(d_{12})\,\frac{e^{-d_{12}/\lambda_\pi(d_{12})}}{d_{12}}\left(1 - \frac{d_{12}}{2\lambda_\pi(d_{12})}\right). \label{eq:velocity_overlap_kernel}
+    \end{align}
+\end{enumerate}
+
+\subsection{Spin-1/2 Magic-Angle Cone Precession and Adiabatic Gear-Meshing}
+A quantum spin-$1/2$ fermion has total spin squared $\mathbf{S}^2 = \frac{3}{4}\hbar^2$ and projection $S_z = \pm\frac{1}{2}\hbar$, constraining its unit circulation normal $\hat{\mathbf{s}}_a$ to precess on the \textbf{magic-angle cone} $\cos\theta_m = \pm 1/\sqrt{3}$ ($\theta_m = 54.7356^\circ$), where $\langle \hat{s}_{a,i}\hat{s}_{a,j}\rangle = \frac{1}{3}\delta_{ij}$ and the Pauli spin operator carries the exact factor $\hat{\boldsymbol{\sigma}}_a\cdot\hat{\boldsymbol{\sigma}}_b = 3\,\hat{\mathbf{s}}_a\cdot\hat{\mathbf{s}}_b$ in Equation~(\ref{eq:velocity_overlap_kernel}). Sampling the 16 discrete magic-cone $\times$ $C_3$ phase states $\{c = 1,\dots,16\}$ for both $S = 1$ ($\langle\hat{\boldsymbol{\sigma}}_a\cdot\hat{\boldsymbol{\sigma}}_b\rangle = +1$) and $S = 0$ ($\langle\hat{\boldsymbol{\sigma}}_a\cdot\hat{\boldsymbol{\sigma}}_b\rangle = -3$), synchronous gyroscopic alignment into open skew-bevel notches is governed by the trefoil's parameter-free axial rotor scale $T_{\mathrm{rot}} = \hbar^2/(2 M_0\langle\rho^2\rangle_n) = \mathbf{81.68\text{ MeV}}$:
+\begin{equation}
+    w_c(d, \mu) = \frac{\exp\!\Big(-\big[V_{\mathrm{sp}}^{(c)}(d,\mu) - V_{\mathrm{sp}}^{\min}(d,\mu)\big] / T_{\mathrm{rot}}\Big)}{\sum_{c'=1}^{16}\exp\!\Big(-\big[V_{\mathrm{sp}}^{(c')}(d,\mu) - V_{\mathrm{sp}}^{\min}(d,\mu)\big] / T_{\mathrm{rot}}\Big)},
+    \label{eq:boltzmann_gear_mesh}
+\end{equation}
+reducing $V_{\mathrm{sp}}(1.50\text{ fm})$ from $+62.1\text{ MeV}$ (rigid V3.2 $+g_B/d^4$) to $+1.69\text{ MeV}$ while preserving a $+1836\text{ MeV}$ cavitation core wall as $d \to 0$.
+
+% ======================================================================
+% SECTION 16 (FORMALIZED DIVERGENCE CONSERVATION & NEUMANN PARITY)
+% ======================================================================
+\section{Neumann Midpoint Parity, Divergence-Conserved Ego-Metric, and Lab Radii}
+\label{sec:parity_egometric}
+
+\subsection{\texorpdfstring{Bessel--Neumann Antinode Continuity and Midpoint Parity $\hat{\Pi}_{ab}^+ = \frac{1}{2}(1 + \hat{P}_{ab}^{(x)})$}{Bessel-Neumann Antinode Continuity and Midpoint Parity}}
+Unlike a Dirichlet cavity ($\psi(R) = 0$), each nucleon's first spherical Neumann shell $R_1 = x_1 r_{c,n} = 0.9437\text{ fm}$ ($\tan x_1 = x_1$, Equation~(\ref{eq:neumann_bessel_shells})) has vanishing radial slope $j'_0(x_1) = 0$ at a \textbf{non-zero boundary pressure antinode} $j_0(x_1) = -(1 + x_1^2)^{-1/2} = -0.2172 \neq 0$. When two nucleons meet across their midpoint plane ($\mathbf{r}_{ab} = \mathbf{0}$), spatially symmetric even-$L$ states ($\hat{P}_{ab}^{(x)}\psi = +\psi$) join with continuous antinode amplitude and zero slope ($\Delta\psi = 0, \nabla\psi = \mathbf{0}$), sustaining full scalar Bernoulli suction. Spatially antisymmetric odd-$L$ states ($\hat{P}_{ab}^{(x)}\psi = -\psi$) face an amplitude jump $\Delta\psi = 2|j_0(x_1)|$ across the midpoint plane, forcing a nodal zero that cancels constructive scalar bridge formation while leaving short-range Hookean spring repulsion $V_{\mathrm{sp}}^{(ab)}$ intact:
+\begin{equation}
+    \hat{V}_{ab} = \Big(-G_S\,\eta_{ab}\,S^{(ab)}(r_{ab}) + C_{\mathrm{FB}}\,\eta_{ab}\,\hat{P}_{ab}^{(S=0)}S_0^{(ab)}(r_{ab})\Big)\hat{\Pi}_{ab}^+ - G_M\,M_v^{(ab)}(r_{ab}) + V_{\mathrm{sp}}^{(ab)}(r_{ab}) + V_{\mathrm{EM},ab},
+    \label{eq:universal_v2b_parity}
+\end{equation}
+with $\hat{\Pi}_{ab}^+ = \frac{1}{2}(1 + \hat{P}_{ab}^{(x)})$, $\eta_{nn} = \eta_{\mathrm{CSB}}$, $\eta_{pn} = 1$, and $\eta_{pp} = \eta_{\mathrm{CSB}}^{-1}$. By global Fermi antisymmetry ($\hat{P}_{ab}^{(x)}\hat{P}_{ab}^{(\sigma)} = -1$), like-nucleon triplets ($S = 1$) satisfy $\hat{\Pi}_{ab}^+ \equiv 0$ identically. Because $^2\text{H}$ ($^3S_1\text{--}{}^3D_1$) and $^1S_0$ have even $L$ ($\hat{\Pi}_{12}^+ = 1$), Equation~(\ref{eq:universal_v2b_parity}) leaves all even-$L$ $A = 2$ observables invariant ($E_{\mathrm{virt}} = +65.4\text{ keV}$, $\sigma_{n\gamma} = 340.5\text{ mb}$) while flipping odd-$L$ $^3P$ phase shifts from $+27.84^\circ$ to $\mathbf{-0.32^\circ}$ at $25\text{ MeV}$ (Nijmegen $-0.3^\circ$) and $-1.07^\circ$ at $50\text{ MeV}$ (Nijmegen $-1.2^\circ$).
+
+\subsection{Probability-Current Divergence Conservation and Lab-Coordinate Equivalence}
+In a spatially varying inverse metric $S_{(-a)}^{ij}(\mathbf{x}) = \alpha_{s,(-a)}^2(\mathbf{x})\delta^{ij} = [1 + \Sigma_{(-a)}(\mathbf{x})]^{-1}\delta^{ij}$, placing $\alpha_s^2(\mathbf{x})$ outside the Laplacian ($-\alpha_s^2\frac{\hbar^2}{2m}\nabla^2$) breaks Hermiticity and creates a spurious probability source $-\frac{\hbar}{m}(\nabla\alpha_s^2)\cdot\mathrm{Im}(\Psi^*\nabla\Psi) \neq 0$ across cluster surfaces. Enforcing Sturm--Liouville \textbf{divergence form} guarantees exact continuity:
+
+\begin{theorem}[Quantum Continuity and Proper-to-Lab Coordinate Equivalence]
+\label{thm:ego_divergence_and_radius}
+The self-adjoint kinetic operator $\hat{T}_{\mathrm{ego}} = -\sum_{a=1}^A \frac{\hbar^2}{2m_a}\nabla_a\cdot\big[\alpha_{s,(-a)}^2(\mathbf{x})\nabla_a\big]$ (evaluated non-perturbatively in the proper-frame CG basis via $\hat{T}_0^{1/2}(I + \hat{T}_0^{-1/2}\hat{K}_\Sigma\hat{T}_0^{-1/2})^{-1}\hat{T}_0^{1/2}$ with $\hat{K}_\Sigma = \sum_{a\neq b}\mathbf{p}_a\cdot\frac{\hbar^2 S_{ab}}{2m_a}\mathbf{p}_a$) satisfies exact local probability-current conservation:
+\begin{equation}
+    \frac{\partial |\Psi|^2}{\partial t} + \sum_{a=1}^A \nabla_a \cdot \mathbf{J}_{\mathrm{ego},a} = 0, \qquad
+    \mathbf{J}_{\mathrm{ego},a} \equiv \frac{\hbar}{m_a}\,\alpha_{s,(-a)}^2(\mathbf{x})\,\mathrm{Im}\!\big(\Psi^*\nabla_a\Psi\big).
+    \label{eq:quantum_divergence_continuity}
+\end{equation}
+Furthermore, under the local proper-to-lab differential map $\dd\mathbf{x}_a = \alpha_{s,(-a)}\,\dd\boldsymbol{\xi}_a$ ($\partial_{\xi_a} = \alpha_{s,(-a)}\partial_{x_a}$~\cite{bairmosheh2026}), flat kinetic dispersion $-\frac{\hbar^2}{2m_a}\nabla_{\xi_a}^2$ in proper coordinates $\boldsymbol{\xi}$ maps directly onto $\hat{T}_{\mathrm{ego}}(\mathbf{x})$ in lab coordinates $\mathbf{x}$. Consequently, wavefunctions solved in uncontracted proper coordinates require the metric factor $(1 - \langle\Lambda_{(-p)}\rangle)\langle\xi_p^2\rangle$, whereas wavefunctions solved directly under $\hat{T}_{\mathrm{ego}}(\mathbf{x})$ already reside in lab coordinates:
+\begin{equation}
+    r_E^2 = \langle x_p^2\rangle_{\mathrm{CM}} + r_{Ep}^2 + \frac{N}{Z}\langle r_E^2\rangle_n, \qquad
+    \hat{V}_{\mathrm{Coul}}^{\mathrm{eff}} = \Big(1 + S_{pp}(r_{pp'}) + \sum_{c\neq p,p'} \sigma_c(\mathbf{u}_{c,pp'})\Big)V_{\mathrm{Coul}}^{\mathrm{erf}}(r_{pp'}).
+    \label{eq:eq128_and_coulomb}
+\end{equation}
+\end{theorem}
+
+% ======================================================================
+% SECTION 17
+% ======================================================================
+\section{\texorpdfstring{Unified Quantum Benchmarks ($A = 2\text{--}5$): Nolen--Schiffer Ledger and the $^5\text{He}$ Gate}{Unified Quantum Benchmarks (A = 2--5): Nolen-Schiffer Ledger and the 5He Gate}}
+\label{sec:a2_to_a5_benchmarks}
+
+Calibrating $(G_S = 134.08, C_{\mathrm{FB}} = +39.36)$ once at $A = 2$ ($G_M = 15.0$, $G_B \equiv 0$) and solving the exact translation-invariant Correlated-Gaussian problem across $A = 2, 3, 4,$ and $5$ with \textbf{zero three-body force loops} yields Table~\ref{tab:unified_a2_a5_ledger}:
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Single-keV Resolution of the $^3\text{He}\text{--}{}^3\text{H}$ Nolen--Schiffer Anomaly:} On the 252-state SVM-converged $A = 3$ basis ($E(^3\text{H}) = -8.422\text{ MeV}$ vs.\ $-8.482\text{ MeV}$ exp; $E(^3\text{He}) = -7.657\text{ MeV}$ vs.\ $-7.718\text{ MeV}$ exp; $r_E(^3\text{H}) = 1.753\text{ fm}$ vs.\ $1.759\text{ fm}$ exp), the mirror binding split decomposes into five parameter-free contributions: bare Gaussian $\operatorname{erf}$ Coulomb + exact $M_n \neq M_p$ kinetic mass ($+624.9\text{ keV}$), pair $\alpha_s^{-2}$ Coulomb running ($+33.4\text{ keV}$), Breit--Fermi magnetic dipole contact ($+12.2\text{ keV}$), $A = 1$ virial CSB $\eta_{\mathrm{CSB}}$ ($+46.3\text{ keV}$), and correlated spectator-neutron Coulomb anti-screening ($+48.5\text{ keV}$), summing to $\Delta B = \mathbf{+765.3\text{ keV}}$ and recoil-corrected capture split $\Delta E_\gamma = \mathbf{+763.7\text{ keV}}$ (experiment $+763.8\text{ keV}$, $-0.01\%$).
+    \item \textbf{Cooperative $^4\text{He}$ Binding Without $3N$ Forces:} Turning on $\hat{T}_{\mathrm{ego}}$ ($k = 2$) releases $\langle\Delta T_{\mathrm{ego}}\rangle = -13.11\text{ to }-15.11\text{ MeV}$ inside $^4\text{He}$'s high-density pocket, shifting pure two-body $E(^4\text{He})$ from $-13.85\text{ MeV}$ (Part~I flat-$T$ $+g_B/d^4$) to $\mathbf{-26.03\text{ to }-27.50\text{ MeV}}$ ($92\%\text{--}97\%$ of $-28.30\text{ MeV}$) while contracting $r_E(^4\text{He})$ from $2.13\text{ fm}$ to $\mathbf{1.63\text{--}1.78\text{ fm}}$ (exp $1.676\text{ fm}$).
+    \item \textbf{Exact 12-Permutation $^5\text{He}$ Drip-Line Gate:} In 5-fermion $^5\text{He} = {}^4\text{He} + n$ ($\mathcal{A}_p\mathcal{A}_n$ over $S_2^{(p)}\times S_3^{(n)}$, $12$ orthogonal $4\times 4$ Jacobi permutations), omitting Pauli antisymmetrization on $n_4$ collapses $(1s)^5$ to $\Delta E = -10.60\text{ MeV}$, whereas exact Pauli projection pushes $L = 0$ $(2s)$ to $+1.84\text{ MeV}$. In the $L = 1$ $P$-wave channel, pure Wigner attraction falsely bound $^5\text{He}$ at $-5.49\text{ MeV}$, whereas restoring $\hat{\Pi}_{ab}^+$ zeroes scalar suction across $2.5$ of the $4.0$ core-halo bonds, lifting $\Delta E(^5\text{He} - {}^4\text{He})$ to $\mathbf{+5.38 \to +2.14 \to +0.38\text{ MeV}}$ across $\Rmax = 2.3\text{--}35.0\text{ fm}$ (strictly unbound, matching the $+0.798\text{ MeV}$ $^5\text{He}(3/2^-)$ scattering resonance).
+\end{enumerate}
+
+\begin{table}[!htbp]
+\centering
+\caption{Unified Pure Two-Body Quantum Benchmark Across $A = 2\text{--}5$ ($G_B \equiv 0$, Ego-Metric $k = 2$, Zero $3N$ Force Loops).}
+\label{tab:unified_a2_a5_ledger}
+\scriptsize
+\setlength{\tabcolsep}{3.8pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{0.29\textwidth} c c c >{\raggedright\arraybackslash}X}
+\toprule
+System \& Quantum Observable & Part~I (Flat $T$, $+g_B$) & Part~II ($\hat{T}_{\mathrm{ego}}$, $G_B=0$) & Experiment & Physical Mechanism Verified \\
+\midrule
+$^2\text{H}$ $r_E$ (Eq.~\ref{eq:eq128_and_coulomb}) \& $E_{\mathrm{virt}}(^1S_0)$ & $2.128\text{ fm}$ (cal) & $\mathbf{2.158\text{ fm}},\; \mathbf{+65.4\text{ keV}}$ & $2.128\text{ fm},\; +66.0\text{ keV}$ & Proper-to-lab contraction; virtual pole ($-0.9\%$) \\
+$^1\text{H}(n,\gamma)^2\text{H}$ $\sigma_{\mathrm{th}}$ \& $\bar{\delta}_C(^3P)_{25}$ & --- & $\mathbf{340.5\text{ mb}},\; \mathbf{-0.32^\circ}$ & $332.6\text{ mb},\; -0.30^\circ$ & M1 overlap ($+2.4\%$); $\hat{\Pi}_{12}^+$ kills $P$-wave well \\
+$^3\text{H}$ Binding $E$ \& Radius $r_E$ & $-6.116\text{ MeV}$ ($2.089$) & $\mathbf{-8.422}$ / $\mathbf{-8.013\text{ MeV}}$ ($1.753$) & $-8.482\text{ MeV}$ ($1.759$) & Ego-metric pocket closes $97\%$ of $A=3$ gap \\
+$^3\text{He} - {}^3\text{H}$ Split $\Delta E_\gamma$ & $+641.0\text{ keV}$ & $\mathbf{+763.7}$ / $\mathbf{+775.6\text{ keV}}$ & $+763.8\text{ keV}$ & $\operatorname{erf}$ Coul + $\alpha_s^{-2}$ running + $V_{\mathrm{mag}}$ + $\eta_{\mathrm{CSB}}$ \\
+$^4\text{He}$ Binding $E$ \& Radius $r_E$ & $-13.853\text{ MeV}$ ($2.126$) & $\mathbf{-27.50}$ / $\mathbf{-26.03\text{ MeV}}$ ($1.63\text{--}1.78$) & $-28.296\text{ MeV}$ ($1.676$) & $\langle\Delta T_{\mathrm{ego}}\rangle = -13.1\text{ to }-15.1\text{ MeV}$ ($0$ $3N$ fits) \\
+$^5\text{He}(3/2^-)$ $\Delta E(^5\text{He} - {}^4\text{He})$ & Static wake check & $\mathbf{+2.14\text{ MeV}}$ plateau ($\mathbf{> 0}$) & $+0.798\text{ MeV}$ (unbound) & 12-perm Pauli + $\hat{\Pi}_{ab}^+$ unbinds $P$-wave halo \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ======================================================================
+% SECTION 18
+% ======================================================================
+% ======================================================================
+% SECTION 18 (UPDATED WITH COMPLETE Z = 3--7 QUANTUM GCM BENCHMARKS)
+% ======================================================================
+\section{\texorpdfstring{Antisymmetrized Brink--GCM Crossover, Spin-Orbit Splittings, and $Z = 3\text{--}7$ Ledger}{Antisymmetrized Brink-GCM Crossover, Spin-Orbit Splittings, and Z = 3--7 Ledger}}
+\label{sec:manybody_architectures}
+
+\subsection{\texorpdfstring{Orthonormal Laplace-Minor Brink--GCM Engine and Refractive Spin-Orbit ($\hat{V}_{LS}$)}{Orthonormal Laplace-Minor Brink-GCM Engine and Refractive Spin-Orbit}}
+Scaling exact fermionic antisymmetrization across $A = 6\text{--}14$ replaces $Z!\,N!$ Correlated-Gaussian permutations~\cite{suzuki1998} with $J^\pi$-projected Hill--Wheeler Generator Coordinate Method (GCM) wavefunctions $|\Psi^{J\pi}_{MK}\rangle = \sum_u f_u \hat{P}^{J\pi}_{MK}|\Phi(\{\mathbf{Z}_i^{(u)}\})\rangle$ built from common-width ($b = 1.43\text{ fm}$, $\sum_i \mathbf{Z}_i^{(u)} = \mathbf{0}$) Gaussian packets~\cite{wildermuth1977}. Pre-orthonormalizing each generator configuration via $C_u^{(q)} = (B_{uu}^{(q)})^{-1/2}$ eliminates core-halo compliance smearing, while singular-value exterior algebra ($B_{uv}^{(q)} = U\,\mathrm{diag}(s_1,\dots,s_{N_q})V^\dagger$, $\eta = \det U\det V^\dagger$) evaluates the exact one- and two-body L\"{o}wdin cofactors without matrix inversion on nodal rotation surfaces ($\det B_{uv}^{(q)} = 0$):
+\begin{equation}
+    C^{(1)}_{ik} = \eta\sum_{m=1}^{N_q} U^*_{im}V^*_{km}\!\!\prod_{r\neq m}\! s_r, \qquad
+    C^{(2)}_{ijkl} = \eta\sum_{m\neq n} U^*_{im}U^*_{jn}\big(V^*_{km}V^*_{ln} - V^*_{lm}V^*_{kn}\big)\!\!\prod_{r\neq m,n}\!\! s_r.
+    \label{eq:svd_exterior_minors}
+\end{equation}
+
+
+In this orthonormalized basis, three exact many-body laws govern cluster coupling without adjustable parameters:
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Neumann-BC LOCV Healing and Geometric-Mean Neck Compliance:} Imposing natural Neumann zero-slope healing $g'_S(d_c) = 0$ ($g_S(d_c) = 1$) with zero wound integral $\int_0^{d_c} |\phi_0|^2(g_S^2 + g_D^2 - 1)r^2\,\dd r = 0$ fixes the free triplet healing radius at $d_{\mathrm{LOCV}}(^3S_1) = \mathbf{2.290\text{ fm}} \equiv R_3 = x_3 r_{c,n}$, contracting in medium as $d_c(\Sigma) = d_{\mathrm{LOCV}}(0)/\sqrt{1 + \Sigma}$. Across inter-cluster necks where overlap density scales as $\sqrt{\rho_a\rho_b}$, spectator compliance enters via the geometric mean $\Sigma_{ab}^{\mathrm{neck}} = \sqrt{(\Sigma_{(-a)} - s_{ab})(\Sigma_{(-b)} - s_{ab})}$, preserving uniform cores ($\Sigma_{(-a)} = \Sigma_{(-b)}$) while guaranteeing exact asymptotic cluster separability ($\Sigma_{ab}^{\mathrm{neck}} \to 0$ as $R_{\mathrm{clust}} \to \infty$).
+    \item \textbf{Off-Origin Internal Dimer Parity Pairing:} Shifting a composite $S = 1$ deuteron to $\mathbf{R}_{\alpha d} \neq \mathbf{0}$ decouples global inversion $\hat{\Pi}$ from intrinsic pair inversion $\hat{P}_{pn}^{(x)}$; coherent pairing $|\mathbf{R}_{\alpha d}, +\mathbf{d}_{pn}\rangle + |\mathbf{R}_{\alpha d}, -\mathbf{d}_{pn}\rangle$ restores exact $T = 0$ and $^3S_1\text{--}{}^3D_1$ parity ($\hat{\Pi}_{pn}^+ = 1$) across the halo.
+    \item \textbf{Zero-Parameter Refractive Bernoulli--Magnus Spin-Orbit ($\hat{V}_{LS}$):} Combining scalar rest-mass depletion and spatial curvature in $\dd s^2 = (1 - \Lambda)c^2\dd t^2 - (1 + \Lambda)\dd\mathbf{x}^2$~\cite{bairmosheh2026,bairmosheh2026b} with inward Bernoulli--Magnus circulation ($\mathbf{F}_{\mathrm{Magnus}} \propto \boldsymbol{\Omega}_{\mathrm{spin}}\times\mathbf{v}_{\mathrm{rel}}$, pulling $j = \ell + \frac{1}{2}$ into the low-pressure wake) yields the parameter-free two-body spin-orbit operator matching "\text{ls\_fac}" in the GCM solver:
+    \begin{equation}
+        \hat{V}_{LS,ab} = -\frac{3\hbar^2}{2 M_0}\left(-\frac{1}{r_{ab}}\frac{\dd\Lambda_{ab}}{\dd r_{ab}}\right)\left[\frac{\mathbf{r}_{ab}\times(\mathbf{p}_a - \mathbf{p}_b)}{2\hbar}\cdot\frac{\boldsymbol{\sigma}_a + \boldsymbol{\sigma}_b}{2}\right].
+        \label{eq:refractive_vls}
+    \end{equation}
+\end{enumerate}
+
+Crucially, because $\hat{T}_{\mathrm{ego}}(\mathbf{x})$ is already formulated in contracted lab coordinates ($\partial_\xi = \alpha_s\partial_x$), the wavefunction coordinate $\mathbf{x}$ directly measures the lab-frame charge radius $r_E$ without a second $(1 - \Lambda)$ rescaling.
+
+\subsection{\texorpdfstring{Quantitative $Z = 3\text{--}7$ Architectural Crossover, Radii, and $\beta^-$ Rearrangement}{Quantitative Z = 3--7 Architectural Crossover, Radii, and Beta Rearrangement}}
+Evaluating the frozen Step~12 Hamiltonian across $A = 6\text{--}14$ with \textbf{zero fitted $A \ge 3$ or spin-orbit parameters} establishes four structural results (Table~\ref{tab:z3_to_z7_quantum_ledger}):
+\begin{enumerate}[leftmargin=1.8em, itemsep=2pt]
+    \item \textbf{Inverted $Z = 3$ Charge Radii and Mirror Magnus $M1$ $\gamma$-Rays ($^6\text{Li}, {}^7\text{Li}, {}^7\text{Be}$):} Pairing $(+\mathbf{d}_{pn}, -\mathbf{d}_{pn})$ deuteron parity in $^6\text{Li}$ reproduces $E(^6\text{Li}) = -31.246\text{ MeV}$ ($-2.3\%$), the $3^+ - 1^+$ stretched gap $+2.13\text{ MeV}$ (exp $+2.19\text{ MeV}$), $73.6\%\text{--}87.6\%$ Wildermuth--Tang overlap with the synchronous $[3d]$ core, and the famous inverted Lithium radius dip $r_E(^6\text{Li}) = 2.539\text{ fm} > r_E(^7\text{Li}) = 2.477\text{ fm} < r_E(^7\text{Be}) = 2.617\text{ fm}$ (exp $2.589 > 2.444 < 2.647\text{ fm}$). Equation~(\ref{eq:refractive_vls}) splits the mirror $\frac{1}{2}^- \to \frac{3}{2}^-$ levels by $+480.1\text{--}498.8\text{ keV}$ in $^7\text{Li}^*$ (exp $+477.6\text{ keV}$) and $+458.3\text{--}476.7\text{ keV}$ in $^7\text{Be}^*$ (exp $+429.1\text{ keV}$).
+    \item \textbf{Pauli Elimination of Planar $4d\text{--}6d$ Rings at $Z \ge 4$ ($^8\text{Be}, {}^9\text{Be}, {}^{12}\text{C}, {}^{14}\text{C}$):} Whereas static ($\hat{T}=0$) wireframes favored single $4d\text{--}6d$ deuteron rings, $A!$-antisymmetrization and $\hat{\Pi}_{ab}^+$ penalize $(1d/1f)$ ring crowding, placing $\alpha$-cluster architectures below deuteron rings by $+32.8\text{ MeV}$ in $^8\text{Be}$ ($E = -56.668\text{ MeV}$ vs.\ $-56.500\text{ MeV}$ exp; $2^+$ rotor $+2.88\text{ MeV}$ vs.\ $+3.03\text{ MeV}$ exp), $+35.3\text{ MeV}$ in covalent $^9\text{Be}$ ($E = -56.652\text{ MeV}$, $r_E = 2.502\text{ fm}$ vs.\ $2.519\text{ fm}$ exp), $+16.34\text{ MeV}$ in $^{12}\text{C}$ ($E = -92.339\text{ MeV}$ vs.\ $-92.162\text{ MeV}$ exp, $+0.19\%$; $r_E = 2.520\text{ fm}$ vs.\ $2.470\text{ fm}$ exp; puffed Hoyle hinge $r_E = 3.017\text{ fm}$), and $+28.24\text{ MeV}$ in magic-$N=8$ $^{14}\text{C}$ ($E = -105.780\text{ MeV}$ vs.\ $-105.284\text{ MeV}$ exp, $+0.47\%$; $S_{2n} = +13.44\text{ MeV}$ vs.\ $+13.12\text{ MeV}$ exp).
+    \item \textbf{Resolution of the $^{10}\text{B}$ $3^+ < 1^+$ Spin-Orbit Ordering:} Un-aliased ($N_{\mathrm{az}} = 7$) projection on $2\alpha + d$ yields $E(3^+\text{ gs}) = -62.347\text{ MeV}$ ($-3.7\%$, $r_E = 2.410\text{ fm}$ vs.\ $2.428\text{ fm}$ exp), beating the $5d$ bipyramid by $+57.0\text{ MeV}$ and placing $3^+$ below $1^+$ by $E_x(1^+ - 3^+) = +1.444\text{ MeV}$ (exp $+0.718\text{ MeV}$) without three-body forces.
+    \item \textbf{Quantum $^{14}\text{C}(0^+) \xrightarrow{\beta^-} {}^{14}\text{N}(1^+)$ Trans-to-Cis Doorway:} Instantaneous $\beta^-$ conversion of one polar neutron in $^{14}\text{C}$ ($3\alpha + \text{polar }2n$) lands on the un-rearranged trans doorway $^{14}\text{N}^*(1^+)$ at $-105.894\text{ MeV}$, whereas relaxing into the cis coaxial-deuteron cap ($3\alpha + d$) releases an additional $-3.08\text{ MeV}$ ($E = -108.976\text{ MeV}$, $r_E = 2.437\text{ fm}$), confirming the topological bevel-rearrangement bottleneck behind $\log ft = 9.03$.
+\end{enumerate}
+
+\begin{table}[!htbp]
+\centering
+\caption{Zero-Retuning Quantum Brink--GCM Benchmark Across $Z = 3\text{--}7$ ($A = 6\text{--}14$, Common Width $b = 1.43\text{ fm}$, $G_B \equiv 0$).}
+\label{tab:z3_to_z7_quantum_ledger}
+\scriptsize
+\setlength{\tabcolsep}{3.6pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{l l c c c >{\raggedright\arraybackslash}X}
+\toprule
+Nuclide ($J^\pi$) & Winning Quantum Architecture & $E_{\mathrm{GCM}}$ / Exp $[\text{MeV}]$ & $r_E$ Mod / Exp $[\text{fm}]$ & Margin vs.\ $Nd$ Ring & Key Excitation / Weakest-Link Diagnostic \\
+\midrule
+$^6\text{Li}$ ($1^+$) & Parity-paired $\alpha + d$ / $[3d]$ ($74\%$) & $\mathbf{-31.25} / -32.00$ & $\mathbf{2.539} / 2.589$ & Dual ($87.6\%$ ov.) & $E_x(3^+) = \mathbf{+2.13\text{ MeV}}$ (exp $+2.19$); halo $r_E > {}^7\text{Li}$ \\
+$^7\text{Li}$ ($\frac{3}{2}^-$) & Axial $\alpha + t$ / $[3d+n]$ mix & $\mathbf{-38.93} / -39.25$ & $\mathbf{2.477} / 2.444$ & Dual core mix & Magnus $M1 = \mathbf{+480\text{--}499\text{ keV}}$ (exp $+477.6$) \\
+$^7\text{Be}$ ($\frac{3}{2}^-$) & Axial $\alpha + {}^3\text{He}$ / $[3d+p]$ mix & $\mathbf{-37.05} / -37.60$ & $\mathbf{2.617} / 2.647$ & Dual core mix & Magnus $M1 = \mathbf{+458\text{--}477\text{ keV}}$ (exp $+429.1$) \\
+$^8\text{Be}$ ($0^+$) & $[4+4]$ $2\alpha$ dumbbell & $\mathbf{-56.67} / -56.50$ & $3.038$ (res.) & $\mathbf{+32.79\text{ MeV}}$ ($4d$) & Unbound vs.\ $2\alpha$; $E_x(2^+) = \mathbf{+2.88\text{ MeV}}$ (exp $+3.03$) \\
+$^9\text{Be}$ ($\frac{3}{2}^-$) & Covalent $\pi_g$ $2\alpha + n$ bridge & $\mathbf{-56.65} / -58.17$ & $\mathbf{2.502} / 2.519$ & $\mathbf{+35.25\text{ MeV}}$ ($4d{+}n$) & $-2.31\text{ MeV}$ covalent gain vs.\ midplane; $S_n$ threshold \\
+$^{10}\text{B}$ ($3^+$) & Un-aliased $2\alpha + d$ bridge & $\mathbf{-62.35} / -64.75$ & $\mathbf{2.410} / 2.428$ & $\mathbf{+57.04\text{ MeV}}$ ($5d$) & Correct $3^+ < 1^+$: $E_x(1^+) = \mathbf{+1.44\text{ MeV}}$ (exp $+0.72$) \\
+$^{12}\text{C}$ ($0_1^+$) & Equilateral $3\alpha$ triangle & $\mathbf{-92.34} / -92.16$ & $\mathbf{2.520} / 2.470$ & $\mathbf{+16.34\text{ MeV}}$ ($6d$) & $+0.19\%$ $E$; $S_{3\alpha}=+6.08$; Hoyle $0_2^+$ $r_E = 3.02\text{ fm}$ \\
+$^{14}\text{C}$ ($0^+$) & $3\alpha$ ring + polar $\pm z$ $2n$ & $\mathbf{-105.78} / -105.28$ & $\mathbf{2.411} / 2.500$ & $\mathbf{+28.24\text{ MeV}}$ ($6d{+}2n$) & $+0.47\%$ $E$; $S_{2n} = \mathbf{+13.44\text{ MeV}}$ (exp $+13.12$) \\
+$^{14}\text{N}$ ($1^+$) & Cis $3\alpha$ + coaxial $d(1^+)$ & $\mathbf{-108.98} / -104.66$ & $\mathbf{2.437} / 2.558$ & Cis $-3.08\text{ MeV}$ & Beats trans $\beta^-$ doorway ($-105.89\text{ MeV}$); $\log ft = 9.03$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ======================================================================
+% VERIFIED BIBLIOGRAPHY (25 ACTIVELY CITED REFERENCES)
+% ======================================================================
+\begin{thebibliography}{99}
+\footnotesize
+\setlength{\itemsep}{2pt}
+
+\bibitem{euler1762} L.~Euler (1762), ``Remarques sur l'effet du frottement dans l'\'{e}quilibre,'' \textit{M\'{e}m.\ Acad.\ Sci.\ Berlin} \textbf{18}, 265--278.
+\bibitem{germain1821} S.~Germain (1821), \textit{Recherches sur la th\'{e}orie des surfaces \'{e}lastiques}, Courcier, Paris; G.~R.~Kirchhoff (1850), \textit{J.\ Reine Angew.\ Math.} \textbf{40}, 51--88.
+\bibitem{cauchy1828} A.-L.~Cauchy (1828), \textit{Exercices de Math\'{e}matiques} \textbf{3}, 160--187; S.-D.~Poisson (1829), \textit{M\'{e}m.\ Acad.\ Sci.\ Inst.\ France} \textbf{8}, 357--570.
+\bibitem{gauss1833} C.~F.~Gauss (1833), ``Zur Mathematischen Theorie der Electrodynamischen Wirkungen,'' \textit{Werke} \textbf{5}, 605.
+\bibitem{neumann1845} F.~E.~Neumann (1845), ``Allgemeine Gesetze der inducirten elektrischen Str\"{o}me,'' \textit{Abh.\ K\"{o}nigl.\ Akad.\ Wiss.\ Berlin}, 1--87.
+\bibitem{stokes1845} G.~G.~Stokes (1845), \textit{Trans.\ Cambridge Philos.\ Soc.} \textbf{8}, 287--319; (1849) ``On the dynamical theory of diffraction,'' \textit{ibid.} \textbf{9}, 1--62.
+\bibitem{frenet1847} J.~F.~Frenet (1847/1852), \textit{J.\ Math.\ Pures Appl.} \textbf{17}, 437--447; J.~A.~Serret (1851), \textit{ibid.} \textbf{16}, 193--207.
+\bibitem{kelvin1848} W.~Thomson, Lord Kelvin (1848), \textit{Cambridge Dublin Math.\ J.} \textbf{3}, 87--89; (1867) ``On vortex atoms,'' \textit{Proc.\ R.\ Soc.\ Edinburgh} \textbf{6}, 94--105.
+\bibitem{saintvenant1855} A.-J.-C.~Barr\'{e} de Saint-Venant (1855), ``M\'{e}moire sur la torsion des prismes,'' \textit{M\'{e}m.\ Savants \'{E}trangers} \textbf{14}, 233--560.
+\bibitem{foldy1952} L.~L.~Foldy (1952), ``The electromagnetic properties of Dirac particles,'' \textit{Phys.\ Rev.} \textbf{87}, 688--693; F.~J.~Ernst, R.~G.~Sachs, and K.~C.~Wali (1960), \textit{Phys.\ Rev.} \textbf{119}, 1105--1114.
+\bibitem{calugareanu1959} G.~C\u{a}lug\u{a}reanu (1959), ``L'int\'{e}grale de Gauss et l'analyse des n\oe uds tridimensionnels,'' \textit{Rev.\ Math.\ Pures Appl.} \textbf{4}, 5--20; J.~H.~White (1969), \textit{Am.\ J.\ Math.} \textbf{91}, 693; F.~B.~Fuller (1971), \textit{Proc.\ Natl.\ Acad.\ Sci.\ USA} \textbf{68}, 815.
+\bibitem{sachs1962} R.~G.~Sachs (1962), ``High-energy behavior of nucleon electromagnetic form factors,'' \textit{Phys.\ Rev.} \textbf{126}, 2256--2260.
+\bibitem{cottingham1963} W.~N.~Cottingham (1963), ``The neutron proton mass difference and electron scattering experiments,'' \textit{Ann.\ Phys.\ (N.Y.)} \textbf{25}, 424--432.
+\bibitem{happel1965} J.~Happel and H.~Brenner (1965), \textit{Low Reynolds Number Hydrodynamics}, Prentice-Hall; R.~Cortez (2001), ``The method of regularized Stokeslets,'' \textit{SIAM J.\ Sci.\ Comput.} \textbf{23}, 1204--1225.
+\bibitem{wildermuth1977} K.~Wildermuth and Y.~C.~Tang (1977), \textit{A Unified Theory of the Nucleus}, Vieweg, Braunschweig; S.~Saito (1969), \textit{Prog.\ Theor.\ Phys.} \textbf{41}, 705--722.
+\bibitem{parisi1984} G.~Parisi (1984), ``The strategy for computing the hadronic mass spectrum,'' \textit{Phys.\ Rep.} \textbf{103}, 203--211; G.~P.~Lepage (1989), in \textit{From Actions to Answers: TASI 89}, World Scientific, 97--120.
+\bibitem{tanihata1985} I.~Tanihata \textit{et al.} (1985), ``Measurements of interaction cross sections and nuclear radii in the light $p$-shell region,'' \textit{Phys.\ Rev.\ Lett.} \textbf{55}, 2676--2679.
+\bibitem{weinberg1990} S.~Weinberg (1990), ``Nuclear forces from chiral Lagrangians,'' \textit{Phys.\ Lett.\ B} \textbf{251}, 288--292; E.~Epelbaum, H.-W.~Hammer, and U.-G.~Mei\ss ner (2009), \textit{Rev.\ Mod.\ Phys.} \textbf{81}, 1773--1825.
+\bibitem{suzuki1998} Y.~Suzuki and K.~Varga (1998), \textit{Stochastic Variational Approach to Quantum-Mechanical Few-Body Problems}, Springer-Verlag, Berlin.
+\bibitem{gonzalez1999} O.~Gonzalez and J.~H.~Maddocks (1999), ``Global curvature, thickness, and the ideal shapes of knots,'' \textit{Proc.\ Natl.\ Acad.\ Sci.\ USA} \textbf{96}, 4769--4773.
+\bibitem{kelly2004} J.~J.~Kelly (2004), ``Simple parametrization of nucleon form factors,'' \textit{Phys.\ Rev.\ C} \textbf{70}, 068202.
+\bibitem{tanihata2013} I.~Tanihata, H.~Savajols, and R.~Kanungo (2013), ``Recent experimental progress in nuclear halo structure studies,'' \textit{Prog.\ Part.\ Nucl.\ Phys.} \textbf{68}, 215--313.
+\bibitem{borsanyi2015} S.~Borsanyi \textit{et al.} [BMW Collaboration] (2015), ``Ab initio calculation of the neutron-proton mass difference,'' \textit{Science} \textbf{347}, 1452--1455.
+\bibitem{bairmosheh2026} B.~T.~Bair-Mosheh (2026), \textit{The Continuum Mechanics Master Reference Manual}, Zenodo, \href{https://doi.org/10.5281/zenodo.20466167}{\texttt{doi:10.5281/zenodo.20466167}}.
+\bibitem{bairmosheh2026b} B.~T.~Bair-Mosheh (2026), ``The Asymmetric Metric-Tensor and the Thermodynamic Equation of State,'' Companion Manuscript \& Lean~4 Formalization, \href{https://github.com/lilalittle/asymmetric-tensor}{\texttt{github.com/lilalittle/asymmetric-tensor}}.
+
+\end{thebibliography}
+
+\end{document}
